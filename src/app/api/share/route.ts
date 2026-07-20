@@ -1,15 +1,17 @@
 import { NextResponse } from "next/server";
 import { getTool } from "@/lib/tools";
 import { processText } from "@/lib/processors";
-import { getSupabase } from "@/lib/supabase";
+import { getRedis } from "@/lib/redis";
+import type { ShareRecord } from "@/lib/shares";
 
 export const runtime = "edge";
 
 const maxBytes = 500 * 1024;
+const shareTtlSeconds = 180 * 24 * 60 * 60;
 
 export async function POST(request: Request) {
-  const supabase = getSupabase();
-  if (!supabase) return NextResponse.json({ error: "Sharing is not configured yet" }, { status: 503 });
+  const redis = getRedis();
+  if (!redis) return NextResponse.json({ error: "Sharing is not configured yet" }, { status: 503 });
 
   let body: unknown;
   try {
@@ -29,22 +31,32 @@ export async function POST(request: Request) {
   const salt = process.env.SHARE_HASH_SALT ?? "fixmyformatting";
   const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`${salt}:${forwarded}`));
   const ipHash = [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
-  const id = randomId();
-  const stat = processText(data.tool, data.input).stats;
-  const { error } = await supabase.rpc("create_share", {
-    share_id: id,
-    share_tool: data.tool,
-    share_input: data.input,
-    share_settings: settings,
-    share_stat: stat,
-    request_ip_hash: ipHash,
-  });
-
-  if (error) {
-    const rateLimited = error.message.includes("rate_limit_exceeded");
-    return NextResponse.json({ error: rateLimited ? "Share limit reached. Try again in an hour." : "Could not create share" }, { status: rateLimited ? 429 : 500 });
+  const hour = Math.floor(Date.now() / 3_600_000);
+  const rateKey = `share-rate:${ipHash}:${hour}`;
+  const requestCount = await redis.incr(rateKey);
+  if (requestCount === 1) await redis.expire(rateKey, 3_600);
+  if (requestCount > 30) {
+    return NextResponse.json({ error: "Share limit reached. Try again in an hour." }, { status: 429 });
   }
-  return NextResponse.json({ id }, { status: 201, headers: { "cache-control": "no-store" } });
+
+  const stat = processText(data.tool, data.input).stats;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const id = randomId();
+    const share: ShareRecord = {
+      id,
+      tool: data.tool,
+      input: data.input,
+      settings: settings as Record<string, unknown>,
+      stat,
+      created_at: new Date().toISOString(),
+    };
+    const stored = await redis.set(`share:${id}`, share, { ex: shareTtlSeconds, nx: true });
+    if (stored) {
+      await redis.hincrby("tool:share-counts", data.tool, 1);
+      return NextResponse.json({ id }, { status: 201, headers: { "cache-control": "no-store" } });
+    }
+  }
+  return NextResponse.json({ error: "Could not create share" }, { status: 500 });
 }
 
 function randomId() {

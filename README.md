@@ -12,11 +12,11 @@ npm run dev
 
 The tools work without environment variables. Share links require:
 
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `UPSTASH_REDIS_REST_URL`
+- `UPSTASH_REDIS_REST_TOKEN`
 - `SHARE_HASH_SALT`
 
-Apply `supabase/migrations/001_share_system.sql` to the Supabase project before enabling sharing.
+Provision Upstash for Redis through the Vercel Marketplace to inject the Redis variables automatically. Shared results use a 180-day TTL; rate-limit counters expire after one hour.
 
 ## Verification
 
@@ -36,4 +36,4 @@ The dynamic tool route generates the page, metadata, schema, sitemap entry, navi
 
 ## Deploy
 
-Import the repository into Vercel, add the three environment variables, and use the default Next.js build settings. The production domain is `fixmyformatting.com`.
+Import the repository into Vercel, connect Upstash for Redis, add `SHARE_HASH_SALT`, and use the default Next.js build settings. The production domain is `fixmyformatting.com`.
