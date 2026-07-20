@@ -1,13 +1,17 @@
 import { ImageResponse } from "next/og";
 import { getShare } from "@/lib/shares";
 import { getTool } from "@/lib/tools";
+import { isLocale, isLocalizedToolSlug, localizeTool, messages } from "@/lib/i18n";
 
 export const runtime = "edge";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const share = await getShare(id);
-  const tool = share ? getTool(share.tool) : null;
+  const locale = share && typeof share.settings.locale === "string" && isLocale(share.settings.locale) ? share.settings.locale : null;
+  const tool = share
+    ? locale && isLocalizedToolSlug(share.tool) ? localizeTool(share.tool, locale) : getTool(share.tool)
+    : null;
   if (!share || !tool) return new Response("Not found", { status: 404 });
   const stats = share.stat.slice(0, 4);
   return new ImageResponse(
@@ -17,7 +21,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
         Fix My Formatting
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <div style={{ color: "#176b45", fontSize: 24, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2 }}>Shared result</div>
+        <div style={{ color: "#176b45", fontSize: 24, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2 }}>{locale ? messages[locale].share : "Shared result"}</div>
         <div style={{ marginTop: 14, fontSize: 66, lineHeight: 1.05, fontWeight: 800, letterSpacing: -3 }}>{tool.name}</div>
         <div style={{ display: "flex", gap: 18, marginTop: 42 }}>
           {stats.map((stat) => (
@@ -29,10 +33,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
         </div>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", color: "#637067", fontSize: 22 }}>
-        <span>Free · No signup · Private by default</span>
+        <span>{locale ? `${messages[locale].free} · ${messages[locale].noSignup}` : "Free · No signup · Private by default"}</span>
         <span>fixmyformatting.com</span>
       </div>
     </div>,
-    { width: 1200, height: 630 },
+    { width: 1200, height: 630, headers: { "cache-control": "public, max-age=86400, s-maxage=604800" } },
   );
 }

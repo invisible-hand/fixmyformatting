@@ -3,9 +3,17 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
-  title: "Privacy",
+  title: { absolute: "Privacy | Fix My Formatting" },
   description: "Privacy details for Fix My Formatting browser tools and optional share links.",
   alternates: { canonical: "https://fixmyformatting.com/privacy" },
+  openGraph: {
+    title: "Privacy | Fix My Formatting",
+    description: "Privacy details for browser processing and optional share links.",
+    url: "https://fixmyformatting.com/privacy",
+    type: "website",
+    images: [{ url: "https://fixmyformatting.com/api/site-og", width: 1200, height: 630 }],
+  },
+  twitter: { card: "summary_large_image", images: ["https://fixmyformatting.com/api/site-og"] },
 };
 
 export default function PrivacyPage() {
@@ -22,6 +30,14 @@ export default function PrivacyPage() {
           <h2>Analytics</h2>
           <p>We collect aggregate page and interaction counts to understand which tools are useful. We do not sell personal information.</p>
         </section>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://fixmyformatting.com" },
+            { "@type": "ListItem", position: 2, name: "Privacy", item: "https://fixmyformatting.com/privacy" },
+          ],
+        }) }} />
       </main>
       <SiteFooter />
     </>

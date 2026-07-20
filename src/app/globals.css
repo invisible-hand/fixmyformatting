@@ -54,6 +54,26 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .site-header nav, .footer-bottom nav { display: flex; gap: 24px; color: var(--muted); font-size: 14px; }
 .site-header nav a:hover, .footer-bottom a:hover, .breadcrumbs a:hover { color: var(--accent); }
 .compact-header { width: 100%; height: 46px; }
+.language-menu { position: relative; }
+.language-menu summary { cursor: pointer; list-style: none; }
+.language-menu summary::-webkit-details-marker { display: none; }
+.language-menu summary::after { content: " ▾"; font-size: 10px; }
+.language-menu > div {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 190px;
+  display: grid;
+  max-height: 340px;
+  overflow: auto;
+  padding: 7px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.language-menu > div a { min-height: 38px; display: flex; align-items: center; padding: 0 10px; border-radius: 6px; }
+.language-menu > div a:hover { background: var(--surface-2); }
 
 .home-page, .tool-page { width: min(1180px, calc(100% - 40px)); margin: auto; }
 .home-intro { padding: 76px 0 72px; max-width: 830px; }
@@ -108,6 +128,9 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 }
 .made-with a { color: var(--accent-dark); font-weight: 700; }
 .workspace { margin-bottom: 64px; }
+.tool-options { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+.tool-options label { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 13px; font-weight: 700; }
+.tool-options select { min-height: 38px; padding: 0 34px 0 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); }
 .editor-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 510px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); }
 .editor-panel { min-width: 0; display: flex; flex-direction: column; }
 .editor-panel + .editor-panel { border-left: 1px solid var(--line); }
@@ -135,6 +158,9 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .rendered-output pre { padding: 15px; overflow: auto; border-radius: 8px; background: #162019; color: #eef7f0; }
 .rendered-output table { width: 100%; border-collapse: collapse; }
 .rendered-output th, .rendered-output td { padding: 8px 10px; border: 1px solid var(--line); text-align: left; }
+.diff-output { white-space: pre-wrap; overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; line-height: 1.8; }
+.diff-added { background: #d9fbe5; color: #155b31; text-decoration: none; }
+.diff-removed { background: #ffe0e0; color: #8f2323; text-decoration: line-through; }
 .text-output { white-space: pre-wrap; overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; line-height: 1.65; color: var(--text); }
 .error-output { color: var(--danger); }
 .action-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0; min-height: 44px; }
@@ -196,6 +222,13 @@ html[data-embed="true"] .rendered-output,
 html[data-embed="true"] .text-output { min-height: 355px; }
 html[data-embed="true"] .runtime-embed-backlink { display: block; margin: 8px 4px 0; color: var(--accent); font-size: 12px; font-weight: 700; }
 
+html[dir="rtl"] body { text-align: right; }
+html[dir="rtl"] .brand, html[dir="rtl"] .quick-links, html[dir="rtl"] .action-row { direction: rtl; }
+html[dir="rtl"] .language-menu > div { right: auto; left: 0; }
+html[dir="rtl"] .tool-arrow { right: auto; left: 22px; }
+html[dir="rtl"] .home-tool-grid h3 { margin-right: 0; margin-left: 35px; }
+html[dir="rtl"] .tool-content ol { padding-left: 0; padding-right: 22px; }
+
 @media (max-width: 820px) {
   .site-header, .home-page, .tool-page { width: min(100% - 28px, 1180px); }
   .home-intro { padding: 48px 0; }
@@ -240,6 +273,8 @@ html[data-embed="true"] .runtime-embed-backlink { display: block; margin: 8px 4p
   .site-footer { background: #0a0d0b; }
   .primary-action, .action-row .primary-action { color: #09170f; }
   .rendered-output pre { background: #0a0d0b; }
+  .diff-added { background: #1b4b2d; color: #b7f3cc; }
+  .diff-removed { background: #532626; color: #ffc4c4; }
 }
 
 @media print {

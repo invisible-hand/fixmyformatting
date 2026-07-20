@@ -1,10 +1,16 @@
 import { getProcessorSlug } from "./tools";
+import { diffWords } from "diff";
 
 export type ProcessedResult = {
   output: string;
   html?: string;
   stats: { label: string; value: string | number }[];
   valid?: boolean;
+};
+
+export type ProcessSettings = {
+  caseMode?: "title" | "upper" | "lower" | "sentence";
+  dashReplacement?: "comma" | "semicolon" | "hyphen" | "remove";
 };
 
 const escapeHtml = (value: string) =>
@@ -119,7 +125,7 @@ function titleCase(input: string) {
   return input.toLowerCase().replace(/\b\p{L}/gu, (letter) => letter.toUpperCase());
 }
 
-export function processText(slug: string, input: string): ProcessedResult {
+export function processText(slug: string, input: string, settings: ProcessSettings = {}): ProcessedResult {
   const processor = getProcessorSlug(slug);
   const base = { stats: [{ label: "Words", value: words(input) }] };
   if (!input) return { output: "", html: "", stats: [] };
@@ -143,7 +149,16 @@ export function processText(slug: string, input: string): ProcessedResult {
   if (processor === "word-to-markdown") return { output: input, stats: base.stats };
   if (processor === "remove-em-dashes") {
     const found = count(input, /—/g);
-    return { output: input.replaceAll("—", ",").replace(/\s+,/g, ","), stats: [{ label: "Em dashes replaced", value: found }] };
+    const replacements = { comma: ",", semicolon: ";", hyphen: "-", remove: "" };
+    const replacement = replacements[settings.dashReplacement ?? "comma"];
+    let output = input.replaceAll("—", replacement);
+    if (replacement) {
+      const escaped = replacement.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      output = output.replace(new RegExp(`\\s+${escaped}`, "g"), replacement);
+    } else {
+      output = output.replace(/[ \t]{2,}/g, " ");
+    }
+    return { output, stats: [{ label: "Em dashes replaced", value: found }] };
   }
   if (processor === "clean-ai-text") {
     const dashes = count(input, /—/g);
@@ -181,7 +196,7 @@ export function processText(slug: string, input: string): ProcessedResult {
   }
   if (processor === "token-counter") {
     const tokens = Math.ceil(input.length / 4);
-    return { output: input, stats: [{ label: "Estimated tokens", value: tokens.toLocaleString() }, { label: "Words", value: words(input) }, { label: "Characters", value: input.length.toLocaleString() }, { label: "Est. input cost", value: `$${((tokens / 1_000_000) * 2.5).toFixed(4)}` }] };
+    return { output: `~${tokens.toLocaleString()} estimated tokens`, stats: [{ label: "Estimated tokens", value: tokens }, { label: "Words", value: words(input) }, { label: "Characters", value: input.length }] };
   }
   if (processor === "text-splitter") {
     const chunks = input.match(/[\s\S]{1,2000}(?:\s|$)/g)?.map((chunk) => chunk.trim()).filter(Boolean) ?? [input];
@@ -189,9 +204,14 @@ export function processText(slug: string, input: string): ProcessedResult {
   }
   if (processor === "text-diff") {
     const [before = "", after = ""] = input.split(/\n---\n/);
-    const beforeWords = new Set(before.split(/\s+/));
-    const afterWords = new Set(after.split(/\s+/));
-    return { output: after, stats: [{ label: "Additions", value: [...afterWords].filter((word) => !beforeWords.has(word)).length }, { label: "Deletions", value: [...beforeWords].filter((word) => !afterWords.has(word)).length }] };
+    const changes = diffWords(before, after);
+    const additions = changes.filter((change) => change.added).reduce((total, change) => total + words(change.value), 0);
+    const deletions = changes.filter((change) => change.removed).reduce((total, change) => total + words(change.value), 0);
+    const html = `<div class="diff-output">${changes.map((change) => {
+      const className = change.added ? "diff-added" : change.removed ? "diff-removed" : "diff-unchanged";
+      return `<span class="${className}">${escapeHtml(change.value)}</span>`;
+    }).join("")}</div>`;
+    return { output: after, html, stats: [{ label: "Additions", value: additions }, { label: "Deletions", value: deletions }] };
   }
   if (processor === "json-formatter") {
     try {
@@ -224,7 +244,17 @@ export function processText(slug: string, input: string): ProcessedResult {
   if (processor === "word-counter") {
     return { output: input, stats: [{ label: "Words", value: words(input) }, { label: "Characters", value: input.length.toLocaleString() }, { label: "Sentences", value: count(input, /[.!?]+(?:\s|$)/g) }, { label: "Reading time", value: `${Math.max(1, Math.ceil(words(input) / 220))} min` }] };
   }
-  if (processor === "case-converter") return { output: titleCase(input), stats: [{ label: "Characters converted", value: input.length }] };
+  if (processor === "case-converter") {
+    const mode = settings.caseMode ?? "title";
+    const output = mode === "upper"
+      ? input.toUpperCase()
+      : mode === "lower"
+        ? input.toLowerCase()
+        : mode === "sentence"
+          ? input.toLowerCase().replace(/(^|[.!?]\s+)\p{L}/gu, (match) => match.toUpperCase())
+          : titleCase(input);
+    return { output, stats: [{ label: "Characters converted", value: input.length }] };
+  }
   if (processor === "latex-to-word") {
     const output = input.replace(/^\s*(?:\\\[|\$\$)|(?:\\\]|\$\$)\s*$/gm, "").replaceAll("\\dfrac", "\\frac").trim();
     return { output, stats: [{ label: "Equations converted", value: Math.max(1, count(input, /\$\$|\\\[/g)) }] };

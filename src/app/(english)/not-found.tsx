@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { coreTools } from "@/lib/tools";
@@ -13,7 +12,7 @@ export default function NotFound() {
           <p>Try one of these free formatting tools instead.</p>
         </header>
         <div className="related-grid">
-          {coreTools.map((tool) => <Link href={`/${tool.slug}`} key={tool.slug}><strong>{tool.name}</strong><span>{tool.description}</span></Link>)}
+          {coreTools.map((tool) => <a href={`/${tool.slug}`} key={tool.slug}><strong>{tool.name}</strong><span>{tool.description}</span></a>)}
         </div>
       </main>
       <SiteFooter />

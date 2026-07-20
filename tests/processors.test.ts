@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { processText, renderMarkdown } from "../src/lib/processors";
+import { countModelTokens } from "../src/lib/token-count";
+import { createMarkdownDocx } from "../src/lib/markdown-docx";
+import { strFromU8, unzipSync } from "fflate";
 
 const fixture = `# Launch Plan
 
@@ -47,5 +50,39 @@ describe("text processors", () => {
     const core = processText("markdown-to-html", "**hello**");
     const brand = processText("claude-to-word", "**hello**");
     expect(core.html).toBe(brand.html);
+  });
+
+  it("supports every advertised case conversion mode", () => {
+    expect(processText("case-converter", "hello WORLD", { caseMode: "title" }).output).toBe("Hello World");
+    expect(processText("case-converter", "hello world", { caseMode: "upper" }).output).toBe("HELLO WORLD");
+    expect(processText("case-converter", "HELLO WORLD", { caseMode: "lower" }).output).toBe("hello world");
+    expect(processText("case-converter", "HELLO. WORLD!", { caseMode: "sentence" }).output).toBe("Hello. World!");
+  });
+
+  it("creates an ordered visual text diff", () => {
+    const result = processText("text-diff", "Keep this old text\n---\nKeep this new text");
+    expect(result.html).toContain("diff-removed");
+    expect(result.html).toContain("diff-added");
+    expect(result.stats).toEqual([{ label: "Additions", value: 1 }, { label: "Deletions", value: 1 }]);
+  });
+
+  it("supports all em dash replacement settings", () => {
+    expect(processText("remove-em-dashes", "one — two", { dashReplacement: "semicolon" }).output).toBe("one; two");
+    expect(processText("remove-em-dashes", "one — two", { dashReplacement: "remove" }).output).toBe("one two");
+  });
+
+  it("counts GPT-4o tokens locally", () => {
+    expect(countModelTokens("Hello world").stats[0]).toEqual({ label: "GPT-4o tokens", value: 2 });
+  });
+
+  it("preserves rich Markdown structure in DOCX output", async () => {
+    const blob = await createMarkdownDocx("# Title\n\n**Bold** and [link](https://example.com)\n\n1. First\n   1. Nested\n\n| A | B |\n|---|---|\n| 1 | 2 |\n\n```ts\nconst ok = true;\n```");
+    const files = unzipSync(new Uint8Array(await blob.arrayBuffer()));
+    const documentXml = strFromU8(files["word/document.xml"]);
+    expect(documentXml).toContain("<w:tbl>");
+    expect(documentXml).toContain("<w:b");
+    expect(documentXml).toContain("<w:numPr>");
+    expect(documentXml).toContain("Courier New");
+    expect(strFromU8(files["word/_rels/document.xml.rels"])).toContain("https://example.com");
   });
 });

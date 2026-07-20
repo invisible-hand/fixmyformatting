@@ -79,7 +79,7 @@ export const coreTools: ToolDefinition[] = [
   define("extract-table-from-text", "Extract Tables from Text", "Extract Table from Text Online", "Find table-like rows in text and convert them to CSV.", "Data & prompts", "Extract pipe-delimited or tab-delimited tables from surrounding prose. The result is ready for a spreadsheet.", { report: true, outputLabel: "Extracted table", download: "csv", placeholder: "Results:\nName | Score\nAda | 98\nLin | 95\n\nEnd of report." }),
   define("word-counter", "Word & Character Counter", "Word Counter & Character Counter", "Count words, characters, sentences, paragraphs, and reading time.", "Data & prompts", "Get instant writing statistics without uploading your document. The report is useful for essays, posts, descriptions, and prompts.", { report: true, placeholder: "Paste or type text to count words, characters, and sentences." }),
   define("case-converter", "Case Converter", "Case Converter Online", "Convert text to uppercase, lowercase, title case, or sentence case.", "Data & prompts", "Normalize inconsistent capitalization instantly. The default output is title case; additional case options are available above the editor.", { outputLabel: "Converted text", download: "txt", placeholder: "paste text with inconsistent CAPITALIZATION" }),
-  define("latex-to-word", "LaTeX to Word Equation", "LaTeX to Word Equation Converter", "Clean LaTeX equations for use in Word and document editors.", "Data & prompts", "Prepare LaTeX copied from an AI response for Word's equation editor by removing display delimiters and normalizing common commands.", { report: true, outputLabel: "Word-ready equation", download: "txt", placeholder: "\\[ E = mc^2 \\]\n\n$$\\frac{a}{b}$$" }),
+  define("latex-to-word", "LaTeX to Word Equation", "LaTeX to Word Equation Converter", "Prepare LaTeX for Word's equation editor by removing display delimiters.", "Data & prompts", "Prepare LaTeX copied from an AI response for Word's equation editor by removing display delimiters and normalizing common commands. In Word, press Alt+= to open an equation box, choose LaTeX input if needed, and paste the result there; pasting into a normal paragraph will not create a native equation.", { report: true, outputLabel: "Word equation input", download: "txt", placeholder: "\\[ E = mc^2 \\]\n\n$$\\frac{a}{b}$$" }),
 ];
 
 export const brands = ["chatgpt", "claude", "gemini", "copilot", "perplexity", "deepseek"] as const;
@@ -119,6 +119,32 @@ const brandReasons: Record<(typeof brands)[number], string> = {
   deepseek: "DeepSeek commonly formats technical answers in Markdown, including fenced code and formulas that plain pasting leaves exposed.",
 };
 
+const brandActionCopy: Record<(typeof brandActions)[number], {
+  description: (brand: string) => string;
+  guidance: (brand: string) => string;
+}> = {
+  "to-word": {
+    description: (brand) => `Convert ${brand} responses to editable Word documents with headings, lists, code, and tables preserved.`,
+    guidance: (brand) => `Use this when a ${brand} answer needs to become a report, brief, assignment, or document that other people can edit in Word.`,
+  },
+  "to-pdf": {
+    description: (brand) => `Convert ${brand} responses to clean, print-ready PDF files without uploading your text.`,
+    guidance: (brand) => `The live preview shows how the ${brand} response will print before you choose Save as PDF in your browser.`,
+  },
+  "to-google-docs": {
+    description: (brand) => `Move ${brand} output into Google Docs while preserving headings, lists, links, emphasis, and tables.`,
+    guidance: (brand) => `Copy the rich-text result and paste it into Google Docs when a normal paste from ${brand} leaves visible Markdown symbols.`,
+  },
+  "table-to-excel": {
+    description: (brand) => `Convert ${brand} Markdown tables into real Excel rows and columns, ready to sort and edit.`,
+    guidance: (brand) => `This fixes the pipe-and-dash table syntax ${brand} displays in chat and downloads a genuine .xlsx spreadsheet.`,
+  },
+  "remove-formatting": {
+    description: (brand) => `Remove Markdown formatting from ${brand} responses while keeping the readable text intact.`,
+    guidance: (brand) => `Use the clean text in email, forms, messaging apps, or editors that show ${brand} asterisks and heading marks literally.`,
+  },
+};
+
 export const brandTools: ToolDefinition[] = brands.flatMap((brand) =>
   brandActions.map((action) => {
     const source = coreTools.find((tool) => tool.slug === actionSource[action])!;
@@ -129,9 +155,23 @@ export const brandTools: ToolDefinition[] = brands.flatMap((brand) =>
       slug: `${brand}-${action}`,
       name,
       title: `${name} Converter — Free Online`,
-      description: `Convert ${brandName} output ${actionLabel[action].toLowerCase()} instantly. Free, private, and no signup.`,
-      intro: `${brandReasons[brand]} ${source.intro} Copy the response, paste it above, then copy or download the result.`,
-      faqs: sharedFaqs(name),
+      description: brandActionCopy[action].description(brandName),
+      intro: `${brandReasons[brand]} ${brandActionCopy[action].guidance(brandName)} ${source.intro}`,
+      placeholder: source.placeholder.replace("your AI response", `your ${brandName} response`),
+      faqs: [
+        {
+          question: `How do I use ${name}?`,
+          answer: `Copy the relevant content from ${brandName}, paste it into the editor above, and use the live result immediately.`,
+        },
+        {
+          question: `Does this upload my ${brandName} conversation?`,
+          answer: "No. Conversion runs in your browser. Text is stored only when you explicitly create a share link.",
+        },
+        {
+          question: `Can I edit the converted ${brandName} result?`,
+          answer: "Yes. The result remains editable when copied or downloaded in an editable format.",
+        },
+      ],
     };
   }),
 );

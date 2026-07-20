@@ -4,29 +4,79 @@ import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { track } from "@vercel/analytics";
 import type { ToolDefinition } from "@/lib/tools";
 import { getProcessorSlug } from "@/lib/tools";
-import { processText } from "@/lib/processors";
-import type { ProcessedResult } from "@/lib/processors";
+import type { ProcessedResult, ProcessSettings } from "@/lib/processors";
+
+export type ToolWorkspaceLabels = {
+  input: string;
+  output: string;
+  emptyResult: string;
+  characters: string;
+  report: string;
+  live: string;
+  updating: string;
+  copy: string;
+  copied: string;
+  download: string;
+  share: string;
+  shareCopied: string;
+  embed: string;
+  embedCopied: string;
+  downloadImage: string;
+  free: string;
+  noSignup: string;
+  private: string;
+};
 
 type Props = {
   tool: ToolDefinition;
   initialInput?: string;
+  initialSettings?: ProcessSettings;
+  locale?: string;
+  labels?: Partial<ToolWorkspaceLabels>;
+  publicPath?: string;
 };
 
-export function ToolWorkspace({ tool, initialInput = "" }: Props) {
+const workerThreshold = 25_000;
+
+export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, locale = "en", labels, publicPath }: Props) {
   const [input, setInput] = useState(initialInput);
   const [notice, setNotice] = useState("");
   const [mobileTab, setMobileTab] = useState<"input" | "output">("input");
+  const [caseMode, setCaseMode] = useState<NonNullable<ProcessSettings["caseMode"]>>(initialSettings.caseMode ?? "title");
+  const [dashReplacement, setDashReplacement] = useState<NonNullable<ProcessSettings["dashReplacement"]>>(initialSettings.dashReplacement ?? "comma");
+  const [smallResult, setSmallResult] = useState<{ input: string; settings: ProcessSettings; result: ProcessedResult } | null>(null);
   const [largeResult, setLargeResult] = useState<{ input: string; result: ProcessedResult } | null>(null);
   const deferredInput = useDeferredValue(input);
   const outputRef = useRef<HTMLDivElement>(null);
   const reportRef = useRef<HTMLDivElement>(null);
   const conversionTracked = useRef(false);
-  const localResult = useMemo(
-    () => deferredInput.length > 100_000 ? { output: "", stats: [] } : processText(tool.slug, deferredInput),
-    [deferredInput, tool.slug],
-  );
-  const result = deferredInput.length > 100_000 && largeResult?.input === deferredInput ? largeResult.result : localResult;
+  const processSettings = useMemo(() => ({ caseMode, dashReplacement }), [caseMode, dashReplacement]);
+  const settingsMatch = smallResult?.settings.caseMode === processSettings.caseMode
+    && smallResult?.settings.dashReplacement === processSettings.dashReplacement;
+  const result = deferredInput.length > workerThreshold
+    ? (largeResult?.input === deferredInput ? largeResult.result : { output: "", stats: [] })
+    : (smallResult?.input === deferredInput && settingsMatch ? smallResult.result : { output: "", stats: [] });
   const processor = getProcessorSlug(tool.slug);
+  const ui = {
+    input: labels?.input ?? "Input",
+    output: labels?.output ?? (tool.outputLabel ?? "Preview"),
+    emptyResult: labels?.emptyResult ?? "Your result appears here as you type.",
+    characters: labels?.characters ?? "chars",
+    report: labels?.report ?? "report",
+    live: labels?.live ?? "Live",
+    updating: labels?.updating ?? "Updating…",
+    copy: labels?.copy ?? "Copy",
+    copied: labels?.copied ?? "Copied",
+    download: labels?.download ?? "Download",
+    share: labels?.share ?? "Copy link to result",
+    shareCopied: labels?.shareCopied ?? "Share link copied",
+    embed: labels?.embed ?? "Embed",
+    embedCopied: labels?.embedCopied ?? "Embed code copied",
+    downloadImage: labels?.downloadImage ?? "Download as image",
+    free: labels?.free ?? "Free",
+    noSignup: labels?.noSignup ?? "No signup",
+    private: labels?.private ?? "Processing happens in your browser — text never uploaded.",
+  };
 
   useEffect(() => {
     if (!notice) return;
@@ -41,12 +91,25 @@ export function ToolWorkspace({ tool, initialInput = "" }: Props) {
   }, [deferredInput, tool.slug]);
 
   useEffect(() => {
-    if (deferredInput.length <= 100_000) return;
+    if (deferredInput.length > workerThreshold) return;
+    let active = true;
+    void import("@/lib/processors").then(({ processText }) => {
+      const baseResult = processText(tool.slug, deferredInput, processSettings);
+      if (processor !== "token-counter") return baseResult;
+      return import("@/lib/token-count").then(({ countModelTokens }) => countModelTokens(deferredInput));
+    }).then((processed) => {
+      if (active) setSmallResult({ input: deferredInput, settings: processSettings, result: processed });
+    });
+    return () => { active = false; };
+  }, [deferredInput, processSettings, processor, tool.slug]);
+
+  useEffect(() => {
+    if (deferredInput.length <= workerThreshold) return;
     const worker = new Worker(new URL("../workers/process.worker.ts", import.meta.url));
     worker.onmessage = (event: MessageEvent<ProcessedResult>) => setLargeResult({ input: deferredInput, result: event.data });
-    worker.postMessage({ slug: tool.slug, input: deferredInput });
+    worker.postMessage({ slug: tool.slug, input: deferredInput, settings: processSettings });
     return () => worker.terminate();
-  }, [deferredInput, tool.slug]);
+  }, [deferredInput, processSettings, tool.slug]);
 
   function flash(message: string) {
     setNotice(message);
@@ -65,45 +128,14 @@ export function ToolWorkspace({ tool, initialInput = "" }: Props) {
       await navigator.clipboard.writeText(result.output);
     }
     track("tool_action", { tool: tool.slug, action: "copy" });
-    flash("Copied");
+    flash(ui.copied);
   }
 
   async function download() {
     if (!result.output && !result.html) return;
     if (tool.download === "docx") {
-      const { Document, HeadingLevel, Packer, Paragraph, Table, TableCell, TableRow, TextRun } = await import("docx");
-      const lines = input.replace(/\r\n/g, "\n").split("\n");
-      const children: (InstanceType<typeof Paragraph> | InstanceType<typeof Table>)[] = [];
-      for (let index = 0; index < lines.length; index += 1) {
-        const heading = lines[index].match(/^(#{1,3})\s+(.+)$/);
-        if (heading) {
-          const levels = [HeadingLevel.HEADING_1, HeadingLevel.HEADING_2, HeadingLevel.HEADING_3];
-          children.push(new Paragraph({ text: heading[2], heading: levels[heading[1].length - 1] }));
-          continue;
-        }
-        if (/^\|.+\|$/.test(lines[index].trim()) && /^\|?[\s:|-]+\|?$/.test(lines[index + 1]?.trim() ?? "")) {
-          const tableLines = [lines[index], ...lines.slice(index + 2).filter((line) => /^\|.+\|$/.test(line.trim()))];
-          children.push(new Table({
-            rows: tableLines.map((line) => new TableRow({
-              children: line.trim().replace(/^\||\|$/g, "").split("|").map((cell) => new TableCell({
-                children: [new Paragraph(cell.trim())],
-              })),
-            })),
-          }));
-          index += tableLines.length;
-          continue;
-        }
-        const list = lines[index].match(/^\s*[-*+]\s+(.+)$/);
-        children.push(new Paragraph({
-          ...(list ? { text: list[1], bullet: { level: 0 } } : {
-            children: [new TextRun({
-              text: lines[index].replace(/\*\*|__/g, ""),
-              font: lines[index - 1]?.startsWith("```") ? "Courier New" : undefined,
-            })],
-          }),
-        }));
-      }
-      const blob = await Packer.toBlob(new Document({ sections: [{ children }] }));
+      const { createMarkdownDocx } = await import("@/lib/markdown-docx");
+      const blob = await createMarkdownDocx(input);
       saveBlob(blob, `${tool.slug}.docx`);
       track("tool_action", { tool: tool.slug, action: "download" });
       flash("DOCX downloaded");
@@ -139,23 +171,23 @@ export function ToolWorkspace({ tool, initialInput = "" }: Props) {
       const response = await fetch("/api/share", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ tool: tool.slug, input, settings: {} }),
+        body: JSON.stringify({ tool: tool.slug, input, settings: { locale, ...processSettings } }),
       });
       const data = (await response.json()) as { id?: string; error?: string };
       if (!response.ok || !data.id) throw new Error(data.error ?? "Could not create link");
       await navigator.clipboard.writeText(`${window.location.origin}/s/${data.id}`);
       track("tool_action", { tool: tool.slug, action: "share" });
-      flash("Share link copied");
+      flash(ui.shareCopied);
     } catch (error) {
       flash(error instanceof Error ? error.message : "Share unavailable");
     }
   }
 
   async function copyEmbed() {
-    const code = `<iframe src="${window.location.origin}/${tool.slug}?embed=1" title="${tool.name}" width="100%" height="540" loading="lazy"></iframe>`;
+    const code = `<iframe src="${window.location.origin}${publicPath ?? `/${tool.slug}`}?embed=1" title="${tool.name}" width="100%" height="540" loading="lazy"></iframe>`;
     await navigator.clipboard.writeText(code);
     track("tool_action", { tool: tool.slug, action: "embed" });
-    flash("Embed code copied");
+    flash(ui.embedCopied);
   }
 
   async function downloadImage() {
@@ -188,13 +220,37 @@ export function ToolWorkspace({ tool, initialInput = "" }: Props) {
 
   return (
     <section className="workspace" aria-label={`${tool.name} tool`}>
+      {(processor === "case-converter" || processor === "remove-em-dashes") && (
+        <div className="tool-options" aria-label="Conversion options">
+          {processor === "case-converter" && (
+            <label>Case
+              <select value={caseMode} onChange={(event) => setCaseMode(event.target.value as NonNullable<ProcessSettings["caseMode"]>)}>
+                <option value="title">Title Case</option>
+                <option value="sentence">Sentence case</option>
+                <option value="upper">UPPERCASE</option>
+                <option value="lower">lowercase</option>
+              </select>
+            </label>
+          )}
+          {processor === "remove-em-dashes" && (
+            <label>Replace em dashes with
+              <select value={dashReplacement} onChange={(event) => setDashReplacement(event.target.value as NonNullable<ProcessSettings["dashReplacement"]>)}>
+                <option value="comma">Comma</option>
+                <option value="semicolon">Semicolon</option>
+                <option value="hyphen">Hyphen</option>
+                <option value="remove">Nothing</option>
+              </select>
+            </label>
+          )}
+        </div>
+      )}
       <div className="mobile-tabs" role="tablist" aria-label="Editor view">
-        <button className={mobileTab === "input" ? "active" : ""} onClick={() => setMobileTab("input")} role="tab">Input</button>
-        <button className={mobileTab === "output" ? "active" : ""} onClick={() => setMobileTab("output")} role="tab">Output</button>
+        <button className={mobileTab === "input" ? "active" : ""} onClick={() => setMobileTab("input")} role="tab">{ui.input}</button>
+        <button className={mobileTab === "output" ? "active" : ""} onClick={() => setMobileTab("output")} role="tab">{labels?.output ?? "Output"}</button>
       </div>
       <div className="editor-grid">
         <div className={`editor-panel input-panel ${mobileTab === "input" ? "mobile-active" : ""}`}>
-          <div className="panel-label"><span>Input</span><span>{input.length.toLocaleString()} chars</span></div>
+          <div className="panel-label"><span>{ui.input}</span><span>{input.length.toLocaleString(locale)} {ui.characters}</span></div>
           <textarea
             value={input}
             onChange={(event) => setInput(event.target.value)}
@@ -206,17 +262,17 @@ export function ToolWorkspace({ tool, initialInput = "" }: Props) {
           />
         </div>
         <div ref={outputRef} className={`editor-panel output-panel ${mobileTab === "output" ? "mobile-active" : ""}`}>
-          <div className="panel-label"><span>{tool.outputLabel ?? "Preview"}</span><span aria-live="polite">{deferredInput !== input ? "Updating…" : "Live"}</span></div>
+          <div className="panel-label"><span>{ui.output}</span><span aria-live="polite">{deferredInput !== input ? ui.updating : ui.live}</span></div>
           {result.html && processor !== "markdown-to-html" ? (
             <div className="rendered-output" dangerouslySetInnerHTML={{ __html: result.html }} />
           ) : (
-            <pre className={`text-output ${result.valid === false ? "error-output" : ""}`}>{result.output || "Your result appears here as you type."}</pre>
+            <pre className={`text-output ${result.valid === false ? "error-output" : ""}`}>{result.output || ui.emptyResult}</pre>
           )}
         </div>
       </div>
       {tool.report && result.stats.length > 0 && (
         <div className="report-card" ref={reportRef}>
-          <div className="report-heading"><span>{tool.name} report</span><span>fixmyformatting.com</span></div>
+          <div className="report-heading"><span>{tool.name} {ui.report}</span><span>fixmyformatting.com</span></div>
           <div className="stat-grid">
             {result.stats.map((stat) => <div className="stat" key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
           </div>
@@ -224,14 +280,14 @@ export function ToolWorkspace({ tool, initialInput = "" }: Props) {
         </div>
       )}
       <div className="action-row">
-        <button className="primary-action" onClick={copyOutput} disabled={!result.output}>Copy</button>
-        <button onClick={download} disabled={!result.output && !result.html}>{processor === "markdown-to-pdf" ? "Print / Save PDF" : "Download"}</button>
-        <button onClick={createShare} disabled={!input}>Copy link to result</button>
-        <button onClick={copyEmbed}>Embed</button>
-        {tool.report && <button onClick={downloadImage} disabled={!result.stats.length}>Download as image</button>}
+        <button className="primary-action" onClick={copyOutput} disabled={!result.output}>{ui.copy}</button>
+        <button onClick={download} disabled={!result.output && !result.html}>{processor === "markdown-to-pdf" && locale === "en" ? "Print / Save PDF" : ui.download}</button>
+        <button onClick={createShare} disabled={!input}>{ui.share}</button>
+        <button onClick={copyEmbed}>{ui.embed}</button>
+        {tool.report && <button onClick={downloadImage} disabled={!result.stats.length}>{ui.downloadImage}</button>}
         <span className="notice" role="status">{notice}</span>
       </div>
-      <div className="trust-strip">Free <span>·</span> No signup <span>·</span> Processing happens in your browser — text never uploaded.</div>
+      <div className="trust-strip">{ui.free} <span>·</span> {ui.noSignup} <span>·</span> {ui.private}</div>
     </section>
   );
 }
