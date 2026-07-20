@@ -1,66 +1,55 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { coreTools } from "@/lib/tools";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "Free Text Formatting Tools for AI Output",
+  description: "Clean, convert, count, and format text from ChatGPT, Claude, Gemini, and more. Fast, free, and private.",
+};
+
+export default function HomePage() {
+  const categories = [...new Set(coreTools.map((tool) => tool.category))];
+  const schema = [
+    { "@context": "https://schema.org", "@type": "Organization", name: "Fix My Formatting", url: "https://fixmyformatting.com" },
+    { "@context": "https://schema.org", "@type": "WebSite", name: "Fix My Formatting", url: "https://fixmyformatting.com", description: "Free browser-based text tools for AI-era copy and formatting problems." },
+  ];
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <>
+      <SiteHeader />
+      <main className="home-page">
+        <header className="home-intro">
+          <span className="eyebrow">26 free browser tools</span>
+          <h1>Fix text copied from AI.</h1>
+          <p>Convert Markdown, clean ChatGPT formatting, repair tables, and inspect hidden characters. Everything runs privately in your browser.</p>
+          <div className="quick-links">
+            <Link className="primary-action" href="/clean-ai-text">Clean AI text</Link>
+            <Link href="/markdown-to-word">Markdown to Word</Link>
+            <Link href="/remove-invisible-characters">Scan hidden characters</Link>
+          </div>
+        </header>
+        <section id="tools" className="tool-directory">
+          {categories.map((category) => (
+            <section className="category-section" key={category}>
+              <h2>{category}</h2>
+              <div className="home-tool-grid">
+                {coreTools.filter((tool) => tool.category === category).map((tool) => (
+                  <Link href={`/${tool.slug}`} key={tool.slug}>
+                    <span className="tool-arrow" aria-hidden="true">↗</span>
+                    <h3>{tool.name}</h3>
+                    <p>{tool.description}</p>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          ))}
+        </section>
+        {schema.map((item, index) => (
+          <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(item) }} />
+        ))}
       </main>
-    </div>
+      <SiteFooter />
+    </>
   );
 }

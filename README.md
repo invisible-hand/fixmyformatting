@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fix My Formatting
 
-## Getting Started
+Fast, static-first browser tools for cleaning and converting text copied from AI products.
 
-First, run the development server:
+## Local development
 
 ```bash
+npm install
+cp .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The tools work without environment variables. Share links require:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SHARE_HASH_SALT`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Apply `supabase/migrations/001_share_system.sql` to the Supabase project before enabling sharing.
 
-## Learn More
+## Verification
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+npm test
+npm run build:checked
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Add a tool
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Add one `ToolDefinition` entry in `src/lib/tools.ts`.
+2. Add its processing branch in `src/lib/processors.ts`.
+3. Add fixture assertions in `tests/processors.test.ts`.
 
-## Deploy on Vercel
+The dynamic tool route generates the page, metadata, schema, sitemap entry, navigation, related links, embed, and share UI automatically.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Import the repository into Vercel, add the three environment variables, and use the default Next.js build settings. The production domain is `fixmyformatting.com`.

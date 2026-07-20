@@ -1,0 +1,21 @@
+# Launch Plan
+
+Here is a **structured response** with “smart quotes” — and a hidden​character.
+
+1. First phase
+   - Define the scope
+   - Test the result
+2. Second phase
+   - Ship safely
+
+| Owner | Task | Status |
+| --- | --- | --- |
+| Ada | Parser | Done |
+| Lin | Tests | Active |
+
+```ts
+const fast = true;
+console.log({ fast });
+```
+
+Range: 2020–2024. Emoji: ✨
