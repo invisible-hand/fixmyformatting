@@ -53,7 +53,11 @@ type Props = {
   initialInput?: string;
   initialSettings?: ProcessSettings;
   locale?: string;
-  labels?: Partial<ToolWorkspaceLabels>;
+  labels?: Partial<ToolWorkspaceLabels> & {
+    statLabels?: Record<string, string>;
+    statValues?: Record<string, string>;
+    minutes?: string;
+  };
   publicPath?: string;
 };
 
@@ -118,6 +122,15 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
     dashSemicolon: labels?.dashSemicolon ?? "Semicolon",
     dashHyphen: labels?.dashHyphen ?? "Hyphen",
     dashRemove: labels?.dashRemove ?? "Nothing",
+  };
+
+  /** Stat values are usually numbers; a few are words or carry a time unit. */
+  const localizeStatValue = (value: string | number) => {
+    if (typeof value !== "string") return value;
+    if (labels?.statValues?.[value]) return labels.statValues[value];
+    const minutes = value.match(/^(\d+)\s*min$/);
+    if (minutes && labels?.minutes) return `${minutes[1]} ${labels.minutes}`;
+    return value;
   };
 
   useEffect(() => {
@@ -316,7 +329,12 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
         <div className="report-card" ref={reportRef}>
           <div className="report-heading"><span>{tool.name} {ui.report}</span><span>fixmyformatting.com</span></div>
           <div className="stat-grid">
-            {result.stats.map((stat) => <div className="stat" key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
+            {result.stats.map((stat) => (
+              <div className="stat" key={stat.label}>
+                <strong>{localizeStatValue(stat.value)}</strong>
+                <span>{labels?.statLabels?.[stat.label] ?? stat.label}</span>
+              </div>
+            ))}
           </div>
           {processor === "clean-ai-text" && <p className="report-note">{ui.reportNote}</p>}
         </div>

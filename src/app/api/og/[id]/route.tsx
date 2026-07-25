@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { fontsForLocale, ogLocale } from "@/lib/og-fonts";
 import { getShare } from "@/lib/shares";
 import { getTool } from "@/lib/tools";
-import { isLocale, isLocalizedToolSlug, localizeTool, messages } from "@/lib/i18n";
+import { bundles, isLocale, isLocalizedToolSlug, localizeTool, messages } from "@/lib/i18n";
 
 export const runtime = "nodejs";
 
@@ -14,6 +14,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
     ? locale && isLocalizedToolSlug(share.tool) ? localizeTool(share.tool, locale) : getTool(share.tool)
     : null;
   if (!share || !tool) return new Response("Not found", { status: 404 });
+  const statCopy = locale ? bundles[locale].stats : null;
+  const label = (value: string) => statCopy?.labels[value] ?? value;
   const stats = share.stat.slice(0, 4);
   return new ImageResponse(
     <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 70, background: "#f6f7f5", color: "#17201a", fontFamily: "Site" }}>
@@ -28,7 +30,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
           {stats.map((stat) => (
             <div key={stat.label} style={{ minWidth: 200, display: "flex", flexDirection: "column", padding: "22px 26px", borderRadius: 14, background: "#e0f2e8" }}>
               <span style={{ color: "#0d4d30", fontSize: 40, fontWeight: 700 }}>{stat.value}</span>
-              <span style={{ marginTop: 4, color: "#637067", fontSize: 18 }}>{stat.label}</span>
+              <span style={{ marginTop: 4, color: "#637067", fontSize: 18 }}>{label(stat.label)}</span>
             </div>
           ))}
         </div>

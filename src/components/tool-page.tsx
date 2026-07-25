@@ -64,6 +64,9 @@ export function ToolPage({
     noSignup: localized.noSignup,
     private: localized.private,
     ...bundles[locale as LocaleCode].workspace,
+    statLabels: bundles[locale as LocaleCode].stats.labels,
+    statValues: bundles[locale as LocaleCode].stats.values,
+    minutes: bundles[locale as LocaleCode].stats.minutes,
   } : undefined;
   const schemas = [
     {

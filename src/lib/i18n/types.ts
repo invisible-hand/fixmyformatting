@@ -1,4 +1,5 @@
 import type { SiteLocale } from "./locales";
+import type { StatTranslations } from "../stat-labels";
 
 /**
  * Every value here is plain data — no functions, no template literals with
@@ -143,6 +144,7 @@ export type LocaleBundle = {
   pages: PageCopy;
   workspace: WorkspaceMessages;
   guideChrome: GuideChrome;
+  stats: StatTranslations;
   /** Coverage: only the slugs present are served in this locale. */
   tools: Partial<Record<string, ToolCopy>>;
   /** Presence unlocks all 30 brand tools for this locale. */

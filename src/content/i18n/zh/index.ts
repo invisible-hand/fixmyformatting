@@ -3,5 +3,6 @@ import { ui } from "./ui";
 import { tools } from "./tools/core";
 import { brand } from "./tools/brand";
 import { guideChrome, pages, workspace } from "./chrome";
+import { stats } from "./stats";
 
-export const bundle: LocaleBundle = { code: "zh", ui, pages, workspace, guideChrome, tools, brand };
+export const bundle: LocaleBundle = { code: "zh", ui, pages, workspace, guideChrome, stats, tools, brand };

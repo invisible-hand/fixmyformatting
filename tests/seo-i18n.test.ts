@@ -6,7 +6,10 @@ import {
   localizeTool,
   toolSlugsForLocale,
 } from "../src/lib/i18n";
-import { allTools, getTool } from "../src/lib/tools";
+import { allTools, coreTools, getTool } from "../src/lib/tools";
+import { processText } from "../src/lib/processors";
+import { statLabelKeys } from "../src/lib/stat-labels";
+import { bundles } from "../src/lib/i18n";
 import { allGuides, getGuide } from "../src/lib/guides";
 
 describe("SEO metadata inventory", () => {
@@ -126,6 +129,30 @@ describe("localized SEO inventory", () => {
     // Guides are not localized yet (stage 8), so they must advertise English only.
     const untranslated = languageAlternates("guides");
     expect(Object.keys(untranslated).sort()).toEqual(["en", "x-default"]);
+  });
+
+  it("translates every stat label the processors can emit", () => {
+    // Labels are the translation keys, so a rename in processors.ts must fail
+    // here rather than silently falling back to English on localized pages.
+    const emitted = new Set<string>();
+    for (const tool of coreTools) {
+      for (const sample of [tool.placeholder, "a b c", "{\"a\":1}"]) {
+        try {
+          for (const stat of processText(tool.slug, sample).stats) emitted.add(stat.label);
+        } catch {
+          // Some processors reject unrelated sample input; other samples cover them.
+        }
+      }
+    }
+    expect(emitted.size).toBeGreaterThan(10);
+    for (const label of emitted) {
+      expect(statLabelKeys as readonly string[], `${label} missing from statLabelKeys`).toContain(label);
+    }
+    for (const locale of localeCodes) {
+      for (const label of statLabelKeys) {
+        expect(bundles[locale].stats.labels[label], `${locale} missing stat label ${label}`).toBeTruthy();
+      }
+    }
   });
 
   it("keeps reserved path segments free of tool slugs", () => {
