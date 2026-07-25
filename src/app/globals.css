@@ -99,7 +99,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .tool-directory { padding-bottom: 80px; }
 .category-section { margin: 0 0 52px; }
 .category-section > h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
-.home-tool-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.home-tool-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-inline-start: 1px solid var(--line); }
 .home-tool-grid > a {
   min-height: 180px;
   position: relative;
@@ -133,7 +133,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .tool-options select { min-height: 38px; padding: 0 34px 0 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); }
 .editor-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 510px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); }
 .editor-panel { min-width: 0; display: flex; flex-direction: column; }
-.editor-panel + .editor-panel { border-left: 1px solid var(--line); }
+.editor-panel + .editor-panel { border-inline-start: 1px solid var(--line); }
 .panel-label { height: 42px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; background: var(--surface-2); border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12px; font-weight: 750; text-transform: uppercase; letter-spacing: 0.05em; }
 .input-panel textarea {
   width: 100%;
@@ -157,7 +157,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .rendered-output code { background: var(--surface-2); border-radius: 4px; padding: 2px 5px; font-family: ui-monospace, monospace; font-size: 0.9em; }
 .rendered-output pre { padding: 15px; overflow: auto; border-radius: 8px; background: #162019; color: #eef7f0; }
 .rendered-output table { width: 100%; border-collapse: collapse; }
-.rendered-output th, .rendered-output td { padding: 8px 10px; border: 1px solid var(--line); text-align: left; }
+.rendered-output th, .rendered-output td { padding: 8px 10px; border: 1px solid var(--line); text-align: start; }
 .diff-output { white-space: pre-wrap; overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; line-height: 1.8; }
 .diff-added { background: #d9fbe5; color: #155b31; text-decoration: none; }
 .diff-removed { background: #ffe0e0; color: #8f2323; text-decoration: line-through; }
@@ -167,7 +167,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .action-row button { min-height: 42px; }
 .action-row button:hover { border-color: var(--accent); }
 .action-row button:disabled { opacity: 0.45; cursor: not-allowed; }
-.notice { margin-left: auto; color: var(--accent); font-size: 13px; font-weight: 700; }
+.notice { margin-inline-start: auto; color: var(--accent); font-size: 13px; font-weight: 700; }
 .trust-strip { padding: 10px 14px; border-radius: 8px; background: var(--surface-2); color: var(--muted); text-align: center; font-size: 13px; }
 .trust-strip span { margin: 0 8px; }
 .mobile-tabs { display: none; }
@@ -183,7 +183,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .tool-content > section { padding: 38px 0; border-top: 1px solid var(--line); }
 .tool-content h2 { margin: 0 0 14px; font-size: 26px; letter-spacing: -0.03em; }
 .tool-content p, .tool-content li { color: var(--muted); }
-.tool-content ol { padding-left: 22px; }
+.tool-content ol { padding-inline-start: 22px; }
 .faq-list details { border-bottom: 1px solid var(--line); }
 .faq-list summary { padding: 16px 0; cursor: pointer; font-weight: 700; }
 .faq-list details p { margin: 0 0 18px; }
@@ -193,10 +193,10 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .related-grid span { margin-top: 5px; color: var(--muted); font-size: 13px; }
 
 .guide-page .breadcrumbs, .guide-page .tool-title { max-width: 900px; margin-inline: auto; }
-.guide-answer { margin: 0 0 26px; padding: 20px 22px; border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; background: var(--accent-soft); color: var(--text); font-size: 18px; line-height: 1.6; }
+.guide-answer { margin: 0 0 26px; padding: 20px 22px; border-inline-start: 3px solid var(--accent); border-start-end-radius: 10px; border-end-end-radius: 10px; background: var(--accent-soft); color: var(--text); font-size: 18px; line-height: 1.6; }
 .guide-toc { margin: 0 0 6px; padding: 18px 22px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
 .guide-toc h2 { margin: 0 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
-.guide-toc ol { margin: 0; padding-left: 20px; }
+.guide-toc ol { margin: 0; padding-inline-start: 20px; }
 .guide-toc li { margin: 6px 0; }
 .guide-toc a { color: var(--accent); }
 .guide-toc a:hover { text-decoration: underline; }
@@ -204,16 +204,16 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .guide-content > section { scroll-margin-top: 16px; }
 .guide-content h3 { margin: 26px 0 10px; font-size: 19px; letter-spacing: -0.02em; }
 .guide-content p { margin: 0 0 16px; line-height: 1.7; }
-.guide-content ul, .guide-content ol { margin: 0 0 16px; padding-left: 22px; }
+.guide-content ul, .guide-content ol { margin: 0 0 16px; padding-inline-start: 22px; }
 .guide-content li { margin: 7px 0; line-height: 1.65; }
 .guide-content a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
 .guide-content strong { color: var(--text); }
-.guide-content blockquote { margin: 20px 0; padding: 4px 0 4px 18px; border-left: 3px solid var(--line); color: var(--muted); font-style: italic; }
+.guide-content blockquote { margin: 20px 0; padding-block: 4px; padding-inline-start: 18px; border-inline-start: 3px solid var(--line); color: var(--muted); font-style: italic; }
 .guide-content code { padding: 2px 5px; border-radius: 4px; background: var(--surface-2); font-family: ui-monospace, monospace; font-size: 0.9em; }
 .guide-content pre { padding: 15px; overflow: auto; border-radius: 8px; background: #162019; color: #eef7f0; }
 .guide-content pre code { padding: 0; background: none; }
 .guide-content table { width: 100%; margin: 0 0 16px; border-collapse: collapse; font-size: 14px; }
-.guide-content th, .guide-content td { padding: 8px 10px; border: 1px solid var(--line); text-align: left; }
+.guide-content th, .guide-content td { padding: 8px 10px; border: 1px solid var(--line); text-align: start; }
 .guide-content th { background: var(--surface-2); }
 .guide-content hr { margin: 26px 0; border: 0; border-top: 1px solid var(--line); }
 .guide-content kbd { padding: 2px 6px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; background: var(--surface); font-family: ui-monospace, monospace; font-size: 0.82em; }
@@ -279,12 +279,26 @@ html[data-embed="true"] .rendered-output,
 html[data-embed="true"] .text-output { min-height: 355px; }
 html[data-embed="true"] .runtime-embed-backlink { display: block; margin: 8px 4px 0; color: var(--accent); font-size: 12px; font-weight: 700; }
 
-html[dir="rtl"] body { text-align: right; }
-html[dir="rtl"] .brand, html[dir="rtl"] .quick-links, html[dir="rtl"] .action-row { direction: rtl; }
+/* Code, keys and monospace samples are Latin regardless of page direction.
+   Without this, a leading "--force" or "\[ x \]" reorders to the wrong end. */
+.guide-content pre, .guide-content code, .guide-content kbd,
+.rendered-output pre, .rendered-output code,
+.text-output, .diff-output { direction: ltr; text-align: start; unicode-bidi: isolate; }
+
+/* Slash-separated breadcrumbs reorder unpredictably around RTL text. */
+.breadcrumbs > * { unicode-bidi: isolate; }
+
+/* Arabic is cursive; letter-spacing breaks the joins. */
+html[lang="ar"] .eyebrow,
+html[lang="ar"] .panel-label,
+html[lang="ar"] .category-section > h2,
+html[lang="ar"] .footer-tools h2,
+html[lang="ar"] .guide-toc h2 { letter-spacing: normal; }
+
 html[dir="rtl"] .language-menu > div { right: auto; left: 0; }
 html[dir="rtl"] .tool-arrow { right: auto; left: 22px; }
 html[dir="rtl"] .home-tool-grid h3 { margin-right: 0; margin-left: 35px; }
-html[dir="rtl"] .tool-content ol { padding-left: 0; padding-right: 22px; }
+html[dir="rtl"] .home-tool-grid > a { border-right: 0; border-left: 1px solid var(--line); }
 
 @media (max-width: 820px) {
   .site-header, .home-page, .tool-page { width: min(100% - 28px, 1180px); }

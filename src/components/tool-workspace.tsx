@@ -306,7 +306,7 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
       <div className="editor-grid">
         <div className={`editor-panel input-panel ${mobileTab === "input" ? "mobile-active" : ""}`}>
           <div className="panel-label"><span>{ui.input}</span><span>{input.length.toLocaleString(locale)} {ui.characters}</span></div>
-          <textarea
+          <textarea dir="auto"
             value={input}
             onChange={(event) => setInput(event.target.value)}
             onPaste={onPaste}
@@ -319,9 +319,9 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
         <div ref={outputRef} className={`editor-panel output-panel ${mobileTab === "output" ? "mobile-active" : ""}`}>
           <div className="panel-label"><span>{ui.output}</span><span aria-live="polite">{deferredInput !== input ? ui.updating : ui.live}</span></div>
           {result.html && processor !== "markdown-to-html" ? (
-            <div className="rendered-output" dangerouslySetInnerHTML={{ __html: result.html }} />
+            <div className="rendered-output" dir="auto" dangerouslySetInnerHTML={{ __html: result.html }} />
           ) : (
-            <pre className={`text-output ${result.valid === false ? "error-output" : ""}`}>{result.output || ui.emptyResult}</pre>
+            <pre dir="auto" className={`text-output ${result.valid === false ? "error-output" : ""}`}>{result.output || ui.emptyResult}</pre>
           )}
         </div>
       </div>
