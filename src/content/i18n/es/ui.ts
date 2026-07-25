@@ -4,7 +4,7 @@ export const ui: UiMessages = {
   languageName: "Español",
   allTools: "Todas las herramientas",
   about: "Acerca de",
-  homeEyebrow: "12 herramientas gratuitas",
+  homeEyebrow: "{count} herramientas gratuitas",
   homeTitle: "Corrige textos copiados de la IA.",
   homeDescription: "Convierte Markdown, limpia el formato de ChatGPT, repara tablas y elimina caracteres invisibles. Todo funciona de forma privada en tu navegador.",
   homeMetaTitle: "Herramientas gratuitas para formatear textos de IA",

@@ -4,7 +4,7 @@ export const ui: UiMessages = {
   languageName: "日本語",
   allTools: "すべてのツール",
   about: "サイトについて",
-  homeEyebrow: "無料ツール12種類",
+  homeEyebrow: "無料ツール{count}種類",
   homeTitle: "AIからコピーした文章の書式を修正。",
   homeDescription: "Markdown変換、ChatGPTの書式整理、表の修復、不可視文字の削除をブラウザ内で安全に行えます。",
   homeMetaTitle: "AI文章向け無料書式ツール",

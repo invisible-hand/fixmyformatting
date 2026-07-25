@@ -1,0 +1,51 @@
+{
+ "en": {
+  "latin": "en-latin",
+  "chars": " #&'*,-.0123456789:?ABCDEFGHIJLMNOPQRSTUVWXabcdefghijklmnopqrstuvwxyz·–—…"
+ },
+ "es": {
+  "latin": "es-latin",
+  "chars": " ,-.0123456789;ABCDEFGHIJLMNOPRSTUVWXabcdefghijklmnopqrstuvwxyz{}·áéíóú–—…"
+ },
+ "pt": {
+  "latin": "pt-latin",
+  "chars": " ,-.0123456789;ACDEFGHIJLMNOPRSTUVWXabcdefghijklmnopqrstuvwxyz{}·áâãçéêíóõú–—…"
+ },
+ "de": {
+  "latin": "de-latin",
+  "chars": " &,-.0123456789:;ABCDEFGHIJKLMNOPRSTUVWXZabcdefghijklmnoprstuvwxyz{}·Üßäöü–—…"
+ },
+ "fr": {
+  "latin": "fr-latin",
+  "chars": " ',-.0123456789;ACDEFGHIJLMNOPRSTUVWXabcdefghijklmnopqrstuvwxyz{}·àèéêû–—’…"
+ },
+ "it": {
+  "latin": "it-latin",
+  "chars": " ,-.0123456789;ACDEFGHIJLMNOPRSTUVWXabcdefghijklmnopqrstuvwxyz{}·ù–—’…"
+ },
+ "ja": {
+  "latin": "ja-latin",
+  "script": "ja-script",
+  "chars": " -.0123456789ACDEFGHIJLMNOPRSTUVWXacdefghiklmnoprstuvwxy{}·–—…、。いえかがきくぐけさしすずせそただちっつてでとどなにのはばへべまみもやよらりるれわをんァアィイウエオカキクケコザシスセゼソタダチッツテデトドナハパビピフブプペポムメャュラリルロン・ー一不並了互付会保信修全共内処出分切列制刷削割力加区単印取句可号向味回圧変大字安定小崩差幅式引強形御復性意成抽推換改数整文料方時曲書替有本検正残段比点無物理生用登的直確示移種章符答統絵線編縮置能般落行表要見視記証話認語読調貼較追送適部配録長間除隠集類高"
+ },
+ "ko": {
+  "latin": "ko-latin",
+  "script": "ko-script",
+  "chars": " ,-.0123456789ACDEFGHIJLMNOPRSTUVWXacdefghiklmnoprstuvwxy{}·–—…가각간강개객거검게결계고곡공과교구그글기긴깁깔꾸꿈꿉끔나눕는능니다단답대더델도되된두드등디따라레렬로록료루류르를리링맞며면모목무문물미및바반방배백버변별보복본부분불뷰브비사삭산상생서선성세소쇄수숨쉬스습시식실아안않압어업에열예오온올옮옴와요용우운유으은을의이인일읽입있자장저적전정제조좋줄즉증지직집찾채처체추축출치코크큰태텍토통트파편포폭표프픈플피필하한할합해행향형호화확환"
+ },
+ "zh": {
+  "latin": "zh-latin",
+  "script": "zh-script",
+  "chars": " -.0123456789ACDEFGHIJLMNOPRSTUVWXacdefghiklmnoprstuvwxy{}·–—…、。一上下不与两个中为义于井享从代令件会传估余供便保修免入公具兼内册写净准出分列删到制割化单印即压取句可号同后向命和器回在地型增处复多大子字完定实容宽密富对将小工常干并序式引弯强情成或所打找折换据排接控提撇数整文新方无时星晰更替有本构查标校格档检模正段母比注测浏清点片版理生用界留的直看真码破确示私移空立竖符等答算粘线组结统编缩范落藏行表见规览计让记词话语误读调象贴费转软载辑输连都量链错长问阅除隐零需题首验，"
+ },
+ "hi": {
+  "latin": "hi-latin",
+  "script": "hi-script",
+  "chars": " ,-.0123456789;ACDEFGHIJLMNOPRSTUVWXacdefghiklmnoprstuvwxy{}·ँंअआइईउएऑऔकखगघचछजटठडढणतथदधनपफबमयरलवशषसह़ािीुूृेैॉो्।–—…"
+ },
+ "ar": {
+  "latin": "ar-latin",
+  "script": "ar-script",
+  "chars": " ()-.0123456789CDEFGHIJLMNOPRSTUVWXacdefghiklmnoprstuvwxy{}·ءأإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًُّ–—…"
+ }
+}

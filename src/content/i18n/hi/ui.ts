@@ -4,7 +4,7 @@ export const ui: UiMessages = {
   languageName: "हिन्दी",
   allTools: "सभी टूल",
   about: "परिचय",
-  homeEyebrow: "12 मुफ़्त टूल",
+  homeEyebrow: "{count} मुफ़्त टूल",
   homeTitle: "AI से कॉपी किए गए टेक्स्ट की फ़ॉर्मैटिंग ठीक करें।",
   homeDescription: "Markdown बदलें, ChatGPT की फ़ॉर्मैटिंग साफ़ करें, टेबल सुधारें और छिपे अक्षर हटाएँ। सारी प्रोसेसिंग आपके ब्राउज़र में निजी रूप से होती है।",
   homeMetaTitle: "AI टेक्स्ट के लिए मुफ़्त फ़ॉर्मैटिंग टूल",

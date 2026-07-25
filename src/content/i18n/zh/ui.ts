@@ -4,7 +4,7 @@ export const ui: UiMessages = {
   languageName: "简体中文",
   allTools: "所有工具",
   about: "关于",
-  homeEyebrow: "12 个免费工具",
+  homeEyebrow: "{count} 个免费工具",
   homeTitle: "修复从 AI 复制的文本格式。",
   homeDescription: "转换 Markdown、清理 ChatGPT 格式、修复表格并删除不可见字符。所有处理都在浏览器中私密完成。",
   homeMetaTitle: "免费的 AI 文本格式工具",

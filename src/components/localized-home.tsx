@@ -1,11 +1,16 @@
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
-import { categoryLabel, localizedPath, localizeTool, toolSlugsForLocale, uiFor } from "@/lib/i18n";
+import { categoryLabel, interpolate, localizedPath, localizeTool, toolSlugsForLocale, uiFor } from "@/lib/i18n";
+import { coreTools } from "@/lib/tools";
 import type { LocaleCode } from "@/lib/i18n";
 
 export function LocalizedHome({ locale }: { locale: LocaleCode }) {
   const t = uiFor(locale);
-  const tools = toolSlugsForLocale(locale).map((slug) => localizeTool(slug, locale));
+  // Core tools only, mirroring the English home. Brand variants are reachable
+  // from each tool's related list rather than the directory grid.
+  const tools = toolSlugsForLocale(locale)
+    .filter((slug) => coreTools.some((tool) => tool.slug === slug))
+    .map((slug) => localizeTool(slug, locale));
   const quickLinks = ["clean-ai-text", "markdown-to-word", "remove-invisible-characters"]
     .map((slug) => tools.find((tool) => tool.slug === slug))
     .filter((tool) => Boolean(tool));
@@ -21,7 +26,7 @@ export function LocalizedHome({ locale }: { locale: LocaleCode }) {
       <SiteHeader locale={locale} />
       <main className="home-page">
         <header className="home-intro">
-          <span className="eyebrow">{t.homeEyebrow}</span>
+          <span className="eyebrow">{interpolate(t.homeEyebrow, { count: String(tools.length) })}</span>
           <h1>{t.homeTitle}</h1>
           <p>{t.homeDescription}</p>
           <div className="quick-links">

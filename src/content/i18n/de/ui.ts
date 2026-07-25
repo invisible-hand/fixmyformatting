@@ -4,7 +4,7 @@ export const ui: UiMessages = {
   languageName: "Deutsch",
   allTools: "Alle Werkzeuge",
   about: "Über uns",
-  homeEyebrow: "12 kostenlose Werkzeuge",
+  homeEyebrow: "{count} kostenlose Werkzeuge",
   homeTitle: "Formatierung aus KI-Texten reparieren.",
   homeDescription: "Markdown konvertieren, ChatGPT-Formatierung bereinigen, Tabellen reparieren und unsichtbare Zeichen entfernen. Alles läuft privat im Browser.",
   homeMetaTitle: "Kostenlose Werkzeuge für KI-Textformatierung",

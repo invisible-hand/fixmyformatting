@@ -4,7 +4,7 @@ export const ui: UiMessages = {
   languageName: "العربية",
   allTools: "كل الأدوات",
   about: "حول الموقع",
-  homeEyebrow: "12 أداة مجانية",
+  homeEyebrow: "{count} أداة مجانية",
   homeTitle: "أصلح تنسيق النص المنسوخ من الذكاء الاصطناعي.",
   homeDescription: "حوّل Markdown ونظّف تنسيق ChatGPT وأصلح الجداول واحذف المحارف غير المرئية. تتم المعالجة بخصوصية داخل متصفحك.",
   homeMetaTitle: "أدوات مجانية لتنسيق نصوص الذكاء الاصطناعي",

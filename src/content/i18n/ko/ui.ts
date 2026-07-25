@@ -4,7 +4,7 @@ export const ui: UiMessages = {
   languageName: "한국어",
   allTools: "모든 도구",
   about: "소개",
-  homeEyebrow: "무료 도구 12개",
+  homeEyebrow: "무료 도구 {count}개",
   homeTitle: "AI에서 복사한 텍스트의 서식을 고치세요.",
   homeDescription: "Markdown 변환, ChatGPT 서식 정리, 표 복구, 보이지 않는 문자 제거를 브라우저에서 안전하게 처리합니다.",
   homeMetaTitle: "AI 텍스트용 무료 서식 도구",
