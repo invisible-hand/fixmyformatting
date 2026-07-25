@@ -25,7 +25,9 @@ export function SiteFooter({ locale = "en" }: { locale?: SiteLocale }) {
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} fixmyformatting.com</span>
         <nav aria-label="Legal">
-          {locale === "en" ? <><a href="/guides">Guides</a><a href="/about">About</a><a href="/privacy">Privacy</a></> : <a href="/">{localized?.allTools ?? "All tools"}</a>}
+          {locale === "en"
+            ? <><a href="/guides">Guides</a><a href="/about">About</a><a href="/privacy">Privacy</a></>
+            : <><a href={localizedPath(locale)}>{localized?.allTools ?? "All tools"}</a><a href="/privacy" hrefLang="en">Privacy</a></>}
         </nav>
       </div>
     </footer>

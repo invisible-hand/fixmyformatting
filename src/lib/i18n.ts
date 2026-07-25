@@ -418,10 +418,9 @@ export function localizedPath(locale: SiteLocale, path = "") {
   return locale === "en" ? suffix || "/" : `/${locale}${suffix}`;
 }
 
-export function languageAlternates(path = "") {
-  return {
-    en: `https://fixmyformatting.com${localizedPath("en", path)}`,
-    ...Object.fromEntries(localeCodes.map((locale) => [locale, `https://fixmyformatting.com${localizedPath(locale, path)}`])),
-    "x-default": `https://fixmyformatting.com${localizedPath("en", path)}`,
-  };
+export function languageAlternates(path = ""): Record<SiteLocale | "x-default", string> {
+  const url = (locale: SiteLocale) => `https://fixmyformatting.com${localizedPath(locale, path)}`;
+  const languages = { en: url("en"), "x-default": url("en") } as Record<SiteLocale | "x-default", string>;
+  for (const locale of localeCodes) languages[locale] = url(locale);
+  return languages;
 }

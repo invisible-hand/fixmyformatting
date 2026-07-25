@@ -249,7 +249,8 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .fig-bubble-ai { fill: var(--surface); stroke: var(--line); }
 
 .site-footer { margin-top: 70px; padding: 58px max(20px, calc((100vw - 1180px) / 2)); border-top: 1px solid var(--line); background: #17201a; color: #f4f7f4; }
-.footer-tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
+/* auto-fit, not repeat(3): locales with fewer translated categories would leave an empty track. */
+.footer-tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 36px; }
 .footer-tools h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: #9fb0a5; }
 .footer-tools ul { list-style: none; margin: 0; padding: 0; columns: 2; }
 .footer-tools li { margin: 8px 0; font-size: 13px; }
