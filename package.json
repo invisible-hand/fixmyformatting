@@ -7,6 +7,7 @@
     "build": "next build",
     "build:checked": "next build && npm run check:budgets",
     "check:budgets": "node scripts/check-budgets.mjs",
+    "submit:indexnow": "node scripts/submit-indexnow.mjs",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run"
