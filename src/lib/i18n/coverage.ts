@@ -28,10 +28,14 @@ export function isToolLocalized(slug: string, locale: LocaleCode) {
   return source !== slug && Boolean(bundles[locale].tools[source]);
 }
 
+/** Pages every locale serves, independent of tool coverage. */
+export const staticPaths = ["about", "privacy"] as const;
+
 /** Locales that serve a given public path ("" is the home page). */
 export function localesForPath(path = ""): LocaleCode[] {
   const slug = path.replace(/^\/+/, "");
   if (!slug) return [...localeCodes];
+  if ((staticPaths as readonly string[]).includes(slug)) return [...localeCodes];
   return localeCodes.filter((locale) => isToolLocalized(slug, locale));
 }
 

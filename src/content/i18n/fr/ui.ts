@@ -41,5 +41,5 @@ export const ui: UiMessages = {
   mobileQuestion: "Est-ce compatible avec les mobiles ?",
   mobileAnswer: "Oui. L’éditeur fonctionne dans les navigateurs mobiles et de bureau récents.",
   introSuffix: "Collez votre contenu ci-dessus pour obtenir le résultat immédiatement, sans envoi et sans compte.",
-  categories: { markdown: "Markdown et documents", cleanup: "Nettoyage des textes IA", data: "Data & prompts" },
+  categories: { markdown: "Markdown et documents", cleanup: "Nettoyage des textes IA", data: "Données et prompts" },
 };

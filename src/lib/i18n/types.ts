@@ -89,9 +89,60 @@ export type BrandCopy = {
   faqs: Faq[];
 };
 
+/** Strings inside the client workspace. Passed in as props — never imported there. */
+export type WorkspaceMessages = {
+  printPdf: string;
+  downloaded: string;
+  excelDownloaded: string;
+  reportImageDownloaded: string;
+  pasteFirst: string;
+  creatingLink: string;
+  couldNotCreateLink: string;
+  shareUnavailable: string;
+  reportNote: string;
+  conversionOptions: string;
+  editorView: string;
+  caseLabel: string;
+  caseTitle: string;
+  caseSentence: string;
+  caseUpper: string;
+  caseLower: string;
+  dashLabel: string;
+  dashComma: string;
+  dashSemicolon: string;
+  dashHyphen: string;
+  dashRemove: string;
+};
+
+export type GuideChrome = {
+  navLabel: string;
+  onThisPage: string;
+  toolsMentioned: string;
+  relatedGuides: string;
+  home: string;
+};
+
+export type StaticPageCopy = {
+  metaTitle: string;
+  description: string;
+  h1: string;
+  dek: string;
+  sections: { heading?: string; body: string[] }[];
+};
+
+export type PageCopy = {
+  about: StaticPageCopy;
+  privacy: StaticPageCopy;
+  notFound: { h1: string; dek: string };
+  guidesIndex: { metaTitle: string; description: string; h1: string; dek: string; clusters: Record<string, string> };
+};
+
 export type LocaleBundle = {
   code: SiteLocale;
   ui: UiMessages;
+  pages: PageCopy;
+  workspace: WorkspaceMessages;
+  guideChrome: GuideChrome;
   /** Coverage: only the slugs present are served in this locale. */
   tools: Partial<Record<string, ToolCopy>>;
   /** Presence unlocks all 30 brand tools for this locale. */

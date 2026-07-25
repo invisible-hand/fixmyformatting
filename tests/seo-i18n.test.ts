@@ -32,10 +32,14 @@ describe("SEO metadata inventory", () => {
       ]),
       "https://fixmyformatting.com/guides",
       ...allGuides.map((guide) => `https://fixmyformatting.com/guides/${guide.slug}`),
+      ...localeCodes.flatMap((locale) => [
+        `https://fixmyformatting.com/${locale}/about`,
+        `https://fixmyformatting.com/${locale}/privacy`,
+      ]),
       "https://fixmyformatting.com/about",
       "https://fixmyformatting.com/privacy",
     ];
-    expect(urls).toHaveLength(640);
+    expect(urls).toHaveLength(660);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls.every((url) => url.startsWith("https://fixmyformatting.com"))).toBe(true);
   });

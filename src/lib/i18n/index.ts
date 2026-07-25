@@ -9,6 +9,7 @@ export {
   languageAlternates,
   localesForPath,
   siteUrl,
+  staticPaths,
   toolSlugsForLocale,
 } from "./coverage";
 export { categoryLabel, localizeTool, uiFor } from "./resolve";

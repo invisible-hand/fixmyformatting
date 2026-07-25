@@ -1,6 +1,6 @@
 import type { ToolDefinition } from "@/lib/tools";
 import { allTools, coreTools, getProcessorSlug } from "@/lib/tools";
-import { localizedPath, localizeTool, messages, toolSlugsForLocale } from "@/lib/i18n";
+import { bundles, localizedPath, localizeTool, messages, toolSlugsForLocale } from "@/lib/i18n";
 import type { LocaleCode, SiteLocale } from "@/lib/i18n";
 import type { ProcessSettings } from "@/lib/processors";
 import { guidePath, guidesForTool } from "@/lib/guides";
@@ -63,6 +63,7 @@ export function ToolPage({
     free: localized.free,
     noSignup: localized.noSignup,
     private: localized.private,
+    ...bundles[locale as LocaleCode].workspace,
   } : undefined;
   const schemas = [
     {

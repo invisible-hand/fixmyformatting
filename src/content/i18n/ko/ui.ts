@@ -41,5 +41,5 @@ export const ui: UiMessages = {
   mobileQuestion: "모바일에서도 사용할 수 있나요?",
   mobileAnswer: "네. 최신 모바일 및 데스크톱 브라우저에서 작동합니다.",
   introSuffix: "내용을 위에 붙여넣으면 업로드나 가입 없이 결과를 바로 확인할 수 있습니다.",
-  categories: { markdown: "Markdown 및 문서", cleanup: "AI 텍스트 정리", data: "Data & prompts" },
+  categories: { markdown: "Markdown 및 문서", cleanup: "AI 텍스트 정리", data: "데이터 및 프롬프트" },
 };

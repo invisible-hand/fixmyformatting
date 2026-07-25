@@ -41,5 +41,5 @@ export const ui: UiMessages = {
   mobileQuestion: "Funktioniert es auf Mobilgeräten?",
   mobileAnswer: "Ja. Der Editor funktioniert in aktuellen mobilen und Desktop-Browsern.",
   introSuffix: "Füge deinen Inhalt oben ein und erhalte sofort das Ergebnis – ohne Upload und ohne Konto.",
-  categories: { markdown: "Markdown und Dokumente", cleanup: "KI-Text bereinigen", data: "Data & prompts" },
+  categories: { markdown: "Markdown und Dokumente", cleanup: "KI-Text bereinigen", data: "Daten & Prompts" },
 };

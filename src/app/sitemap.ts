@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { allTools } from "@/lib/tools";
 import { allGuides } from "@/lib/guides";
-import { isLocalizedToolSlug, languageAlternates, localeCodes, localizedPath, toolSlugsForLocale } from "@/lib/i18n";
+import { isLocalizedToolSlug, languageAlternates, localeCodes, localizedPath, staticPaths, toolSlugsForLocale } from "@/lib/i18n";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://fixmyformatting.com";
@@ -26,6 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.75,
         alternates: { languages: languageAlternates(slug) },
       })),
+      ...staticPaths.map((path) => ({
+        url: `${base}${localizedPath(locale, path)}`,
+        changeFrequency: "yearly" as const,
+        priority: 0.3,
+        alternates: { languages: languageAlternates(path) },
+      })),
     ]),
     { url: `${base}/guides`, changeFrequency: "weekly", priority: 0.7 },
     ...allGuides.map((guide) => ({
@@ -34,7 +40,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
       lastModified: guide.updated,
     })),
-    { url: `${base}/about`, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${base}/privacy`, changeFrequency: "yearly", priority: 0.3 },
+    ...staticPaths.map((path) => ({
+      url: `${base}/${path}`,
+      changeFrequency: "yearly" as const,
+      priority: 0.3,
+      alternates: { languages: languageAlternates(path) },
+    })),
   ];
 }

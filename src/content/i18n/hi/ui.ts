@@ -41,5 +41,5 @@ export const ui: UiMessages = {
   mobileQuestion: "क्या यह मोबाइल पर चलता है?",
   mobileAnswer: "हाँ। एडिटर आधुनिक मोबाइल और डेस्कटॉप ब्राउज़र में चलता है।",
   introSuffix: "ऊपर सामग्री पेस्ट करें और बिना अपलोड या अकाउंट के तुरंत नतीजा देखें।",
-  categories: { markdown: "Markdown और दस्तावेज़", cleanup: "AI टेक्स्ट की सफ़ाई", data: "Data & prompts" },
+  categories: { markdown: "Markdown और दस्तावेज़", cleanup: "AI टेक्स्ट की सफ़ाई", data: "डेटा और प्रॉम्प्ट" },
 };

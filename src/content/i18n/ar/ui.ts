@@ -41,5 +41,5 @@ export const ui: UiMessages = {
   mobileQuestion: "هل تعمل على الهاتف؟",
   mobileAnswer: "نعم. يعمل المحرر في متصفحات الهاتف وسطح المكتب الحديثة.",
   introSuffix: "الصق محتواك أعلاه لترى النتيجة فورًا من دون رفع النص أو إنشاء حساب.",
-  categories: { markdown: "Markdown والمستندات", cleanup: "تنظيف نصوص الذكاء الاصطناعي", data: "Data & prompts" },
+  categories: { markdown: "Markdown والمستندات", cleanup: "تنظيف نصوص الذكاء الاصطناعي", data: "البيانات والأوامر" },
 };

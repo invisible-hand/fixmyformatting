@@ -1,9 +1,10 @@
 import { coreTools } from "@/lib/tools";
-import { categoryLabel, localizedPath, localizeTool, messages, toolSlugsForLocale } from "@/lib/i18n";
+import { bundles, categoryLabel, localizedPath, localizeTool, messages, toolSlugsForLocale } from "@/lib/i18n";
 import type { LocaleCode, SiteLocale } from "@/lib/i18n";
 
 export function SiteFooter({ locale = "en" }: { locale?: SiteLocale }) {
   const localized = locale === "en" ? null : messages[locale as LocaleCode];
+  const localizedPages = locale === "en" ? null : bundles[locale as LocaleCode].pages;
   // Core tools only. Brand variants would multiply the footer ~4.7x on every
   // localized page once coverage is complete; English lists coreTools too.
   const tools = locale === "en"
@@ -29,9 +30,9 @@ export function SiteFooter({ locale = "en" }: { locale?: SiteLocale }) {
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} fixmyformatting.com</span>
         <nav aria-label="Legal">
-          {locale === "en"
-            ? <><a href="/guides">Guides</a><a href="/about">About</a><a href="/privacy">Privacy</a></>
-            : <><a href={localizedPath(locale)}>{localized?.allTools ?? "All tools"}</a><a href="/privacy" hrefLang="en">Privacy</a></>}
+          {locale === "en" && <a href="/guides">Guides</a>}
+          <a href={localizedPath(locale, "about")}>{localizedPages?.about.h1 ?? "About"}</a>
+          <a href={localizedPath(locale, "privacy")}>{localizedPages?.privacy.h1 ?? "Privacy"}</a>
         </nav>
       </div>
     </footer>

@@ -41,5 +41,5 @@ export const ui: UiMessages = {
   mobileQuestion: "手机上可以使用吗？",
   mobileAnswer: "可以。编辑器支持现代手机和桌面浏览器。",
   introSuffix: "将内容粘贴到上方即可立即查看结果，无需上传文本或创建账户。",
-  categories: { markdown: "Markdown 与文档", cleanup: "AI 文本清理", data: "Data & prompts" },
+  categories: { markdown: "Markdown 与文档", cleanup: "AI 文本清理", data: "数据与提示词" },
 };

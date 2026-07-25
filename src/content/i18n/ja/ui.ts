@@ -41,5 +41,5 @@ export const ui: UiMessages = {
   mobileQuestion: "スマートフォンでも使えますか？",
   mobileAnswer: "はい。最新のモバイルおよびデスクトップブラウザで動作します。",
   introSuffix: "上に内容を貼り付けるだけで、アップロードや登録なしですぐに結果を確認できます。",
-  categories: { markdown: "Markdownと文書", cleanup: "AI文章の整理", data: "Data & prompts" },
+  categories: { markdown: "Markdownと文書", cleanup: "AI文章の整理", data: "データとプロンプト" },
 };

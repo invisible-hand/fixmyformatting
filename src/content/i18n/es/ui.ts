@@ -41,5 +41,5 @@ export const ui: UiMessages = {
   mobileQuestion: "¿Funciona en el móvil?",
   mobileAnswer: "Sí. El editor funciona en navegadores actuales de móvil y escritorio.",
   introSuffix: "Pega tu contenido arriba para ver el resultado al instante, sin subir el texto ni crear una cuenta.",
-  categories: { markdown: "Markdown y documentos", cleanup: "Limpieza de texto de IA", data: "Data & prompts" },
+  categories: { markdown: "Markdown y documentos", cleanup: "Limpieza de texto de IA", data: "Datos y prompts" },
 };

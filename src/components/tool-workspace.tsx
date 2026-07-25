@@ -25,6 +25,27 @@ export type ToolWorkspaceLabels = {
   free: string;
   noSignup: string;
   private: string;
+  printPdf: string;
+  downloaded: string;
+  excelDownloaded: string;
+  reportImageDownloaded: string;
+  pasteFirst: string;
+  creatingLink: string;
+  couldNotCreateLink: string;
+  shareUnavailable: string;
+  reportNote: string;
+  conversionOptions: string;
+  editorView: string;
+  caseLabel: string;
+  caseTitle: string;
+  caseSentence: string;
+  caseUpper: string;
+  caseLower: string;
+  dashLabel: string;
+  dashComma: string;
+  dashSemicolon: string;
+  dashHyphen: string;
+  dashRemove: string;
 };
 
 type Props = {
@@ -76,6 +97,27 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
     free: labels?.free ?? "Free",
     noSignup: labels?.noSignup ?? "No signup",
     private: labels?.private ?? "Processing happens in your browser — text never uploaded.",
+    printPdf: labels?.printPdf ?? "Print / Save PDF",
+    downloaded: labels?.downloaded ?? "Downloaded",
+    excelDownloaded: labels?.excelDownloaded ?? "Excel file downloaded",
+    reportImageDownloaded: labels?.reportImageDownloaded ?? "Report image downloaded",
+    pasteFirst: labels?.pasteFirst ?? "Paste some text first",
+    creatingLink: labels?.creatingLink ?? "Creating link…",
+    couldNotCreateLink: labels?.couldNotCreateLink ?? "Could not create link",
+    shareUnavailable: labels?.shareUnavailable ?? "Share unavailable",
+    reportNote: labels?.reportNote ?? "Counts mechanical artifacts only. This is not AI detection.",
+    conversionOptions: labels?.conversionOptions ?? "Conversion options",
+    editorView: labels?.editorView ?? "Editor view",
+    caseLabel: labels?.caseLabel ?? "Case",
+    caseTitle: labels?.caseTitle ?? "Title Case",
+    caseSentence: labels?.caseSentence ?? "Sentence case",
+    caseUpper: labels?.caseUpper ?? "UPPERCASE",
+    caseLower: labels?.caseLower ?? "lowercase",
+    dashLabel: labels?.dashLabel ?? "Replace em dashes with",
+    dashComma: labels?.dashComma ?? "Comma",
+    dashSemicolon: labels?.dashSemicolon ?? "Semicolon",
+    dashHyphen: labels?.dashHyphen ?? "Hyphen",
+    dashRemove: labels?.dashRemove ?? "Nothing",
   };
 
   useEffect(() => {
@@ -150,7 +192,7 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
       const buffer = createXlsx(rows);
       saveBlob(new Blob([buffer.buffer as ArrayBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), `${tool.slug}.xlsx`);
       track("tool_action", { tool: tool.slug, action: "download" });
-      flash("Excel file downloaded");
+      flash(ui.excelDownloaded);
       return;
     }
     if (processor === "markdown-to-pdf") {
@@ -161,12 +203,12 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
     const extension = tool.download ?? "txt";
     saveBlob(new Blob([content], { type: extension === "html" ? "text/html" : "text/plain" }), `${tool.slug}.${extension}`);
     track("tool_action", { tool: tool.slug, action: "download" });
-    flash("Downloaded");
+    flash(ui.downloaded);
   }
 
   async function createShare() {
-    if (!input) return flash("Paste some text first");
-    flash("Creating link…");
+    if (!input) return flash(ui.pasteFirst);
+    flash(ui.creatingLink);
     try {
       const response = await fetch("/api/share", {
         method: "POST",
@@ -174,12 +216,12 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
         body: JSON.stringify({ tool: tool.slug, input, settings: { locale, ...processSettings } }),
       });
       const data = (await response.json()) as { id?: string; error?: string };
-      if (!response.ok || !data.id) throw new Error(data.error ?? "Could not create link");
+      if (!response.ok || !data.id) throw new Error(data.error ?? ui.couldNotCreateLink);
       await navigator.clipboard.writeText(`${window.location.origin}/s/${data.id}`);
       track("tool_action", { tool: tool.slug, action: "share" });
       flash(ui.shareCopied);
     } catch (error) {
-      flash(error instanceof Error ? error.message : "Share unavailable");
+      flash(error instanceof Error ? error.message : ui.shareUnavailable);
     }
   }
 
@@ -199,7 +241,7 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
     anchor.href = url;
     anchor.click();
     track("tool_action", { tool: tool.slug, action: "report_image" });
-    flash("Report image downloaded");
+    flash(ui.reportImageDownloaded);
   }
 
   async function onPaste(event: React.ClipboardEvent<HTMLTextAreaElement>) {
@@ -221,30 +263,30 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
   return (
     <section className="workspace" aria-label={`${tool.name} tool`}>
       {(processor === "case-converter" || processor === "remove-em-dashes") && (
-        <div className="tool-options" aria-label="Conversion options">
+        <div className="tool-options" aria-label={ui.conversionOptions}>
           {processor === "case-converter" && (
-            <label>Case
+            <label>{ui.caseLabel}
               <select value={caseMode} onChange={(event) => setCaseMode(event.target.value as NonNullable<ProcessSettings["caseMode"]>)}>
-                <option value="title">Title Case</option>
-                <option value="sentence">Sentence case</option>
-                <option value="upper">UPPERCASE</option>
-                <option value="lower">lowercase</option>
+                <option value="title">{ui.caseTitle}</option>
+                <option value="sentence">{ui.caseSentence}</option>
+                <option value="upper">{ui.caseUpper}</option>
+                <option value="lower">{ui.caseLower}</option>
               </select>
             </label>
           )}
           {processor === "remove-em-dashes" && (
-            <label>Replace em dashes with
+            <label>{ui.dashLabel}
               <select value={dashReplacement} onChange={(event) => setDashReplacement(event.target.value as NonNullable<ProcessSettings["dashReplacement"]>)}>
-                <option value="comma">Comma</option>
-                <option value="semicolon">Semicolon</option>
-                <option value="hyphen">Hyphen</option>
-                <option value="remove">Nothing</option>
+                <option value="comma">{ui.dashComma}</option>
+                <option value="semicolon">{ui.dashSemicolon}</option>
+                <option value="hyphen">{ui.dashHyphen}</option>
+                <option value="remove">{ui.dashRemove}</option>
               </select>
             </label>
           )}
         </div>
       )}
-      <div className="mobile-tabs" role="tablist" aria-label="Editor view">
+      <div className="mobile-tabs" role="tablist" aria-label={ui.editorView}>
         <button className={mobileTab === "input" ? "active" : ""} onClick={() => setMobileTab("input")} role="tab">{ui.input}</button>
         <button className={mobileTab === "output" ? "active" : ""} onClick={() => setMobileTab("output")} role="tab">{labels?.output ?? "Output"}</button>
       </div>
@@ -276,12 +318,12 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
           <div className="stat-grid">
             {result.stats.map((stat) => <div className="stat" key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
           </div>
-          {processor === "clean-ai-text" && <p className="report-note">Counts mechanical artifacts only. This is not AI detection.</p>}
+          {processor === "clean-ai-text" && <p className="report-note">{ui.reportNote}</p>}
         </div>
       )}
       <div className="action-row">
         <button className="primary-action" onClick={copyOutput} disabled={!result.output}>{ui.copy}</button>
-        <button onClick={download} disabled={!result.output && !result.html}>{processor === "markdown-to-pdf" && locale === "en" ? "Print / Save PDF" : ui.download}</button>
+        <button onClick={download} disabled={!result.output && !result.html}>{processor === "markdown-to-pdf" ? ui.printPdf : ui.download}</button>
         <button onClick={createShare} disabled={!input}>{ui.share}</button>
         <button onClick={copyEmbed}>{ui.embed}</button>
         {tool.report && <button onClick={downloadImage} disabled={!result.stats.length}>{ui.downloadImage}</button>}
