@@ -35,7 +35,7 @@ describe("SEO metadata inventory", () => {
       "https://fixmyformatting.com/about",
       "https://fixmyformatting.com/privacy",
     ];
-    expect(urls).toHaveLength(200);
+    expect(urls).toHaveLength(340);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls.every((url) => url.startsWith("https://fixmyformatting.com"))).toBe(true);
   });
@@ -120,7 +120,8 @@ describe("localized SEO inventory", () => {
       }
     }
     // A tool no locale translates must not advertise any locale alternate.
-    const untranslated = languageAlternates("case-converter");
+    // Brand variants are not translated yet (stage 4).
+    const untranslated = languageAlternates("chatgpt-to-word");
     expect(Object.keys(untranslated).sort()).toEqual(["en", "x-default"]);
   });
 
