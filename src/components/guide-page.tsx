@@ -1,0 +1,114 @@
+import type { GuideDefinition } from "@/lib/guides";
+import { guidePath, relatedGuidesFor } from "@/lib/guides";
+import { renderGuideMarkdown } from "@/lib/guide-markdown";
+import type { ToolDefinition } from "@/lib/tools";
+import { getTool } from "@/lib/tools";
+import { breadcrumbSchema, faqSchema, organizationName, serializeSchema, siteUrl } from "@/lib/schema";
+import { SiteHeader } from "./site-header";
+import { SiteFooter } from "./site-footer";
+import { GuideFigure } from "./guide-figures";
+
+export function GuidePage({ guide }: { guide: GuideDefinition }) {
+  const pageUrl = `${siteUrl}${guidePath(guide.slug)}`;
+  const tools = guide.relatedTools
+    .map((slug) => getTool(slug))
+    .filter((tool): tool is ToolDefinition => Boolean(tool));
+  const siblings = relatedGuidesFor(guide);
+  const publisher = { "@type": "Organization", name: organizationName, url: siteUrl };
+
+  const schemas = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: guide.h1,
+      description: guide.description,
+      datePublished: guide.published,
+      dateModified: guide.updated,
+      author: publisher,
+      publisher,
+      mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
+      image: `${siteUrl}/api/guide-og/${guide.slug}`,
+      inLanguage: "en",
+    },
+    faqSchema(guide.faqs),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Guides", path: guidePath() },
+      { name: guide.h1, path: guidePath(guide.slug) },
+    ]),
+  ];
+
+  return (
+    <>
+      <SiteHeader />
+      <main className="tool-page guide-page">
+        <nav className="breadcrumbs" aria-label="Breadcrumb">
+          <a href="/">Home</a><span>/</span><a href={guidePath()}>Guides</a><span>/</span><span>{guide.h1}</span>
+        </nav>
+        <header className="tool-title">
+          <h1>{guide.h1}</h1>
+          <p>{guide.dek}</p>
+        </header>
+        <article className="tool-content guide-content">
+          <p className="guide-answer">{guide.answer}</p>
+          <nav className="guide-toc" aria-label="On this page">
+            <h2>On this page</h2>
+            <ol>
+              {guide.sections.map((section) => (
+                <li key={section.id}><a href={`#${section.id}`}>{section.heading}</a></li>
+              ))}
+            </ol>
+          </nav>
+          {guide.sections.map((section) => (
+            <section key={section.id} id={section.id}>
+              <h2>{section.heading}</h2>
+              <div dangerouslySetInnerHTML={{ __html: renderGuideMarkdown(section.body) }} />
+              {section.figure && <GuideFigure figure={section.figure} />}
+            </section>
+          ))}
+          <section>
+            <h2>Frequently asked questions</h2>
+            <div className="faq-list">
+              {guide.faqs.map((faq) => (
+                <details key={faq.question}>
+                  <summary>{faq.question}</summary>
+                  <p>{faq.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+          {tools.length > 0 && (
+            <section>
+              <h2>Tools mentioned in this guide</h2>
+              <div className="related-grid">
+                {tools.map((tool) => (
+                  <a href={`/${tool.slug}`} key={tool.slug}>
+                    <strong>{tool.name}</strong>
+                    <span>{tool.description}</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+          {siblings.length > 0 && (
+            <section>
+              <h2>Related guides</h2>
+              <div className="related-grid">
+                {siblings.map((sibling) => (
+                  <a href={guidePath(sibling.slug)} key={sibling.slug}>
+                    <strong>{sibling.h1}</strong>
+                    <span>{sibling.description}</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+        </article>
+        {schemas.map((schema, index) => (
+          <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeSchema(schema) }} />
+        ))}
+      </main>
+      <SiteFooter />
+    </>
+  );
+}

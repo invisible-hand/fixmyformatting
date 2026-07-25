@@ -3,6 +3,7 @@ import { allTools, coreTools, getProcessorSlug } from "@/lib/tools";
 import { localizedPath, localizedToolSlugs, localizeTool, messages } from "@/lib/i18n";
 import type { LocaleCode, SiteLocale } from "@/lib/i18n";
 import type { ProcessSettings } from "@/lib/processors";
+import { guidePath, guidesForTool } from "@/lib/guides";
 import { SiteHeader } from "./site-header";
 import { SiteFooter } from "./site-footer";
 import { ToolWorkspace } from "./tool-workspace";
@@ -39,6 +40,8 @@ export function ToolPage({
   const related = locale === "en"
     ? [...processorSiblings, ...categorySiblings.filter((candidate) => !processorSiblings.some((sibling) => sibling.slug === candidate.slug))].slice(0, 6)
     : localizedRelated.filter((candidate) => candidate.category === tool.category && candidate.slug !== tool.slug).slice(0, 6);
+  // Brand variants (chatgpt-to-word) inherit the guides of their core processor.
+  const toolGuides = locale === "en" ? guidesForTool(processorSlug) : [];
   const publicPath = localizedPath(locale, tool.slug);
   const pageUrl = `${siteUrl}${publicPath}`;
   const workspaceLabels = localized ? {
@@ -148,6 +151,19 @@ export function ToolPage({
               ))}
             </div>
           </section>
+          {toolGuides.length > 0 && (
+            <section>
+              <h2>Guides</h2>
+              <div className="related-grid">
+                {toolGuides.map((guide) => (
+                  <a href={guidePath(guide.slug)} key={guide.slug}>
+                    <strong>{guide.h1}</strong>
+                    <span>{guide.description}</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
         </article>
         {schemas.map((schema, index) => (
           <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }} />

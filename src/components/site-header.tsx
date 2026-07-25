@@ -13,7 +13,8 @@ export function SiteHeader({ compact = false, locale = "en", currentPath = "" }:
       {!compact && (
         <nav aria-label="Primary navigation">
           <a href={`${localizedPath(locale)}#tools`}>{localized?.allTools ?? "All tools"}</a>
-          {locale === "en" && <a href="/about">About</a>}
+          {locale === "en" && <a href="/guides">Guides</a>}
+          {locale === "en" && <a className="nav-secondary" href="/about">About</a>}
           <details className="language-menu">
             <summary>{locale === "en" ? "English" : messages[locale].languageName}</summary>
             <div>

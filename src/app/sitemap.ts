@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { allTools } from "@/lib/tools";
+import { allGuides } from "@/lib/guides";
 import { isLocalizedToolSlug, languageAlternates, localeCodes, localizedPath, localizedToolSlugs } from "@/lib/i18n";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -26,6 +27,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         alternates: { languages: languageAlternates(slug) },
       })),
     ]),
+    { url: `${base}/guides`, changeFrequency: "weekly", priority: 0.7 },
+    ...allGuides.map((guide) => ({
+      url: `${base}/guides/${guide.slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+      lastModified: guide.updated,
+    })),
     { url: `${base}/about`, changeFrequency: "yearly", priority: 0.3 },
     { url: `${base}/privacy`, changeFrequency: "yearly", priority: 0.3 },
   ];

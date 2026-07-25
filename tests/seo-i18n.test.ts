@@ -7,7 +7,8 @@ import {
   localizeTool,
   messages,
 } from "../src/lib/i18n";
-import { allTools } from "../src/lib/tools";
+import { allTools, getTool } from "../src/lib/tools";
+import { allGuides, getGuide } from "../src/lib/guides";
 
 describe("SEO metadata inventory", () => {
   it("keeps every English tool title and description within search limits", () => {
@@ -30,10 +31,12 @@ describe("SEO metadata inventory", () => {
         `https://fixmyformatting.com/${locale}`,
         ...localizedToolSlugs.map((slug) => `https://fixmyformatting.com/${locale}/${slug}`),
       ]),
+      "https://fixmyformatting.com/guides",
+      ...allGuides.map((guide) => `https://fixmyformatting.com/guides/${guide.slug}`),
       "https://fixmyformatting.com/about",
       "https://fixmyformatting.com/privacy",
     ];
-    expect(urls).toHaveLength(189);
+    expect(urls).toHaveLength(200);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls.every((url) => url.startsWith("https://fixmyformatting.com"))).toBe(true);
   });
@@ -63,6 +66,35 @@ describe("localized SEO inventory", () => {
     expect(alternates.en).toBe("https://fixmyformatting.com/markdown-to-word");
     expect(alternates.es).toBe("https://fixmyformatting.com/es/markdown-to-word");
     expect(alternates["x-default"]).toBe(alternates.en);
+  });
+
+  it("keeps guide metadata within search limits and unique", () => {
+    for (const guide of allGuides) {
+      expect(guide.title.length, `${guide.slug} title`).toBeLessThanOrEqual(60);
+      expect(guide.description.length, `${guide.slug} description`).toBeLessThanOrEqual(155);
+      expect(guide.h1.length).toBeGreaterThan(10);
+      expect(guide.answer.length).toBeGreaterThan(120);
+      expect(guide.sections.length).toBeGreaterThanOrEqual(3);
+      expect(guide.faqs.length).toBeGreaterThanOrEqual(3);
+      expect(guide.relatedTools.length).toBeGreaterThan(0);
+    }
+    expect(new Set(allGuides.map((guide) => guide.slug)).size).toBe(allGuides.length);
+    expect(new Set(allGuides.map((guide) => guide.title)).size).toBe(allGuides.length);
+    expect(new Set(allGuides.map((guide) => guide.description)).size).toBe(allGuides.length);
+  });
+
+  it("resolves every guide cross-reference", () => {
+    for (const guide of allGuides) {
+      for (const slug of guide.relatedTools) {
+        expect(getTool(slug), `${guide.slug} → tool ${slug}`).toBeDefined();
+      }
+      for (const slug of guide.relatedGuides) {
+        expect(getGuide(slug), `${guide.slug} → guide ${slug}`).toBeDefined();
+        expect(slug, `${guide.slug} links to itself`).not.toBe(guide.slug);
+      }
+      const ids = guide.sections.map((section) => section.id);
+      expect(new Set(ids).size, `${guide.slug} section ids`).toBe(ids.length);
+    }
   });
 
   it("keeps public locale paths clean and prefix-based", () => {
