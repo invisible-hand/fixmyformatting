@@ -85,7 +85,7 @@ export const coreTools: ToolDefinition[] = [
 export const brands = ["chatgpt", "claude", "gemini", "copilot", "perplexity", "deepseek"] as const;
 export const brandActions = ["to-word", "to-pdf", "to-google-docs", "table-to-excel", "remove-formatting"] as const;
 
-const brandNames: Record<(typeof brands)[number], string> = {
+export const brandNames: Record<(typeof brands)[number], string> = {
   chatgpt: "ChatGPT",
   claude: "Claude",
   gemini: "Gemini",
@@ -94,7 +94,7 @@ const brandNames: Record<(typeof brands)[number], string> = {
   deepseek: "DeepSeek",
 };
 
-const actionSource: Record<(typeof brandActions)[number], string> = {
+export const actionSource: Record<(typeof brandActions)[number], string> = {
   "to-word": "markdown-to-word",
   "to-pdf": "markdown-to-pdf",
   "to-google-docs": "markdown-to-google-docs",

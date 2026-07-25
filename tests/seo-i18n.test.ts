@@ -35,7 +35,7 @@ describe("SEO metadata inventory", () => {
       "https://fixmyformatting.com/about",
       "https://fixmyformatting.com/privacy",
     ];
-    expect(urls).toHaveLength(340);
+    expect(urls).toHaveLength(640);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls.every((url) => url.startsWith("https://fixmyformatting.com"))).toBe(true);
   });
@@ -119,9 +119,8 @@ describe("localized SEO inventory", () => {
         expect(alternates[locale], `${slug} missing ${locale}`).toBe(`https://fixmyformatting.com/${locale}/${slug}`);
       }
     }
-    // A tool no locale translates must not advertise any locale alternate.
-    // Brand variants are not translated yet (stage 4).
-    const untranslated = languageAlternates("chatgpt-to-word");
+    // Guides are not localized yet (stage 8), so they must advertise English only.
+    const untranslated = languageAlternates("guides");
     expect(Object.keys(untranslated).sort()).toEqual(["en", "x-default"]);
   });
 

@@ -72,9 +72,28 @@ export type ToolCopy = {
   faqs?: Faq[];
 };
 
+/**
+ * Templates for the 30 generated brand tools (chatgpt-to-word, ...). Strings
+ * use {brand} and {name}; word order therefore stays natural per language
+ * rather than being concatenated English-style.
+ */
+export type BrandCopy = {
+  /** e.g. "{brand} to Word" / "{brand}をWordに変換" */
+  actionName: Record<string, string>;
+  actionTitle: Record<string, string>;
+  /** Why this brand's output needs conversion. */
+  reasons: Record<string, string>;
+  actionDescription: Record<string, string>;
+  actionGuidance: Record<string, string>;
+  /** Exactly three, using {name} and {brand}. */
+  faqs: Faq[];
+};
+
 export type LocaleBundle = {
   code: SiteLocale;
   ui: UiMessages;
   /** Coverage: only the slugs present are served in this locale. */
   tools: Partial<Record<string, ToolCopy>>;
+  /** Presence unlocks all 30 brand tools for this locale. */
+  brand?: BrandCopy;
 };

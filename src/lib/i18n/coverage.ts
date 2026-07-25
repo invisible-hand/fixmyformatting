@@ -1,6 +1,7 @@
 import { localeCodes, localizedPath } from "./locales";
 import type { LocaleCode, SiteLocale } from "./locales";
 import { bundles } from "./bundles";
+import { brandTools, getProcessorSlug } from "../tools";
 
 export const siteUrl = "https://fixmyformatting.com";
 
@@ -11,18 +12,27 @@ export const siteUrl = "https://fixmyformatting.com";
  * from these functions rather than from a shared constant.
  */
 export function toolSlugsForLocale(locale: LocaleCode): string[] {
-  return Object.keys(bundles[locale].tools);
+  const core = Object.keys(bundles[locale].tools);
+  if (!bundles[locale].brand) return core;
+  // Brand templates unlock every generated variant whose core tool is covered.
+  const branded = brandTools
+    .filter((tool) => core.includes(getProcessorSlug(tool.slug)))
+    .map((tool) => tool.slug);
+  return [...core, ...branded];
+}
+
+export function isToolLocalized(slug: string, locale: LocaleCode) {
+  if (bundles[locale].tools[slug]) return true;
+  if (!bundles[locale].brand) return false;
+  const source = getProcessorSlug(slug);
+  return source !== slug && Boolean(bundles[locale].tools[source]);
 }
 
 /** Locales that serve a given public path ("" is the home page). */
 export function localesForPath(path = ""): LocaleCode[] {
   const slug = path.replace(/^\/+/, "");
   if (!slug) return [...localeCodes];
-  return localeCodes.filter((locale) => Boolean(bundles[locale].tools[slug]));
-}
-
-export function isToolLocalized(slug: string, locale: LocaleCode) {
-  return Boolean(bundles[locale].tools[slug]);
+  return localeCodes.filter((locale) => isToolLocalized(slug, locale));
 }
 
 /** True when at least one locale serves this slug. */
