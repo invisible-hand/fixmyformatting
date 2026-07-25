@@ -47,7 +47,7 @@ export const pages: PageCopy = {
   },
   "guidesIndex": {
     "metaTitle": "Guides — Corriger la mise en forme des textes IA",
-    "description": "Des guides en langage clair sur les tirets cadratins, les caractères invisibles, les symboles Markdown et les autres bizarreries des textes générés par une IA.",
+    "description": "Des guides clairs sur les tirets cadratins, les caractères invisibles, les symboles Markdown et les autres bizarreries des textes générés par IA.",
     "h1": "Guides",
     "dek": "Pourquoi les textes IA arrivent mal formatés, et comment les corriger. Chaque guide se termine par un outil qui fait le travail en un clic.",
     "clusters": {

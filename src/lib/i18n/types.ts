@@ -138,6 +138,39 @@ export type PageCopy = {
   guidesIndex: { metaTitle: string; description: string; h1: string; dek: string; clusters: Record<string, string> };
 };
 
+/**
+ * Prose only. Slug, cluster, dates, relatedTools, relatedGuides, section order,
+ * section ids and figure keys all come from the English GuideDefinition, so a
+ * translation cannot drift structurally. Sections are keyed by the English
+ * section id rather than being an array, which keeps anchors ASCII and stable
+ * and makes a missing section a type error instead of a broken table of contents.
+ */
+export type GuideTranslation = {
+  title: string;
+  description: string;
+  h1: string;
+  dek: string;
+  answer: string;
+  sections: Record<string, { heading: string; body: string }>;
+  faqs: Faq[];
+};
+
+/**
+ * Text in and around the guide diagrams. Monospace specimens inside the
+ * figures are deliberately absent — they are the English Markdown, JSON and
+ * AI-tell exhibits being demonstrated, and translating them would defeat the
+ * figure and break its alignment.
+ */
+export type FigureText = {
+  caption: string;
+  /** Rendered as HTML paragraphs under the SVG, so they wrap at any length. */
+  notes: string[];
+  /** Short in-box labels, keyed per figure. */
+  labels: Record<string, string>;
+};
+
+export type FigureCopy = Record<string, FigureText>;
+
 export type LocaleBundle = {
   code: SiteLocale;
   ui: UiMessages;
@@ -145,8 +178,11 @@ export type LocaleBundle = {
   workspace: WorkspaceMessages;
   guideChrome: GuideChrome;
   stats: StatTranslations;
+  figures: FigureCopy;
   /** Coverage: only the slugs present are served in this locale. */
   tools: Partial<Record<string, ToolCopy>>;
   /** Presence unlocks all 30 brand tools for this locale. */
   brand?: BrandCopy;
+  /** Coverage: only the guide slugs present are served in this locale. */
+  guides?: Partial<Record<string, GuideTranslation>>;
 };

@@ -1,18 +1,26 @@
 import type { ReactNode } from "react";
 import type { GuideFigureKey } from "@/lib/guides";
+import type { FigureCopy, FigureText } from "@/lib/i18n/types";
 
 /**
  * Static inline SVG. No client JS, no raster assets, and every colour comes
  * from the theme tokens in globals.css so the figures follow the OS dark mode.
  */
 
-function Frame({ caption, height, children }: { caption: string; height: number; children: ReactNode }) {
+/**
+ * Figures never mirror. Each depicts a left-to-right transformation of Latin
+ * Markdown, JSON or code samples that stay English, so flipping the layout for
+ * Arabic would put the source on the right with the arrow pointing back into
+ * it. Translated prose lives outside the SVG and mirrors for free.
+ */
+function Frame({ text, height, children }: { text: FigureText; height: number; children: ReactNode }) {
   return (
     <figure className="guide-figure">
-      <svg viewBox={`0 0 720 ${height}`} role="img" aria-label={caption} xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox={`0 0 720 ${height}`} role="img" aria-label={text.caption} xmlns="http://www.w3.org/2000/svg">
         {children}
       </svg>
-      <figcaption>{caption}</figcaption>
+      <figcaption>{text.caption}</figcaption>
+      {text.notes.map((note) => <p className="fig-note-block" key={note}>{note}</p>)}
     </figure>
   );
 }
@@ -30,10 +38,10 @@ function ArrowRight({ x, y }: { x: number; y: number }) {
   return <path d={`M${x} ${y} h26 m-8 -7 l8 7 l-8 7`} className="fig-arrow" fill="none" />;
 }
 
-function EmDashBeforeAfter() {
+function EmDashBeforeAfter({ t }: { t: FigureText }) {
   return (
-    <Frame caption="An em dash pattern typical of AI drafts, and the same sentence rewritten with commas." height={228}>
-      <text x={0} y={14} className="fig-eyebrow">AI DRAFT</text>
+    <Frame text={t} height={228}>
+      <text x={0} y={14} className="fig-eyebrow">{t.labels.before}</text>
       <Panel x={0} y={26} width={720} height={62} />
       <text x={20} y={64} className="fig-mono">
         The results
@@ -43,7 +51,7 @@ function EmDashBeforeAfter() {
         were clear.
       </text>
       <ArrowDown x={360} y={100} />
-      <text x={0} y={158} className="fig-eyebrow">AFTER CLEANUP</text>
+      <text x={0} y={158} className="fig-eyebrow">{t.labels.after}</text>
       <Panel x={0} y={170} width={720} height={58} tone="accent" />
       <text x={20} y={206} className="fig-mono">
         The results
@@ -56,7 +64,7 @@ function EmDashBeforeAfter() {
   );
 }
 
-function AiTellsPanel() {
+function AiTellsPanel({ t }: { t: FigureText }) {
   const tells = [
     { n: 1, y: 62, text: "Delve into the multifaceted landscape" },
     { n: 2, y: 104, text: "It's not just X — it's Y" },
@@ -64,8 +72,8 @@ function AiTellsPanel() {
     { n: 4, y: 188, text: "✅ Emoji-headed bullet lists" },
   ];
   return (
-    <Frame caption="Four mechanical patterns that commonly survive a copy-paste from an AI chat." height={226}>
-      <text x={0} y={14} className="fig-eyebrow">COMMON TELLS</text>
+    <Frame text={t} height={226}>
+      <text x={0} y={14} className="fig-eyebrow">{t.labels.eyebrow}</text>
       {tells.map((tell) => (
         <g key={tell.n}>
           <Panel x={0} y={tell.y - 30} width={720} height={36} tone="alt" />
@@ -78,14 +86,14 @@ function AiTellsPanel() {
   );
 }
 
-function HiddenCharacters() {
+function HiddenCharacters({ t }: { t: FigureText }) {
   return (
-    <Frame caption="A zero-width space is invisible on screen but still present in the underlying text." height={210}>
-      <text x={0} y={14} className="fig-eyebrow">WHAT YOU SEE</text>
+    <Frame text={t} height={210}>
+      <text x={0} y={14} className="fig-eyebrow">{t.labels.before}</text>
       <Panel x={0} y={26} width={720} height={58} />
       <text x={20} y={62} className="fig-mono">quarterly report</text>
       <ArrowDown x={360} y={96} />
-      <text x={0} y={148} className="fig-eyebrow">WHAT IS ACTUALLY STORED</text>
+      <text x={0} y={148} className="fig-eyebrow">{t.labels.after}</text>
       <Panel x={0} y={160} width={720} height={50} tone="alt" />
       <text x={20} y={191} className="fig-mono">
         quarterly
@@ -96,17 +104,17 @@ function HiddenCharacters() {
   );
 }
 
-function MarkdownInWord() {
+function MarkdownInWord({ t }: { t: FigureText }) {
   return (
-    <Frame caption="The same response pasted as raw Markdown, and converted so the structure survives." height={250}>
-      <text x={0} y={14} className="fig-eyebrow">PASTED AS PLAIN TEXT</text>
+    <Frame text={t} height={176}>
+      <text x={0} y={14} className="fig-eyebrow">{t.labels.before}</text>
       <Panel x={0} y={26} width={344} height={140} />
       <text x={18} y={58} className="fig-mono fig-small"><tspan className="fig-mark">## </tspan>Quarterly summary</text>
       <text x={18} y={86} className="fig-mono fig-small"><tspan className="fig-mark">**</tspan>Revenue<tspan className="fig-mark">**</tspan> rose 12%.</text>
       <text x={18} y={114} className="fig-mono fig-small"><tspan className="fig-mark">- </tspan>Europe led growth</text>
       <text x={18} y={142} className="fig-mono fig-small"><tspan className="fig-mark">- </tspan>Asia held flat</text>
       <ArrowRight x={356} y={96} />
-      <text x={412} y={14} className="fig-eyebrow">CONVERTED</text>
+      <text x={412} y={14} className="fig-eyebrow">{t.labels.after}</text>
       <Panel x={412} y={26} width={308} height={140} tone="accent" />
       <text x={430} y={60} className="fig-heading">Quarterly summary</text>
       <text x={430} y={88} className="fig-body"><tspan className="fig-bold">Revenue</tspan> rose 12%.</text>
@@ -114,28 +122,26 @@ function MarkdownInWord() {
       <text x={448} y={114} className="fig-body">Europe led growth</text>
       <circle cx={436} cy={134} r={3} className="fig-bullet" />
       <text x={448} y={138} className="fig-body">Asia held flat</text>
-      <text x={0} y={200} className="fig-note">Word has no Markdown parser, so the symbols are treated as ordinary characters.</text>
-      <text x={0} y={226} className="fig-note">Converting first turns them into real headings, bold runs, and list items.</text>
     </Frame>
   );
 }
 
-function TableToGrid() {
+function TableToGrid({ t }: { t: FigureText }) {
   const rows = [
     ["Region", "Q1", "Q2"],
     ["Europe", "412", "486"],
     ["Asia", "377", "381"],
   ];
   return (
-    <Frame caption="A pipe table is plain text until it is parsed into real spreadsheet cells." height={232}>
-      <text x={0} y={14} className="fig-eyebrow">MARKDOWN</text>
+    <Frame text={t} height={166}>
+      <text x={0} y={14} className="fig-eyebrow">{t.labels.before}</text>
       <Panel x={0} y={26} width={330} height={132} />
       <text x={16} y={54} className="fig-mono fig-small">| Region | Q1 | Q2 |</text>
       <text x={16} y={78} className="fig-mono fig-small fig-dim">| --- | ---: | ---: |</text>
       <text x={16} y={102} className="fig-mono fig-small">| Europe | 412 | 486 |</text>
       <text x={16} y={126} className="fig-mono fig-small">| Asia | 377 | 381 |</text>
       <ArrowRight x={344} y={92} />
-      <text x={400} y={14} className="fig-eyebrow">SPREADSHEET</text>
+      <text x={400} y={14} className="fig-eyebrow">{t.labels.after}</text>
       {rows.map((row, rowIndex) =>
         row.map((cell, columnIndex) => {
           const x = 400 + columnIndex * 106;
@@ -148,40 +154,37 @@ function TableToGrid() {
           );
         }),
       )}
-      <text x={0} y={200} className="fig-note">Pasting the raw table drops every value into a single column.</text>
-      <text x={0} y={224} className="fig-note">Converting to XLSX or CSV keeps the rows and columns intact.</text>
     </Frame>
   );
 }
 
-function TranscriptToDoc() {
+function TranscriptToDoc({ t }: { t: FigureText }) {
   return (
-    <Frame caption="A copied chat transcript restructured into a document with labelled speakers." height={230}>
-      <text x={0} y={14} className="fig-eyebrow">COPIED TRANSCRIPT</text>
+    <Frame text={t} height={184}>
+      <text x={0} y={14} className="fig-eyebrow">{t.labels.before}</text>
       <Panel x={0} y={26} width={330} height={150} tone="alt" />
       <rect x={16} y={42} width={196} height={30} rx={9} className="fig-bubble-user" />
-      <text x={28} y={62} className="fig-body fig-small">Summarize this report</text>
+      <text x={28} y={62} className="fig-body fig-small">{t.labels.ask}</text>
       <rect x={60} y={82} width={254} height={30} rx={9} className="fig-bubble-ai" />
-      <text x={72} y={102} className="fig-body fig-small">Here is a concise summary…</text>
+      <text x={72} y={102} className="fig-body fig-small">{t.labels.reply}</text>
       <rect x={16} y={122} width={166} height={30} rx={9} className="fig-bubble-user" />
-      <text x={28} y={142} className="fig-body fig-small">Add the numbers</text>
+      <text x={28} y={142} className="fig-body fig-small">{t.labels.followUp}</text>
       <ArrowRight x={344} y={95} />
-      <text x={400} y={14} className="fig-eyebrow">DOCUMENT</text>
+      <text x={400} y={14} className="fig-eyebrow">{t.labels.after}</text>
       <Panel x={400} y={26} width={320} height={150} />
-      <text x={418} y={54} className="fig-heading fig-small">Conversation export</text>
-      <text x={418} y={82} className="fig-body fig-small fig-bold">You</text>
-      <text x={418} y={102} className="fig-body fig-small">Summarize this report</text>
-      <text x={418} y={130} className="fig-body fig-small fig-bold">Assistant</text>
-      <text x={418} y={150} className="fig-body fig-small">Here is a concise summary…</text>
-      <text x={0} y={212} className="fig-note">Speaker turns become headings, so the export stays readable outside the chat window.</text>
+      <text x={418} y={54} className="fig-heading fig-small">{t.labels.title}</text>
+      <text x={418} y={82} className="fig-body fig-small fig-bold">{t.labels.you}</text>
+      <text x={418} y={102} className="fig-body fig-small">{t.labels.ask}</text>
+      <text x={418} y={130} className="fig-body fig-small fig-bold">{t.labels.assistant}</text>
+      <text x={418} y={150} className="fig-body fig-small">{t.labels.reply}</text>
     </Frame>
   );
 }
 
-function SmartQuotesCode() {
+function SmartQuotesCode({ t }: { t: FigureText }) {
   return (
-    <Frame caption="Curly quotation marks are different characters from the straight quotes parsers expect." height={244}>
-      <text x={0} y={14} className="fig-eyebrow">PASTED FROM CHAT</text>
+    <Frame text={t} height={244}>
+      <text x={0} y={14} className="fig-eyebrow">{t.labels.before}</text>
       <Panel x={0} y={26} width={720} height={58} />
       <text x={20} y={62} className="fig-mono">
         {"{ "}
@@ -196,7 +199,7 @@ function SmartQuotesCode() {
       </text>
       <text x={0} y={110} className="fig-error">SyntaxError: Unexpected token &apos;“&apos;</text>
       <ArrowDown x={360} y={126} />
-      <text x={0} y={184} className="fig-eyebrow">AFTER NORMALIZING</text>
+      <text x={0} y={184} className="fig-eyebrow">{t.labels.after}</text>
       <Panel x={0} y={196} width={720} height={48} tone="accent" />
       <text x={20} y={226} className="fig-mono">
         {"{ "}
@@ -213,14 +216,14 @@ function SmartQuotesCode() {
   );
 }
 
-function DashRuler() {
+function DashRuler({ t }: { t: FigureText }) {
   const dashes = [
-    { glyph: "-", width: 26, name: "Hyphen", code: "U+002D", use: "Compound words: well-known" },
-    { glyph: "–", width: 52, name: "En dash", code: "U+2013", use: "Ranges: 2020–2024" },
-    { glyph: "—", width: 104, name: "Em dash", code: "U+2014", use: "Breaks in a sentence" },
+    { glyph: "-", width: 26, name: t.labels.hyphenName, code: "U+002D", use: t.labels.hyphenUse },
+    { glyph: "–", width: 52, name: t.labels.enName, code: "U+2013", use: t.labels.enUse },
+    { glyph: "—", width: 104, name: t.labels.emName, code: "U+2014", use: t.labels.emUse },
   ];
   return (
-    <Frame caption="Hyphen, en dash, and em dash at the same type size, with their standard uses." height={250}>
+    <Frame text={t} height={176}>
       {dashes.map((dash, index) => {
         const y = 24 + index * 74;
         return (
@@ -238,12 +241,12 @@ function DashRuler() {
   );
 }
 
-function TokenChunks() {
+function TokenChunks({ t }: { t: FigureText }) {
   const tokens = ["Un", "believ", "able", " results", " for", " the", " quarter"];
   let cursor = 0;
   return (
-    <Frame caption="Tokens are sub-word fragments, so character count and token count rarely match." height={198}>
-      <text x={0} y={14} className="fig-eyebrow">ONE SENTENCE, SEVEN TOKENS</text>
+    <Frame text={t} height={92}>
+      <text x={0} y={14} className="fig-eyebrow">{t.labels.eyebrow}</text>
       {tokens.map((token, index) => {
         const width = Math.max(52, token.length * 11 + 22);
         const x = cursor;
@@ -255,15 +258,11 @@ function TokenChunks() {
           </g>
         );
       })}
-      <text x={0} y={118} className="fig-note">37 characters · 7 tokens · roughly 5.3 characters per token</text>
-      <Panel x={0} y={134} width={720} height={64} tone="alt" />
-      <text x={20} y={162} className="fig-body">A rough English rule of thumb: 1 token ≈ 4 characters ≈ 0.75 words.</text>
-      <text x={20} y={186} className="fig-note">Code, non-English scripts, and rare words all use more tokens per character.</text>
     </Frame>
   );
 }
 
-const figures: Record<GuideFigureKey, () => ReactNode> = {
+const figures: Record<GuideFigureKey, (props: { t: FigureText }) => ReactNode> = {
   "dash-widths": EmDashBeforeAfter,
   "ai-tells-panel": AiTellsPanel,
   "hidden-characters": HiddenCharacters,
@@ -275,7 +274,8 @@ const figures: Record<GuideFigureKey, () => ReactNode> = {
   "token-chunks": TokenChunks,
 };
 
-export function GuideFigure({ figure }: { figure: GuideFigureKey }) {
+export function GuideFigure({ figure, copy }: { figure: GuideFigureKey; copy: FigureCopy }) {
   const Component = figures[figure];
-  return Component ? <Component /> : null;
+  const text = copy[figure];
+  return text ? <Component t={text} /> : null;
 }

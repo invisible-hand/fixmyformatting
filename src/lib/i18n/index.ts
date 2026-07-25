@@ -4,6 +4,8 @@ export type { Faq, LocaleBundle, ToolCopy, UiMessages } from "./types";
 export { interpolate } from "./format";
 export { bundles, messages } from "./bundles";
 export {
+  guideSlugsForLocale,
+  isGuideLocalized,
   isLocalizedToolSlug,
   isToolLocalized,
   languageAlternates,
@@ -12,4 +14,5 @@ export {
   staticPaths,
   toolSlugsForLocale,
 } from "./coverage";
-export { categoryLabel, localizeTool, uiFor } from "./resolve";
+export { categoryLabel, localizeGuide, localizeTool, uiFor } from "./resolve";
+export type { GuideTranslation } from "./types";

@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LocalizedHome } from "@/components/localized-home";
+import { GuidePage } from "@/components/guide-page";
+import { GuidesIndex } from "@/components/guides-index";
 import { StaticPage } from "@/components/static-page";
 import { ToolPage } from "@/components/tool-page";
 import {
   bundles,
   isLocale,
+  guideSlugsForLocale,
+  isGuideLocalized,
   isToolLocalized,
+  localizeGuide,
   languageAlternates,
   localizedPath,
   localizeTool,
@@ -14,6 +19,7 @@ import {
   uiFor,
 } from "@/lib/i18n";
 import type { LocaleCode } from "@/lib/i18n";
+import { getGuide } from "@/lib/guides";
 import { siteUrl } from "@/lib/schema";
 
 export const dynamicParams = false;
@@ -28,10 +34,13 @@ const isStaticPage = (value: string): value is StaticPageKey =>
 /** Next passes the parent segment's params through as plain (non-Promise) values. */
 export function generateStaticParams({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) return [];
+  const guides = guideSlugsForLocale(params.locale);
   return [
     { slug: [] },
     ...toolSlugsForLocale(params.locale).map((slug) => ({ slug: [slug] })),
     ...STATIC_PAGES.map((page) => ({ slug: [page] })),
+    ...(guides.length ? [{ slug: ["guides"] }] : []),
+    ...guides.map((slug) => ({ slug: ["guides", slug] })),
   ];
 }
 
@@ -40,8 +49,14 @@ function route(locale: LocaleCode, segments: string[]) {
   if (segments.length === 0) return { kind: "home" as const };
   if (segments.length === 1) {
     const [first] = segments;
+    if (first === "guides") {
+      return guideSlugsForLocale(locale).length ? { kind: "guides" as const } : null;
+    }
     if (isStaticPage(first)) return { kind: "static" as const, page: first };
     if (isToolLocalized(first, locale)) return { kind: "tool" as const, slug: first };
+  }
+  if (segments.length === 2 && segments[0] === "guides" && isGuideLocalized(segments[1], locale)) {
+    return { kind: "guide" as const, slug: segments[1] };
   }
   return null;
 }
@@ -75,6 +90,23 @@ export async function generateMetadata({
         images: [{ url: `${siteUrl}/api/site-og?locale=${locale}`, width: 1200, height: 630, alt: t.homeTitle }],
       },
       twitter: { card: "summary_large_image", images: [`${siteUrl}/api/site-og?locale=${locale}`] },
+    };
+  }
+
+  if (target.kind === "guides" || target.kind === "guide") {
+    const copy = target.kind === "guides"
+      ? bundles[locale].pages.guidesIndex
+      : localizeGuide(getGuide(target.slug)!, locale);
+    const isIndex = target.kind === "guides";
+    const image = isIndex ? `${siteUrl}/api/site-og?locale=${locale}` : `${siteUrl}/api/guide-og/${target.slug}?locale=${locale}`;
+    const title = isIndex ? (copy as { metaTitle: string }).metaTitle : (copy as { title: string }).title;
+    return {
+      title: { absolute: title },
+      description: copy.description,
+      alternates,
+      robots: { index: true, follow: true },
+      openGraph: { title, description: copy.description, url: canonical, type: isIndex ? "website" : "article", images: [{ url: image, width: 1200, height: 630 }] },
+      twitter: { card: "summary_large_image", title, description: copy.description, images: [image] },
     };
   }
 
@@ -130,6 +162,8 @@ export default async function LocalizedPage({
   if (!target) notFound();
 
   if (target.kind === "home") return <LocalizedHome locale={locale} />;
+  if (target.kind === "guides") return <GuidesIndex locale={locale} />;
+  if (target.kind === "guide") return <GuidePage guide={localizeGuide(getGuide(target.slug)!, locale)} locale={locale} />;
   if (target.kind === "static") {
     return <StaticPage copy={bundles[locale].pages[target.page]} path={target.page} locale={locale} />;
   }

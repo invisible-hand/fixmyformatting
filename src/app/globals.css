@@ -219,8 +219,12 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .guide-content kbd { padding: 2px 6px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; background: var(--surface); font-family: ui-monospace, monospace; font-size: 0.82em; }
 
 .guide-figure { margin: 26px 0; }
-.guide-figure svg { display: block; width: 100%; height: auto; }
+/* Figures depict a left-to-right transformation of Latin samples; they must
+   not mirror on Arabic pages. */
+.guide-figure svg { display: block; width: 100%; height: auto; direction: ltr; }
 .guide-figure figcaption { margin-top: 10px; color: var(--muted); font-size: 13px; }
+/* Figure prose lives outside the SVG so it wraps at any translated length. */
+.fig-note-block { margin: 8px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
 .fig-panel { fill: var(--surface); stroke: var(--line); }
 .fig-panel-alt { fill: var(--surface-2); stroke: none; }
 .fig-panel-accent { fill: var(--accent-soft); stroke: none; }

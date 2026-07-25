@@ -3,7 +3,9 @@ import {
   languageAlternates,
   localeCodes,
   localizedPath,
+  localizeGuide,
   localizeTool,
+  guideSlugsForLocale,
   toolSlugsForLocale,
 } from "../src/lib/i18n";
 import { allTools, coreTools, getTool } from "../src/lib/tools";
@@ -126,8 +128,8 @@ describe("localized SEO inventory", () => {
         expect(alternates[locale], `${slug} missing ${locale}`).toBe(`https://fixmyformatting.com/${locale}/${slug}`);
       }
     }
-    // Guides are not localized yet (stage 8), so they must advertise English only.
-    const untranslated = languageAlternates("guides");
+    // A path no locale serves must advertise English only, never a 404.
+    const untranslated = languageAlternates("guides/not-a-real-guide");
     expect(Object.keys(untranslated).sort()).toEqual(["en", "x-default"]);
   });
 
@@ -151,6 +153,23 @@ describe("localized SEO inventory", () => {
     for (const locale of localeCodes) {
       for (const label of statLabelKeys) {
         expect(bundles[locale].stats.labels[label], `${locale} missing stat label ${label}`).toBeTruthy();
+      }
+    }
+  });
+
+  it("keeps every guide translation structurally identical to English", () => {
+    for (const locale of localeCodes) {
+      for (const slug of guideSlugsForLocale(locale)) {
+        const english = getGuide(slug);
+        expect(english, `${locale} translates unknown guide ${slug}`).toBeDefined();
+        const localized = localizeGuide(english!, locale);
+        // Anchor ids and their order come from English, so the table of
+        // contents and every #fragment link stay valid in every locale.
+        expect(localized.sections.map((s) => s.id)).toEqual(english!.sections.map((s) => s.id));
+        expect(localized.sections.every((s) => s.heading.trim() && s.body.trim())).toBe(true);
+        expect(localized.faqs.length).toBe(english!.faqs.length);
+        expect(localized.title.length, `${locale}/${slug} title`).toBeLessThanOrEqual(60);
+        expect(localized.description.length, `${locale}/${slug} description`).toBeLessThanOrEqual(155);
       }
     }
   });

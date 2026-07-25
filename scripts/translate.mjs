@@ -42,6 +42,14 @@ export const languageNames = {
   ar: "Modern Standard Arabic",
 };
 
+/**
+ * scripts/check-budgets.mjs measures the escaped <title> and description, so an
+ * ampersand costs 5 characters, not 1. Measure the same way or a string that
+ * passes here fails the build.
+ */
+export const renderedLength = (value) =>
+  value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").length;
+
 /** CJK is far denser per character, so SERP budgets differ by script. */
 export const titleLimit = (locale) => (["ja", "ko", "zh"].includes(locale) ? 34 : 60);
 export const descriptionLimit = (locale) => (["ja", "ko", "zh"].includes(locale) ? 90 : 155);
@@ -91,11 +99,11 @@ export function validateToolCopy(locale, slug, copy, english) {
   for (const key of need) if (!copy?.[key]) problems.push(`${slug}: missing ${key}`);
   if (problems.length) return problems;
 
-  if (copy.title.length > titleLimit(locale)) {
-    problems.push(`${slug}: title ${copy.title.length} chars exceeds ${titleLimit(locale)}`);
+  if (renderedLength(copy.title) > titleLimit(locale)) {
+    problems.push(`${slug}: title ${renderedLength(copy.title)} rendered chars exceeds ${titleLimit(locale)}`);
   }
-  if (copy.description.length > descriptionLimit(locale)) {
-    problems.push(`${slug}: description ${copy.description.length} exceeds ${descriptionLimit(locale)}`);
+  if (renderedLength(copy.description) > descriptionLimit(locale)) {
+    problems.push(`${slug}: description ${renderedLength(copy.description)} exceeds ${descriptionLimit(locale)}`);
   }
   if (copy.intro.length <= copy.description.length) {
     problems.push(`${slug}: intro must be longer than description`);

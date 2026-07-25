@@ -1,3 +1,4 @@
+import type { GuideDefinition } from "../guides";
 import type { ToolDefinition } from "../tools";
 import { actionSource, brandNames, brands, getTool } from "../tools";
 import type { LocaleCode } from "./locales";
@@ -7,6 +8,29 @@ import { interpolate } from "./format";
 
 export function uiFor(locale: LocaleCode): UiMessages {
   return bundles[locale].ui;
+}
+
+/**
+ * Merges translated prose onto the English GuideDefinition. Section order, ids
+ * and figure keys come from English, so anchors and the table of contents stay
+ * in sync across every locale.
+ */
+export function localizeGuide(guide: GuideDefinition, locale: LocaleCode): GuideDefinition {
+  const copy = bundles[locale].guides?.[guide.slug];
+  if (!copy) throw new Error(`Guide ${guide.slug} is not translated for ${locale}`);
+  return {
+    ...guide,
+    title: copy.title,
+    description: copy.description,
+    h1: copy.h1,
+    dek: copy.dek,
+    answer: copy.answer,
+    sections: guide.sections.map((section) => {
+      const translated = copy.sections[section.id];
+      return translated ? { ...section, heading: translated.heading, body: translated.body } : section;
+    }),
+    faqs: copy.faqs,
+  };
 }
 
 export function categoryLabel(category: ToolDefinition["category"], ui: UiMessages) {

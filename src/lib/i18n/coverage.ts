@@ -31,11 +31,24 @@ export function isToolLocalized(slug: string, locale: LocaleCode) {
 /** Pages every locale serves, independent of tool coverage. */
 export const staticPaths = ["about", "privacy"] as const;
 
+export function guideSlugsForLocale(locale: LocaleCode): string[] {
+  return Object.keys(bundles[locale].guides ?? {});
+}
+
+export function isGuideLocalized(slug: string, locale: LocaleCode) {
+  return Boolean(bundles[locale].guides?.[slug]);
+}
+
 /** Locales that serve a given public path ("" is the home page). */
 export function localesForPath(path = ""): LocaleCode[] {
   const slug = path.replace(/^\/+/, "");
   if (!slug) return [...localeCodes];
   if ((staticPaths as readonly string[]).includes(slug)) return [...localeCodes];
+  if (slug === "guides") return localeCodes.filter((locale) => guideSlugsForLocale(locale).length > 0);
+  if (slug.startsWith("guides/")) {
+    const guide = slug.slice("guides/".length);
+    return localeCodes.filter((locale) => isGuideLocalized(guide, locale));
+  }
   return localeCodes.filter((locale) => isToolLocalized(slug, locale));
 }
 
