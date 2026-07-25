@@ -3,9 +3,8 @@ import {
   languageAlternates,
   localeCodes,
   localizedPath,
-  localizedToolSlugs,
   localizeTool,
-  messages,
+  toolSlugsForLocale,
 } from "../src/lib/i18n";
 import { allTools, getTool } from "../src/lib/tools";
 import { allGuides, getGuide } from "../src/lib/guides";
@@ -29,7 +28,7 @@ describe("SEO metadata inventory", () => {
       ...allTools.map((tool) => `https://fixmyformatting.com/${tool.slug}`),
       ...localeCodes.flatMap((locale) => [
         `https://fixmyformatting.com/${locale}`,
-        ...localizedToolSlugs.map((slug) => `https://fixmyformatting.com/${locale}/${slug}`),
+        ...toolSlugsForLocale(locale).map((slug) => `https://fixmyformatting.com/${locale}/${slug}`),
       ]),
       "https://fixmyformatting.com/guides",
       ...allGuides.map((guide) => `https://fixmyformatting.com/guides/${guide.slug}`),
@@ -45,11 +44,11 @@ describe("SEO metadata inventory", () => {
 describe("localized SEO inventory", () => {
   it("fully translates every selected tool in every locale", () => {
     for (const locale of localeCodes) {
-      expect(Object.keys(messages[locale].tools).sort()).toEqual([...localizedToolSlugs].sort());
-      const localizedTools = localizedToolSlugs.map((slug) => localizeTool(slug, locale));
+      const slugs = toolSlugsForLocale(locale);
+      const localizedTools = slugs.map((slug) => localizeTool(slug, locale));
       expect(new Set(localizedTools.map((tool) => tool.title)).size).toBe(localizedTools.length);
       expect(new Set(localizedTools.map((tool) => tool.description)).size).toBe(localizedTools.length);
-      for (const slug of localizedToolSlugs) {
+      for (const slug of slugs) {
         const tool = localizeTool(slug, locale);
         expect(tool.name.length).toBeGreaterThan(3);
         expect(tool.title.length).toBeLessThanOrEqual(60);
@@ -94,6 +93,41 @@ describe("localized SEO inventory", () => {
       }
       const ids = guide.sections.map((section) => section.id);
       expect(new Set(ids).size, `${guide.slug} section ids`).toBe(ids.length);
+    }
+  });
+
+  // These URLs are indexed. A refactor must never silently un-publish one.
+  const launchedToolSlugs = [
+    "markdown-to-word", "markdown-to-pdf", "markdown-to-google-docs", "remove-markdown-formatting",
+    "markdown-table-to-excel", "markdown-table-to-csv", "markdown-viewer", "markdown-to-html",
+    "word-to-markdown", "remove-em-dashes", "clean-ai-text", "remove-invisible-characters",
+  ];
+
+  it("never drops a tool slug that is already published in a locale", () => {
+    for (const locale of localeCodes) {
+      const covered = new Set(toolSlugsForLocale(locale));
+      for (const slug of launchedToolSlugs) {
+        expect(covered.has(slug), `${locale} lost ${slug}`).toBe(true);
+      }
+    }
+  });
+
+  it("advertises only locales that actually serve the path", () => {
+    for (const slug of launchedToolSlugs) {
+      const alternates = languageAlternates(slug);
+      for (const locale of localeCodes) {
+        expect(alternates[locale], `${slug} missing ${locale}`).toBe(`https://fixmyformatting.com/${locale}/${slug}`);
+      }
+    }
+    // A tool no locale translates must not advertise any locale alternate.
+    const untranslated = languageAlternates("case-converter");
+    expect(Object.keys(untranslated).sort()).toEqual(["en", "x-default"]);
+  });
+
+  it("keeps reserved path segments free of tool slugs", () => {
+    const reserved = new Set(["guides", "about", "privacy", "s", "404", "api"]);
+    for (const tool of allTools) {
+      expect(reserved.has(tool.slug), `${tool.slug} collides with a reserved segment`).toBe(false);
     }
   });
 

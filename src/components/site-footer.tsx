@@ -1,19 +1,23 @@
 import { coreTools } from "@/lib/tools";
-import { localizedPath, localizedToolSlugs, localizeTool, messages } from "@/lib/i18n";
+import { categoryLabel, localizedPath, localizeTool, messages, toolSlugsForLocale } from "@/lib/i18n";
 import type { LocaleCode, SiteLocale } from "@/lib/i18n";
 
 export function SiteFooter({ locale = "en" }: { locale?: SiteLocale }) {
   const localized = locale === "en" ? null : messages[locale as LocaleCode];
+  // Core tools only. Brand variants would multiply the footer ~4.7x on every
+  // localized page once coverage is complete; English lists coreTools too.
   const tools = locale === "en"
     ? coreTools
-    : localizedToolSlugs.map((slug) => localizeTool(slug, locale as LocaleCode));
+    : toolSlugsForLocale(locale as LocaleCode)
+        .filter((slug) => coreTools.some((tool) => tool.slug === slug))
+        .map((slug) => localizeTool(slug, locale as LocaleCode));
   const categories = [...new Set(tools.map((tool) => tool.category))];
   return (
     <footer className="site-footer">
       <div className="footer-tools">
         {categories.map((category) => (
           <section key={category}>
-            <h2>{localized ? (category === "Markdown & documents" ? localized.categories.markdown : localized.categories.cleanup) : category}</h2>
+            <h2>{localized ? categoryLabel(category, localized) : category}</h2>
             <ul>
               {tools.filter((tool) => tool.category === category).map((tool) => (
                 <li key={tool.slug}><a href={localizedPath(locale, tool.slug)}>{tool.name}</a></li>

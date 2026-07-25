@@ -7,7 +7,7 @@ import {
   isLocalizedToolSlug,
   languageAlternates,
   localizedPath,
-  localizedToolSlugs,
+  toolSlugsForLocale,
   localizeTool,
   messages,
 } from "@/lib/i18n";
@@ -16,8 +16,10 @@ const siteUrl = "https://fixmyformatting.com";
 
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return [{ slug: [] }, ...localizedToolSlugs.map((slug) => ({ slug: [slug] }))];
+/** Next passes the parent segment's params through as plain (non-Promise) values. */
+export function generateStaticParams({ params }: { params: { locale: string } }) {
+  if (!isLocale(params.locale)) return [];
+  return [{ slug: [] }, ...toolSlugsForLocale(params.locale).map((slug) => ({ slug: [slug] }))];
 }
 
 export async function generateMetadata({

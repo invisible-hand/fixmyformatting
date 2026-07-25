@@ -1,6 +1,6 @@
 import type { ToolDefinition } from "@/lib/tools";
 import { allTools, coreTools, getProcessorSlug } from "@/lib/tools";
-import { localizedPath, localizedToolSlugs, localizeTool, messages } from "@/lib/i18n";
+import { localizedPath, localizeTool, messages, toolSlugsForLocale } from "@/lib/i18n";
 import type { LocaleCode, SiteLocale } from "@/lib/i18n";
 import type { ProcessSettings } from "@/lib/processors";
 import { guidePath, guidesForTool } from "@/lib/guides";
@@ -29,7 +29,7 @@ export function ToolPage({
   const localized = locale === "en" ? null : messages[locale as LocaleCode];
   const localizedRelated = locale === "en"
     ? []
-    : localizedToolSlugs.map((slug) => localizeTool(slug, locale as LocaleCode));
+    : toolSlugsForLocale(locale as LocaleCode).map((slug) => localizeTool(slug, locale as LocaleCode));
   const processorSlug = getProcessorSlug(tool.slug);
   const processorSiblings = allTools.filter((candidate) =>
     candidate.slug !== tool.slug && getProcessorSlug(candidate.slug) === processorSlug,

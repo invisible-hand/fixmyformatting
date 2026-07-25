@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { allTools } from "@/lib/tools";
 import { allGuides } from "@/lib/guides";
-import { isLocalizedToolSlug, languageAlternates, localeCodes, localizedPath, localizedToolSlugs } from "@/lib/i18n";
+import { isLocalizedToolSlug, languageAlternates, localeCodes, localizedPath, toolSlugsForLocale } from "@/lib/i18n";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://fixmyformatting.com";
@@ -20,7 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.8,
         alternates: { languages: languageAlternates() },
       },
-      ...localizedToolSlugs.map((slug) => ({
+      ...toolSlugsForLocale(locale).map((slug) => ({
         url: `${base}${localizedPath(locale, slug)}`,
         changeFrequency: "monthly" as const,
         priority: 0.75,

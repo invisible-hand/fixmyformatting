@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { localeCodes } from "./src/lib/i18n";
+import { localeCodes } from "./src/lib/i18n/locales";
 
 const nextConfig: NextConfig = {
   async rewrites() {
