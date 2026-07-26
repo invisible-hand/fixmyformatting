@@ -76,6 +76,20 @@ describe("localized SEO inventory", () => {
     expect(alternates["x-default"]).toBe(alternates.en);
   });
 
+  it("matches the hreflang self-reference to the canonical exactly", () => {
+    // The homepage canonical is the bare origin, so its own en/x-default
+    // alternate must be too — hreflang clusters are matched by string, and a
+    // stray trailing slash silently drops the page out of its own cluster.
+    const home = languageAlternates();
+    expect(home.en).toBe("https://fixmyformatting.com");
+    expect(home["x-default"]).toBe(home.en);
+    for (const path of ["", "guides", "about", "markdown-to-word"]) {
+      for (const url of Object.values(languageAlternates(path))) {
+        expect(url.endsWith("/"), `${path || "(home)"} alternate ${url}`).toBe(false);
+      }
+    }
+  });
+
   it("keeps guide metadata within search limits and unique", () => {
     for (const guide of allGuides) {
       expect(guide.title.length, `${guide.slug} title`).toBeLessThanOrEqual(60);

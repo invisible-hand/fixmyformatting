@@ -63,7 +63,10 @@ export function isLocalizedToolSlug(slug: string) {
  * sitemap.ts and both generateMetadata callers funnel through this function.
  */
 export function languageAlternates(path = ""): Partial<Record<SiteLocale | "x-default", string>> {
-  const url = (locale: SiteLocale) => `${siteUrl}${localizedPath(locale, path)}`;
+  // localizedPath returns "/" for the English home so it is usable as an href,
+  // but hreflang is matched as a string against the canonical, which is the
+  // bare origin. Trailing slash here and not there breaks the cluster.
+  const url = (locale: SiteLocale) => `${siteUrl}${localizedPath(locale, path)}`.replace(/\/$/, "");
   const languages: Partial<Record<SiteLocale | "x-default", string>> = {
     en: url("en"),
     "x-default": url("en"),
