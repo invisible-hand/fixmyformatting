@@ -1,5 +1,5 @@
 import { coreTools } from "@/lib/tools";
-import { bundles, categoryLabel, localizedPath, localizeTool, messages, toolSlugsForLocale } from "@/lib/i18n";
+import { bundles, categoryLabel, guidesNav, localizedPath, localizeTool, messages, toolSlugsForLocale } from "@/lib/i18n";
 import type { LocaleCode, SiteLocale } from "@/lib/i18n";
 
 export function SiteFooter({ locale = "en" }: { locale?: SiteLocale }) {
@@ -13,6 +13,7 @@ export function SiteFooter({ locale = "en" }: { locale?: SiteLocale }) {
         .filter((slug) => coreTools.some((tool) => tool.slug === slug))
         .map((slug) => localizeTool(slug, locale as LocaleCode));
   const categories = [...new Set(tools.map((tool) => tool.category))];
+  const guides = guidesNav(locale);
   return (
     <footer className="site-footer">
       <div className="footer-tools">
@@ -30,7 +31,7 @@ export function SiteFooter({ locale = "en" }: { locale?: SiteLocale }) {
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} fixmyformatting.com</span>
         <nav aria-label="Legal">
-          {locale === "en" && <a href="/guides">Guides</a>}
+          {guides && <a href={guides.href}>{guides.label}</a>}
           <a href={localizedPath(locale, "about")}>{localizedPages?.about.h1 ?? "About"}</a>
           <a href={localizedPath(locale, "privacy")}>{localizedPages?.privacy.h1 ?? "Privacy"}</a>
         </nav>

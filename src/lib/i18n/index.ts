@@ -14,5 +14,5 @@ export {
   staticPaths,
   toolSlugsForLocale,
 } from "./coverage";
-export { categoryLabel, localizeGuide, localizeTool, uiFor } from "./resolve";
+export { categoryLabel, guidesNav, localizeGuide, localizeTool, uiFor } from "./resolve";
 export type { GuideTranslation } from "./types";

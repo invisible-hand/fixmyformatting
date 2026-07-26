@@ -6,6 +6,7 @@ import {
   localizeGuide,
   localizeTool,
   guideSlugsForLocale,
+  guidesNav,
   toolSlugsForLocale,
 } from "../src/lib/i18n";
 import { allTools, coreTools, getTool } from "../src/lib/tools";
@@ -185,6 +186,22 @@ describe("localized SEO inventory", () => {
         expect(localized.title.length, `${locale}/${slug} title`).toBeLessThanOrEqual(60);
         expect(localized.description.length, `${locale}/${slug} description`).toBeLessThanOrEqual(155);
       }
+    }
+  });
+
+  it("links the guides index from every locale that serves guides", () => {
+    // Without this the localized guide pages sit in the sitemap with no
+    // internal link pointing at them — reachable only by typing the URL.
+    expect(guidesNav("en")).toEqual({ href: "/guides", label: "Guides" });
+    for (const locale of localeCodes) {
+      const nav = guidesNav(locale);
+      if (!guideSlugsForLocale(locale).length) {
+        expect(nav, `${locale} has no guides but links the index`).toBeNull();
+        continue;
+      }
+      expect(nav?.href, `${locale} guides href`).toBe(`/${locale}/guides`);
+      // French legitimately spells it "Guides", so assert presence, not difference.
+      expect(nav?.label?.trim(), `${locale} guides label`).toBeTruthy();
     }
   });
 

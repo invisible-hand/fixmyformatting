@@ -1,13 +1,28 @@
 import type { GuideDefinition } from "../guides";
 import type { ToolDefinition } from "../tools";
 import { actionSource, brandNames, brands, getTool } from "../tools";
-import type { LocaleCode } from "./locales";
+import type { LocaleCode, SiteLocale } from "./locales";
+import { localizedPath } from "./locales";
 import type { Faq, UiMessages } from "./types";
 import { bundles } from "./bundles";
+import { guideSlugsForLocale } from "./coverage";
 import { interpolate } from "./format";
 
 export function uiFor(locale: LocaleCode): UiMessages {
   return bundles[locale].ui;
+}
+
+/**
+ * The nav link to this locale's guides index, or null when it has none.
+ *
+ * Localized guide pages ship in the sitemap regardless, so gating this on
+ * English alone left them reachable only by direct URL — orphaned from the
+ * site's own internal linking.
+ */
+export function guidesNav(locale: SiteLocale): { href: string; label: string } | null {
+  if (locale === "en") return { href: "/guides", label: "Guides" };
+  if (!guideSlugsForLocale(locale).length) return null;
+  return { href: localizedPath(locale, "guides"), label: bundles[locale].guideChrome.navLabel };
 }
 
 /**
