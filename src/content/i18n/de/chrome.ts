@@ -36,7 +36,7 @@ export const pages: PageCopy = {
       {
         "heading": "Analysen",
         "body": [
-          "Wir erfassen aggregierte Seiten- und Interaktionszahlen, um zu verstehen, welche Werkzeuge nützlich sind. Wir verkaufen keine persönlichen Daten."
+          "Wir erfassen aggregierte Seiten- und Interaktionszahlen, um zu verstehen, welche Werkzeuge nützlich sind. Dafür nutzen wir Vercel Analytics und Google Analytics in einem cookiefreien Modus, der keine Cookies setzt und keine Kennung zu dir speichert. Wir verkaufen keine persönlichen Daten."
         ]
       }
     ]

@@ -36,7 +36,7 @@ export const pages: PageCopy = {
       {
         "heading": "统计分析",
         "body": [
-          "我们会收集汇总的页面访问和互动数据，用于了解哪些工具最有用。我们不会出售个人信息。"
+          "我们会收集汇总的页面访问和互动数据，用于了解哪些工具最有用。我们通过 Vercel Analytics 和 Google Analytics 的无 Cookie 模式进行统计，不会写入 Cookie，也不会保存与你相关的标识符。我们不会出售个人信息。"
         ]
       }
     ]

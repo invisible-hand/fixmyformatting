@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from "./google-analytics";
 
 export function DocumentLayout({
   children,
@@ -14,6 +15,7 @@ export function DocumentLayout({
       <body>
         {children}
         <Analytics />
+        <GoogleAnalytics />
       </body>
     </html>
   );
