@@ -8,6 +8,7 @@ import { smartQuotes } from "../content/guides/smart-quotes-break-code";
 import { dashReference } from "../content/guides/em-dash-vs-en-dash-vs-hyphen";
 import { tokenCount } from "../content/guides/prompt-token-count-explained";
 import { unicodeReference } from "../content/guides/invisible-unicode-characters";
+import { textWatermarks } from "../content/guides/ai-text-watermarks";
 
 export type GuideCluster = "ai-tells" | "how-to" | "reference";
 
@@ -63,6 +64,7 @@ export const clusterOrder: GuideCluster[] = ["ai-tells", "how-to", "reference"];
 
 export const allGuides: GuideDefinition[] = [
   aiTells,
+  textWatermarks,
   emDashes,
   invisibleCharacters,
   markdownInWord,

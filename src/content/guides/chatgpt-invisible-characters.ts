@@ -103,5 +103,5 @@ For the full list of what these characters are and what each one does, see the [
     },
   ],
   relatedTools: ["remove-invisible-characters", "clean-ai-text"],
-  relatedGuides: ["invisible-unicode-characters", "signs-of-ai-written-text"],
+  relatedGuides: ["invisible-unicode-characters", "signs-of-ai-written-text", "ai-text-watermarks"],
 };

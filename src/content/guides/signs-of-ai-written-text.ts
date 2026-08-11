@@ -86,5 +86,5 @@ So the honest position is this. Formatting analysis tells you **what characters 
     },
   ],
   relatedTools: ["clean-ai-text", "remove-invisible-characters", "remove-em-dashes"],
-  relatedGuides: ["why-chatgpt-uses-em-dashes", "chatgpt-invisible-characters"],
+  relatedGuides: ["why-chatgpt-uses-em-dashes", "chatgpt-invisible-characters", "ai-text-watermarks"],
 };
