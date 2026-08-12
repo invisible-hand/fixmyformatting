@@ -113,6 +113,73 @@ function stripMarkdown(input: string) {
     .trim();
 }
 
+function decodeEntities(value: string) {
+  return value
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)))
+    .replace(/&nbsp;/g, " ")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
+}
+
+function htmlToMarkdown(html: string) {
+  const blocks: string[] = [];
+  const inline = (value: string, keepLines = false): string =>
+    value
+      .replace(/<a\b[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi, (_, href, text) => `[${inline(text).trim()}](${href})`)
+      .replace(/<img\b[^>]*alt="([^"]*)"[^>]*src="([^"]*)"[^>]*\/?>/gi, "![$1]($2)")
+      .replace(/<img\b[^>]*src="([^"]*)"[^>]*\/?>/gi, "![]($1)")
+      .replace(/<(strong|b)\b[^>]*>([\s\S]*?)<\/\1>/gi, "**$2**")
+      .replace(/<(em|i)\b[^>]*>([\s\S]*?)<\/\1>/gi, "*$2*")
+      .replace(/<code\b[^>]*>([\s\S]*?)<\/code>/gi, "`$1`")
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<[^>]+>/g, "")
+      // Inline context folds all whitespace; the top-level pass must keep the
+      // newlines the block conversions just emitted.
+      .replace(keepLines ? /[^\S\n]+/g : /\s+/g, " ");
+  let source = html
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<(script|style|head)\b[^>]*>[\s\S]*?<\/\1>/gi, "")
+    // Fenced code first, so nothing inside is treated as markup.
+    .replace(/<pre\b[^>]*>(?:\s*<code\b[^>]*>)?([\s\S]*?)(?:<\/code>\s*)?<\/pre>/gi, (_, code) => {
+      blocks.push(`\`\`\`\n${decodeEntities(code).replace(/^\n+|\n+$/g, "")}\n\`\`\``);
+      return `\n@@block${blocks.length - 1}@@\n`;
+    })
+    .replace(/<table\b[^>]*>([\s\S]*?)<\/table>/gi, (_, body) => {
+      const rows = [...body.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)].map((row) =>
+        [...row[1].matchAll(/<t[hd]\b[^>]*>([\s\S]*?)<\/t[hd]>/gi)].map((cell) => inline(cell[1]).trim()),
+      );
+      if (!rows.length) return "";
+      const table = [`| ${rows[0].join(" | ")} |`, `| ${rows[0].map(() => "---").join(" | ")} |`, ...rows.slice(1).map((row) => `| ${row.join(" | ")} |`)].join("\n");
+      blocks.push(table);
+      return `\n@@block${blocks.length - 1}@@\n`;
+    });
+  source = source
+    .replace(/<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1>/gi, (_, level, text) => `\n${"#".repeat(Number(level))} ${inline(text).trim()}\n`)
+    .replace(/<blockquote\b[^>]*>([\s\S]*?)<\/blockquote>/gi, (_, text) => `\n> ${inline(text).trim()}\n`)
+    .replace(/<ol\b[^>]*>([\s\S]*?)<\/ol>/gi, (_, list) =>
+      `\n${[...list.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi)].map((item, index) => `${index + 1}. ${inline(item[1]).trim()}`).join("\n")}\n`)
+    .replace(/<ul\b[^>]*>([\s\S]*?)<\/ul>/gi, (_, list) =>
+      `\n${[...list.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi)].map((item) => `- ${inline(item[1]).trim()}`).join("\n")}\n`)
+    .replace(/<hr\s*\/?>/gi, "\n---\n")
+    .replace(/<p\b[^>]*>([\s\S]*?)<\/p>/gi, (_, text) => `\n${inline(text).trim()}\n`);
+  const markdown = decodeEntities(inline(source, true))
+    .replace(/@@block(\d+)@@/g, (_, index) => `\n${blocks[Number(index)]}\n`)
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+  return markdown;
+}
+
+const fancyOverlays = /[\u0332-\u0338]/g;
+const smallCapsMap: Record<string, string> = {
+  "ᴀ": "a", "ʙ": "b", "ᴄ": "c", "ᴅ": "d", "ᴇ": "e", "ꜰ": "f", "ɢ": "g", "ʜ": "h", "ɪ": "i", "ᴊ": "j", "ᴋ": "k", "ʟ": "l",
+  "ᴍ": "m", "ɴ": "n", "ᴏ": "o", "ᴘ": "p", "ǫ": "q", "ʀ": "r", "ꜱ": "s", "ᴛ": "t", "ᴜ": "u", "ᴠ": "v", "ᴡ": "w", "ʏ": "y", "ᴢ": "z",
+};
+
 const count = (input: string, expression: RegExp) => input.match(expression)?.length ?? 0;
 const invisibleExpression = /[\u00ad\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]/g;
 const emojiExpression = /\p{Extended_Pictographic}(?:\uFE0F|\p{Emoji_Modifier})?/gu;
@@ -147,6 +214,27 @@ export function processText(slug: string, input: string, settings: ProcessSettin
     return { output: tableToCsv(rows), stats: [{ label: "Rows", value: Math.max(0, rows.length - 1) }, { label: "Columns", value: rows[0]?.length ?? 0 }] };
   }
   if (processor === "word-to-markdown") return { output: input, stats: base.stats };
+  if (processor === "html-to-markdown") {
+    const output = htmlToMarkdown(input);
+    return { output, stats: [{ label: "HTML elements", value: count(input, /<[a-z][^>]*>/gi) }, { label: "Words", value: words(output) }] };
+  }
+  if (processor === "remove-fancy-text") {
+    let converted = 0;
+    const mapped = [...input]
+      .map((char) => {
+        const smallCap = smallCapsMap[char];
+        if (smallCap) {
+          converted += 1;
+          return smallCap;
+        }
+        const normalized = char.normalize("NFKC");
+        if (normalized !== char) converted += 1;
+        return normalized;
+      })
+      .join("");
+    converted += count(mapped, fancyOverlays);
+    return { output: mapped.replace(fancyOverlays, ""), stats: [{ label: "Characters converted", value: converted }, { label: "Words", value: words(input) }] };
+  }
   if (processor === "remove-em-dashes") {
     const found = count(input, /—/g);
     const replacements = { comma: ",", semicolon: ";", hyphen: "-", remove: "" };

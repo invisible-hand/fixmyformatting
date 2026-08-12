@@ -287,4 +287,28 @@ export const tools: Partial<Record<string, ToolCopy>> = {
       { question: "Kann ich das Werkzeug auf dem Smartphone nutzen?", answer: "Ja. Der Editor funktioniert in aktuellen mobilen und Desktop-Browsern." },
     ],
   },
+  "html-to-markdown": {
+    name: "HTML in Markdown umwandeln",
+    title: "HTML in Markdown umwandeln – online",
+    description: "HTML-Quelltext direkt im Browser in sauberes Markdown umwandeln. Kostenlos und privat.",
+    intro: "Füge HTML-Quelltext ein und erhalte portables Markdown für READMEs, Dokumentation, Notiz-Apps und LLM-Prompts. Überschriften, Listen, Links, Hervorhebungen, Codeblöcke und Tabellen werden übernommen; Skripte, Styles und unbekannte Tags werden entfernt.",
+    placeholder: "<h1>Hallo</h1>\n<p>Das ist <strong>fett</strong>, <em>kursiv</em> und <a href=\"https://example.com\">ein Link</a>.</p>",
+    faqs: [
+      { question: "Ist der HTML-zu-Markdown-Konverter kostenlos?", answer: "Ja. Er ist kostenlos, erfordert kein Konto und hat kein Nutzungslimit." },
+      { question: "Welche HTML-Tags werden unterstützt?", answer: "Überschriften, Absätze, Listen, Links, Bilder, Fett- und Kursivdruck, Code, Zitate und Tabellen. Skripte, Styles und unbekannte Tags werden entfernt." },
+      { question: "Wird mein HTML hochgeladen?", answer: "Nein. Die Verarbeitung läuft im Browser. Text wird nur gespeichert, wenn du ausdrücklich einen Freigabelink erstellst." },
+    ],
+  },
+  "remove-fancy-text": {
+    name: "Zierschrift in normalen Text umwandeln",
+    title: "Zierschrift in normalen Text umwandeln",
+    description: "𝗙𝗲𝘁𝘁𝗲, kursive und andere Unicode-Zierschriften zurück in normalen Text umwandeln.",
+    intro: "Pseudo-Schriftzeichen aus Social-Media-Posts und KI-Ausgaben sehen formatiert aus, sind aber Unicode-Sonderzeichen, die Suche, Rechtschreibprüfung, Screenreader und Bewerbungsparser stören. Dieser Konverter wandelt sie in gewöhnliche Buchstaben zurück und entfernt dekorative Durch- und Unterstreichungen.",
+    placeholder: "Füge 𝗳𝗮𝗻𝗰𝘆 𝓉𝑒𝓍𝓉 wie ᴅɪᴇsᴇɴ oder ｂｒｅｉｔｅｎ Text ein, um ihn in normale Buchstaben umzuwandeln.",
+    faqs: [
+      { question: "Was ist Zierschrift überhaupt?", answer: "Sogenannte Fancy Fonts bestehen aus mathematischen Unicode-Symbolen und anderen Sonderzeichen, die wie Fett- oder Schreibschrift aussehen, aber keine normalen Buchstaben sind." },
+      { question: "Warum sollte ich Zierschrift entfernen?", answer: "Sonderzeichen stören Suche, Rechtschreibprüfung und Screenreader und werden von Bewerbungs- und Formularsystemen oft falsch gelesen." },
+      { question: "Wird mein Text hochgeladen?", answer: "Nein. Die Verarbeitung läuft im Browser. Text wird nur gespeichert, wenn du ausdrücklich einen Freigabelink erstellst." },
+    ],
+  },
 };

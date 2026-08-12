@@ -287,4 +287,28 @@ export const tools: Partial<Record<string, ToolCopy>> = {
       { question: "Est-ce compatible avec les mobiles ?", answer: "Oui. L'éditeur fonctionne dans les navigateurs mobiles et de bureau récents." },
     ],
   },
+  "html-to-markdown": {
+    name: "Convertir HTML en Markdown",
+    title: "Convertir HTML en Markdown en ligne",
+    description: "Convertissez du code HTML en Markdown propre dans votre navigateur. Gratuit et privé.",
+    intro: "Collez du code HTML et obtenez du Markdown portable pour vos READMEs, votre documentation, vos applications de notes et vos prompts LLM. Titres, listes, liens, mise en gras, blocs de code et tableaux sont convertis ; les scripts, styles et balises inconnues sont supprimés.",
+    placeholder: "<h1>Bonjour</h1>\n<p>Ceci est <strong>gras</strong>, <em>italique</em> et <a href=\"https://example.com\">un lien</a>.</p>",
+    faqs: [
+      { question: "La conversion HTML vers Markdown est-elle gratuite ?", answer: "Oui. C’est gratuit, sans compte et sans limite d’utilisation." },
+      { question: "Quelles balises HTML sont prises en charge ?", answer: "Titres, paragraphes, listes, liens, images, gras et italique, code, citations et tableaux. Les scripts, styles et balises inconnues sont supprimés." },
+      { question: "Mon code HTML est-il envoyé ?", answer: "Non. Le traitement se fait dans le navigateur. Le texte n’est stocké que si vous créez explicitement un lien de partage." },
+    ],
+  },
+  "remove-fancy-text": {
+    name: "Texte fantaisie en texte normal",
+    title: "Convertir le texte fantaisie en texte normal",
+    description: "Convertissez 𝗴𝗿𝗮𝘀, 𝘪𝘵𝘢𝘭𝘪𝘲𝘶𝘦, cursive, ᴘᴇᴛɪᴛᴇs ᴄᴀᴘɪᴛᴀʟᴇs et pleine chasse en texte normal.",
+    intro: "Les caractères de pseudo-polices issus des réseaux sociaux et des sorties d’IA semblent stylisés, mais ce sont des symboles Unicode spéciaux qui perturbent la recherche, le correcteur orthographique, les lecteurs d’écran et les logiciels de tri de CV. Ce convertisseur les ramène à des lettres ordinaires et supprime les barrés et soulignés décoratifs.",
+    placeholder: "Collez du 𝘁𝗲𝘅𝘁𝗲 𝒇𝒂𝒏𝒕𝒂𝒊𝒔𝒊𝒆 comme ᴄᴇᴄɪ ou ｌａｒｇｅ pour le convertir en lettres normales.",
+    faqs: [
+      { question: "Qu’est-ce que le texte fantaisie ?", answer: "Ce sont des symboles Unicode mathématiques et d’autres caractères spéciaux qui imitent le gras ou la calligraphie, mais ne sont pas des lettres ordinaires." },
+      { question: "Pourquoi le supprimer ?", answer: "Ces symboles perturbent la recherche, le correcteur orthographique et les lecteurs d’écran, et les logiciels de tri de CV les lisent souvent mal." },
+      { question: "Mon texte est-il envoyé ?", answer: "Non. Le traitement se fait dans le navigateur. Le texte n’est stocké que si vous créez explicitement un lien de partage." },
+    ],
+  },
 };

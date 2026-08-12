@@ -287,4 +287,28 @@ export const tools: Partial<Record<string, ToolCopy>> = {
       { question: "Funziona su smartphone?", answer: "Sì. L’editor funziona nei browser moderni per smartphone e desktop." },
     ],
   },
+  "html-to-markdown": {
+    name: "Convertire HTML in Markdown",
+    title: "Convertire HTML in Markdown online",
+    description: "Converti codice HTML in Markdown pulito nel browser. Gratuito, immediato e privato.",
+    intro: "Incolla il codice HTML e ottieni Markdown portabile per README, documentazione, app di note e prompt LLM. Titoli, elenchi, link, grassetto, blocchi di codice e tabelle vengono convertiti; script, stili e tag sconosciuti vengono rimossi.",
+    placeholder: "<h1>Ciao</h1>\n<p>Questo è <strong>grassetto</strong>, <em>corsivo</em> e <a href=\"https://example.com\">un link</a>.</p>",
+    faqs: [
+      { question: "Convertire HTML in Markdown è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
+      { question: "Quali tag HTML sono supportati?", answer: "Titoli, paragrafi, elenchi, link, immagini, grassetto e corsivo, codice, citazioni e tabelle. Script, stili e tag sconosciuti vengono rimossi." },
+      { question: "Il mio HTML viene caricato?", answer: "No. L’elaborazione avviene nel browser. Il testo viene salvato solo se crei esplicitamente un link condiviso." },
+    ],
+  },
+  "remove-fancy-text": {
+    name: "Testo fancy in testo normale",
+    title: "Convertire testo fancy in testo normale",
+    description: "Converti 𝗴𝗿𝗮𝘀𝘀𝗲𝘁𝘁𝗼, 𝘤𝘰𝘳𝘴𝘪𝘷𝘰, small caps e caratteri fullwidth in testo normale.",
+    intro: "I caratteri pseudo-font dei post social e delle risposte IA sembrano testo formattato, ma sono simboli Unicode speciali che rompono ricerca, correttore ortografico, screen reader e sistemi di selezione dei curriculum. Questo convertitore li riporta a lettere normali e rimuove barrature e sottolineature decorative.",
+    placeholder: "Incolla 𝘁𝗲𝘀𝘁𝗼 𝒇𝒂𝒏𝒄𝒚 come ǫᴜᴇsᴛᴏ o ｌａｒｇｏ per riportarlo a lettere normali.",
+    faqs: [
+      { question: "Che cos’è il testo fancy?", answer: "Sono simboli Unicode matematici e altri caratteri speciali che imitano grassetto o corsivo, ma non sono lettere normali." },
+      { question: "Perché rimuoverlo?", answer: "Questi simboli rompono ricerca, correttore ortografico e screen reader, e i sistemi di selezione dei curriculum spesso li leggono male." },
+      { question: "Il mio testo viene caricato?", answer: "No. L’elaborazione avviene nel browser. Il testo viene salvato solo se crei esplicitamente un link condiviso." },
+    ],
+  },
 };

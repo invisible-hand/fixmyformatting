@@ -287,4 +287,28 @@ export const tools: Partial<Record<string, ToolCopy>> = {
       { question: "手机上可以使用吗？", answer: "可以。编辑器支持现代手机和桌面浏览器。" },
     ],
   },
+  "html-to-markdown": {
+    name: "HTML 转 Markdown",
+    title: "在线 HTML 转 Markdown 转换器",
+    description: "在浏览器中将 HTML 源码转换为干净的 Markdown。免费、即时且私密。",
+    intro: "粘贴 HTML 源码，即可获得适用于 README、文档、笔记应用和 LLM 提示词的可移植 Markdown。标题、列表、链接、强调、代码块和表格都会转换；脚本、样式和未知标签会被丢弃。",
+    placeholder: "<h1>你好</h1>\n<p>这是<strong>加粗</strong>、<em>斜体</em>和<a href=\"https://example.com\">链接</a>。</p>",
+    faqs: [
+      { question: "HTML 转 Markdown 免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
+      { question: "支持哪些 HTML 标签？", answer: "支持标题、段落、列表、链接、图片、加粗和斜体、代码、引用及表格。脚本、样式和未知标签会被移除。" },
+      { question: "我的 HTML 会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
+    ],
+  },
+  "remove-fancy-text": {
+    name: "花体字转普通文本",
+    title: "在线花体字转普通文本转换器",
+    description: "把粗体、斜体、手写体、小型大写和全角等 Unicode 花体字还原为普通文字。",
+    intro: "社交帖子和 AI 输出中的伪字体字符（数学粗体、手写体、小型大写、全角字母等）看起来有样式，实际上是特殊的 Unicode 符号，会影响搜索、拼写检查、屏幕阅读器和简历解析系统。本工具将它们还原为普通字母，并移除装饰性的删除线和下划线。",
+    placeholder: "粘贴 𝗳𝗮𝗻𝗰𝘆 𝓉𝑒𝓍𝓉、ᴛʜɪs 或 ｆｕｌｌｗｉｄｔｈ 等花体字，即可还原为普通文字。",
+    faqs: [
+      { question: "什么是花体字？", answer: "它们是特殊的 Unicode 符号（例如数学字母数字符号），外观像粗体或手写体，但其实并非真正的字母。" },
+      { question: "为什么要还原花体字？", answer: "这些特殊字符会影响搜索、拼写检查和屏幕阅读器朗读，简历和表单解析系统也常常无法正确识别。" },
+      { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
+    ],
+  },
 };

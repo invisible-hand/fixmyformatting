@@ -36,6 +36,7 @@ export const brand: BrandCopy = {
     "copilot": "Copilot 답변은 본문, 목록, 코드 중심의 Markdown이 섞여 있어 직접 붙여넣으면 시각적 계층 구조가 유지되지 않을 수 있습니다.",
     "perplexity": "Perplexity 답변은 Markdown 구조와 출처 링크가 함께 포함되는 경우가 많아, 조사 내용을 재활용할 때 깔끔한 변환이 중요합니다.",
     "deepseek": "DeepSeek는 기술적인 답변을 Markdown으로 형식화하는 경우가 많으며, 코드 블록과 수식이 일반 붙여넣기로는 그대로 노출됩니다.",
+    "grok": "Grok은 답변을 Markdown으로 구성하므로 제목, 목록, 파이프 표를 오피스 프로그램에 붙여넣으면 서식이 아니라 원시 기호로 나타납니다.",
   },
   faqs: [
     { question: "{name}은 어떻게 사용하나요?", answer: "{brand}에서 필요한 내용을 복사해 위 편집기에 붙여넣으면 실시간 결과를 바로 사용할 수 있습니다." },

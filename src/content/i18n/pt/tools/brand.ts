@@ -36,6 +36,7 @@ export const brand: BrandCopy = {
     "copilot": "As respostas do Copilot misturam texto, listas e Markdown voltado a código, então uma colagem direta pode não preservar a hierarquia visual.",
     "perplexity": "As respostas do Perplexity costumam combinar estrutura Markdown com links de citação, o que torna a conversão limpa importante ao reutilizar pesquisas.",
     "deepseek": "O DeepSeek geralmente formata respostas técnicas em Markdown, incluindo blocos de código e fórmulas que uma colagem simples deixa expostas.",
+    "grok": "O Grok estrutura as respostas em Markdown, então títulos, listas e tabelas de pipes são colados nos programas de escritório como símbolos brutos em vez de formatação.",
   },
   faqs: [
     { question: "Como usar {name}?", answer: "Copie o conteúdo relevante do {brand}, cole no editor acima e use o resultado ao vivo imediatamente." },

@@ -287,4 +287,28 @@ export const tools: Partial<Record<string, ToolCopy>> = {
       { question: "¿Cómo pego la ecuación en Word?", answer: "Pulsa Alt+= para abrir un cuadro de ecuación, asegúrate de que está seleccionada la entrada LaTeX y pega ahí el resultado. En un párrafo normal no funcionará." },
     ],
   },
+  "html-to-markdown": {
+    name: "Convertir HTML a Markdown",
+    title: "Convertir HTML a Markdown online",
+    description: "Convierte código HTML a Markdown limpio en tu navegador. Gratis, instantáneo y privado.",
+    intro: "Pega código HTML y obtén Markdown portable para READMEs, documentación, apps de notas y prompts de LLM. Se convierten títulos, listas, enlaces, énfasis, bloques de código y tablas; los scripts, estilos y etiquetas desconocidas se descartan.",
+    placeholder: "<h1>Hola</h1>\n<p>Esto es <strong>negrita</strong>, <em>cursiva</em> y <a href=\"https://example.com\">un enlace</a>.</p>",
+    faqs: [
+      { question: "¿Convertir HTML a Markdown es gratis?", answer: "Sí. Es gratis, no requiere cuenta y no tiene límite de uso." },
+      { question: "¿Qué etiquetas HTML se admiten?", answer: "Títulos, párrafos, listas, enlaces, imágenes, negrita y cursiva, código, citas y tablas. Los scripts, estilos y etiquetas desconocidas se eliminan." },
+      { question: "¿Se sube mi HTML?", answer: "No. El procesamiento ocurre en tu navegador. Solo se guarda si creas explícitamente un enlace compartido." },
+    ],
+  },
+  "remove-fancy-text": {
+    name: "Texto fancy a texto normal",
+    title: "Convertir texto fancy a texto normal",
+    description: "Convierte 𝗻𝗲𝗴𝗿𝗶𝘁𝗮𝘀, 𝘤𝘶𝘳𝘴𝘪𝘷𝘢𝘴, caligrafía, ᴠᴇʀsᴀʟɪᴛᴀs y texto de ancho completo a texto normal.",
+    intro: "Los caracteres de pseudofuentes de redes sociales y salidas de IA parecen texto con estilo, pero son símbolos Unicode especiales que rompen la búsqueda, el corrector ortográfico, los lectores de pantalla y los sistemas de selección de currículums. Este conversor los devuelve a letras normales y elimina tachados y subrayados decorativos.",
+    placeholder: "Pega 𝘁𝗲𝘅𝘁𝗼 𝒇𝒂𝒏𝒄𝒚 como ᴇsᴛᴇ o ａｎｃｈｏ para convertirlo en letras normales.",
+    faqs: [
+      { question: "¿Qué es el texto fancy?", answer: "Son símbolos Unicode matemáticos y otros caracteres especiales que imitan negritas o caligrafía, pero no son letras normales." },
+      { question: "¿Por qué conviene quitarlo?", answer: "Esos símbolos rompen la búsqueda, el corrector ortográfico y los lectores de pantalla, y los sistemas de currículums suelen leerlos mal." },
+      { question: "¿Se sube mi texto?", answer: "No. El procesamiento ocurre en tu navegador. Solo se guarda si creas explícitamente un enlace compartido." },
+    ],
+  },
 };

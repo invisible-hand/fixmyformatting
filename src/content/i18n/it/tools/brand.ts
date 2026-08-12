@@ -36,6 +36,7 @@ export const brand: BrandCopy = {
     "copilot": "Le risposte di Copilot mescolano prosa, elenchi e Markdown tecnico, quindi un incolla diretto potrebbe non conservare la gerarchia visiva.",
     "perplexity": "Le risposte di Perplexity spesso combinano struttura Markdown e link di citazione, rendendo importante una conversione pulita quando si riutilizza la ricerca.",
     "deepseek": "DeepSeek formatta comunemente le risposte tecniche in Markdown, inclusi blocchi di codice e formule che un incolla semplice lascia esposti.",
+    "grok": "Grok struttura le risposte in Markdown, quindi titoli, elenchi e tabelle a pipe si incollano nei programmi da ufficio come simboli grezzi anziché come formattazione.",
   },
   faqs: [
     { question: "Come si usa {name}?", answer: "Copia il contenuto che ti interessa da {brand}, incollalo nell’editor qui sopra e usa subito il risultato live." },

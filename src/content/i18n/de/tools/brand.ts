@@ -36,6 +36,7 @@ export const brand: BrandCopy = {
     "copilot": "Antworten aus Copilot mischen Fließtext, Listen und codeorientiertes Markdown, sodass ein direktes Einfügen die visuelle Hierarchie verlieren kann.",
     "perplexity": "Antworten von Perplexity kombinieren oft Markdown-Struktur mit Quellenlinks – eine saubere Umwandlung ist wichtig, wenn du Rechercheergebnisse weiterverwendest.",
     "deepseek": "DeepSeek formatiert technische Antworten meist in Markdown, inklusive Codeblöcken und Formeln, die beim einfachen Einfügen sichtbar bleiben.",
+    "grok": "Grok strukturiert seine Antworten als Markdown, sodass Überschriften, Listen und Pipe-Tabellen in Office-Programmen als rohe Symbole statt als Formatierung erscheinen.",
   },
   faqs: [
     { question: "Wie verwende ich {name}?", answer: "Kopiere den gewünschten Inhalt aus {brand}, füge ihn oben in den Editor ein und nutze das Live-Ergebnis sofort." },

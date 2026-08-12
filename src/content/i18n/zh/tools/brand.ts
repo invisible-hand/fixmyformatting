@@ -36,6 +36,7 @@ export const brand: BrandCopy = {
     "copilot": "Copilot 的回答混合了正文、列表和面向代码的 Markdown，直接粘贴可能无法保留原有的视觉层次。",
     "perplexity": "Perplexity 的回答常将 Markdown 结构与引用链接结合在一起，复用研究结果时干净的转换尤为重要。",
     "deepseek": "DeepSeek 通常用 Markdown 排版技术性回答，包括代码块和公式，直接粘贴会让这些符号暴露在外。",
+    "grok": "Grok 的回答以 Markdown 组织，因此标题、项目符号列表和管道表格粘贴到办公软件时会显示为原始符号而不是格式。",
   },
   faqs: [
     { question: "如何使用{name}？", answer: "从 {brand} 复制相关内容，粘贴到上方编辑器中，即可立即使用实时生成的结果。" },

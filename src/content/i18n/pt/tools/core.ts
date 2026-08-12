@@ -287,4 +287,28 @@ export const tools: Partial<Record<string, ToolCopy>> = {
       { question: "Funciona no celular?", answer: "Sim. O editor funciona em navegadores atuais para celular e computador." },
     ],
   },
+  "html-to-markdown": {
+    name: "Converter HTML para Markdown",
+    title: "Converter HTML para Markdown Online",
+    description: "Converta código HTML em Markdown limpo no navegador. Grátis, instantâneo e privado.",
+    intro: "Cole o código HTML e receba Markdown portátil para READMEs, documentação, apps de notas e prompts de LLM. Títulos, listas, links, ênfases, blocos de código e tabelas são convertidos; scripts, estilos e tags desconhecidas são descartados.",
+    placeholder: "<h1>Olá</h1>\n<p>Isto é <strong>negrito</strong>, <em>itálico</em> e <a href=\"https://example.com\">um link</a>.</p>",
+    faqs: [
+      { question: "Converter HTML para Markdown é grátis?", answer: "Sim. É grátis, não exige conta e não tem limite de uso." },
+      { question: "Quais tags HTML são aceitas?", answer: "Títulos, parágrafos, listas, links, imagens, negrito e itálico, código, citações e tabelas. Scripts, estilos e tags desconhecidas são removidos." },
+      { question: "Meu HTML é enviado?", answer: "Não. O processamento ocorre no navegador. O texto só é armazenado se você criar um link compartilhado." },
+    ],
+  },
+  "remove-fancy-text": {
+    name: "Texto estilizado para texto normal",
+    title: "Converter Texto Estilizado em Texto Normal",
+    description: "Converta 𝗻𝗲𝗴𝗿𝗶𝘁𝗼, cursivas e outras fontes Unicode decorativas de volta ao texto normal.",
+    intro: "Caracteres de pseudofontes vindos de posts em redes sociais e respostas de IA parecem estilizados, mas são símbolos Unicode especiais que quebram busca, corretor, leitores de tela e sistemas de triagem de currículos. Este conversor os devolve a letras comuns e remove tachados e sublinhados decorativos.",
+    placeholder: "Cole 𝘁𝗲𝘅𝘁𝗼 𝒆𝒔𝒕𝒊𝒍𝒊𝒛𝒂𝒅𝒐 como ᴇsᴛᴇ ou ｌａｒｇｏ para convertê-lo em letras normais.",
+    faqs: [
+      { question: "O que é texto estilizado?", answer: "São símbolos Unicode matemáticos e outros caracteres especiais que imitam negrito ou caligrafia, mas não são letras normais." },
+      { question: "Por que remover?", answer: "Esses símbolos quebram a busca, o corretor ortográfico e os leitores de tela, e sistemas de triagem de currículos costumam lê-los errado." },
+      { question: "Meu texto é enviado?", answer: "Não. O processamento ocorre no navegador. O texto só é armazenado se você criar um link compartilhado." },
+    ],
+  },
 };

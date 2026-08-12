@@ -71,6 +71,27 @@ describe("text processors", () => {
     expect(processText("remove-em-dashes", "one — two", { dashReplacement: "remove" }).output).toBe("one two");
   });
 
+  it("converts HTML source to structured Markdown", () => {
+    const html = `<!-- note --><style>p{color:red}</style><h2>Title</h2><p>Some <strong>bold</strong>, <em>italic</em>, and <a href="https://example.com">a link</a>.</p><ul><li>One</li><li>Two</li></ul><ol><li>First</li></ol><pre><code>const ok = &lt;T&gt;true;</code></pre><table><tr><th>A</th><th>B</th></tr><tr><td>1</td><td>2</td></tr></table>`;
+    const result = processText("html-to-markdown", html);
+    expect(result.output).toContain("## Title");
+    expect(result.output).toContain("Some **bold**, *italic*, and [a link](https://example.com).");
+    expect(result.output).toContain("- One\n- Two");
+    expect(result.output).toContain("1. First");
+    expect(result.output).toContain("```\nconst ok = <T>true;\n```");
+    expect(result.output).toContain("| A | B |\n| --- | --- |\n| 1 | 2 |");
+    expect(result.output).not.toContain("color:red");
+    expect(result.output).not.toContain("note");
+  });
+
+  it("converts fancy Unicode pseudo-fonts to plain text", () => {
+    const result = processText("remove-fancy-text", "𝗕𝗼𝗹𝗱 𝘪𝘵𝘢𝘭𝘪𝘬 ᴛʜɪs ｗｉｄｅ s̶t̶r̶i̶k̶e̶");
+    expect(result.output).toBe("Bold italik this wide strike");
+    expect(result.stats[0].label).toBe("Characters converted");
+    expect(result.stats[0].value).toBeGreaterThan(15);
+    expect(processText("remove-fancy-text", "already plain, café stays café").output).toBe("already plain, café stays café");
+  });
+
   it("counts GPT-4o tokens locally", () => {
     expect(countModelTokens("Hello world").stats[0]).toEqual({ label: "GPT-4o tokens", value: 2 });
   });
