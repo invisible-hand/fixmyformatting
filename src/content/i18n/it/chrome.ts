@@ -36,7 +36,7 @@ export const pages: PageCopy = {
       {
         "heading": "Analisi",
         "body": [
-          "Raccogliamo conteggi aggregati di pagine e interazioni per capire quali strumenti sono utili. Usiamo Vercel Analytics e Google Analytics in una modalità senza cookie, che non installa cookie né conserva alcun identificatore che ti riguardi. Non vendiamo informazioni personali."
+          "Raccogliamo conteggi aggregati di pagine e interazioni per capire quali strumenti sono utili. Usiamo Vercel Analytics, che funziona senza cookie, e Google Analytics, che installa cookie per misurare visite e sessioni. Non vendiamo informazioni personali."
         ]
       }
     ]

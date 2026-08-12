@@ -36,7 +36,7 @@ export const pages: PageCopy = {
       {
         "heading": "Análise de uso",
         "body": [
-          "Coletamos contagens agregadas de páginas e interações para entender quais ferramentas são úteis. Usamos o Vercel Analytics e o Google Analytics em um modo sem cookies, que não instala cookies nem armazena nenhum identificador seu. Não vendemos informações pessoais."
+          "Coletamos contagens agregadas de páginas e interações para entender quais ferramentas são úteis. Usamos o Vercel Analytics, que não utiliza cookies, e o Google Analytics, que instala cookies para medir visitas e sessões. Não vendemos informações pessoais."
         ]
       }
     ]

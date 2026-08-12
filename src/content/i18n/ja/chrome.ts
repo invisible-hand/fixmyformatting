@@ -36,7 +36,7 @@ export const pages: PageCopy = {
       {
         "heading": "アクセス解析",
         "body": [
-          "どのツールが役立っているかを把握するため、ページと操作の集計データを収集しています。計測には Vercel Analytics と Google Analytics を Cookie を使わないモードで利用しており、Cookie の保存も識別子の保持も行いません。個人情報を販売することはありません。"
+          "どのツールが役立っているかを把握するため、ページと操作の集計データを収集しています。計測には Cookie を使用しない Vercel Analytics と、訪問数とセッションの計測のために Cookie を保存する Google Analytics を利用しています。個人情報を販売することはありません。"
         ]
       }
     ]
