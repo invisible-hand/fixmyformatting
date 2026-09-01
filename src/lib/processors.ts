@@ -216,6 +216,35 @@ const zeroWidthExpression = /[\u200b-\u200d\u2060]/g;
 
 const emojiExpression = /\p{Extended_Pictographic}(?:\uFE0F|\p{Emoji_Modifier})?/gu;
 
+/**
+ * Maps pseudo-font Unicode (mathematical alphanumerics, small caps, fullwidth)
+ * back to plain letters and drops the decorative strikethrough/underline
+ * overlays, returning the count both callers report as "Characters converted".
+ *
+ * Shared by remove-fancy-text and humanize-ai-text. Iterating with the spread
+ * operator walks code points, so astral pseudo-font characters are normalized
+ * whole and never split into surrogates; normalizing each code point in
+ * isolation also means an existing base + combining-mark sequence cannot be
+ * composed away.
+ */
+function normalizeFancyText(input: string) {
+  let converted = 0;
+  const mapped = [...input]
+    .map((char) => {
+      const smallCap = smallCapsMap[char];
+      if (smallCap) {
+        converted += 1;
+        return smallCap;
+      }
+      const normalized = char.normalize("NFKC");
+      if (normalized !== char) converted += 1;
+      return normalized;
+    })
+    .join("");
+  converted += count(mapped, fancyOverlays);
+  return { output: mapped.replace(fancyOverlays, ""), converted };
+}
+
 function words(input: string) {
   return input.trim() ? input.trim().split(/\s+/).length : 0;
 }
@@ -251,21 +280,8 @@ export function processText(slug: string, input: string, settings: ProcessSettin
     return { output, stats: [{ label: "HTML elements", value: count(input, /<[a-z][^>]*>/gi) }, { label: "Words", value: words(output) }] };
   }
   if (processor === "remove-fancy-text") {
-    let converted = 0;
-    const mapped = [...input]
-      .map((char) => {
-        const smallCap = smallCapsMap[char];
-        if (smallCap) {
-          converted += 1;
-          return smallCap;
-        }
-        const normalized = char.normalize("NFKC");
-        if (normalized !== char) converted += 1;
-        return normalized;
-      })
-      .join("");
-    converted += count(mapped, fancyOverlays);
-    return { output: mapped.replace(fancyOverlays, ""), stats: [{ label: "Characters converted", value: converted }, { label: "Words", value: words(input) }] };
+    const { output, converted } = normalizeFancyText(input);
+    return { output, stats: [{ label: "Characters converted", value: converted }, { label: "Words", value: words(input) }] };
   }
   if (processor === "remove-em-dashes") {
     const found = count(input, /—/g);
@@ -293,6 +309,43 @@ export function processText(slug: string, input: string, settings: ProcessSettin
       .replace(emojiExpression, "")
       .replace(/[ \t]{2,}/g, " ");
     return { output, stats: [{ label: "Em dashes", value: dashes }, { label: "Smart quotes", value: quotes }, { label: "Hidden characters", value: hidden }, { label: "Emojis", value: emojis }] };
+  }
+  if (processor === "humanize-ai-text") {
+    // The full mechanical-formatting pass: a superset of clean-ai-text that also
+    // folds pseudo-font Unicode, no-break spaces, and stray horizontal
+    // whitespace. Nothing here touches words, order, or meaning.
+    const { output: plain, converted } = normalizeFancyText(input);
+    // Counted on the post-fancy string rather than the raw input because that is
+    // what the later stages actually remove: NFKC turns a handful of pictographs
+    // (™, ℹ) into letters, so counting them as emoji on the input would report a
+    // removal that never happens.
+    const dashes = count(plain, /—/g);
+    const quotes = count(plain, /[“”‘’]/g);
+    const hidden = count(plain, invisibleExpression);
+    const emojis = count(plain, emojiExpression);
+    const output = plain
+      .replaceAll("—", ",")
+      // Same tidy-up as remove-em-dashes' default: drop the space the dash left.
+      .replace(/\s+,/g, ",")
+      .replace(/[“”]/g, '"')
+      .replace(/[‘’]/g, "'")
+      .replace(invisibleExpression, "")
+      // NFKC already folds no-break spaces; this explicit pass covers input
+      // that reached the tool with no pseudo-font characters to normalize.
+      .replace(/[\u00a0\u202f]/g, " ")
+      .replace(emojiExpression, "")
+      .replace(/[ \t]{2,}/g, " ")
+      .replace(/[ \t]+$/gm, "");
+    return {
+      output,
+      stats: [
+        { label: "Em dashes", value: dashes },
+        { label: "Smart quotes", value: quotes },
+        { label: "Hidden characters", value: hidden },
+        { label: "Emojis", value: emojis },
+        { label: "Characters converted", value: converted },
+      ],
+    };
   }
   if (processor === "remove-invisible-characters") {
     const hidden = count(input, invisibleExpression);

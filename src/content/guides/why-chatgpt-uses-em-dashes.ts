@@ -113,6 +113,6 @@ If you want the full picture of which formatting artefacts travel with AI output
         "No. A hyphen (-, U+002D) joins compound words. An en dash (–, U+2013) marks ranges such as 2020–2024. An em dash (—, U+2014) sets off a phrase within a sentence. They are three separate characters of increasing width and are not interchangeable.",
     },
   ],
-  relatedTools: ["remove-em-dashes", "clean-ai-text"],
+  relatedTools: ["remove-em-dashes", "clean-ai-text", "humanize-ai-text"],
   relatedGuides: ["signs-of-ai-written-text", "em-dash-vs-en-dash-vs-hyphen", "em-dash-copy-paste"],
 };

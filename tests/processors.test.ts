@@ -92,6 +92,45 @@ describe("text processors", () => {
     expect(processText("remove-fancy-text", "already plain, café stays café").output).toBe("already plain, café stays café");
   });
 
+  it("normalizes every formatting artifact in one humanizer pass", () => {
+    const messy = "The plan \u2014 a good one \u2014 ships \u2018today\u2019 with \u201cno\u201d \ud83c\udf89 caveats.\u200b\n\ud835\uddd5\ud835\uddfc\ud835\uddf9\ud835\uddf1 \uff46\uff55\uff4c\uff4c and a\u00a0nbsp   plus tabs\t\there   ";
+    const result = processText("humanize-ai-text", messy);
+    expect(result.output).toBe("The plan, a good one, ships 'today' with \"no\" caveats.\nBold full and a nbsp plus tabs here");
+    expect(result.stats).toEqual([
+      { label: "Em dashes", value: 2 },
+      { label: "Smart quotes", value: 4 },
+      { label: "Hidden characters", value: 1 },
+      { label: "Emojis", value: 1 },
+      { label: "Characters converted", value: 9 },
+    ]);
+  });
+
+  it("leaves ordinary prose, CJK, combining marks, and astral text intact", () => {
+    const prose = "Ordinary prose with a comma, a period. Nothing to fix here.";
+    expect(processText("humanize-ai-text", prose).output).toBe(prose);
+    expect(processText("humanize-ai-text", prose).stats.every((stat) => stat.value === 0)).toBe(true);
+    const mixed = "\u65e5\u672c\u8a9e\u306e\u30c6\u30ad\u30b9\u30c8 caf\u00e9 x\u0301 na\u00efve";
+    expect(processText("humanize-ai-text", mixed).output).toBe(mixed);
+  });
+
+  it("keeps the shared fancy-text normalizer byte-identical for its original callers", () => {
+    // Guard for the refactor that extracted normalizeFancyText: these are the
+    // exact values remove-fancy-text and clean-ai-text returned before it.
+    expect(processText("remove-fancy-text", "\ud835\udddb\ud835\uddf2\ud835\uddf9\ud835\uddfd \u1d0d\u1d07 \uff54\uff45\uff53\uff54 s\u0336t\u0336r\u0336i\u0336k\u0336e\u0336")).toEqual({
+      output: "Help me test strike",
+      stats: [{ label: "Characters converted", value: 16 }, { label: "Words", value: 4 }],
+    });
+    expect(processText("clean-ai-text", "The plan \u2014 a good one \u2014 ships \u2018today\u2019 with \u201cno\u201d \ud83c\udf89 caveats. Really.\u200b")).toEqual({
+      output: "The plan , a good one , ships 'today' with \"no\" caveats. Really.",
+      stats: [
+        { label: "Em dashes", value: 2 },
+        { label: "Smart quotes", value: 4 },
+        { label: "Hidden characters", value: 1 },
+        { label: "Emojis", value: 1 },
+      ],
+    });
+  });
+
   it("labels invisible characters in place without deleting anything", () => {
     const result = processText("show-invisible-characters", "Ada\u200bx\u00a0y\u00ad\ufeff");
     expect(result.output).toBe("Ada[ZWSP]x[NBSP]y[SHY][BOM]");

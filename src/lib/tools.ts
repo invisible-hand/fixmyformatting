@@ -76,6 +76,43 @@ export const coreTools: ToolDefinition[] = [
   define("html-to-markdown", "HTML to Markdown", "HTML to Markdown Converter — Free & Private", "Convert HTML source to clean Markdown in your browser. Free, instant, and private.", "Markdown & documents", "Paste HTML source and get portable Markdown for READMEs, documentation, notes apps, and LLM prompts. Headings, lists, links, emphasis, code blocks, and tables are converted; scripts, styles, and unknown tags are dropped.", { outputLabel: "Markdown", download: "txt", placeholder: "<h1>Hello</h1>\n<p>This is <strong>bold</strong>, <em>italic</em>, and <a href=\"https://example.com\">a link</a>.</p>" }),
   define("remove-em-dashes", "Remove Em Dashes", "Remove Em Dashes from Text", "Replace em dashes with commas, hyphens, or spaces instantly.", "Markdown & documents", "Find and replace em dashes in AI-generated or human-written text. The live count tells you exactly how many were changed.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste text with em dashes — like this one — to replace them." }),
   define("clean-ai-text", "AI Text Cleaner", "Clean ChatGPT Text & AI Formatting", "Clean AI text artifacts such as em dashes, smart quotes, invisible characters, and emoji.", "AI cleanup", "The AI Artifact Report counts mechanical formatting artifacts; it does not guess whether text was written by AI. Toggle cleanup choices and review the transparent counts.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste ChatGPT, Claude, or Gemini text here — “smart quotes,” emoji ✨ and hidden characters are reported." }),
+  define("humanize-ai-text", "AI Formatting Humanizer", "Humanize AI Text — Formatting Cleanup, Free", "Remove the formatting fingerprints of AI output: em dashes, smart quotes, invisible characters, emoji, and fancy fonts. Wording and meaning stay intact.", "AI cleanup", "Paste AI output and every mechanical formatting artifact is normalized in one pass: em dashes become commas, curly quotes and apostrophes become straight ones, invisible characters and emoji are removed, no-break spaces become ordinary spaces, and pseudo-font Unicode returns to plain letters. The words themselves are never touched. AI detectors score word choice and sentence structure, which formatting cleanup does not change.", {
+    report: true,
+    outputLabel: "Clean text",
+    download: "txt",
+    placeholder: "Paste AI output here — “smart quotes”, emoji ✨, 𝗳𝗮𝗻𝗰𝘆 letters and hidden characters are counted and normalized.",
+    faqs: [
+      {
+        question: "What does it actually change?",
+        answer:
+          "Em dashes become commas, curly quotes and apostrophes become straight ASCII ones, zero-width and other invisible characters are deleted, non-breaking and narrow no-break spaces become ordinary spaces, emoji are removed, pseudo-font Unicode letters are mapped back to plain ones, runs of spaces and tabs collapse to one, and trailing whitespace is trimmed from each line.",
+      },
+      {
+        question: "Does it rewrite my writing?",
+        answer:
+          "No. It is not a rewriter. Every word stays in place, in the same order, with the same meaning. Only punctuation characters, spacing, and character encoding change.",
+      },
+      {
+        question: "Does it change what an AI detector sees?",
+        answer:
+          "No. Detectors score word choice, sentence structure, and statistical patterns in the prose itself. Formatting cleanup touches none of that: it changes punctuation, spacing, and character encoding, and leaves every word where it was.",
+      },
+      {
+        question: "How is this different from the AI Text Cleaner?",
+        answer:
+          "The AI Text Cleaner handles em dashes, smart quotes, invisible characters, and emoji. This tool runs that same cleanup and adds pseudo-font Unicode conversion, no-break space normalization, and whitespace tidying, in a single pass.",
+      },
+      {
+        question: "Is the AI formatting humanizer free?",
+        answer: "Yes. It is free, requires no account, and has no usage limit.",
+      },
+      {
+        question: "Does my text get uploaded?",
+        answer:
+          "No. Processing happens in your browser. Text is stored only if you explicitly create a share link.",
+      },
+    ],
+  }),
   define("remove-invisible-characters", "Invisible Character Scanner", "Remove Invisible Characters from Text", "Find and remove zero-width spaces, soft hyphens, BOMs, and direction marks.", "AI cleanup", "Invisible Unicode can break search, validation, code, and copy-paste workflows. This scanner identifies each supported character type and removes it safely.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste text to scan for zero-width and other invisible Unicode characters." }),
   define("show-invisible-characters", "Invisible Character Viewer", "Show Invisible Characters in Text", "Reveal hidden Unicode by marking each zero-width space, soft hyphen, BOM, and direction mark in place. Nothing is deleted.", "AI cleanup", "This viewer diagnoses rather than treats. Every invisible character is replaced by a readable marker such as [ZWSP] or [NBSP] at the exact position it occupies, so you can see how many there are and where they sit before deciding what to do. The surrounding text is untouched. When you want them gone instead of shown, use the Invisible Character Scanner, which strips them.", { report: true, outputLabel: "Marked text", download: "txt", placeholder: "Paste text to see what is hiding inside it.\n\nThere is a zero-width space between Ada\u200bx, and a non-breaking\u00a0space in this sentence." }),
   define("remove-smart-quotes", "Smart Quotes to Straight Quotes", "Replace Smart Quotes Online", "Replace curly quotes with straight quotes and normalize apostrophes.", "AI cleanup", "Normalize typographic quotation marks for code, CSV, databases, plain-text email, and systems that expect ASCII punctuation.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste “curly quotes” and ‘apostrophes’ here." }),

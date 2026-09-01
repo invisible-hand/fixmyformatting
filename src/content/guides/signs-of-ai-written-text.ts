@@ -85,6 +85,6 @@ So the honest position is this. Formatting analysis tells you **what characters 
         "Yes, and quickly — which is exactly why they are weak evidence. Replacing em dashes, normalising quotes, and stripping invisible characters takes seconds. That is a reason to be sceptical of detection claims, not a technique for passing off work as your own.",
     },
   ],
-  relatedTools: ["clean-ai-text", "remove-invisible-characters", "remove-em-dashes"],
+  relatedTools: ["clean-ai-text", "humanize-ai-text", "remove-invisible-characters", "remove-em-dashes"],
   relatedGuides: ["why-chatgpt-uses-em-dashes", "chatgpt-invisible-characters", "ai-text-watermarks"],
 };
