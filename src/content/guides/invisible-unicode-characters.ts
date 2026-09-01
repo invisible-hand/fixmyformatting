@@ -119,6 +119,6 @@ For the specific question of whether AI tools insert these deliberately, see [do
         "Yes. Soft hyphens control word breaks in justified text, non-breaking spaces keep values with their units, and zero-width joiners are essential to emoji sequences and to Arabic, Persian, and Indic scripts. Strip aggressively in code and identifiers, conservatively in prose.",
     },
   ],
-  relatedTools: ["remove-invisible-characters", "clean-ai-text"],
+  relatedTools: ["remove-invisible-characters", "show-invisible-characters", "clean-ai-text"],
   relatedGuides: ["zero-width-space", "chatgpt-invisible-characters", "smart-quotes-break-code"],
 };

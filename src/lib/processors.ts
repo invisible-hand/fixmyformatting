@@ -181,7 +181,39 @@ const smallCapsMap: Record<string, string> = {
 };
 
 const count = (input: string, expression: RegExp) => input.match(expression)?.length ?? 0;
+
 const invisibleExpression = /[\u00ad\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]/g;
+
+/**
+ * Conventional abbreviations for the invisible and problematic characters the
+ * viewer labels in place. Every key is a single BMP code unit outside the
+ * surrogate range, so a plain character-class replace can never split an astral
+ * pair or detach a combining mark.
+ */
+const invisibleMarkers: Record<string, string> = {
+  "\u0009": "TAB",
+  "\u00a0": "NBSP",
+  "\u00ad": "SHY",
+  "\u200b": "ZWSP",
+  "\u200c": "ZWNJ",
+  "\u200d": "ZWJ",
+  "\u200e": "LRM",
+  "\u200f": "RLM",
+  "\u2028": "LS",
+  "\u2029": "PS",
+  "\u202a": "LRE",
+  "\u202b": "RLE",
+  "\u202c": "PDF",
+  "\u202d": "LRO",
+  "\u202e": "RLO",
+  "\u202f": "NNBSP",
+  "\u2060": "WJ",
+  "\ufeff": "BOM",
+};
+
+const markedExpression = /[\u0009\u00a0\u00ad\u200b-\u200f\u2028-\u202f\u2060\ufeff]/g;
+const zeroWidthExpression = /[\u200b-\u200d\u2060]/g;
+
 const emojiExpression = /\p{Extended_Pictographic}(?:\uFE0F|\p{Emoji_Modifier})?/gu;
 
 function words(input: string) {
@@ -265,6 +297,20 @@ export function processText(slug: string, input: string, settings: ProcessSettin
   if (processor === "remove-invisible-characters") {
     const hidden = count(input, invisibleExpression);
     return { output: input.replace(invisibleExpression, ""), stats: [{ label: "Hidden characters found", value: hidden }, { label: "Zero-width", value: count(input, /[\u200b-\u200f\u2060]/g) }, { label: "Soft hyphens", value: count(input, /\u00ad/g) }] };
+  }
+  if (processor === "show-invisible-characters") {
+    // Diagnostic sibling of remove-invisible-characters: nothing is deleted, so
+    // every marker is an insertion and the surrounding text is byte-identical.
+    const output = input.replace(markedExpression, (char) => `[${invisibleMarkers[char]}]`);
+    return {
+      output,
+      stats: [
+        { label: "Hidden characters found", value: count(input, markedExpression) },
+        { label: "Zero-width", value: count(input, zeroWidthExpression) },
+        { label: "Soft hyphens", value: count(input, /\u00ad/g) },
+        { label: "Characters", value: input.length },
+      ],
+    };
   }
   if (processor === "remove-smart-quotes") {
     const fixed = count(input, /[“”‘’]/g);

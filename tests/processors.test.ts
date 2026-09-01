@@ -92,6 +92,37 @@ describe("text processors", () => {
     expect(processText("remove-fancy-text", "already plain, café stays café").output).toBe("already plain, café stays café");
   });
 
+  it("labels invisible characters in place without deleting anything", () => {
+    const result = processText("show-invisible-characters", "Ada\u200bx\u00a0y\u00ad\ufeff");
+    expect(result.output).toBe("Ada[ZWSP]x[NBSP]y[SHY][BOM]");
+    expect(result.stats).toEqual([
+      { label: "Hidden characters found", value: 4 },
+      { label: "Zero-width", value: 1 },
+      { label: "Soft hyphens", value: 1 },
+      { label: "Characters", value: 9 },
+    ]);
+  });
+
+  it("leaves emoji, accents, and CJK untouched apart from real joiners", () => {
+    const intact = processText("show-invisible-characters", "cafe\u0301 caf\u00e9 \u6f22\u5b57 \ud83c\udf89");
+    expect(intact.output).toBe("cafe\u0301 caf\u00e9 \u6f22\u5b57 \ud83c\udf89");
+    expect(intact.stats[0]).toEqual({ label: "Hidden characters found", value: 0 });
+    expect(processText("show-invisible-characters", "\u{1f468}\u200d\u{1f469}\u200d\u{1f466}").output).toBe("\u{1f468}[ZWJ]\u{1f469}[ZWJ]\u{1f466}");
+  });
+
+  it("labels every character in the marker table with its conventional name", () => {
+    const expected: [string, string][] = [
+      ["	", "TAB"], [" ", "NBSP"], ["­", "SHY"], ["​", "ZWSP"],
+      ["‌", "ZWNJ"], ["‍", "ZWJ"], ["‎", "LRM"], ["‏", "RLM"],
+      [" ", "LS"], [" ", "PS"], ["‪", "LRE"], ["‫", "RLE"],
+      ["‬", "PDF"], ["‭", "LRO"], ["‮", "RLO"], [" ", "NNBSP"],
+      ["⁠", "WJ"], ["﻿", "BOM"],
+    ];
+    for (const [char, name] of expected) {
+      expect(processText("show-invisible-characters", `a${char}b`).output).toBe(`a[${name}]b`);
+    }
+  });
+
   it("counts GPT-4o tokens locally", () => {
     expect(countModelTokens("Hello world").stats[0]).toEqual({ label: "GPT-4o tokens", value: 2 });
   });

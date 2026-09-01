@@ -102,6 +102,6 @@ For the full list of what these characters are and what each one does, see the [
         "Not dangerous, but genuinely disruptive. They break search, cause form validation to fail, produce syntax errors in code, corrupt CSV headers, and create duplicate records that look identical. Because the text appears normal, these bugs are unusually hard to diagnose.",
     },
   ],
-  relatedTools: ["remove-invisible-characters", "clean-ai-text"],
+  relatedTools: ["remove-invisible-characters", "show-invisible-characters", "clean-ai-text"],
   relatedGuides: ["invisible-unicode-characters", "zero-width-space", "signs-of-ai-written-text", "ai-text-watermarks"],
 };

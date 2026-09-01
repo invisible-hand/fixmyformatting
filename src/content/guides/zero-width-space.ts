@@ -222,6 +222,6 @@ If what you actually want is the opposite — to get rid of characters like this
         "No, and they behave in opposite ways. A non-breaking space (U+00A0) is a visible space that will not wrap, and it is real whitespace, so \\s matches it and trim() removes it. A zero-width space (U+200B) has no width, marks a place a line may break, and is not whitespace at all. Replace non-breaking spaces with an ordinary space; delete zero-width spaces.",
     },
   ],
-  relatedTools: ["remove-invisible-characters", "clean-ai-text"],
+  relatedTools: ["remove-invisible-characters", "show-invisible-characters", "clean-ai-text"],
   relatedGuides: ["invisible-unicode-characters", "chatgpt-invisible-characters", "signs-of-ai-written-text"],
 };
