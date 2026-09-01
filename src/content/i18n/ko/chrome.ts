@@ -79,7 +79,10 @@ export const workspace: WorkspaceMessages = {
   "dashComma": "쉼표",
   "dashSemicolon": "세미콜론",
   "dashHyphen": "하이픈",
-  "dashRemove": "없음"
+  "dashRemove": "없음",
+  "listLabel": "변환 형식",
+  "listToParagraph": "문단",
+  "listToBullets": "글머리 기호"
 };
 
 export const guideChrome: GuideChrome = {

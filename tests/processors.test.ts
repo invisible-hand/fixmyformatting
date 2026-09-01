@@ -71,6 +71,50 @@ describe("text processors", () => {
     expect(processText("remove-em-dashes", "one — two", { dashReplacement: "remove" }).output).toBe("one two");
   });
 
+  it("joins a mixed bullet list into one punctuated paragraph", () => {
+    const result = processText("bullet-points-to-paragraph", "- First point\n* Second point.\n+ Third point!\n\u2022 Fourth point");
+    expect(result.output).toBe("First point. Second point. Third point! Fourth point.");
+    expect(result.stats).toEqual([
+      { label: "Elements", value: 4 },
+      { label: "Sentences", value: 4 },
+      { label: "Words", value: 8 },
+    ]);
+  });
+
+  it("keeps a blank line between bullet blocks as a paragraph break", () => {
+    const result = processText("bullet-points-to-paragraph", "- One\n- Two\n\n- Three\n- Four");
+    expect(result.output).toBe("One. Two.\n\nThree. Four.");
+  });
+
+  it("converts numbered lists and leaves headings as their own paragraph", () => {
+    const result = processText("bullet-points-to-paragraph", "# Plan\n\n1. Ship the parser\n2) Write the tests\n(3) Deploy");
+    expect(result.output).toBe("# Plan\n\nShip the parser. Write the tests. Deploy.");
+  });
+
+  it("leaves fenced code blocks untouched", () => {
+    const input = "- Run the build\n\n```sh\nnpm run build\n\n- not a bullet\n```\n\n- Then deploy";
+    const result = processText("bullet-points-to-paragraph", input);
+    expect(result.output).toContain("```sh\nnpm run build\n\n- not a bullet\n```");
+    expect(result.stats[0]).toEqual({ label: "Elements", value: 2 });
+  });
+
+  it("never mistakes a mid-sentence hyphen for a bullet", () => {
+    const prose = "The range is 5 - 10 units, and item 3. of the contract still applies.";
+    expect(processText("bullet-points-to-paragraph", prose).output).toBe(prose);
+  });
+
+  it("splits a paragraph into bullets without breaking abbreviations", () => {
+    const result = processText(
+      "bullet-points-to-paragraph",
+      "Dr. Ada reviewed the draft. Some tools, e.g. the token counter, run locally. Nothing is uploaded.",
+      { listDirection: "bullets" },
+    );
+    expect(result.output).toBe(
+      "- Dr. Ada reviewed the draft.\n- Some tools, e.g. the token counter, run locally.\n- Nothing is uploaded.",
+    );
+    expect(result.stats[0]).toEqual({ label: "Elements", value: 3 });
+  });
+
   it("converts HTML source to structured Markdown", () => {
     const html = `<!-- note --><style>p{color:red}</style><h2>Title</h2><p>Some <strong>bold</strong>, <em>italic</em>, and <a href="https://example.com">a link</a>.</p><ul><li>One</li><li>Two</li></ul><ol><li>First</li></ol><pre><code>const ok = &lt;T&gt;true;</code></pre><table><tr><th>A</th><th>B</th></tr><tr><td>1</td><td>2</td></tr></table>`;
     const result = processText("html-to-markdown", html);

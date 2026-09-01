@@ -78,6 +78,9 @@ export const workspace: WorkspaceMessages = {
   dashSemicolon: "Semicolon",
   dashHyphen: "Hyphen",
   dashRemove: "Nothing",
+  listLabel: "Convert to",
+  listToParagraph: "Paragraph",
+  listToBullets: "Bullet points",
 };
 
 export const guideChrome: GuideChrome = {

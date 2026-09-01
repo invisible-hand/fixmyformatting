@@ -113,6 +113,43 @@ export const coreTools: ToolDefinition[] = [
       },
     ],
   }),
+  define("bullet-points-to-paragraph", "Bullet Points to Paragraph", "Bullet Points to Paragraph Converter", "Turn a bullet list into flowing prose, or a paragraph into bullet points. Free, instant, and processed in your browser.", "AI cleanup", "AI assistants answer in bullets by default, which is wrong for an email, an essay, a cover letter, or a report that should not read like a slide deck. Paste the list and it becomes flowing prose: each item loses its marker, gains a full stop if it lacks one, and joins the sentence beside it. Blank lines between bullet groups stay paragraph breaks, and headings, block quotes and fenced code are left alone. Switch the direction above the editor to go the other way and turn a dense paragraph into a scannable bullet list, one bullet per sentence.", {
+    report: true,
+    outputLabel: "Converted text",
+    download: "txt",
+    placeholder: "Key points from the meeting\n\n- The migration is scheduled for 14 March\n- Two services need a config change first\n- Ada owns the rollback plan\n- We will freeze deploys for the weekend",
+    faqs: [
+      {
+        question: "What counts as a bullet point?",
+        answer:
+          "A line that starts with -, *, +, •, ‣, ◦, – or a number such as 1., 1) or (1), followed by a space. Indented items count too. A hyphen inside a sentence is never treated as a bullet, so ordinary prose passes through unchanged.",
+      },
+      {
+        question: "Can it turn a paragraph into bullet points?",
+        answer:
+          "Yes. Set the direction above the editor to bullet points. Each sentence becomes its own item prefixed with a hyphen, and common abbreviations such as e.g., i.e., Dr. and etc. do not split a sentence in half.",
+      },
+      {
+        question: "Does it rewrite the wording?",
+        answer:
+          "No. The words stay as you wrote them. Only list markers, line breaks, and a missing full stop at the end of an item change.",
+      },
+      {
+        question: "What happens to headings and code blocks?",
+        answer:
+          "They are preserved exactly. Markdown headings, block quotes, table rows, and fenced code blocks are copied through untouched, so only the list items and prose are converted.",
+      },
+      {
+        question: "Is bullet points to paragraph free?",
+        answer: "Yes. It is free, requires no account, and has no usage limit.",
+      },
+      {
+        question: "Does my text get uploaded?",
+        answer:
+          "No. Processing happens in your browser. Text is stored only if you explicitly create a share link.",
+      },
+    ],
+  }),
   define("remove-invisible-characters", "Invisible Character Scanner", "Remove Invisible Characters from Text", "Find and remove zero-width spaces, soft hyphens, BOMs, and direction marks.", "AI cleanup", "Invisible Unicode can break search, validation, code, and copy-paste workflows. This scanner identifies each supported character type and removes it safely.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste text to scan for zero-width and other invisible Unicode characters." }),
   define("show-invisible-characters", "Invisible Character Viewer", "Show Invisible Characters in Text", "Reveal hidden Unicode by marking each zero-width space, soft hyphen, BOM, and direction mark in place. Nothing is deleted.", "AI cleanup", "This viewer diagnoses rather than treats. Every invisible character is replaced by a readable marker such as [ZWSP] or [NBSP] at the exact position it occupies, so you can see how many there are and where they sit before deciding what to do. The surrounding text is untouched. When you want them gone instead of shown, use the Invisible Character Scanner, which strips them.", { report: true, outputLabel: "Marked text", download: "txt", placeholder: "Paste text to see what is hiding inside it.\n\nThere is a zero-width space between Ada\u200bx, and a non-breaking\u00a0space in this sentence." }),
   define("remove-smart-quotes", "Smart Quotes to Straight Quotes", "Replace Smart Quotes Online", "Replace curly quotes with straight quotes and normalize apostrophes.", "AI cleanup", "Normalize typographic quotation marks for code, CSV, databases, plain-text email, and systems that expect ASCII punctuation.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste “curly quotes” and ‘apostrophes’ here." }),

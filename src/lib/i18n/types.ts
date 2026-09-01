@@ -115,6 +115,9 @@ export type WorkspaceMessages = {
   dashSemicolon: string;
   dashHyphen: string;
   dashRemove: string;
+  listLabel: string;
+  listToParagraph: string;
+  listToBullets: string;
 };
 
 export type GuideChrome = {

@@ -11,6 +11,7 @@ export type ProcessedResult = {
 export type ProcessSettings = {
   caseMode?: "title" | "upper" | "lower" | "sentence";
   dashReplacement?: "comma" | "semicolon" | "hyphen" | "remove";
+  listDirection?: "paragraph" | "bullets";
 };
 
 const escapeHtml = (value: string) =>
@@ -253,6 +254,100 @@ function titleCase(input: string) {
   return input.toLowerCase().replace(/\b\p{L}/gu, (letter) => letter.toUpperCase());
 }
 
+/**
+ * A list item is a marker at the START of a line followed by a space or tab and
+ * then a non-space. That anchoring is what keeps ordinary prose safe: "the low
+ * - high range" and "see 5. below" sit mid-sentence and never reach the start of
+ * a line, while a bare "---" rule or an "*emphasized*" opening has no space
+ * after the marker.
+ */
+const listItemExpression = /^[ \t]*(?:[-*+•‣◦–]|\d+[.)]|\(\d+\))[ \t]+(\S.*)$/;
+const sentenceEndExpression = /[.!?:;]["'”’)\]]*$/;
+/** Abbreviations whose full stop must not end a sentence when splitting prose. */
+const abbreviationExpression = /(?:^|[\s("'])(?:e\.g|i\.e|etc|vs|approx|fig|no|mr|mrs|ms|dr|prof|sr|jr|st)\.$/i;
+
+/**
+ * Splits a document into segments a converter can act on without corrupting the
+ * parts it must not touch. A fenced code block is one verbatim segment even
+ * when it contains blank lines; headings, block quotes, table rows and
+ * horizontal rules are verbatim segments of one line each; runs of list items
+ * and runs of ordinary prose each collapse into a single segment.
+ */
+type Segment = { kind: "verbatim" | "list" | "prose"; lines: string[] };
+
+/** Markdown structure that must survive both directions byte-for-byte. */
+const structuralLine = (line: string) => /^[ \t]*(?:#{1,6}\s|>|\||(?:-{3,}|\*{3,}|_{3,})[ \t]*$)/.test(line);
+const fenceLine = (line: string) => /^[ \t]*(?:```|~~~)/.test(line);
+
+function segmentDocument(input: string): Segment[] {
+  const segments: Segment[] = [];
+  let current: Segment | null = null;
+  let fenced = false;
+  const add = (kind: Segment["kind"], line: string) => {
+    if (current?.kind === kind && kind !== "verbatim") current.lines.push(line);
+    else segments.push((current = { kind, lines: [line] }));
+  };
+  for (const line of input.replace(/\r\n/g, "\n").split("\n")) {
+    if (fenced) {
+      current!.lines.push(line);
+      if (fenceLine(line)) {
+        fenced = false;
+        current = null;
+      }
+      continue;
+    }
+    if (fenceLine(line)) {
+      segments.push((current = { kind: "verbatim", lines: [line] }));
+      fenced = true;
+      continue;
+    }
+    if (!line.trim()) {
+      current = null;
+      continue;
+    }
+    if (structuralLine(line)) add("verbatim", line);
+    else if (listItemExpression.test(line)) add("list", line);
+    else add("prose", line);
+  }
+  return segments;
+}
+
+function bulletsToParagraph(input: string) {
+  let items = 0;
+  const blocks = segmentDocument(input).map((segment) => {
+    if (segment.kind === "verbatim") return segment.lines.join("\n");
+    if (segment.kind === "prose") return segment.lines.map((line) => line.trim()).join(" ");
+    items += segment.lines.length;
+    return segment.lines
+      .map((line) => line.match(listItemExpression)![1].trim())
+      .map((text) => (sentenceEndExpression.test(text) ? text : `${text}.`))
+      .join(" ");
+  });
+  return { output: blocks.join("\n\n"), items };
+}
+
+function splitSentences(text: string) {
+  const merged: string[] = [];
+  for (const part of text.split(/(?<=[.!?]["\u2019\u201d')\]]?)\s+/)) {
+    const previous = merged[merged.length - 1];
+    if (previous !== undefined && abbreviationExpression.test(previous)) merged[merged.length - 1] = `${previous} ${part}`;
+    else merged.push(part);
+  }
+  return merged.map((part) => part.trim()).filter(Boolean);
+}
+
+function paragraphToBullets(input: string) {
+  let items = 0;
+  const blocks = segmentDocument(input).map((segment) => {
+    if (segment.kind !== "prose") return segment.lines.join("\n");
+    const sentences = splitSentences(segment.lines.join(" "));
+    items += sentences.length;
+    return sentences.map((sentence) => `- ${sentence}`).join("\n");
+  });
+  return { output: blocks.join("\n\n"), items };
+}
+
+
 export function processText(slug: string, input: string, settings: ProcessSettings = {}): ProcessedResult {
   const processor = getProcessorSlug(slug);
   const base = { stats: [{ label: "Words", value: words(input) }] };
@@ -441,6 +536,18 @@ export function processText(slug: string, input: string, settings: ProcessSettin
           ? input.toLowerCase().replace(/(^|[.!?]\s+)\p{L}/gu, (match) => match.toUpperCase())
           : titleCase(input);
     return { output, stats: [{ label: "Characters converted", value: input.length }] };
+  }
+  if (processor === "bullet-points-to-paragraph") {
+    const toBullets = settings.listDirection === "bullets";
+    const { output, items } = toBullets ? paragraphToBullets(input) : bulletsToParagraph(input);
+    return {
+      output,
+      stats: [
+        { label: "Elements", value: items },
+        { label: "Sentences", value: count(output, /[.!?]+(?:\s|$)/g) },
+        { label: "Words", value: words(output) },
+      ],
+    };
   }
   if (processor === "latex-to-word") {
     const output = input.replace(/^\s*(?:\\\[|\$\$)|(?:\\\]|\$\$)\s*$/gm, "").replaceAll("\\dfrac", "\\frac").trim();

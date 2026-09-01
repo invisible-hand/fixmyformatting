@@ -79,7 +79,10 @@ export const workspace: WorkspaceMessages = {
   "dashComma": "فاصلة",
   "dashSemicolon": "فاصلة منقوطة",
   "dashHyphen": "شرطة",
-  "dashRemove": "لا شيء"
+  "dashRemove": "لا شيء",
+  "listLabel": "التحويل إلى",
+  "listToParagraph": "فقرة",
+  "listToBullets": "نقاط"
 };
 
 export const guideChrome: GuideChrome = {
