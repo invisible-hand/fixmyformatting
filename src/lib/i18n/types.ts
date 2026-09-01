@@ -39,6 +39,8 @@ export type UiMessages = {
   noSignup: string;
   private: string;
   howTo: string;
+  /** Label before the visible last-updated date on tool pages, e.g. "Updated". */
+  updated: string;
   faqTitle: string;
   relatedTools: string;
   stepCopy: string;

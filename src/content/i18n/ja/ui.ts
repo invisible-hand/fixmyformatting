@@ -29,6 +29,7 @@ export const ui: UiMessages = {
   noSignup: "登録不要",
   private: "処理はブラウザ内で行われ、文章はアップロードされません。",
   howTo: "使い方：",
+  updated: "更新日",
   faqTitle: "よくある質問",
   relatedTools: "関連ツール",
   stepCopy: "修正したい文章または表をコピーします。",

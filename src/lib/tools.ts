@@ -12,7 +12,16 @@ export type ToolDefinition = {
   download?: "docx" | "xlsx" | "csv" | "html" | "txt";
   intro: string;
   faqs: { question: string; answer: string }[];
+  /** ISO date (YYYY-MM-DD) of the last content change; feeds dateModified + the visible "Updated" line. */
+  updated: string;
 };
+
+/**
+ * Bump when tool copy, FAQs, or processing behaviour changes. Individual tools
+ * can override via define(..., { updated }). Must match the date of the commit
+ * that changed them — it is published as schema.org dateModified.
+ */
+export const toolsUpdated = "2026-08-11";
 
 const sharedFaqs = (name: string) => [
   {
@@ -50,6 +59,7 @@ const define = (
   intro,
   placeholder: markdownPlaceholder,
   faqs: sharedFaqs(name),
+  updated: toolsUpdated,
   ...extra,
 });
 

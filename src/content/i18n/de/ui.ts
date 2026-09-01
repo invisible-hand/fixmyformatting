@@ -29,6 +29,7 @@ export const ui: UiMessages = {
   noSignup: "Ohne Anmeldung",
   private: "Die Verarbeitung erfolgt im Browser; der Text wird nicht hochgeladen.",
   howTo: "Anleitung für",
+  updated: "Aktualisiert",
   faqTitle: "Häufige Fragen",
   relatedTools: "Ähnliche Werkzeuge",
   stepCopy: "Kopiere den Text oder die Tabelle, die du korrigieren möchtest.",
