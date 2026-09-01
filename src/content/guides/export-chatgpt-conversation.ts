@@ -100,5 +100,5 @@ For long technical conversations, it is worth deleting the exploratory dead ends
     },
   ],
   relatedTools: ["chatgpt-conversation-to-document", "markdown-to-pdf", "markdown-to-word"],
-  relatedGuides: ["markdown-symbols-in-word", "paste-chatgpt-table-into-excel"],
+  relatedGuides: ["markdown-symbols-in-word", "paste-chatgpt-table-into-excel", "no-text-could-be-extracted"],
 };

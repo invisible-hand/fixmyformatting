@@ -12,6 +12,7 @@ import { textWatermarks } from "../content/guides/ai-text-watermarks";
 import { emDashCopyPaste } from "../content/guides/em-dash-copy-paste";
 import { whatIsAnEmDash } from "../content/guides/what-is-an-em-dash";
 import { zeroWidthSpace } from "../content/guides/zero-width-space";
+import { noTextExtracted } from "../content/guides/no-text-could-be-extracted";
 
 export type GuideCluster = "ai-tells" | "how-to" | "reference";
 
@@ -73,6 +74,7 @@ export const allGuides: GuideDefinition[] = [
   markdownInWord,
   tableToExcel,
   exportConversation,
+  noTextExtracted,
   smartQuotes,
   dashReference,
   emDashCopyPaste,

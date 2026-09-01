@@ -45,7 +45,7 @@ describe("SEO metadata inventory", () => {
       "https://fixmyformatting.com/about",
       "https://fixmyformatting.com/privacy",
     ];
-    expect(urls).toHaveLength(743);
+    expect(urls).toHaveLength(744);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls.every((url) => url.startsWith("https://fixmyformatting.com"))).toBe(true);
   });
