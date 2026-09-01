@@ -8,7 +8,7 @@ export const aiTells: GuideDefinition = {
   dek: "Four you can measure, three you can only notice — and the honest limits of both.",
   cluster: "ai-tells",
   published: "2026-07-25",
-  updated: "2026-07-25",
+  updated: "2026-09-01",
   answer:
     "The most reliable signs are mechanical: em dashes at a steady rate, curly smart quotes, invisible Unicode characters, and emoji-headed bullet lists. Style-level signs — hedging vocabulary, the 'not just X, but Y' construction, and unusually uniform paragraph lengths — are weaker. None of them proves anything on its own; they are patterns, not evidence.",
   sections: [
@@ -38,6 +38,25 @@ export const aiTells: GuideDefinition = {
 **7. Unusually uniform structure.** Paragraphs of near-identical length, sections with a suspiciously equal number of bullets, and a conclusion that mirrors the introduction. Human drafts are lumpier; a paragraph runs long because the writer had more to say about that particular thing.
 
 The vocabulary signals in particular decay quickly. Every list of "AI words" that circulates gets absorbed into how people write and into how the next generation of models is tuned. Mechanical signs are more durable because they are byproducts of encoding, not of style.`,
+    },
+    {
+      id: "structural-habits",
+      heading: "The structural habits, and why they are the weakest signal of all",
+      body: `The signs above are about characters and phrases. There is another layer that sits above the sentence — how the whole piece is shaped — and it is the layer people most often point at when they say something "reads like AI".
+
+- **Uniform paragraph length.** Three to four sentences, over and over, with no one-line paragraph for emphasis and nothing running long because the writer got interested.
+- **The opener that restates the question.** "Great question. Choosing a database involves several considerations." A paragraph of throat-clearing before any content, inherited from a chat format where restating the prompt is a reasonable way to begin.
+- **The closer that adds nothing.** "In conclusion", "Overall", "Ultimately" followed by a summary of what you just read. Fine in an essay with an argument to land; odd on a 300-word answer.
+- **Both-sides framing by default.** Every trade-off presented as balanced, every recommendation hedged with "it depends on your specific needs", even where one option is plainly better for the case described.
+- **Everything as a list.** Headings, bullets, and numbered steps applied to material that has no sequence and no parallel structure — the [bullet points to paragraph](/bullet-points-to-paragraph) tool exists because converting that back by hand is tedious.
+
+**Now the important part.** These are the weakest signals on this page, weaker than the stylistic ones, and it is worth being blunt about why.
+
+Every item in that list is taught. Uniform paragraphs and a restated opener are what school essay instruction asks for. "In conclusion" is a standard academic move. Balanced framing is professional caution — it is how a consultant, a lawyer, or a doctor is trained to write, because overclaiming has consequences. Heavy list use is house style across technical documentation, corporate reporting, and most internal wikis. A model writes this way *because people write this way*; the pattern came from human text in the first place.
+
+That is also why detectors that score on structural features produce false positives on exactly the writing that is most carefully edited, most formal, and most often produced by non-native English speakers who learned English through formal instruction. Uniformity is a property that rewards drilling, and drilling is what a lot of people have done.
+
+So this section is here to help you recognise a register, not to give you a test. The [em dash guide](/guides/why-chatgpt-uses-em-dashes) makes the same point about punctuation, and it holds harder here: a document can hit every structural pattern above and be entirely human, and a document can hit none of them and be entirely generated. Nothing on this page, and nothing this site's tools report, establishes who wrote something.`,
     },
     {
       id: "how-to-check",
