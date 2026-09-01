@@ -234,5 +234,5 @@ When you need them gone, [Remove Em Dashes](/remove-em-dashes) replaces every em
     },
   ],
   relatedTools: ["remove-em-dashes", "clean-ai-text"],
-  relatedGuides: ["em-dash-vs-en-dash-vs-hyphen", "why-chatgpt-uses-em-dashes"],
+  relatedGuides: ["what-is-an-em-dash", "em-dash-vs-en-dash-vs-hyphen", "why-chatgpt-uses-em-dashes"],
 };

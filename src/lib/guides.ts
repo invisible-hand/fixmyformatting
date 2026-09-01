@@ -10,6 +10,7 @@ import { tokenCount } from "../content/guides/prompt-token-count-explained";
 import { unicodeReference } from "../content/guides/invisible-unicode-characters";
 import { textWatermarks } from "../content/guides/ai-text-watermarks";
 import { emDashCopyPaste } from "../content/guides/em-dash-copy-paste";
+import { whatIsAnEmDash } from "../content/guides/what-is-an-em-dash";
 
 export type GuideCluster = "ai-tells" | "how-to" | "reference";
 
@@ -74,6 +75,7 @@ export const allGuides: GuideDefinition[] = [
   smartQuotes,
   dashReference,
   emDashCopyPaste,
+  whatIsAnEmDash,
   tokenCount,
   unicodeReference,
 ];
