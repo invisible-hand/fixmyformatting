@@ -9,6 +9,7 @@ import { dashReference } from "../content/guides/em-dash-vs-en-dash-vs-hyphen";
 import { tokenCount } from "../content/guides/prompt-token-count-explained";
 import { unicodeReference } from "../content/guides/invisible-unicode-characters";
 import { textWatermarks } from "../content/guides/ai-text-watermarks";
+import { emDashCopyPaste } from "../content/guides/em-dash-copy-paste";
 
 export type GuideCluster = "ai-tells" | "how-to" | "reference";
 
@@ -72,6 +73,7 @@ export const allGuides: GuideDefinition[] = [
   exportConversation,
   smartQuotes,
   dashReference,
+  emDashCopyPaste,
   tokenCount,
   unicodeReference,
 ];

@@ -119,5 +119,5 @@ If you need to normalise dashes across a document, [Remove Em Dashes](/remove-em
     },
   ],
   relatedTools: ["remove-em-dashes", "clean-ai-text"],
-  relatedGuides: ["why-chatgpt-uses-em-dashes", "smart-quotes-break-code"],
+  relatedGuides: ["why-chatgpt-uses-em-dashes", "em-dash-copy-paste", "smart-quotes-break-code"],
 };

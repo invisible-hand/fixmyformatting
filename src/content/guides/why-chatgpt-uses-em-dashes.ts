@@ -114,5 +114,5 @@ If you want the full picture of which formatting artefacts travel with AI output
     },
   ],
   relatedTools: ["remove-em-dashes", "clean-ai-text"],
-  relatedGuides: ["signs-of-ai-written-text", "em-dash-vs-en-dash-vs-hyphen"],
+  relatedGuides: ["signs-of-ai-written-text", "em-dash-vs-en-dash-vs-hyphen", "em-dash-copy-paste"],
 };
