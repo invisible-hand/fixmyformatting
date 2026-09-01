@@ -4,6 +4,7 @@ import { invisibleCharacters } from "../content/guides/chatgpt-invisible-charact
 import { markdownInWord } from "../content/guides/markdown-symbols-in-word";
 import { tableToExcel } from "../content/guides/paste-chatgpt-table-into-excel";
 import { exportConversation } from "../content/guides/export-chatgpt-conversation";
+import { chatgptToNotion } from "../content/guides/chatgpt-to-notion";
 import { smartQuotes } from "../content/guides/smart-quotes-break-code";
 import { dashReference } from "../content/guides/em-dash-vs-en-dash-vs-hyphen";
 import { tokenCount } from "../content/guides/prompt-token-count-explained";
@@ -73,6 +74,7 @@ export const allGuides: GuideDefinition[] = [
   invisibleCharacters,
   markdownInWord,
   tableToExcel,
+  chatgptToNotion,
   exportConversation,
   noTextExtracted,
   smartQuotes,

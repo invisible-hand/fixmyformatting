@@ -98,5 +98,5 @@ If the rest of the response also needs to travel — headings, lists, the explan
     },
   ],
   relatedTools: ["markdown-table-to-excel", "markdown-table-to-csv", "extract-table-from-text"],
-  relatedGuides: ["markdown-symbols-in-word", "export-chatgpt-conversation"],
+  relatedGuides: ["markdown-symbols-in-word", "chatgpt-to-notion", "export-chatgpt-conversation"],
 };
