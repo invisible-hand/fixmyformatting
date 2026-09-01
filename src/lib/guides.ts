@@ -11,6 +11,7 @@ import { unicodeReference } from "../content/guides/invisible-unicode-characters
 import { textWatermarks } from "../content/guides/ai-text-watermarks";
 import { emDashCopyPaste } from "../content/guides/em-dash-copy-paste";
 import { whatIsAnEmDash } from "../content/guides/what-is-an-em-dash";
+import { zeroWidthSpace } from "../content/guides/zero-width-space";
 
 export type GuideCluster = "ai-tells" | "how-to" | "reference";
 
@@ -78,6 +79,7 @@ export const allGuides: GuideDefinition[] = [
   whatIsAnEmDash,
   tokenCount,
   unicodeReference,
+  zeroWidthSpace,
 ];
 
 export function getGuide(slug: string) {
