@@ -44,6 +44,8 @@ export function ToolPage({
   const toolGuides = locale === "en" ? guidesForTool(processorSlug) : [];
   const publicPath = localizedPath(locale, tool.slug);
   const pageUrl = `${siteUrl}${publicPath}`;
+  // timeZone: UTC so a YYYY-MM-DD string renders as that calendar day everywhere.
+  const updatedLabel = new Intl.DateTimeFormat(locale, { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${tool.updated}T00:00:00Z`));
   const workspaceLabels = localized ? {
     input: localized.input,
     output: localized.output,
@@ -80,6 +82,7 @@ export function ToolPage({
       description: tool.description,
       browserRequirements: "Requires JavaScript",
       inLanguage: locale,
+      dateModified: tool.updated,
     },
     {
       "@context": "https://schema.org",
@@ -120,6 +123,7 @@ export function ToolPage({
         <header className="tool-title">
           <h1>{tool.name}</h1>
           <p>{tool.description}</p>
+          <p className="tool-updated">{localized?.updated ?? "Updated"} <time dateTime={tool.updated}>{updatedLabel}</time></p>
         </header>
         <ToolWorkspace tool={tool} initialInput={initialInput} initialSettings={initialSettings} locale={locale} labels={workspaceLabels} publicPath={publicPath} />
         <a className="runtime-embed-backlink" href={pageUrl} target="_blank">Fix My Formatting: {tool.name} →</a>

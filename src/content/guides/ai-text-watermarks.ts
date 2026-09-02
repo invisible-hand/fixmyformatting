@@ -9,9 +9,9 @@ export const textWatermarks: GuideDefinition = {
   dek: "What the marks are, who ships them in 2026, and why the folklore about hidden characters gets it backwards.",
   cluster: "ai-tells",
   published: "2026-08-10",
-  updated: "2026-08-10",
+  updated: "2026-09-01",
   answer:
-    "Some do, as of August 2026. Gemini embeds Google's SynthID watermark in generated text, and Claude models launched after August 2, 2026 carry an embedded text watermark under the EU AI Act's transparency code. ChatGPT does not yet watermark text, only images and voice. These marks live in the model's word choices, not in hidden characters — you cannot see them, and no cleanup tool can detect or remove them.",
+    "Some do, as of August 2026. Gemini embeds Google's SynthID watermark in generated text, and Claude models launched on or after August 2, 2026 carry an embedded text watermark under the EU AI Act's transparency code. ChatGPT does not yet watermark text, only images and voice. These marks live in the model's word choices, not in hidden characters — you cannot see them, and no cleanup tool can detect or remove them.",
   sections: [
     {
       id: "what-a-text-watermark-is",
@@ -31,11 +31,11 @@ Invisible Unicode characters are a real phenomenon — they routinely survive a 
 
 **Google Gemini — yes, live.** Google's SynthID has watermarked Gemini's text output since well before the deadline, alongside its image, audio, and video marks. Google signed the transparency code in July 2026 and is pushing SynthID as a cross-industry standard, with partners including Apple, NVIDIA, ElevenLabs, and OpenAI.
 
-**Anthropic Claude — yes, for new models.** Anthropic signed the same code. Claude models launched on or after August 2, 2026 embed a text watermark from day one, applied at the model level so it is present across every Claude product and API. Older Claude models are in a transition period. Anthropic says detection tooling for third parties is coming but has not shipped publicly yet.
+**Anthropic Claude — yes, for new models.** Anthropic signed the same code. Claude models launched on or after August 2, 2026 embed a text watermark from day one, applied at the model level rather than per-product. Older Claude models are in a transition period. Anthropic says detection tooling for third parties is coming but has not shipped publicly yet.
 
-**OpenAI ChatGPT — no, not for text.** As of August 2026, ChatGPT does not watermark its text. OpenAI has deployed marks in other modalities — SynthID in generated images since May 2026 and in voice output since July 2026, plus C2PA provenance metadata — and has researched text watermarking for years without shipping it.
+**OpenAI ChatGPT — no, not for text.** As of August 2026, ChatGPT does not watermark its text. OpenAI has deployed marks in other modalities — SynthID in generated images since May 2026, and marks in voice output, plus C2PA provenance metadata — and has researched text watermarking for years without shipping it.
 
-Two things follow from that table. First, "this text has no watermark" does not mean "no AI wrote this" — the most-used chatbot in the world does not mark its text at all, and older models never will retroactively. Second, the situation is moving quickly; this section is dated because it will age.
+Two things follow from that picture. First, "this text has no watermark" does not mean "no AI wrote this" — the most-used chatbot in the world does not mark its text at all, and older models never will retroactively. Second, the situation is moving quickly; this section is dated because it will age.
 
 Alongside text watermarks, generated *files* — images, PDFs, SVGs — increasingly carry C2PA provenance metadata: a signed label saying which tool produced the file. Unlike statistical watermarks, that metadata is fragile by design and disappears on any re-save, screenshot, or format conversion.`,
     },
@@ -72,7 +72,7 @@ One more limitation the providers state plainly: a detected mark means the text 
     {
       question: "Does ChatGPT put a watermark in its text?",
       answer:
-        "No. As of August 2026, ChatGPT's text output carries no watermark. OpenAI marks generated images (SynthID, since May 2026) and voice output (since July 2026) and attaches C2PA metadata to files, but it has not shipped text watermarking, despite researching it for years.",
+        "No. As of August 2026, ChatGPT's text output carries no watermark. OpenAI marks generated images (SynthID, since May 2026) and voice output, and attaches C2PA metadata to files, but it has not shipped text watermarking, despite researching it for years.",
     },
     {
       question: "Are invisible Unicode characters the AI watermark?",

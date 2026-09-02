@@ -8,7 +8,7 @@ export const dashReference: GuideDefinition = {
   dek: "Three different Unicode characters that look similar and are not interchangeable.",
   cluster: "reference",
   published: "2026-07-25",
-  updated: "2026-07-25",
+  updated: "2026-09-01",
   answer:
     "A hyphen (-) joins compound words: well-known. An en dash (–) marks ranges and connections: pages 20–24. An em dash (—) sets off a phrase within a sentence, like a stronger comma. They are three separate Unicode characters of increasing width, and parsers, search, and typesetting all treat them differently.",
   sections: [
@@ -59,7 +59,7 @@ En dashes are the least-used of the three and the most often replaced by a hyphe
 - **Singly, before a conclusion or reversal**: *She checked everything twice — and still missed it.*
 - **To mark interrupted speech** in dialogue.
 
-**Spacing** is the one real style disagreement. US publishing convention (Chicago Manual of Style) sets em dashes closed up: *word—word*. UK convention (Oxford, and most British newspapers) uses a spaced en dash instead: *word – word*. Both are correct; consistency within a document is what matters. AI output typically uses the spaced em dash — *word — word* — which is a hybrid of the two and is why it can look subtly off to editors trained in either tradition.
+**Spacing** is the one real style disagreement, and it runs three ways. Chicago, APA, and MLA set em dashes closed up: *word—word*. AP style puts a space on each side: *word — word*. British house styles following New Hart's Rules use a spaced en dash instead: *word – word*. All three are correct; consistency within a document is what matters. AI output typically uses the spaced em dash, which is AP style rather than a hybrid — it looks wrong only to editors who read Chicago as the single US convention.
 
 The em dash is also the mark that has become an unofficial signature of AI-generated text, because models use it far more consistently than people do. That is covered in [why ChatGPT uses so many em dashes](/guides/why-chatgpt-uses-em-dashes).`,
     },
@@ -71,7 +71,8 @@ The em dash is also the mark that has become an unofficial signature of AI-gener
 | macOS | <kbd>Option</kbd> + <kbd>-</kbd> | <kbd>Option</kbd> + <kbd>Shift</kbd> + <kbd>-</kbd> |
 | Windows | <kbd>Alt</kbd> + <kbd>0150</kbd> | <kbd>Alt</kbd> + <kbd>0151</kbd> |
 | Linux | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>u</kbd>, 2013 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>u</kbd>, 2014 |
-| Word / Docs | Two hyphens between words autocorrects | Two hyphens autocorrects |
+| Microsoft Word | \`word - word\` then a space autocorrects | \`word--word\` then a space autocorrects |
+| Google Docs | Insert &rarr; Special characters | No default conversion; Insert &rarr; Special characters, or add your own \`--\` substitution |
 | HTML | \`&ndash;\` | \`&mdash;\` |
 | iOS / Android | Long-press the hyphen key | Long-press the hyphen key |
 
@@ -105,12 +106,12 @@ If you need to normalise dashes across a document, [Remove Em Dashes](/remove-em
     {
       question: "Should em dashes have spaces around them?",
       answer:
-        "It depends on the style guide. US convention closes them up (word—word), while UK convention typically uses a spaced en dash (word – word). Both are correct; consistency within a single document is what matters.",
+        "It depends on the style guide. Chicago, APA, and MLA close them up (word—word). AP style puts a space on each side (word — word). British house styles following New Hart's Rules use a spaced en dash instead (word – word). All are correct; consistency within a single document is what matters.",
     },
     {
       question: "How do I type an em dash?",
       answer:
-        "On macOS press Option + Shift + hyphen. On Windows hold Alt and type 0151 on the numeric keypad. In Word and Google Docs, typing two hyphens between words converts automatically. On phones, long-press the hyphen key.",
+        "On macOS press Option + Shift + hyphen. On Windows hold Alt and type 0151 on the numeric keypad. In Word, typing two hyphens between words converts automatically; Google Docs has no built-in shortcut and no default conversion, so use Insert > Special characters or add your own substitution rule. On phones, long-press the hyphen key.",
     },
     {
       question: "Does it matter if I use a hyphen instead of an en dash?",
@@ -119,5 +120,5 @@ If you need to normalise dashes across a document, [Remove Em Dashes](/remove-em
     },
   ],
   relatedTools: ["remove-em-dashes", "clean-ai-text"],
-  relatedGuides: ["why-chatgpt-uses-em-dashes", "smart-quotes-break-code"],
+  relatedGuides: ["what-is-an-em-dash", "why-chatgpt-uses-em-dashes", "em-dash-copy-paste", "smart-quotes-break-code"],
 };

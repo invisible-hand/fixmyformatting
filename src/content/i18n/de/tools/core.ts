@@ -192,9 +192,9 @@ export const tools: Partial<Record<string, ToolCopy>> = {
     name: "Text teilen",
     title: "Text teilen für KI-Prompts",
     description: "Langen Text in saubere, kopierbare Abschnitte für KI-Werkzeuge aufteilen.",
-    intro: "Teile lange Dokumente an Absatzgrenzen in praktische Abschnitte auf. So passt der Inhalt in Prompts, ohne dass Wörter mitten im Satz abgeschnitten werden.",
+    intro: "Teile lange Dokumente in Abschnitte fester Größe von bis zu 2.000 Zeichen auf. Jeder Abschnitt endet an einer Leerraumgrenze, sodass kein Wort in der Mitte zerteilt wird – ein Abschnitt kann dadurch aber mitten im Satz enden. Praktisch, um Inhalte durch Prompt- und Einfügelimits zu bekommen.",
     faqs: [
-      { question: "Wo wird der Text geteilt?", answer: "Das Werkzeug sucht Absatzgrenzen in der Nähe des gewählten Limits, damit Abschnitte möglichst sauber beginnen und enden." },
+      { question: "Wo wird der Text geteilt?", answer: "Abschnitte sind höchstens 2.000 Zeichen lang und werden am nächstgelegenen Leerraum getrennt. Wörter werden dadurch nie zerteilt, ein Abschnitt kann aber mitten in einem Satz enden." },
       { question: "Wird mein Text hochgeladen?", answer: "Nein. Die Verarbeitung erfolgt im Browser. Text wird nur gespeichert, wenn du ausdrücklich einen Freigabelink erstellst." },
       { question: "Ist das Teilen von Text kostenlos?", answer: "Ja. Das Werkzeug ist kostenlos, benötigt kein Konto und hat kein Nutzungslimit." },
     ],

@@ -8,7 +8,7 @@ export const emDashes: GuideDefinition = {
   dek: "The punctuation mark that turned into an AI signature, and what to do about it.",
   cluster: "ai-tells",
   published: "2026-07-25",
-  updated: "2026-07-25",
+  updated: "2026-09-01",
   answer:
     "ChatGPT uses em dashes because it was trained on professionally edited prose — books, essays, and journalism — where the em dash is standard for setting off a phrase. The model reproduces that habit far more consistently than casual human writers, who rarely type the character at all. That gap in consistency, not the mark itself, is what makes it read as an AI signature.",
   sections: [
@@ -73,11 +73,27 @@ Keep it when:
 The realistic goal is not zero em dashes. It is em dashes that appear because you chose them, at a rate that reflects your own voice. One or two in a long article reads as deliberate. One in every paragraph reads as a default.`,
     },
     {
+      id: "other-habits",
+      heading: "The em dash is one habit among several",
+      body: `The dash gets the attention because it is a single character you can search for. It is not the only regularity, and the others come from the same two pressures: training data full of edited, structured writing, and tuning toward answers that readers rate as clear.
+
+- **Bold on key phrases.** Not headings, but a phrase or two emphasised inside a paragraph, often the first few words of a list item. It makes an answer skimmable, which is what a chat interface is optimising for.
+- **Bullets where prose would do.** A three-sentence idea arrives as three bullets. Lists score well as answers, so models default to them even when the points are not really parallel.
+- **Headings on short answers.** A four-paragraph reply with two section headers over it. The structure is borrowed from documentation, where it earns its place, and applied to text far too short to need navigation.
+- **Emoji as furniture.** Used as bullet markers or section icons rather than as expression — a checkmark at the front of every item, a rocket over the "next steps" block.
+- **"It's not just X — it's Y."** The correction-then-elevation move, along with "it's worth noting that" and "the key is". Ordinary constructions; what stands out is how often they cluster in one short piece.
+- **The rule of three.** Three examples, three bullets, three adjectives, because three sounds complete. Human drafts are lumpier — two reasons, or five, depending on how many there actually were.
+
+None of these is a watermark. No vendor stamps a hidden signal into ordinary text, and none of these habits was designed as a tell. They are style defaults, and they can be removed or asked away like any other style default. If you want them out of a document you already have, [Humanize AI Text](/humanize-ai-text) strips the mechanical layer — the punctuation, the invisible characters, the decorative emoji — and [Bullet Points to Paragraph](/bullet-points-to-paragraph) turns over-listed text back into prose. Neither claims to defeat a detector, and you should be suspicious of anything that does.
+
+The full set, including the ones you can count, is in the [signs of AI-written text](/guides/signs-of-ai-written-text) guide.`,
+    },
+    {
       id: "not-proof",
       heading: "Em dashes are not proof of AI writing",
       body: `This deserves stating plainly, because a lot of advice online gets it wrong: **the presence of em dashes proves nothing.**
 
-Plenty of human writing is full of them. Microsoft Word and Google Docs both convert a double hyphen into an em dash automatically, so writers produce them without ever choosing the character. Anyone trained in editorial writing uses them by instinct. Entire publications mandate them.
+Plenty of human writing is full of them. Microsoft Word converts a double hyphen into an em dash automatically as you type, so writers produce them without ever choosing the character. Anyone trained in editorial writing uses them by instinct. Entire publications mandate them.
 
 There is no reliable way to detect AI-generated text from punctuation, and the commercial tools that claim otherwise have well-documented false-positive rates — with non-native English speakers disproportionately affected. Treating an em dash as evidence has real costs when the accusation lands on a student or a colleague.
 
@@ -90,7 +106,7 @@ If you want the full picture of which formatting artefacts travel with AI output
     {
       question: "Does using em dashes mean my writing looks AI-generated?",
       answer:
-        "Not on its own. Em dashes are standard in edited English and appear throughout human writing, partly because Word and Google Docs create them automatically from double hyphens. What reads as machine-like is a high, evenly spaced rate — roughly one per paragraph across an entire document — usually alongside other artefacts such as smart quotes and emoji-headed lists.",
+        "Not on its own. Em dashes are standard in edited English and appear throughout human writing, partly because Word creates them automatically from double hyphens. What reads as machine-like is a high, evenly spaced rate — roughly one per paragraph across an entire document — usually alongside other artefacts such as smart quotes and emoji-headed lists.",
     },
     {
       question: "What should I replace an em dash with?",
@@ -113,6 +129,6 @@ If you want the full picture of which formatting artefacts travel with AI output
         "No. A hyphen (-, U+002D) joins compound words. An en dash (–, U+2013) marks ranges such as 2020–2024. An em dash (—, U+2014) sets off a phrase within a sentence. They are three separate characters of increasing width and are not interchangeable.",
     },
   ],
-  relatedTools: ["remove-em-dashes", "clean-ai-text"],
-  relatedGuides: ["signs-of-ai-written-text", "em-dash-vs-en-dash-vs-hyphen"],
+  relatedTools: ["remove-em-dashes", "clean-ai-text", "humanize-ai-text"],
+  relatedGuides: ["signs-of-ai-written-text", "em-dash-vs-en-dash-vs-hyphen", "em-dash-copy-paste"],
 };

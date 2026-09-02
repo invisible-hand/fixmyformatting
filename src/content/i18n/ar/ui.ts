@@ -29,6 +29,7 @@ export const ui: UiMessages = {
   noSignup: "بلا تسجيل",
   private: "تتم المعالجة في متصفحك ولا يُرفع النص.",
   howTo: "طريقة استخدام",
+  updated: "آخر تحديث",
   faqTitle: "الأسئلة الشائعة",
   relatedTools: "أدوات ذات صلة",
   stepCopy: "انسخ النص أو الجدول الذي تريد إصلاحه.",

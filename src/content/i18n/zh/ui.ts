@@ -29,6 +29,7 @@ export const ui: UiMessages = {
   noSignup: "无需注册",
   private: "处理在浏览器中完成，文本不会上传。",
   howTo: "使用方法：",
+  updated: "更新于",
   faqTitle: "常见问题",
   relatedTools: "相关工具",
   stepCopy: "复制需要修复的文本或表格。",

@@ -79,7 +79,10 @@ export const workspace: WorkspaceMessages = {
   "dashComma": "Coma",
   "dashSemicolon": "Punto y coma",
   "dashHyphen": "Guión",
-  "dashRemove": "Nada"
+  "dashRemove": "Nada",
+  "listLabel": "Convertir a",
+  "listToParagraph": "Párrafo",
+  "listToBullets": "Viñetas"
 };
 
 export const guideChrome: GuideChrome = {

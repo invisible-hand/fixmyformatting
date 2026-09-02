@@ -79,7 +79,10 @@ export const workspace: WorkspaceMessages = {
   "dashComma": "Virgola",
   "dashSemicolon": "Punto e virgola",
   "dashHyphen": "Trattino",
-  "dashRemove": "Niente"
+  "dashRemove": "Niente",
+  "listLabel": "Converti in",
+  "listToParagraph": "Paragrafo",
+  "listToBullets": "Elenco puntato"
 };
 
 export const guideChrome: GuideChrome = {

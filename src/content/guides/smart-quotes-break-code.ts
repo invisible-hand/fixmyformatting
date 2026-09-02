@@ -8,7 +8,7 @@ export const smartQuotes: GuideDefinition = {
   dek: "The error points at a line that looks perfectly fine, because the difference is invisible at a glance.",
   cluster: "how-to",
   published: "2026-07-25",
-  updated: "2026-07-25",
+  updated: "2026-09-01",
   answer:
     "Smart quotes (“ ” ‘ ’) are different Unicode characters from the straight quotes (\" ') that programming languages and data formats require. Parsers match exact code points, so a curly quote is just an ordinary letter to them and the string never opens. Replacing them with straight quotes fixes it immediately.",
   sections: [
@@ -26,7 +26,7 @@ export const smartQuotes: GuideDefinition = {
 | ‘ | Left single quotation mark | U+2018 |
 | ’ | Right single quotation mark | U+2019 |
 
-Programming languages, JSON, CSV, and shell interpreters recognise exactly two of these as string delimiters: U+0022 and U+0027. The other four are ordinary printable characters, in the same category as a letter or a comma.
+Programming languages, JSON, CSV, and shell interpreters recognise exactly two of these as string delimiters: U+0022 and U+0027. The other four are not delimiters to any of them. Unicode does classify them as punctuation — initial and final quotation marks, categories Pi and Pf — but a parser only asks whether a character is the exact delimiter it was told to look for, and none of these is. So they are handled as ordinary content, the same way a letter or a comma would be.
 
 So when a parser meets “name”, it does not see a quoted string with slightly decorative quotes. It sees an unquoted sequence of characters beginning with a symbol it did not expect. The error message says something like *unexpected token* and points at a line that looks completely correct, because at normal font sizes the difference between \`"\` and “ is a few pixels of curvature.`,
       figure: "smart-quotes-code",
@@ -55,7 +55,7 @@ The same applies to a few companions worth knowing about: the ellipsis character
 
 **Source code.** In most languages this is a compile or parse error, which is at least loud. In shell scripts it can be worse: \`rm –rf\` with an en dash instead of a hyphen is not the flag you meant, and quoted arguments with curly quotes are passed through as literal text.
 
-**Configuration files.** YAML, TOML, and \`.env\` files silently accept curly quotes as part of the value. Your API key ends up with a decorative character attached, authentication fails, and nothing in the log tells you why.
+**Configuration files.** YAML and \`.env\` files silently accept curly quotes as part of the value. Your API key ends up with a decorative character attached, authentication fails, and nothing in the log tells you why. TOML is the exception worth knowing: it accepts only U+0022 and U+0027 as string delimiters, so \`key = “a”\` raises a parse error rather than passing the quotes through.
 
 **Regular expressions and search.** A pattern containing a straight quote will not match text containing a curly one, so find-and-replace quietly returns zero results.`,
     },

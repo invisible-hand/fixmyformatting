@@ -21,11 +21,11 @@ export const guide: GuideTranslation = {
     },
     "the-em-dash": {
       heading: "긴 대시(Em dash)",
-      body: "긴 대시는 구를 떼어 놓아 쉼표보다 강하고 마침표보다 부드러운 끊김을 만듭니다.\n\n- **한 쌍으로, 삽입구를 둘러싸기**: *The results — which nobody expected — were clear.*\n- **단독으로, 결론이나 반전 앞에**: *She checked everything twice — and still missed it.*\n- **대화에서 말이 끊겼음을 표시**할 때.\n\n**띄어쓰기**는 유일한 실질적 스타일 논쟁거리입니다. 미국 출판 관례(Chicago Manual of Style)는 긴 대시를 붙여 씁니다: *word—word*. 영국 관례(Oxford와 대부분의 영국 신문)는 대신 양쪽에 공백을 둔 짧은 대시를 씁니다: *word – word*. 둘 다 올바르며, 문서 내 일관성이 중요합니다. AI 출력물은 보통 양쪽에 공백을 둔 긴 대시(*word — word*)를 쓰는데, 이는 두 관례의 혼합이라 어느 전통에서 훈련된 편집자에게도 미묘하게 어색해 보입니다.\n\n긴 대시는 또한 AI 생성 텍스트의 비공식 서명처럼 된 기호이기도 합니다. 모델이 사람보다 훨씬 일관되게 사용하기 때문입니다. 이에 대해서는 [ChatGPT가 긴 대시를 많이 쓰는 이유](/guides/why-chatgpt-uses-em-dashes)에서 다룹니다.",
+      body: "긴 대시는 구를 떼어 놓아 쉼표보다 강하고 마침표보다 부드러운 끊김을 만듭니다.\n\n- **한 쌍으로, 삽입구를 둘러싸기**: *The results — which nobody expected — were clear.*\n- **단독으로, 결론이나 반전 앞에**: *She checked everything twice — and still missed it.*\n- **대화에서 말이 끊겼음을 표시**할 때.\n\n**띄어쓰기**는 유일한 실질적 스타일 논쟁거리이며, 견해가 세 갈래로 갈립니다. Chicago와 APA, MLA는 긴 대시를 붙여 씁니다: *word—word*. AP 스타일북은 양쪽에 공백을 하나씩 둡니다: *word — word*. New Hart's Rules를 따르는 영국 출판사 스타일은 대신 양쪽에 공백을 둔 짧은 대시를 씁니다: *word – word*. 셋 다 올바르며, 문서 내 일관성이 중요합니다. AI 출력물은 보통 양쪽에 공백을 둔 긴 대시를 쓰는데, 이는 두 관례의 혼합이 아니라 AP 스타일입니다. Chicago를 미국의 유일한 관례로 여기는 편집자에게만 어색해 보일 뿐입니다.\n\n긴 대시는 또한 AI 생성 텍스트의 비공식 서명처럼 된 기호이기도 합니다. 모델이 사람보다 훨씬 일관되게 사용하기 때문입니다. 이에 대해서는 [ChatGPT가 긴 대시를 많이 쓰는 이유](/guides/why-chatgpt-uses-em-dashes)에서 다룹니다.",
     },
     "typing-them": {
       heading: "각 문자 입력하는 법",
-      body: "| 플랫폼 | 짧은 대시(–) | 긴 대시(—) |\n| --- | --- | --- |\n| macOS | <kbd>Option</kbd> + <kbd>-</kbd> | <kbd>Option</kbd> + <kbd>Shift</kbd> + <kbd>-</kbd> |\n| Windows | <kbd>Alt</kbd> + <kbd>0150</kbd> | <kbd>Alt</kbd> + <kbd>0151</kbd> |\n| Linux | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>u</kbd>, 2013 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>u</kbd>, 2014 |\n| Word / Docs | 단어 사이에 하이픈 두 개를 치면 자동 변환 | 하이픈 두 개가 자동 변환 |\n| HTML | `&ndash;` | `&mdash;` |\n| iOS / Android | 하이픈 키 길게 누르기 | 하이픈 키 길게 누르기 |\n\nWindows Alt 코드는 숫자 키패드가 필요합니다. 그래서 많은 노트북 사용자가 이 문자들을 아예 입력하지 않는 것입니다.",
+      body: "| 플랫폼 | 짧은 대시(–) | 긴 대시(—) |\n| --- | --- | --- |\n| macOS | <kbd>Option</kbd> + <kbd>-</kbd> | <kbd>Option</kbd> + <kbd>Shift</kbd> + <kbd>-</kbd> |\n| Windows | <kbd>Alt</kbd> + <kbd>0150</kbd> | <kbd>Alt</kbd> + <kbd>0151</kbd> |\n| Linux | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>u</kbd>, 2013 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>u</kbd>, 2014 |\n| Microsoft Word | `word - word`처럼 치고 공백을 넣으면 자동 고침 | `word--word`처럼 치고 공백을 넣으면 자동 고침 |\n| Google Docs | 삽입 &rarr; 특수 문자 | 기본 자동 변환 없음. 삽입 &rarr; 특수 문자를 쓰거나 `--` 자동 대체 규칙을 직접 추가 |\n| HTML | `&ndash;` | `&mdash;` |\n| iOS / Android | 하이픈 키 길게 누르기 | 하이픈 키 길게 누르기 |\n\nWindows Alt 코드는 숫자 키패드가 필요합니다. 그래서 많은 노트북 사용자가 이 문자들을 아예 입력하지 않는 것입니다.",
     },
     "when-it-breaks-things": {
       heading: "차이가 실제로 문제를 일으키는 경우",
@@ -35,8 +35,8 @@ export const guide: GuideTranslation = {
   faqs: [
     { question: "긴 대시와 짧은 대시의 차이는 무엇인가요?", answer: "짧은 대시(–, U+2013)는 ~에서 ~까지를 의미하며 2020–2024 같은 범위를 나타냅니다. 긴 대시(—, U+2014)는 문장 안에서 구를 구분하며, 쉼표보다 강한 끊김을 만듭니다. 긴 대시가 대략 두 배 넓고, 둘은 별개의 Unicode 문자입니다." },
     { question: "대시 대신 하이픈은 언제 써야 하나요?", answer: "여러 단어를 하나의 단위로 묶을 때 하이픈을 씁니다: well-known, twenty-three, re-elect. 범위, 두 주체 사이의 연결, 문장 내 끊김을 의미한다면 짧은 대시나 긴 대시를 써야 합니다." },
-    { question: "긴 대시 양쪽에 공백을 넣어야 하나요?", answer: "스타일 가이드에 따라 다릅니다. 미국 관례는 붙여 쓰고(word—word), 영국 관례는 보통 양쪽에 공백을 둔 짧은 대시를 씁니다(word – word). 둘 다 올바르며, 한 문서 안에서의 일관성이 중요합니다." },
-    { question: "긴 대시는 어떻게 입력하나요?", answer: "macOS에서는 Option + Shift + 하이픈을 누릅니다. Windows에서는 Alt를 누른 채 숫자 키패드로 0151을 입력합니다. Word와 Google Docs에서는 단어 사이에 하이픈 두 개를 치면 자동으로 변환됩니다. 휴대폰에서는 하이픈 키를 길게 누르세요." },
+    { question: "긴 대시 양쪽에 공백을 넣어야 하나요?", answer: "스타일 가이드에 따라 다릅니다. Chicago와 APA, MLA는 붙여 씁니다(word—word). AP 스타일은 양쪽에 공백을 하나씩 둡니다(word — word). New Hart's Rules를 따르는 영국 출판사 스타일은 대신 양쪽에 공백을 둔 짧은 대시를 씁니다(word – word). 모두 올바르며, 한 문서 안에서의 일관성이 중요합니다." },
+    { question: "긴 대시는 어떻게 입력하나요?", answer: "macOS에서는 Option + Shift + 하이픈을 누릅니다. Windows에서는 Alt를 누른 채 숫자 키패드로 0151을 입력합니다. Word에서는 단어 사이에 하이픈 두 개를 치면 자동으로 변환됩니다. Google Docs에는 기본 단축키도, 기본 자동 변환도 없으므로 삽입 > 특수 문자를 쓰거나 자동 대체 규칙을 직접 추가하세요. 휴대폰에서는 하이픈 키를 길게 누르세요." },
     { question: "짧은 대시 대신 하이픈을 쓰면 문제가 되나요?", answer: "산문에서는 대부분의 독자가 알아차리지 못하는 사소한 부정확함입니다. 하지만 데이터, 코드, URL, 검색이나 파싱이 일어나는 모든 곳에서는 세 문자가 서로 다르기 때문에 정확한 일치가 실패해 큰 문제가 됩니다." },
   ],
 };

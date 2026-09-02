@@ -79,7 +79,10 @@ export const workspace: WorkspaceMessages = {
   "dashComma": "カンマ",
   "dashSemicolon": "セミコロン",
   "dashHyphen": "ハイフン",
-  "dashRemove": "削除"
+  "dashRemove": "削除",
+  "listLabel": "変換先",
+  "listToParagraph": "段落",
+  "listToBullets": "箇条書き"
 };
 
 export const guideChrome: GuideChrome = {

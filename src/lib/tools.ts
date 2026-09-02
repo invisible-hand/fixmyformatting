@@ -12,7 +12,16 @@ export type ToolDefinition = {
   download?: "docx" | "xlsx" | "csv" | "html" | "txt";
   intro: string;
   faqs: { question: string; answer: string }[];
+  /** ISO date (YYYY-MM-DD) of the last content change; feeds dateModified + the visible "Updated" line. */
+  updated: string;
 };
+
+/**
+ * Bump when tool copy, FAQs, or processing behaviour changes. Individual tools
+ * can override via define(..., { updated }). Must match the date of the commit
+ * that changed them — it is published as schema.org dateModified.
+ */
+export const toolsUpdated = "2026-08-11";
 
 const sharedFaqs = (name: string) => [
   {
@@ -50,6 +59,7 @@ const define = (
   intro,
   placeholder: markdownPlaceholder,
   faqs: sharedFaqs(name),
+  updated: toolsUpdated,
   ...extra,
 });
 
@@ -66,14 +76,89 @@ export const coreTools: ToolDefinition[] = [
   define("html-to-markdown", "HTML to Markdown", "HTML to Markdown Converter — Free & Private", "Convert HTML source to clean Markdown in your browser. Free, instant, and private.", "Markdown & documents", "Paste HTML source and get portable Markdown for READMEs, documentation, notes apps, and LLM prompts. Headings, lists, links, emphasis, code blocks, and tables are converted; scripts, styles, and unknown tags are dropped.", { outputLabel: "Markdown", download: "txt", placeholder: "<h1>Hello</h1>\n<p>This is <strong>bold</strong>, <em>italic</em>, and <a href=\"https://example.com\">a link</a>.</p>" }),
   define("remove-em-dashes", "Remove Em Dashes", "Remove Em Dashes from Text", "Replace em dashes with commas, hyphens, or spaces instantly.", "Markdown & documents", "Find and replace em dashes in AI-generated or human-written text. The live count tells you exactly how many were changed.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste text with em dashes — like this one — to replace them." }),
   define("clean-ai-text", "AI Text Cleaner", "Clean ChatGPT Text & AI Formatting", "Clean AI text artifacts such as em dashes, smart quotes, invisible characters, and emoji.", "AI cleanup", "The AI Artifact Report counts mechanical formatting artifacts; it does not guess whether text was written by AI. Toggle cleanup choices and review the transparent counts.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste ChatGPT, Claude, or Gemini text here — “smart quotes,” emoji ✨ and hidden characters are reported." }),
+  define("humanize-ai-text", "AI Formatting Humanizer", "Humanize AI Text — Formatting Cleanup, Free", "Remove the formatting fingerprints of AI output: em dashes, smart quotes, invisible characters, emoji, and fancy fonts. Wording and meaning stay intact.", "AI cleanup", "Paste AI output and every mechanical formatting artifact is normalized in one pass: em dashes become commas, curly quotes and apostrophes become straight ones, invisible characters and emoji are removed, no-break spaces become ordinary spaces, and pseudo-font Unicode returns to plain letters. The words themselves are never touched. AI detectors score word choice and sentence structure, which formatting cleanup does not change.", {
+    report: true,
+    outputLabel: "Clean text",
+    download: "txt",
+    placeholder: "Paste AI output here — “smart quotes”, emoji ✨, 𝗳𝗮𝗻𝗰𝘆 letters and hidden characters are counted and normalized.",
+    faqs: [
+      {
+        question: "What does it actually change?",
+        answer:
+          "Em dashes become commas, curly quotes and apostrophes become straight ASCII ones, zero-width and other invisible characters are deleted, non-breaking and narrow no-break spaces become ordinary spaces, emoji are removed, pseudo-font Unicode letters are mapped back to plain ones, runs of spaces and tabs collapse to one, and trailing whitespace is trimmed from each line.",
+      },
+      {
+        question: "Does it rewrite my writing?",
+        answer:
+          "No. It is not a rewriter. Every word stays in place, in the same order, with the same meaning. Only punctuation characters, spacing, and character encoding change.",
+      },
+      {
+        question: "Does it change what an AI detector sees?",
+        answer:
+          "No. Detectors score word choice, sentence structure, and statistical patterns in the prose itself. Formatting cleanup touches none of that: it changes punctuation, spacing, and character encoding, and leaves every word where it was.",
+      },
+      {
+        question: "How is this different from the AI Text Cleaner?",
+        answer:
+          "The AI Text Cleaner handles em dashes, smart quotes, invisible characters, and emoji. This tool runs that same cleanup and adds pseudo-font Unicode conversion, no-break space normalization, and whitespace tidying, in a single pass.",
+      },
+      {
+        question: "Is the AI formatting humanizer free?",
+        answer: "Yes. It is free, requires no account, and has no usage limit.",
+      },
+      {
+        question: "Does my text get uploaded?",
+        answer:
+          "No. Processing happens in your browser. Text is stored only if you explicitly create a share link.",
+      },
+    ],
+  }),
+  define("bullet-points-to-paragraph", "Bullet Points to Paragraph", "Bullet Points to Paragraph Converter", "Turn a bullet list into flowing prose, or a paragraph into bullet points. Free, instant, and processed in your browser.", "AI cleanup", "AI assistants answer in bullets by default, which is wrong for an email, an essay, a cover letter, or a report that should not read like a slide deck. Paste the list and it becomes flowing prose: each item loses its marker, gains a full stop if it lacks one, and joins the sentence beside it. Blank lines between bullet groups stay paragraph breaks, and headings, block quotes and fenced code are left alone. Switch the direction above the editor to go the other way and turn a dense paragraph into a scannable bullet list, one bullet per sentence.", {
+    report: true,
+    outputLabel: "Converted text",
+    download: "txt",
+    placeholder: "Key points from the meeting\n\n- The migration is scheduled for 14 March\n- Two services need a config change first\n- Ada owns the rollback plan\n- We will freeze deploys for the weekend",
+    faqs: [
+      {
+        question: "What counts as a bullet point?",
+        answer:
+          "A line that starts with -, *, +, •, ‣, ◦, – or a number such as 1., 1) or (1), followed by a space. Indented items count too. A hyphen inside a sentence is never treated as a bullet, so ordinary prose passes through unchanged.",
+      },
+      {
+        question: "Can it turn a paragraph into bullet points?",
+        answer:
+          "Yes. Set the direction above the editor to bullet points. Each sentence becomes its own item prefixed with a hyphen, and common abbreviations such as e.g., i.e., Dr. and etc. do not split a sentence in half.",
+      },
+      {
+        question: "Does it rewrite the wording?",
+        answer:
+          "No. The words stay as you wrote them. Only list markers, line breaks, and a missing full stop at the end of an item change.",
+      },
+      {
+        question: "What happens to headings and code blocks?",
+        answer:
+          "They are preserved exactly. Markdown headings, block quotes, table rows, and fenced code blocks are copied through untouched, so only the list items and prose are converted.",
+      },
+      {
+        question: "Is bullet points to paragraph free?",
+        answer: "Yes. It is free, requires no account, and has no usage limit.",
+      },
+      {
+        question: "Does my text get uploaded?",
+        answer:
+          "No. Processing happens in your browser. Text is stored only if you explicitly create a share link.",
+      },
+    ],
+  }),
   define("remove-invisible-characters", "Invisible Character Scanner", "Remove Invisible Characters from Text", "Find and remove zero-width spaces, soft hyphens, BOMs, and direction marks.", "AI cleanup", "Invisible Unicode can break search, validation, code, and copy-paste workflows. This scanner identifies each supported character type and removes it safely.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste text to scan for zero-width and other invisible Unicode characters." }),
+  define("show-invisible-characters", "Invisible Character Viewer", "Show Invisible Characters in Text", "Reveal hidden Unicode by marking each zero-width space, soft hyphen, BOM, and direction mark in place. Nothing is deleted.", "AI cleanup", "This viewer diagnoses rather than treats. Every invisible character is replaced by a readable marker such as [ZWSP] or [NBSP] at the exact position it occupies, so you can see how many there are and where they sit before deciding what to do. The surrounding text is untouched. When you want them gone instead of shown, use the Invisible Character Scanner, which strips them.", { report: true, outputLabel: "Marked text", download: "txt", placeholder: "Paste text to see what is hiding inside it.\n\nThere is a zero-width space between Ada\u200bx, and a non-breaking\u00a0space in this sentence." }),
   define("remove-smart-quotes", "Smart Quotes to Straight Quotes", "Replace Smart Quotes Online", "Replace curly quotes with straight quotes and normalize apostrophes.", "AI cleanup", "Normalize typographic quotation marks for code, CSV, databases, plain-text email, and systems that expect ASCII punctuation.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste “curly quotes” and ‘apostrophes’ here." }),
   define("remove-emojis", "Remove Emojis", "Remove Emojis from Text Online", "Remove emoji characters from text instantly and privately.", "AI cleanup", "Strip emoji pictographs and their modifiers while leaving ordinary text and punctuation intact. The result updates while you type.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste text with emoji 👋🏽✨ to remove them." }),
   define("remove-fancy-text", "Fancy Text to Plain Text", "Convert Fancy Text to Plain Text Online", "Convert 𝗯𝗼𝗹𝗱, 𝘪𝘵𝘢𝘭𝘪𝘤, script, small caps, and fullwidth Unicode fonts back to normal text.", "AI cleanup", "Pseudo-font characters from social posts and AI output look styled, but they are special Unicode symbols that break search, spell check, screen readers, and résumé parsers. This converter maps them back to ordinary letters and removes decorative strikethrough and underline marks.", { report: true, outputLabel: "Plain text", download: "txt", placeholder: "Paste 𝗳𝗮𝗻𝗰𝘆 𝓉𝑒𝓍𝓉 like ᴛʜɪs or ｆｕｌｌｗｉｄｔｈ to convert it back to plain letters." }),
   define("remove-line-breaks", "Fix Copy-Paste Line Breaks", "Remove Line Breaks from Text", "Fix unwanted line breaks while preserving paragraphs.", "AI cleanup", "Repair hard wraps copied from PDFs, emails, and AI chats. Single line breaks become spaces while paragraph breaks remain readable.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste text with\nunwanted hard line\nbreaks.\n\nParagraphs stay separate." }),
   define("chatgpt-conversation-to-document", "ChatGPT Conversation to Document", "Export ChatGPT Conversation to Document", "Format a copied ChatGPT conversation as a clean document.", "AI cleanup", "Turn copied ChatGPT transcripts into readable documents with clear user and assistant sections, ready to share or archive.", { download: "txt", placeholder: "You:\nSummarize this topic.\n\nChatGPT:\nHere is a concise summary…" }),
   define("token-counter", "Token Counter", "Token Counter — GPT & Claude Estimate", "Count tokens, words, characters, and estimated model cost.", "Data & prompts", "Estimate prompt size before sending it to a model. Counts are fast browser-side approximations; exact billing may vary by model tokenizer.", { report: true, placeholder: "Paste a prompt or model response to estimate its token count." }),
-  define("text-splitter", "Text Splitter", "Text Splitter for AI Prompts", "Split long text into clean, copyable chunks for AI tools.", "Data & prompts", "Break long documents into practical chunks near paragraph boundaries. This helps fit content into prompts without cutting words in half.", { report: true, placeholder: "Paste a long document to split it into manageable chunks." }),
+  define("text-splitter", "Text Splitter", "Text Splitter for AI Prompts", "Split long text into clean, copyable chunks for AI tools.", "Data & prompts", "Break long documents into fixed-size chunks of up to 2,000 characters. Each chunk ends at a whitespace boundary so no word is cut in half, which means a chunk can end mid-sentence. Useful for fitting content through prompt and paste limits.", { report: true, updated: "2026-09-01", placeholder: "Paste a long document to split it into manageable chunks." }),
   define("text-diff", "Text Diff", "Text Diff Online — Compare Text", "Compare two text versions and see additions and deletions.", "Data & prompts", "Compare drafts, prompts, generated answers, and edited copy. Put the original above a line containing only three hyphens, then the revised text below.", { report: true, placeholder: "Original text\n---\nRevised text" }),
   define("json-formatter", "JSON Formatter & Validator", "JSON Formatter & Validator", "Format, minify, and validate JSON with precise errors.", "Data & prompts", "Paste JSON to validate and format it with readable indentation. Invalid input shows the parser error immediately.", { report: true, outputLabel: "Formatted JSON", download: "txt", placeholder: "{\"project\":\"fixmyformatting\",\"fast\":true}" }),
   define("json-to-csv", "JSON to CSV", "JSON to CSV Converter Online", "Convert arrays of JSON objects into downloadable CSV.", "Data & prompts", "Flatten a JSON array into a spreadsheet-friendly CSV file. All object keys become columns and missing values remain empty.", { report: true, outputLabel: "CSV", download: "csv", placeholder: "[{\"name\":\"Ada\",\"score\":98},{\"name\":\"Lin\",\"score\":95}]" }),

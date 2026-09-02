@@ -39,6 +39,8 @@ export type UiMessages = {
   noSignup: string;
   private: string;
   howTo: string;
+  /** Label before the visible last-updated date on tool pages, e.g. "Updated". */
+  updated: string;
   faqTitle: string;
   relatedTools: string;
   stepCopy: string;
@@ -113,6 +115,9 @@ export type WorkspaceMessages = {
   dashSemicolon: string;
   dashHyphen: string;
   dashRemove: string;
+  listLabel: string;
+  listToParagraph: string;
+  listToBullets: string;
 };
 
 export type GuideChrome = {

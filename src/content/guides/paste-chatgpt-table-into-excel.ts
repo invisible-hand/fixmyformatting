@@ -8,7 +8,7 @@ export const tableToExcel: GuideDefinition = {
   dek: "Why the whole table lands in column A, and the two reliable ways to fix it.",
   cluster: "how-to",
   published: "2026-07-25",
-  updated: "2026-07-25",
+  updated: "2026-09-01",
   answer:
     "A ChatGPT table is a Markdown pipe table — plain text using | characters to suggest columns. Spreadsheets expect cell boundaries, not pipes, so every row lands in a single column. Converting the table to XLSX or CSV first produces real rows and columns that open correctly in Excel, Sheets, and Numbers.",
   sections: [
@@ -56,6 +56,19 @@ These are fine for a single small table. They get tedious quickly, and both leav
 **A note on copying:** if you drag-select the *rendered* table in the chat window rather than using the copy button, some browsers put tab-separated text on the clipboard, which pastes into columns correctly. It is inconsistent across browsers and chat interfaces, so it is worth trying but not worth relying on.`,
     },
     {
+      id: "google-sheets",
+      heading: "Getting the table into Google Sheets",
+      body: `Sheets fails the same way Excel does — pipes are not a delimiter it recognises, so every row lands in one cell of column A — but the routes out of it are slightly different, and one of them is genuinely convenient.
+
+**Split text to columns.** Paste the raw table into a column, keep the pasted range selected, and use *Data → Split text to columns*. Sheets offers a separator choice, including a custom one, so you can set it to the pipe character. It also shows a small control near the pasted data straight after any paste of delimited text, which does the same thing without the menu trip. As with Excel's Text to Columns, you are left with the alignment row to delete, empty columns at each edge from the leading and trailing pipes, and a space of padding inside every value.
+
+**Import a CSV instead.** *File → Import* parses a file rather than a paste, and lets you say what the separator is and whether to convert text to numbers and dates. That is the difference that matters: an import decides the column types deliberately, where a paste guesses. Run the table through [Markdown Table to CSV](/markdown-table-to-csv) first and there is nothing left to guess about — the alignment row is gone, padding is trimmed, and commas inside cells are quoted correctly.
+
+**Sheets as a staging post.** Once a table is in real cells, copying that range carries the grid with it. Pasting from Sheets into Excel, Word, Slides, Docs, or an email keeps the rows and columns intact, because the clipboard now holds tabular data rather than a line of text with bars in it. If a table has to reach an app with no import of its own, going through a spreadsheet first is more reliable than fighting the destination.
+
+One Sheets-specific thing to watch: values like \`3-4\` or \`1/2\` in a converted cell will be read as dates. If a column arrives full of dates you did not ask for, undo, format the destination column as plain text, and paste again.`,
+    },
+    {
       id: "tables-buried-in-prose",
       heading: "When the table is buried in a longer answer",
       body: `Often the table you want is one part of a much longer response, mixed in with explanation above and below it.
@@ -98,5 +111,5 @@ If the rest of the response also needs to travel — headings, lists, the explan
     },
   ],
   relatedTools: ["markdown-table-to-excel", "markdown-table-to-csv", "extract-table-from-text"],
-  relatedGuides: ["markdown-symbols-in-word", "export-chatgpt-conversation"],
+  relatedGuides: ["markdown-symbols-in-word", "chatgpt-to-notion", "export-chatgpt-conversation"],
 };

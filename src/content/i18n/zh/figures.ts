@@ -86,7 +86,7 @@ export const figures: FigureCopy = {
   "token-chunks": {
     "caption": "Token 是词语的片段，因此字符数和 token 数很少一致。",
     "notes": [
-      "37 个字符 · 7 个 token · 平均每个 token 约 5.3 个字符",
+      "36 个字符 · 7 个 token · 平均每个 token 约 5.1 个字符",
       "英语经验法则：1 个 token ≈ 4 个字符 ≈ 0.75 个单词。",
       "代码、非英语文字和生僻词每个字符会占用更多 token。"
     ],

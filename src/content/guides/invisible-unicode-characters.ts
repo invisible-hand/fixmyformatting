@@ -8,7 +8,7 @@ export const unicodeReference: GuideDefinition = {
   dek: "A working reference to the characters that are in your text but not on your screen.",
   cluster: "reference",
   published: "2026-07-25",
-  updated: "2026-07-25",
+  updated: "2026-09-01",
   answer:
     "Invisible Unicode characters occupy no visible space but are still part of the string. The common ones are zero-width spaces, soft hyphens, byte-order marks, non-breaking spaces, and direction marks. Each has a legitimate typographic purpose, and each breaks search, validation, parsing, and deduplication when it survives a copy-paste.",
   sections: [
@@ -54,9 +54,9 @@ The pattern is consistent: they enter when text moves from a *presentation* cont
 
 **Comparisons fail.** \`"Ada" === "Ada\\u200B"\` is false. Deduplication misses obvious duplicates; lookups return nothing; joins drop rows.
 
-**Trimming does not help.** Most \`trim()\` implementations remove ASCII whitespace only. A non-breaking space survives \`.trim()\` in many languages, which is why "I already trimmed it" is such a common dead end.
+**Trimming does not help.** Two different reasons, and it is worth being precise about which one you are hitting. First, \`trim()\` only touches the ends of a string, so anything sitting between two words is untouched no matter how Unicode-aware it is. Second, the zero-width characters are not whitespace at all: in both JavaScript and Python, \`\\s\` does not match U+200B and \`trim()\`/\`strip()\` leaves it in place. A non-breaking space is the opposite case — it *is* whitespace by Unicode property, so JavaScript's \`trim()\` and Python's \`strip()\` do remove it, while trims defined against ASCII only, such as Java's \`String.trim()\` and PHP's default \`trim()\`, leave it behind. "I already trimmed it" is a dead end most often because the character is a zero-width one, or is in the middle.
 
-**Code fails to compile.** A non-breaking space where a normal space belongs produces a syntax error at a line that looks perfect.
+**Code fails to compile — in some languages.** A non-breaking space where a normal space belongs is a syntax error in Python, Go, Ruby, shell, and JSON, at a line that looks perfect. JavaScript, TypeScript, and C treat U+00A0 as ordinary whitespace and compile it happily, so it stays in the source until something stricter reads the file.
 
 **CSV imports corrupt.** A byte-order mark attaches to the first header, so \`id\` becomes \`\\uFEFFid\` and the first column silently fails to map.
 
@@ -67,7 +67,7 @@ The pattern is consistent: they enter when text moves from a *presentation* cont
     {
       id: "finding-and-removing",
       heading: "Finding and removing them",
-      body: `**Scan first.** Paste the text into the [Invisible Character Scanner](/remove-invisible-characters). It reports which types are present and how many of each, then removes them on request. Seeing the counts first tells you whether you are dealing with one stray character or systematic contamination.
+      body: `**Scan first.** Paste the text into the [Invisible Character Scanner](/remove-invisible-characters). It reports the total it found plus separate counts for zero-width characters and soft hyphens, then removes them on request. To see which character sits where, use [Show Invisible Characters](/show-invisible-characters), which labels each one in place. Seeing the counts first tells you whether you are dealing with one stray character or systematic contamination.
 
 **In an editor.** VS Code highlights most invisible characters by default via its unicode-highlight setting. For regex-capable find-and-replace, this pattern catches the common set:
 
@@ -106,7 +106,7 @@ For the specific question of whether AI tools insert these deliberately, see [do
     {
       question: "Does trim() remove non-breaking spaces?",
       answer:
-        "Usually not. Most trim implementations remove ASCII whitespace only, so a non-breaking space (U+00A0) survives. This is why input that appears to have no leading or trailing space still fails validation after trimming.",
+        "It depends on the language. A non-breaking space (U+00A0) is whitespace by Unicode property, so JavaScript's trim() and Python's strip() do remove it, while ASCII-only trims such as Java's String.trim() and PHP's default trim() leave it. The characters that survive trimming everywhere are the zero-width ones (U+200B, U+200C, U+200D, U+00AD), because they are not whitespace at all. Trimming also only touches the ends of a string, so a character between two words survives regardless.",
     },
     {
       question: "How do I remove invisible characters from text?",
@@ -119,6 +119,6 @@ For the specific question of whether AI tools insert these deliberately, see [do
         "Yes. Soft hyphens control word breaks in justified text, non-breaking spaces keep values with their units, and zero-width joiners are essential to emoji sequences and to Arabic, Persian, and Indic scripts. Strip aggressively in code and identifiers, conservatively in prose.",
     },
   ],
-  relatedTools: ["remove-invisible-characters", "clean-ai-text"],
-  relatedGuides: ["chatgpt-invisible-characters", "smart-quotes-break-code"],
+  relatedTools: ["remove-invisible-characters", "show-invisible-characters", "clean-ai-text"],
+  relatedGuides: ["zero-width-space", "chatgpt-invisible-characters", "smart-quotes-break-code"],
 };

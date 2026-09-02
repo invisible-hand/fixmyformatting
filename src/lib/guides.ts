@@ -4,11 +4,16 @@ import { invisibleCharacters } from "../content/guides/chatgpt-invisible-charact
 import { markdownInWord } from "../content/guides/markdown-symbols-in-word";
 import { tableToExcel } from "../content/guides/paste-chatgpt-table-into-excel";
 import { exportConversation } from "../content/guides/export-chatgpt-conversation";
+import { chatgptToNotion } from "../content/guides/chatgpt-to-notion";
 import { smartQuotes } from "../content/guides/smart-quotes-break-code";
 import { dashReference } from "../content/guides/em-dash-vs-en-dash-vs-hyphen";
 import { tokenCount } from "../content/guides/prompt-token-count-explained";
 import { unicodeReference } from "../content/guides/invisible-unicode-characters";
 import { textWatermarks } from "../content/guides/ai-text-watermarks";
+import { emDashCopyPaste } from "../content/guides/em-dash-copy-paste";
+import { whatIsAnEmDash } from "../content/guides/what-is-an-em-dash";
+import { zeroWidthSpace } from "../content/guides/zero-width-space";
+import { noTextExtracted } from "../content/guides/no-text-could-be-extracted";
 
 export type GuideCluster = "ai-tells" | "how-to" | "reference";
 
@@ -69,11 +74,16 @@ export const allGuides: GuideDefinition[] = [
   invisibleCharacters,
   markdownInWord,
   tableToExcel,
+  chatgptToNotion,
   exportConversation,
+  noTextExtracted,
   smartQuotes,
   dashReference,
+  emDashCopyPaste,
+  whatIsAnEmDash,
   tokenCount,
   unicodeReference,
+  zeroWidthSpace,
 ];
 
 export function getGuide(slug: string) {

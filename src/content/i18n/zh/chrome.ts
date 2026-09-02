@@ -79,7 +79,10 @@ export const workspace: WorkspaceMessages = {
   "dashComma": "逗号",
   "dashSemicolon": "分号",
   "dashHyphen": "连字符",
-  "dashRemove": "不替换"
+  "dashRemove": "不替换",
+  "listLabel": "转换为",
+  "listToParagraph": "段落",
+  "listToBullets": "项目符号"
 };
 
 export const guideChrome: GuideChrome = {

@@ -242,7 +242,9 @@ function DashRuler({ t }: { t: FigureText }) {
 }
 
 function TokenChunks({ t }: { t: FigureText }) {
-  const tokens = ["Un", "believ", "able", " results", " for", " the", " quarter"];
+  // Verified against gpt-tokenizer's gpt-4o model: encode("Unbelievable results for
+  // the quarter") is exactly these seven tokens. Do not adjust by eye.
+  const tokens = ["Un", "bel", "ievable", " results", " for", " the", " quarter"];
   let cursor = 0;
   return (
     <Frame text={t} height={92}>

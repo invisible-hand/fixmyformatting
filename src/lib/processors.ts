@@ -11,6 +11,7 @@ export type ProcessedResult = {
 export type ProcessSettings = {
   caseMode?: "title" | "upper" | "lower" | "sentence";
   dashReplacement?: "comma" | "semicolon" | "hyphen" | "remove";
+  listDirection?: "paragraph" | "bullets";
 };
 
 const escapeHtml = (value: string) =>
@@ -107,7 +108,11 @@ function stripMarkdown(input: string) {
     .replace(/^#{1,6}\s+/gm, "")
     .replace(/^>\s?/gm, "")
     .replace(/(\*\*|__)(.*?)\1/g, "$2")
-    .replace(/([*_~`])([^]*?)\1/g, "$2")
+    .replace(/([*~`])([^]*?)\1/g, "$2")
+    // CommonMark allows `*` intraword but not `_`, so underscore emphasis only
+    // counts at a word boundary. Without this, snake_case_word, MY_ENV_VAR and
+    // file_name.txt lose their underscores and silently become new words.
+    .replace(/(?<![\p{L}\p{N}_])_([^]*?)_(?![\p{L}\p{N}_])/gu, "$1")
     .replace(/^\s*[-+*]\s+/gm, "• ")
     .replace(/^\s*\d+\.\s+/gm, "")
     .trim();
@@ -181,8 +186,69 @@ const smallCapsMap: Record<string, string> = {
 };
 
 const count = (input: string, expression: RegExp) => input.match(expression)?.length ?? 0;
+
 const invisibleExpression = /[\u00ad\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]/g;
+
+/**
+ * Conventional abbreviations for the invisible and problematic characters the
+ * viewer labels in place. Every key is a single BMP code unit outside the
+ * surrogate range, so a plain character-class replace can never split an astral
+ * pair or detach a combining mark.
+ */
+const invisibleMarkers: Record<string, string> = {
+  "\u0009": "TAB",
+  "\u00a0": "NBSP",
+  "\u00ad": "SHY",
+  "\u200b": "ZWSP",
+  "\u200c": "ZWNJ",
+  "\u200d": "ZWJ",
+  "\u200e": "LRM",
+  "\u200f": "RLM",
+  "\u2028": "LS",
+  "\u2029": "PS",
+  "\u202a": "LRE",
+  "\u202b": "RLE",
+  "\u202c": "PDF",
+  "\u202d": "LRO",
+  "\u202e": "RLO",
+  "\u202f": "NNBSP",
+  "\u2060": "WJ",
+  "\ufeff": "BOM",
+};
+
+const markedExpression = /[\u0009\u00a0\u00ad\u200b-\u200f\u2028-\u202f\u2060\ufeff]/g;
+const zeroWidthExpression = /[\u200b-\u200d\u2060]/g;
+
 const emojiExpression = /\p{Extended_Pictographic}(?:\uFE0F|\p{Emoji_Modifier})?/gu;
+
+/**
+ * Maps pseudo-font Unicode (mathematical alphanumerics, small caps, fullwidth)
+ * back to plain letters and drops the decorative strikethrough/underline
+ * overlays, returning the count both callers report as "Characters converted".
+ *
+ * Shared by remove-fancy-text and humanize-ai-text. Iterating with the spread
+ * operator walks code points, so astral pseudo-font characters are normalized
+ * whole and never split into surrogates; normalizing each code point in
+ * isolation also means an existing base + combining-mark sequence cannot be
+ * composed away.
+ */
+function normalizeFancyText(input: string) {
+  let converted = 0;
+  const mapped = [...input]
+    .map((char) => {
+      const smallCap = smallCapsMap[char];
+      if (smallCap) {
+        converted += 1;
+        return smallCap;
+      }
+      const normalized = char.normalize("NFKC");
+      if (normalized !== char) converted += 1;
+      return normalized;
+    })
+    .join("");
+  converted += count(mapped, fancyOverlays);
+  return { output: mapped.replace(fancyOverlays, ""), converted };
+}
 
 function words(input: string) {
   return input.trim() ? input.trim().split(/\s+/).length : 0;
@@ -191,6 +257,100 @@ function words(input: string) {
 function titleCase(input: string) {
   return input.toLowerCase().replace(/\b\p{L}/gu, (letter) => letter.toUpperCase());
 }
+
+/**
+ * A list item is a marker at the START of a line followed by a space or tab and
+ * then a non-space. That anchoring is what keeps ordinary prose safe: "the low
+ * - high range" and "see 5. below" sit mid-sentence and never reach the start of
+ * a line, while a bare "---" rule or an "*emphasized*" opening has no space
+ * after the marker.
+ */
+const listItemExpression = /^[ \t]*(?:[-*+•‣◦–]|\d+[.)]|\(\d+\))[ \t]+(\S.*)$/;
+const sentenceEndExpression = /[.!?:;]["'”’)\]]*$/;
+/** Abbreviations whose full stop must not end a sentence when splitting prose. */
+const abbreviationExpression = /(?:^|[\s("'])(?:e\.g|i\.e|etc|vs|approx|fig|no|mr|mrs|ms|dr|prof|sr|jr|st)\.$/i;
+
+/**
+ * Splits a document into segments a converter can act on without corrupting the
+ * parts it must not touch. A fenced code block is one verbatim segment even
+ * when it contains blank lines; headings, block quotes, table rows and
+ * horizontal rules are verbatim segments of one line each; runs of list items
+ * and runs of ordinary prose each collapse into a single segment.
+ */
+type Segment = { kind: "verbatim" | "list" | "prose"; lines: string[] };
+
+/** Markdown structure that must survive both directions byte-for-byte. */
+const structuralLine = (line: string) => /^[ \t]*(?:#{1,6}\s|>|\||(?:-{3,}|\*{3,}|_{3,})[ \t]*$)/.test(line);
+const fenceLine = (line: string) => /^[ \t]*(?:```|~~~)/.test(line);
+
+function segmentDocument(input: string): Segment[] {
+  const segments: Segment[] = [];
+  let current: Segment | null = null;
+  let fenced = false;
+  const add = (kind: Segment["kind"], line: string) => {
+    if (current?.kind === kind && kind !== "verbatim") current.lines.push(line);
+    else segments.push((current = { kind, lines: [line] }));
+  };
+  for (const line of input.replace(/\r\n/g, "\n").split("\n")) {
+    if (fenced) {
+      current!.lines.push(line);
+      if (fenceLine(line)) {
+        fenced = false;
+        current = null;
+      }
+      continue;
+    }
+    if (fenceLine(line)) {
+      segments.push((current = { kind: "verbatim", lines: [line] }));
+      fenced = true;
+      continue;
+    }
+    if (!line.trim()) {
+      current = null;
+      continue;
+    }
+    if (structuralLine(line)) add("verbatim", line);
+    else if (listItemExpression.test(line)) add("list", line);
+    else add("prose", line);
+  }
+  return segments;
+}
+
+function bulletsToParagraph(input: string) {
+  let items = 0;
+  const blocks = segmentDocument(input).map((segment) => {
+    if (segment.kind === "verbatim") return segment.lines.join("\n");
+    if (segment.kind === "prose") return segment.lines.map((line) => line.trim()).join(" ");
+    items += segment.lines.length;
+    return segment.lines
+      .map((line) => line.match(listItemExpression)![1].trim())
+      .map((text) => (sentenceEndExpression.test(text) ? text : `${text}.`))
+      .join(" ");
+  });
+  return { output: blocks.join("\n\n"), items };
+}
+
+function splitSentences(text: string) {
+  const merged: string[] = [];
+  for (const part of text.split(/(?<=[.!?]["\u2019\u201d')\]]?)\s+/)) {
+    const previous = merged[merged.length - 1];
+    if (previous !== undefined && abbreviationExpression.test(previous)) merged[merged.length - 1] = `${previous} ${part}`;
+    else merged.push(part);
+  }
+  return merged.map((part) => part.trim()).filter(Boolean);
+}
+
+function paragraphToBullets(input: string) {
+  let items = 0;
+  const blocks = segmentDocument(input).map((segment) => {
+    if (segment.kind !== "prose") return segment.lines.join("\n");
+    const sentences = splitSentences(segment.lines.join(" "));
+    items += sentences.length;
+    return sentences.map((sentence) => `- ${sentence}`).join("\n");
+  });
+  return { output: blocks.join("\n\n"), items };
+}
+
 
 export function processText(slug: string, input: string, settings: ProcessSettings = {}): ProcessedResult {
   const processor = getProcessorSlug(slug);
@@ -219,26 +379,17 @@ export function processText(slug: string, input: string, settings: ProcessSettin
     return { output, stats: [{ label: "HTML elements", value: count(input, /<[a-z][^>]*>/gi) }, { label: "Words", value: words(output) }] };
   }
   if (processor === "remove-fancy-text") {
-    let converted = 0;
-    const mapped = [...input]
-      .map((char) => {
-        const smallCap = smallCapsMap[char];
-        if (smallCap) {
-          converted += 1;
-          return smallCap;
-        }
-        const normalized = char.normalize("NFKC");
-        if (normalized !== char) converted += 1;
-        return normalized;
-      })
-      .join("");
-    converted += count(mapped, fancyOverlays);
-    return { output: mapped.replace(fancyOverlays, ""), stats: [{ label: "Characters converted", value: converted }, { label: "Words", value: words(input) }] };
+    const { output, converted } = normalizeFancyText(input);
+    return { output, stats: [{ label: "Characters converted", value: converted }, { label: "Words", value: words(input) }] };
   }
   if (processor === "remove-em-dashes") {
     const found = count(input, /—/g);
-    const replacements = { comma: ",", semicolon: ";", hyphen: "-", remove: "" };
-    const replacement = replacements[settings.dashReplacement ?? "comma"];
+    const replacements: Record<string, string> = { comma: ",", semicolon: ";", hyphen: "-", remove: "" };
+    // Settings arrive from share links, so the key can be anything at runtime
+    // even though the type says otherwise. Fall back to the documented default
+    // rather than splicing the string "undefined" into the user's text.
+    const key = settings.dashReplacement ?? "comma";
+    const replacement = key in replacements ? replacements[key] : ",";
     let output = input.replaceAll("—", replacement);
     if (replacement) {
       const escaped = replacement.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -255,16 +406,72 @@ export function processText(slug: string, input: string, settings: ProcessSettin
     const emojis = count(input, emojiExpression);
     const output = input
       .replaceAll("—", ",")
+      // Same tidy-up as remove-em-dashes' default: drop the space the dash left,
+      // otherwise " — " becomes " ," and every clause gains a stray space.
+      .replace(/\s+,/g, ",")
       .replace(/[“”]/g, '"')
       .replace(/[‘’]/g, "'")
       .replace(invisibleExpression, "")
+      // Converted, never deleted: removing a no-break space joins two words.
+      .replace(/[\u00a0\u202f]/g, " ")
       .replace(emojiExpression, "")
       .replace(/[ \t]{2,}/g, " ");
     return { output, stats: [{ label: "Em dashes", value: dashes }, { label: "Smart quotes", value: quotes }, { label: "Hidden characters", value: hidden }, { label: "Emojis", value: emojis }] };
   }
+  if (processor === "humanize-ai-text") {
+    // The full mechanical-formatting pass: a superset of clean-ai-text that also
+    // folds pseudo-font Unicode, no-break spaces, and stray horizontal
+    // whitespace. Nothing here touches words, order, or meaning.
+    const { output: plain, converted } = normalizeFancyText(input);
+    // Counted on the post-fancy string rather than the raw input because that is
+    // what the later stages actually remove: NFKC turns a handful of pictographs
+    // (™, ℹ) into letters, so counting them as emoji on the input would report a
+    // removal that never happens.
+    const dashes = count(plain, /—/g);
+    const quotes = count(plain, /[“”‘’]/g);
+    const hidden = count(plain, invisibleExpression);
+    const emojis = count(plain, emojiExpression);
+    const output = plain
+      .replaceAll("—", ",")
+      // Same tidy-up as remove-em-dashes' default: drop the space the dash left.
+      .replace(/\s+,/g, ",")
+      .replace(/[“”]/g, '"')
+      .replace(/[‘’]/g, "'")
+      .replace(invisibleExpression, "")
+      // NFKC already folds no-break spaces; this explicit pass covers input
+      // that reached the tool with no pseudo-font characters to normalize.
+      .replace(/[\u00a0\u202f]/g, " ")
+      .replace(emojiExpression, "")
+      .replace(/[ \t]{2,}/g, " ")
+      .replace(/[ \t]+$/gm, "");
+    return {
+      output,
+      stats: [
+        { label: "Em dashes", value: dashes },
+        { label: "Smart quotes", value: quotes },
+        { label: "Hidden characters", value: hidden },
+        { label: "Emojis", value: emojis },
+        { label: "Characters converted", value: converted },
+      ],
+    };
+  }
   if (processor === "remove-invisible-characters") {
     const hidden = count(input, invisibleExpression);
     return { output: input.replace(invisibleExpression, ""), stats: [{ label: "Hidden characters found", value: hidden }, { label: "Zero-width", value: count(input, /[\u200b-\u200f\u2060]/g) }, { label: "Soft hyphens", value: count(input, /\u00ad/g) }] };
+  }
+  if (processor === "show-invisible-characters") {
+    // Diagnostic sibling of remove-invisible-characters: nothing is deleted, so
+    // every marker is an insertion and the surrounding text is byte-identical.
+    const output = input.replace(markedExpression, (char) => `[${invisibleMarkers[char]}]`);
+    return {
+      output,
+      stats: [
+        { label: "Hidden characters found", value: count(input, markedExpression) },
+        { label: "Zero-width", value: count(input, zeroWidthExpression) },
+        { label: "Soft hyphens", value: count(input, /\u00ad/g) },
+        { label: "Characters", value: input.length },
+      ],
+    };
   }
   if (processor === "remove-smart-quotes") {
     const fixed = count(input, /[“”‘’]/g);
@@ -326,7 +533,12 @@ export function processText(slug: string, input: string, settings: ProcessSettin
     return { output, stats: [{ label: "Rows", value: Math.max(0, rows.length - 1) }, { label: "Columns", value: rows[0]?.length ?? 0 }] };
   }
   if (processor === "extract-table-from-text") {
-    const rows = input.split(/\r?\n/).filter((line) => line.includes("|") || line.includes("\t")).map((line) => line.split(line.includes("|") ? "|" : "\t").map((cell) => cell.trim()).filter(Boolean));
+    const rows = input
+      .split(/\r?\n/)
+      .filter((line) => line.includes("|") || line.includes("\t"))
+      .map((line) => line.split(line.includes("|") ? "|" : "\t").map((cell) => cell.trim()).filter(Boolean))
+      // A Markdown alignment row (`| --- | ---: |`) is table syntax, not data.
+      .filter((cells) => !(cells.length > 0 && cells.every((cell) => /^:?-+:?$/.test(cell))));
     return { output: tableToCsv(rows), stats: [{ label: "Tables found", value: rows.length > 1 ? 1 : 0 }, { label: "Rows", value: rows.length }] };
   }
   if (processor === "word-counter") {
@@ -342,6 +554,18 @@ export function processText(slug: string, input: string, settings: ProcessSettin
           ? input.toLowerCase().replace(/(^|[.!?]\s+)\p{L}/gu, (match) => match.toUpperCase())
           : titleCase(input);
     return { output, stats: [{ label: "Characters converted", value: input.length }] };
+  }
+  if (processor === "bullet-points-to-paragraph") {
+    const toBullets = settings.listDirection === "bullets";
+    const { output, items } = toBullets ? paragraphToBullets(input) : bulletsToParagraph(input);
+    return {
+      output,
+      stats: [
+        { label: "Elements", value: items },
+        { label: "Sentences", value: count(output, /[.!?]+(?:\s|$)/g) },
+        { label: "Words", value: words(output) },
+      ],
+    };
   }
   if (processor === "latex-to-word") {
     const output = input.replace(/^\s*(?:\\\[|\$\$)|(?:\\\]|\$\$)\s*$/gm, "").replaceAll("\\dfrac", "\\frac").trim();

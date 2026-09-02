@@ -79,7 +79,7 @@ export const figures: FigureCopy = {
   "token-chunks": {
     caption: "Tokens are sub-word fragments, so character count and token count rarely match.",
     notes: [
-      "37 characters · 7 tokens · roughly 5.3 characters per token",
+      "36 characters · 7 tokens · roughly 5.1 characters per token",
       "A rough English rule of thumb: 1 token ≈ 4 characters ≈ 0.75 words.",
       "Code, non-English scripts, and rare words all use more tokens per character.",
     ],

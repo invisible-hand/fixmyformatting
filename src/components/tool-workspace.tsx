@@ -46,6 +46,9 @@ export type ToolWorkspaceLabels = {
   dashSemicolon: string;
   dashHyphen: string;
   dashRemove: string;
+  listLabel: string;
+  listToParagraph: string;
+  listToBullets: string;
 };
 
 type Props = {
@@ -69,15 +72,17 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
   const [mobileTab, setMobileTab] = useState<"input" | "output">("input");
   const [caseMode, setCaseMode] = useState<NonNullable<ProcessSettings["caseMode"]>>(initialSettings.caseMode ?? "title");
   const [dashReplacement, setDashReplacement] = useState<NonNullable<ProcessSettings["dashReplacement"]>>(initialSettings.dashReplacement ?? "comma");
+  const [listDirection, setListDirection] = useState<NonNullable<ProcessSettings["listDirection"]>>(initialSettings.listDirection ?? "paragraph");
   const [smallResult, setSmallResult] = useState<{ input: string; settings: ProcessSettings; result: ProcessedResult } | null>(null);
   const [largeResult, setLargeResult] = useState<{ input: string; result: ProcessedResult } | null>(null);
   const deferredInput = useDeferredValue(input);
   const outputRef = useRef<HTMLDivElement>(null);
   const reportRef = useRef<HTMLDivElement>(null);
   const conversionTracked = useRef(false);
-  const processSettings = useMemo(() => ({ caseMode, dashReplacement }), [caseMode, dashReplacement]);
+  const processSettings = useMemo(() => ({ caseMode, dashReplacement, listDirection }), [caseMode, dashReplacement, listDirection]);
   const settingsMatch = smallResult?.settings.caseMode === processSettings.caseMode
-    && smallResult?.settings.dashReplacement === processSettings.dashReplacement;
+    && smallResult?.settings.dashReplacement === processSettings.dashReplacement
+    && smallResult?.settings.listDirection === processSettings.listDirection;
   const result = deferredInput.length > workerThreshold
     ? (largeResult?.input === deferredInput ? largeResult.result : { output: "", stats: [] })
     : (smallResult?.input === deferredInput && settingsMatch ? smallResult.result : { output: "", stats: [] });
@@ -122,6 +127,9 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
     dashSemicolon: labels?.dashSemicolon ?? "Semicolon",
     dashHyphen: labels?.dashHyphen ?? "Hyphen",
     dashRemove: labels?.dashRemove ?? "Nothing",
+    listLabel: labels?.listLabel ?? "Convert to",
+    listToParagraph: labels?.listToParagraph ?? "Paragraph",
+    listToBullets: labels?.listToBullets ?? "Bullet points",
   };
 
   /** Stat values are usually numbers; a few are words or carry a time unit. */
@@ -275,7 +283,7 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
 
   return (
     <section className="workspace" aria-label={`${tool.name} tool`}>
-      {(processor === "case-converter" || processor === "remove-em-dashes") && (
+      {(processor === "case-converter" || processor === "remove-em-dashes" || processor === "bullet-points-to-paragraph") && (
         <div className="tool-options" aria-label={ui.conversionOptions}>
           {processor === "case-converter" && (
             <label>{ui.caseLabel}
@@ -294,6 +302,14 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
                 <option value="semicolon">{ui.dashSemicolon}</option>
                 <option value="hyphen">{ui.dashHyphen}</option>
                 <option value="remove">{ui.dashRemove}</option>
+              </select>
+            </label>
+          )}
+          {processor === "bullet-points-to-paragraph" && (
+            <label>{ui.listLabel}
+              <select value={listDirection} onChange={(event) => setListDirection(event.target.value as NonNullable<ProcessSettings["listDirection"]>)}>
+                <option value="paragraph">{ui.listToParagraph}</option>
+                <option value="bullets">{ui.listToBullets}</option>
               </select>
             </label>
           )}
