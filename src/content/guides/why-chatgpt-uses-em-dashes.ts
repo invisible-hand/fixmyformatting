@@ -93,7 +93,7 @@ The full set, including the ones you can count, is in the [signs of AI-written t
       heading: "Em dashes are not proof of AI writing",
       body: `This deserves stating plainly, because a lot of advice online gets it wrong: **the presence of em dashes proves nothing.**
 
-Plenty of human writing is full of them. Microsoft Word and Google Docs both convert a double hyphen into an em dash automatically, so writers produce them without ever choosing the character. Anyone trained in editorial writing uses them by instinct. Entire publications mandate them.
+Plenty of human writing is full of them. Microsoft Word converts a double hyphen into an em dash automatically as you type, so writers produce them without ever choosing the character. Anyone trained in editorial writing uses them by instinct. Entire publications mandate them.
 
 There is no reliable way to detect AI-generated text from punctuation, and the commercial tools that claim otherwise have well-documented false-positive rates — with non-native English speakers disproportionately affected. Treating an em dash as evidence has real costs when the accusation lands on a student or a colleague.
 
@@ -106,7 +106,7 @@ If you want the full picture of which formatting artefacts travel with AI output
     {
       question: "Does using em dashes mean my writing looks AI-generated?",
       answer:
-        "Not on its own. Em dashes are standard in edited English and appear throughout human writing, partly because Word and Google Docs create them automatically from double hyphens. What reads as machine-like is a high, evenly spaced rate — roughly one per paragraph across an entire document — usually alongside other artefacts such as smart quotes and emoji-headed lists.",
+        "Not on its own. Em dashes are standard in edited English and appear throughout human writing, partly because Word creates them automatically from double hyphens. What reads as machine-like is a high, evenly spaced rate — roughly one per paragraph across an entire document — usually alongside other artefacts such as smart quotes and emoji-headed lists.",
     },
     {
       question: "What should I replace an em dash with?",
