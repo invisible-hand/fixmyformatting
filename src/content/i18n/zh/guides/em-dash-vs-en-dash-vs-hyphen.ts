@@ -2,7 +2,7 @@ import type { GuideTranslation } from "@/lib/i18n";
 
 export const guide: GuideTranslation = {
   title: "长破折号、连接号与连字符的区别",
-  description: "三个字符，三种用途：各自的用法、键盘输入方法，以及混用为什么会出问题。",
+  description: "连字符、连接号和长破折号是三个不同的 Unicode 字符：各自的正确用法、在 macOS、Windows 和 Word 中的输入方法，以及混用时搜索和正则匹配为什么会出问题。",
   h1: "长破折号、连接号与连字符的区别",
   dek: "三个外形相似、却不可互换的 Unicode 字符。",
   answer: "连字符（-）用于合成词：well-known。连接号（–）表示范围和连接：第 20–24 页。长破折号（—）在句中分隔插入语，作用类似一个语气更强的逗号。它们是三个宽度递增、各自独立的 Unicode 字符，解析器、搜索和排版系统对它们的处理方式都不同。",

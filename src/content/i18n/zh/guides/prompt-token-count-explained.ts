@@ -2,7 +2,7 @@ import type { GuideTranslation } from "@/lib/i18n";
 
 export const guide: GuideTranslation = {
   title: "我的提示词有多少 Token？",
-  description: "Token 是子词片段而非单词。本文解释分词原理、各模型计数差异的原因，以及如何估算费用。",
+  description: "Token 是子词片段而非单词。本文解释分词原理、英语与中文的实测比例、不同模型计数不一致的原因，以及如何据此估算上下文占用和费用。",
   h1: "我的提示词有多少 token？",
   dek: "为什么 1,000 个单词永远不等于 1,000 个 token，以及这对上下文限制和费用意味着什么。",
   answer: "Token 是子词片段，因此数量永远不会与单词数一致。对于普通英语，一个 token 平均约等于 4 到 5 个字符，因此 1,000 个单词大致在 1,050 到 1,350 个 token 之间，具体取决于文字的技术性有多强。代码、非英语文字和生僻词的每字符 token 消耗更高，有时甚至高出数倍。",

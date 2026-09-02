@@ -4,8 +4,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-word": {
     name: "Markdown을 Word로 변환",
     title: "Markdown을 Word로 변환 — 무료 즉시 변환",
-    description: "Markdown을 올바르게 서식화된 Word 문서로 무료로 변환합니다.",
-    intro: "ChatGPT, Claude 등 어떤 편집기에서 작성한 Markdown도 실제 Word 문서로 바꿉니다. 제목, 목록, 링크, 코드와 표가 그대로 유지되어 기호가 그대로 노출되지 않습니다.",
+    description: "ChatGPT나 Claude에서 복사한 Markdown을 붙여넣으면 제목, 목록, 표, 링크, 코드가 서식 그대로 살아 있는 .docx 파일을 내려받습니다. 브라우저에서 처리되며 가입이 필요 없습니다.",
+    intro: "ChatGPT, Claude 등 어떤 편집기에서 작성한 Markdown도 실제 Word 문서로 바꿉니다. 제목, 목록, 링크, 코드, 표가 서식으로 살아 있어 별표나 우물 정 기호가 그대로 노출되지 않습니다. 변환은 브라우저에서 이루어지며 결과는 .docx 파일로 내려받아 Word에서 바로 편집할 수 있습니다.",
     faqs: [
       { question: "Markdown을 Word로 변환하는 것은 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
       { question: "텍스트가 업로드되나요?", answer: "아니요. 브라우저에서 처리됩니다. 공유 링크를 직접 만들 때만 저장됩니다." },
@@ -15,7 +15,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-pdf": {
     name: "Markdown을 PDF로 변환",
     title: "Markdown을 PDF로 변환 — 무료 온라인 도구",
-    description: "Markdown을 브라우저에서 깔끔한 PDF로 변환합니다.",
+    description: "Markdown을 붙여넣고 서식이 적용된 미리보기를 확인한 뒤 인쇄용 PDF로 저장합니다. 브라우저에서 처리되므로 업로드나 가입이 없고 워터마크도 붙지 않습니다.",
     intro: "서식이 적용된 Markdown을 실시간으로 미리 본 뒤 인쇄용 화면에서 선명한 PDF로 저장하세요. PDF 생성은 브라우저에서 이루어지므로 문서가 기기 밖으로 나가지 않습니다.",
     faqs: [
       { question: "Markdown을 PDF로 변환하는 것은 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
@@ -26,7 +26,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-google-docs": {
     name: "Markdown을 Google Docs로 변환",
     title: "Markdown을 Google Docs로 변환",
-    description: "제목, 목록, 링크와 표를 유지해 Google Docs로 옮깁니다.",
+    description: "Markdown을 붙여넣고 서식이 적용된 결과를 복사해 제목, 목록, 강조, 링크, 표가 유지된 채로 Google Docs에 붙여넣습니다. .docx 다운로드도 브라우저에서 바로 됩니다.",
     intro: "Markdown을 붙여넣고 서식이 적용된 결과를 복사해 Google Docs에 붙여넣기만 하면 됩니다. 제목, 목록, 강조, 링크와 표의 구조가 그대로 유지되어 따로 정리할 필요가 없습니다.",
     faqs: [
       { question: "Markdown을 Google Docs로 변환하는 것은 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
@@ -37,7 +37,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-markdown-formatting": {
     name: "Markdown 서식 제거",
     title: "Markdown 서식 제거 — 온라인 무료",
-    description: "본문은 유지하면서 별표, 해시 등 Markdown 기호를 제거합니다.",
+    description: "별표, 해시, 링크 문법, 코드 블록 같은 Markdown 기호를 제거하고 읽기 좋은 일반 텍스트만 남깁니다. 브라우저에서 처리되어 텍스트가 업로드되지 않습니다.",
     intro: "별표, 제목 기호, 링크 문법, 코드 블록 등 Markdown 문자를 제거하면서 아래에 있는 글자는 그대로 보존합니다. 깨끗하고 읽기 쉬운 일반 텍스트가 완성됩니다.",
     faqs: [
       { question: "Markdown 서식 제거는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
@@ -48,7 +48,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-table-to-excel": {
     name: "Markdown 표를 Excel로 변환",
     title: "Markdown 표를 Excel로 변환 — 무료",
-    description: "Markdown 파이프 표를 Excel 행과 열로 변환합니다.",
+    description: "AI 채팅에서 복사한 Markdown 파이프 표를 붙여넣으면 셀마다 값이 하나씩 들어간 실제 .xlsx 파일을 내려받습니다. 브라우저에서 처리되며 가입이 필요 없습니다.",
     intro: "AI 채팅에서 복사한 파이프 표를 Excel, Numbers, Google Sheets에서 올바르게 열리는 행과 열로 변환합니다. 표 구조가 깨지지 않고 그대로 옮겨집니다.",
     faqs: [
       { question: "Markdown 표를 Excel로 변환하는 것은 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
@@ -59,7 +59,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-table-to-csv": {
     name: "Markdown 표를 CSV로 변환",
     title: "Markdown 표를 CSV로 변환하는 무료 도구",
-    description: "Markdown 표를 호환 가능한 깔끔한 CSV로 변환합니다.",
+    description: "Markdown 파이프 표를 붙여넣으면 표준에 맞는 CSV가 됩니다. 셀 안의 쉼표와 따옴표까지 이스케이프되어 깨짐 없이 열리며, 브라우저에서 처리되고 가입이 필요 없습니다.",
     intro: "Markdown 표를 붙여넣으면 표준에 맞는 CSV를 바로 만들어 줍니다. 쉼표와 따옴표가 포함된 셀도 올바르게 이스케이프되어 Excel이나 Google Sheets에서 깨짐 없이 불러올 수 있습니다.",
     faqs: [
       { question: "Markdown 표를 CSV로 변환하는 것은 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
@@ -70,7 +70,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-viewer": {
     name: "온라인 Markdown 뷰어",
     title: "온라인 Markdown 뷰어 — 실시간 미리보기",
-    description: "파일을 업로드하지 않고 서식이 적용된 Markdown을 실시간으로 확인합니다.",
+    description: "Markdown을 붙여넣거나 입력하면 편집하는 동안 서식이 적용된 문서로 읽을 수 있습니다. AI 답변, README, 메모 점검에 유용하며 브라우저에서만 처리됩니다.",
     intro: "입력하는 즉시 Markdown이 서식이 적용된 문서로 표시됩니다. AI가 만든 결과물이나 README, 메모, 문서를 게시하기 전에 어떻게 보일지 확인할 때 유용합니다.",
     faqs: [
       { question: "온라인 Markdown 뷰어는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
@@ -81,7 +81,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-html": {
     name: "Markdown을 HTML로 변환",
     title: "Markdown을 HTML로 변환하는 무료 도구",
-    description: "Markdown에서 깔끔하고 의미 있는 HTML을 즉시 생성합니다.",
+    description: "Markdown을 붙여넣으면 실시간 미리보기와 함께 깔끔한 시맨틱 HTML이 만들어져 웹사이트, CMS, 뉴스레터, 이메일에 복사해 쓸 수 있습니다. 브라우저에서 처리됩니다.",
     intro: "Markdown을 깔끔한 시맨틱 HTML로 변환하면서 실시간 미리보기도 제공합니다. 웹사이트, 뉴스레터, CMS, 이메일 작업에 필요한 마크업을 바로 복사해 사용할 수 있습니다.",
     faqs: [
       { question: "Markdown을 HTML로 변환하는 것은 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
@@ -92,8 +92,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "word-to-markdown": {
     name: "Word를 Markdown으로 변환",
     title: "Word를 Markdown으로 변환하는 무료 도구",
-    description: "Word나 Google Docs의 서식 있는 텍스트를 Markdown으로 변환합니다.",
-    intro: "Word, Google Docs 또는 웹페이지에서 복사한 서식 있는 텍스트를 붙여넣기만 하면 됩니다. 제목, 강조, 목록, 링크, 표가 어디서나 쓸 수 있는 Markdown으로 변환됩니다.",
+    description: "Word, Google Docs, 웹페이지에서 복사한 서식 있는 텍스트를 붙여넣으면 제목, 강조, 목록, 링크, 표가 Markdown으로 변환됩니다. 브라우저에서 처리되며 가입이 필요 없습니다.",
+    intro: "Word, Google Docs 또는 웹페이지에서 복사한 서식 있는 텍스트를 그대로 붙여넣기만 하면 됩니다. 제목, 강조, 목록, 링크, 표가 어디서나 쓸 수 있는 Markdown 문법으로 바뀌며, 결과는 README나 문서 파일, 메모 앱, AI 프롬프트에 바로 붙여넣을 수 있습니다.",
     faqs: [
       { question: "Word를 Markdown으로 변환하는 것은 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
       { question: "문서가 업로드되나요?", answer: "아니요. 브라우저에서 처리됩니다. 공유 링크를 직접 만들 때만 저장됩니다." },
@@ -103,7 +103,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-em-dashes": {
     name: "텍스트에서 긴 대시 제거",
     title: "텍스트에서 긴 대시(—) 제거하기",
-    description: "긴 대시를 찾아 더 일반적인 문장 부호로 바꿉니다.",
+    description: "긴 대시(—)를 쉼표, 세미콜론, 하이픈으로 바꾸거나 지우고 몇 개가 바뀌었는지 보여줍니다. 대시가 남긴 공백도 정리되며 브라우저에서 처리됩니다.",
     intro: "AI가 생성한 글이나 직접 쓴 글에서 긴 대시(—)를 찾아 쉼표, 하이픈, 공백 등으로 바꿉니다. 실시간 카운트로 몇 개가 변경됐는지 바로 확인할 수 있습니다.",
     faqs: [
       { question: "긴 대시 제거 도구는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
@@ -114,7 +114,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "clean-ai-text": {
     name: "ChatGPT 및 AI 텍스트 정리",
     title: "ChatGPT 텍스트 정리 및 AI 서식 제거",
-    description: "AI 텍스트의 대시, 곡선 따옴표, 이모지와 숨은 문자를 정리합니다.",
+    description: "AI 출력의 긴 대시, 곡선 따옴표, 보이지 않는 문자, 이모지를 종류별로 세어 보여주고 원하는 항목만 정리합니다. 브라우저에서 처리되어 텍스트가 업로드되지 않습니다.",
     intro: "AI 아티팩트 보고서는 기계적인 서식 흔적의 개수를 보여줄 뿐, 텍스트가 AI로 작성되었는지 추측하지 않습니다. 정리 항목을 원하는 대로 켜고 끄면서 투명한 개수를 확인하세요.",
     faqs: [
       { question: "ChatGPT 및 AI 텍스트 정리는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
@@ -125,7 +125,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-invisible-characters": {
     name: "보이지 않는 문자 제거",
     title: "텍스트에서 보이지 않는 문자 제거",
-    description: "폭이 0인 공백, 소프트 하이픈과 방향 표시를 찾아 제거합니다.",
+    description: "폭이 0인 공백, 소프트 하이픈, BOM, 방향 표시 문자를 종류별로 세어 보여주고 제거해 검색과 유효성 검사가 다시 작동하게 합니다. 브라우저에서 처리됩니다.",
     intro: "보이지 않는 Unicode 문자는 검색, 유효성 검사, 코드, 복사-붙여넣기 작업을 망가뜨릴 수 있습니다. 이 스캐너는 지원되는 각 문자 유형을 찾아내고 안전하게 제거합니다.",
     faqs: [
       { question: "보이지 않는 문자 제거는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
@@ -136,8 +136,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-smart-quotes": {
     name: "곡선 따옴표를 직선 따옴표로 변환",
     title: "곡선 따옴표를 직선 따옴표로 바꾸기",
-    description: "곡선 따옴표를 직선 따옴표로 바꾸고 아포스트로피를 통일합니다.",
-    intro: "코드, CSV, 데이터베이스, 일반 텍스트 이메일처럼 ASCII 문장 부호를 요구하는 시스템에 맞게 활자체 따옴표를 표준화하세요.",
+    description: "곡선 따옴표와 아포스트로피를 직선 ASCII 문자로 바꿔 코드, CSV, 데이터베이스, 일반 텍스트 이메일에서 안전하게 만듭니다. 변경 개수도 브라우저에서 바로 표시됩니다.",
+    intro: "코드, CSV, 데이터베이스, 일반 텍스트 이메일처럼 ASCII 문장 부호를 요구하는 시스템에 맞게 곡선 따옴표와 아포스트로피를 직선 문자로 표준화합니다. 나머지 글자와 문장 부호는 건드리지 않으며, 몇 군데가 바뀌었는지 개수도 함께 표시합니다.",
     faqs: [
       { question: "곡선 따옴표를 직선 따옴표로 변환하는 도구는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
       { question: "텍스트가 업로드되나요?", answer: "아니요. 브라우저에서 처리됩니다. 공유 링크를 직접 만들 때만 저장됩니다." },
@@ -147,8 +147,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-emojis": {
     name: "이모지 제거",
     title: "텍스트에서 이모지 제거하기",
-    description: "텍스트에서 이모지를 즉시 안전하게 제거합니다.",
-    intro: "일반 텍스트와 문장 부호는 그대로 두고 이모지와 그 수식 문자만 제거합니다. 입력하는 동안 결과가 실시간으로 업데이트됩니다.",
+    description: "이모지와 피부색·이형 선택 수식 문자를 제거하고 글자와 문장 부호는 그대로 둡니다. 입력하는 동안 브라우저에서 결과가 즉시 갱신되며 텍스트는 업로드되지 않습니다.",
+    intro: "일반 텍스트와 문장 부호는 그대로 두고 이모지와 피부색·이형 선택 수식 문자만 제거합니다. AI 답변이나 소셜 게시물을 격식 있는 문서로 옮길 때 유용하며, 입력하는 동안 결과와 제거된 개수가 실시간으로 갱신됩니다.",
     faqs: [
       { question: "이모지 제거는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
       { question: "텍스트가 업로드되나요?", answer: "아니요. 브라우저에서 처리됩니다. 공유 링크를 직접 만들 때만 저장됩니다." },
@@ -158,8 +158,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-line-breaks": {
     name: "복사한 텍스트 줄바꿈 정리",
     title: "텍스트에서 줄바꿈 제거하기",
-    description: "불필요한 줄바꿈을 정리하면서 문단 구분은 유지합니다.",
-    intro: "PDF, 이메일, AI 채팅에서 복사해 생긴 강제 줄바꿈을 고치세요. 한 줄짜리 줄바꿈은 공백으로 바뀌고 문단 구분은 읽기 좋게 유지됩니다.",
+    description: "PDF, 이메일, AI 채팅에서 복사해 생긴 강제 줄바꿈을 고쳐 한 줄짜리 줄바꿈은 공백으로 바꾸고 빈 줄은 문단 구분으로 남깁니다. 브라우저에서 처리됩니다.",
+    intro: "PDF, 이메일, AI 채팅에서 복사해 생긴 강제 줄바꿈을 고칩니다. 문단 중간의 한 줄짜리 줄바꿈은 공백으로 바뀌고, 빈 줄은 문단 구분으로 그대로 남아 원래의 문단 구조가 유지된 채 다시 흐르는 문단이 됩니다.",
     faqs: [
       { question: "복사한 텍스트 줄바꿈 정리는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
       { question: "텍스트가 업로드되나요?", answer: "아니요. 브라우저에서 처리됩니다. 공유 링크를 직접 만들 때만 저장됩니다." },
@@ -169,8 +169,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "chatgpt-conversation-to-document": {
     name: "ChatGPT 대화를 문서로 변환",
     title: "ChatGPT 대화를 깔끔한 문서로 저장",
-    description: "복사한 ChatGPT 대화를 깔끔한 문서 형식으로 정리합니다.",
-    intro: "복사한 ChatGPT 대화 내용을 사용자와 어시스턴트 구분이 명확한 읽기 좋은 문서로 변환합니다. 공유하거나 보관하기에 적합합니다.",
+    description: "복사한 ChatGPT 대화를 붙여넣으면 발화마다 사용자와 어시스턴트 제목이 붙은 깔끔한 문서가 되어 공유, 인쇄, 보관에 쓸 수 있습니다. 브라우저에서 처리됩니다.",
+    intro: "복사한 ChatGPT 대화를 붙여넣으면 발화마다 사용자와 어시스턴트 제목이 붙은 읽기 좋은 문서로 정리됩니다. 누가 말한 부분인지 한눈에 구분되며, 화면에서 그대로 복사하거나 파일로 내려받아 공유, 인쇄, 보관에 쓸 수 있습니다.",
     faqs: [
       { question: "ChatGPT 대화를 문서로 변환하는 도구는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
       { question: "대화 내용이 업로드되나요?", answer: "아니요. 브라우저에서 처리됩니다. 공유 링크를 직접 만들 때만 저장됩니다." },
@@ -180,8 +180,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "token-counter": {
     name: "토큰 계산기",
     title: "토큰 계산기 — GPT 및 Claude 추정",
-    description: "토큰, 단어, 글자 수와 예상 모델 비용을 계산합니다.",
-    intro: "모델에 보내기 전에 프롬프트 크기를 추정하세요. 계산은 브라우저에서 빠르게 이루어지는 근사치이며, 실제 과금은 모델 토크나이저에 따라 다를 수 있습니다.",
+    description: "프롬프트나 답변이 토큰을 얼마나 쓰는지 단어 수, 글자 수, 예상 비용과 함께 추정합니다. 모델 토크나이저가 아닌 브라우저 근사치이며 텍스트는 업로드되지 않습니다.",
+    intro: "모델에 보내기 전에 프롬프트나 답변의 크기를 추정합니다. 토큰 수와 함께 단어 수, 글자 수, 예상 비용을 보여주며, 계산은 브라우저에서 이루어지는 근사치라 실제 과금은 모델 토크나이저에 따라 다를 수 있습니다.",
     faqs: [
       { question: "토큰 계산기는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
       { question: "토큰 수는 정확한가요?", answer: "브라우저에서 계산한 근사치입니다. 실제 토큰 수와 비용은 모델의 토크나이저에 따라 다를 수 있습니다." },
@@ -191,7 +191,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "text-splitter": {
     name: "텍스트 분할 도구",
     title: "AI 프롬프트용 텍스트 분할 도구",
-    description: "긴 텍스트를 AI 도구용으로 복사하기 좋은 조각으로 나눕니다.",
+    description: "긴 문서를 최대 2,000자 조각으로 나누되 각 조각이 공백 경계에서 끝나므로 프롬프트 한도 때문에 단어가 반으로 잘리지 않습니다. 브라우저에서 처리됩니다.",
     intro: "긴 문서를 최대 2,000자의 고정 크기 조각으로 나눕니다. 각 조각은 공백 경계에서 끝나므로 단어가 반으로 잘리지는 않지만, 조각이 문장 중간에서 끝날 수 있습니다. 프롬프트나 붙여넣기 한도에 맞춰 내용을 넣을 때 유용합니다.",
     faqs: [
       { question: "텍스트 분할 도구는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
@@ -202,8 +202,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "text-diff": {
     name: "텍스트 비교 도구",
     title: "온라인 텍스트 비교 — 차이 확인",
-    description: "두 텍스트 버전을 비교해 추가 및 삭제된 부분을 확인합니다.",
-    intro: "초고, 프롬프트, 생성된 답변, 수정된 문장을 비교하세요. 원문을 위에 입력하고 하이픈 세 개만 있는 줄을 넣은 뒤, 수정본을 아래에 입력하면 됩니다.",
+    description: "두 텍스트 버전을 비교해 추가되거나 삭제된 단어를 문장 안에 표시합니다. 원문, 하이픈 세 개만 있는 줄, 수정본 순서로 붙여넣으면 되며 브라우저에서 처리됩니다.",
+    intro: "초고, 프롬프트, 생성된 답변, 수정된 문장을 비교합니다. 원문을 위에 입력하고 하이픈 세 개만 있는 줄을 넣은 뒤 수정본을 아래에 입력하면, 추가되거나 삭제된 단어가 문장 안에 그대로 표시되어 무엇이 달라졌는지 바로 확인할 수 있습니다.",
     faqs: [
       { question: "텍스트 비교 도구는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
       { question: "두 텍스트를 어떻게 입력하나요?", answer: "원문을 위에 입력하고, 하이픈 세 개(---)만 있는 줄로 구분한 뒤 수정본을 아래에 입력하면 추가와 삭제가 표시됩니다." },
@@ -213,8 +213,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "json-formatter": {
     name: "JSON 정리 및 검증 도구",
     title: "JSON 정리 및 검증 도구",
-    description: "JSON을 정리하고 압축하며 정확한 오류로 검증합니다.",
-    intro: "JSON을 붙여넣으면 읽기 좋은 들여쓰기로 검증하고 정리합니다. 잘못된 입력은 파서 오류가 즉시 표시됩니다.",
+    description: "JSON을 검증하고 읽기 좋은 들여쓰기로 정리하며, 형식이 잘못된 경우 파서 오류를 그대로 보여줍니다. 브라우저에서 처리되어 데이터가 업로드되지 않습니다.",
+    intro: "JSON을 붙여넣으면 유효한지 검사한 뒤 읽기 좋은 들여쓰기로 정리해 보여줍니다. 형식이 잘못된 경우에는 파서 오류 메시지가 그대로 표시되어 어느 부분이 문제인지 바로 찾을 수 있고, 정리된 결과는 복사하거나 파일로 내려받을 수 있습니다.",
     faqs: [
       { question: "JSON 정리 및 검증 도구는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
       { question: "JSON에 오류가 있으면 어떻게 되나요?", answer: "파서 오류가 즉시 표시되어 어떤 부분이 잘못되었는지 바로 확인하고 수정할 수 있습니다." },
@@ -224,8 +224,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "json-to-csv": {
     name: "JSON을 CSV로 변환",
     title: "JSON CSV 변환 온라인 도구",
-    description: "JSON 객체 배열을 다운로드 가능한 CSV 파일로 변환합니다.",
-    intro: "JSON 배열을 스프레드시트에 바로 쓸 수 있는 CSV 파일로 변환합니다. 모든 객체 키가 열이 되고, 값이 없는 항목은 빈칸으로 남습니다.",
+    description: "JSON 객체 배열을 펼쳐 스프레드시트에서 여는 CSV로 내려받습니다. 모든 키가 열이 되고 값이 없는 항목은 빈칸으로 남으며 브라우저에서 처리됩니다.",
+    intro: "JSON 객체 배열을 붙여넣으면 스프레드시트에서 바로 열 수 있는 CSV 파일로 변환합니다. 모든 객체 키가 열이 되고, 해당 키가 없는 항목은 빈칸으로 남아 행의 자리가 어긋나지 않습니다. API 응답이나 내보낸 데이터를 Excel에서 볼 때 유용합니다.",
     faqs: [
       { question: "JSON을 CSV로 변환하는 도구는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
       { question: "중첩된 JSON 객체도 변환되나요?", answer: "객체 키가 CSV 열로 펼쳐지며, 값이 없는 항목은 빈칸으로 처리됩니다." },
@@ -235,8 +235,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "csv-to-markdown-table": {
     name: "CSV를 Markdown 표로 변환",
     title: "CSV Markdown 표 변환 도구",
-    description: "CSV 행을 깔끔한 Markdown 파이프 표로 변환합니다.",
-    intro: "쉼표로 구분된 데이터를 문서, GitHub, Notion 또는 AI 채팅에 바로 붙여넣을 수 있는 Markdown 표로 바꿉니다.",
+    description: "쉼표로 구분된 행을 GitHub, Notion, 문서, AI 채팅에 붙여넣을 수 있는 Markdown 파이프 표로 바꿉니다. 첫 행이 머리글이 되며 브라우저에서 처리됩니다.",
+    intro: "쉼표로 구분된 행을 문서, GitHub, Notion 또는 AI 채팅에 바로 붙여넣을 수 있는 Markdown 파이프 표로 바꿉니다. 첫 행은 표의 머리글이 되고 나머지 행이 본문이 되며, 결과는 그대로 복사하거나 파일로 내려받을 수 있습니다.",
     faqs: [
       { question: "CSV를 Markdown 표로 변환하는 도구는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
       { question: "변환된 표는 어디에 사용할 수 있나요?", answer: "GitHub, Notion, 문서 파일 등 Markdown을 지원하는 곳이면 어디든 붙여넣을 수 있습니다." },
@@ -246,8 +246,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "extract-table-from-text": {
     name: "텍스트에서 표 추출",
     title: "텍스트에서 표 추출 온라인 도구",
-    description: "텍스트에서 표 형태의 행을 찾아 CSV로 변환합니다.",
-    intro: "본문 속에 섞여 있는 파이프 또는 탭으로 구분된 표를 자동으로 찾아 추출합니다. 결과는 스프레드시트에 바로 사용할 수 있습니다.",
+    description: "본문에 섞여 있는 파이프 또는 탭으로 구분된 행만 골라내 CSV로 내려받습니다. Markdown 정렬 행은 데이터로 읽지 않고 건너뛰며 브라우저에서 처리됩니다.",
+    intro: "본문 속에 섞여 있는 파이프 또는 탭으로 구분된 행만 골라내 하나의 표로 모읍니다. Markdown 정렬 행은 데이터로 읽지 않고 건너뛰므로 표 아래에 하이픈 줄이 끼어들지 않으며, 결과는 CSV로 내려받아 스프레드시트에서 열 수 있습니다.",
     faqs: [
       { question: "텍스트에서 표를 추출하는 도구는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
       { question: "어떤 형식의 표를 인식하나요?", answer: "파이프(|) 또는 탭으로 구분된 표 형태의 행을 찾아 CSV로 변환합니다." },
@@ -257,8 +257,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "word-counter": {
     name: "단어 및 글자 수 세기",
     title: "글자 수 단어 수 세기 도구",
-    description: "단어, 글자, 문장, 문단 수와 예상 읽기 시간을 계산합니다.",
-    intro: "문서를 업로드하지 않고 글쓰기 통계를 즉시 확인하세요. 에세이, 게시물, 설명문, 프롬프트 작성에 유용합니다.",
+    description: "입력하는 동안 단어, 글자, 문장 수와 예상 읽기 시간을 계산합니다. 업로드가 없어 초고, 에세이, 고객 작업물, 프롬프트에도 안심하고 쓸 수 있습니다.",
+    intro: "문서를 업로드하지 않고 글쓰기 통계를 즉시 확인합니다. 입력하는 동안 단어 수, 글자 수, 문장 수, 문단 수와 예상 읽기 시간이 갱신되어 에세이, 게시물, 설명문, 프롬프트 분량을 맞추는 데 유용합니다.",
     faqs: [
       { question: "단어 및 글자 수 세기 도구는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
       { question: "어떤 통계를 확인할 수 있나요?", answer: "단어 수, 글자 수, 문장 수, 문단 수와 예상 읽기 시간을 보여줍니다." },
@@ -268,8 +268,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "case-converter": {
     name: "대소문자 변환기",
     title: "영문 대소문자 변환 온라인 도구",
-    description: "텍스트를 대문자, 소문자, 제목 형식, 문장 형식으로 변환합니다.",
-    intro: "일관되지 않은 대소문자를 즉시 통일하세요. 기본 결과는 제목 형식이며, 다른 대소문자 옵션은 편집기 위에서 선택할 수 있습니다.",
+    description: "편집기 위에서 모드를 골라 텍스트를 제목 형식, 문장 형식, 전체 대문자, 전체 소문자로 바꿉니다. 들쭉날쭉한 대소문자를 한 번에 정리하며 브라우저에서 처리됩니다.",
+    intro: "들쭉날쭉한 영문 대소문자를 한 번의 붙여넣기로 정리합니다. 기본 결과는 제목 형식이며, 편집기 위에서 문장 형식, 전체 대문자, 전체 소문자로 모드를 바꿔 같은 텍스트를 다시 변환할 수 있어 제목과 본문을 각각 맞추기 좋습니다.",
     faqs: [
       { question: "대소문자 변환기는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
       { question: "어떤 형식으로 변환할 수 있나요?", answer: "전체 대문자, 전체 소문자, 제목 형식, 문장 형식으로 변환할 수 있습니다." },
@@ -279,7 +279,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "latex-to-word": {
     name: "LaTeX를 Word 수식으로 변환",
     title: "LaTeX를 Word 수식으로 변환하는 도구",
-    description: "디스플레이 구분 기호를 제거해 LaTeX를 Word 수식 편집기에 맞게 정리합니다.",
+    description: "AI 답변에서 복사한 LaTeX의 디스플레이 구분 기호를 제거해 Word에서 Alt+=로 연 수식 편집기에 그대로 붙여넣을 수 있게 만듭니다. 브라우저에서 처리됩니다.",
     intro: "AI 답변에서 복사한 LaTeX를 디스플레이 구분 기호를 제거하고 일반 명령어를 정리해 Word 수식 편집기에서 바로 쓸 수 있게 준비합니다. Word에서 Alt+=를 눌러 수식 상자를 열고, 필요하면 LaTeX 입력 모드를 선택한 뒤 결과를 붙여넣으세요. 일반 문단에 붙여넣으면 네이티브 수식으로 변환되지 않습니다.",
     faqs: [
       { question: "LaTeX를 Word 수식으로 변환하는 도구는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
@@ -290,7 +290,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "html-to-markdown": {
     name: "HTML을 Markdown으로 변환",
     title: "HTML을 Markdown으로 변환하는 무료 도구",
-    description: "HTML 소스를 브라우저에서 깔끔한 Markdown으로 변환합니다. 무료이며 텍스트가 전송되지 않습니다.",
+    description: "HTML 소스를 붙여넣으면 README, 문서, 메모 앱, LLM 프롬프트에 쓸 Markdown이 됩니다. 스크립트와 스타일, 알 수 없는 태그는 제거되고 브라우저에서 처리됩니다.",
     intro: "HTML 소스를 붙여넣으면 README, 문서, 메모 앱, LLM 프롬프트에 쓸 수 있는 Markdown을 바로 얻을 수 있습니다. 제목, 목록, 링크, 강조, 코드 블록, 표가 변환되며 스크립트, 스타일, 알 수 없는 태그는 제거됩니다.",
     placeholder: "<h1>안녕하세요</h1>\n<p>이것은 <strong>굵게</strong>, <em>기울임</em>, <a href=\"https://example.com\">링크</a>입니다.</p>",
     faqs: [
@@ -302,7 +302,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-fancy-text": {
     name: "꾸민 글꼴을 일반 텍스트로 변환",
     title: "꾸민 유니코드 글꼴을 일반 텍스트로 변환",
-    description: "SNS와 AI 출력의 𝗕𝗼𝗹𝗱, 𝓈𝒸𝓇𝒾𝓅𝓉 같은 유니코드 장식 글꼴을 일반 글자로 되돌립니다.",
+    description: "굵은 글씨, 필기체, 스몰캡, 전각 같은 유니코드 유사 글꼴을 일반 글자로 되돌려 검색, 맞춤법 검사, 파서가 제대로 읽게 합니다. 브라우저에서 처리됩니다.",
     intro: "SNS 게시물이나 AI 출력에 들어 있는 유사 글꼴 문자(수학용 굵은 글씨, 필기체, 스몰캡, 전각 영문 등)는 꾸며진 것처럼 보이지만 특수 유니코드 기호라서 검색, 맞춤법 검사, 스크린 리더, 이력서 분석 시스템이 제대로 처리하지 못합니다. 이 변환기는 이를 일반 글자로 되돌리고 장식용 취소선과 밑줄도 제거합니다.",
     placeholder: "𝗳𝗮𝗻𝗰𝘆 𝓉𝑒𝓍𝓉, ᴛʜɪs, ｆｕｌｌｗｉｄｔｈ 같은 꾸민 글자를 붙여넣으면 일반 글자로 변환됩니다.",
     faqs: [

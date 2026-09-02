@@ -4,7 +4,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-word": {
     name: "Convertire Markdown in Word",
     title: "Convertire Markdown in Word gratis e subito",
-    description: "Converti Markdown in un documento Word ben formattato, gratis e in privato.",
+    description: "Incolla il Markdown di ChatGPT, Claude o di qualsiasi editor e scarica un vero file .docx con titoli, elenchi, tabelle, link e codice formattati.",
     intro: "Trasforma il Markdown di ChatGPT, Claude o qualsiasi editor in un vero documento Word. Titoli, elenchi, link, codice e tabelle vengono conservati invece di apparire come simboli grezzi.",
     faqs: [
       { question: "Convertire Markdown in Word è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -15,7 +15,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-pdf": {
     name: "Convertire Markdown in PDF",
     title: "Convertire Markdown in PDF gratis online",
-    description: "Trasforma Markdown in un PDF pulito direttamente nel browser.",
+    description: "Incolla il Markdown, controlla l’anteprima formattata e salva un PDF pronto per la stampa dal browser, senza caricare nulla e senza filigrane.",
     intro: "Visualizza subito l'anteprima del Markdown formattato, poi usa la vista pronta per la stampa per salvare un PDF nitido. La creazione del PDF avviene nel browser, quindi il documento resta sul tuo dispositivo.",
     faqs: [
       { question: "Convertire Markdown in PDF è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -26,7 +26,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-google-docs": {
     name: "Convertire Markdown in Google Docs",
     title: "Convertire Markdown in Google Docs online",
-    description: "Porta Markdown in Google Docs conservando titoli, elenchi, link e tabelle.",
+    description: "Incolla il Markdown, copia il risultato formattato e portalo in Google Docs con titoli, elenchi, link, enfasi e tabelle intatti. Anche in .docx.",
     intro: "Incolla il Markdown, copia il risultato formattato e incollalo in Google Docs. Titoli, elenchi, corsivo, grassetto, link e tabelle mantengono la loro struttura senza dover sistemare nulla a mano.",
     faqs: [
       { question: "Convertire Markdown in Google Docs è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -37,7 +37,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-markdown-formatting": {
     name: "Rimuovere la formattazione Markdown",
     title: "Rimuovere formattazione Markdown online gratis",
-    description: "Elimina asterischi, cancelletti e altri simboli Markdown senza perdere il testo.",
+    description: "Elimina asterischi, cancelletti, sintassi dei link e blocchi di codice dal Markdown e riottieni testo leggibile. Tutto avviene nel tuo browser.",
     intro: "Rimuovi asterischi, cancelletti dei titoli, sintassi dei link, blocchi di codice e altri caratteri Markdown senza danneggiare il testo sottostante. Ideale per ripulire i testi copiati da ChatGPT o altre IA.",
     faqs: [
       { question: "Rimuovere la formattazione Markdown è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -48,8 +48,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-table-to-excel": {
     name: "Convertire tabella Markdown in Excel",
     title: "Convertire tabella Markdown in Excel gratis",
-    description: "Trasforma le tabelle Markdown in vere righe e colonne Excel.",
-    intro: "Converti le tabelle con barre e trattini copiate dalle chat IA in righe e colonne che si aprono correttamente in Excel, Numbers e Google Sheets.",
+    description: "Incolla una tabella Markdown con barre verticali e scarica un vero file .xlsx con un valore per cella, invece di tutta la riga in una sola colonna.",
+    intro: "Converti le tabelle con barre verticali e trattini copiate dalle chat IA in righe e colonne vere: ogni valore finisce nella propria cella, invece di ammassarsi in un’unica colonna. Il file .xlsx scaricato si apre correttamente in Excel, Numbers e Google Sheets.",
     faqs: [
       { question: "Convertire una tabella Markdown in Excel è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
       { question: "Il mio testo viene caricato?", answer: "No. L'elaborazione avviene nel browser. Il testo viene salvato solo se crei esplicitamente un link condiviso." },
@@ -59,7 +59,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-table-to-csv": {
     name: "Convertire tabella Markdown in CSV",
     title: "Convertire tabella Markdown in CSV online",
-    description: "Converti una tabella Markdown in un file CSV pulito e compatibile.",
+    description: "Incolla una tabella Markdown e ottieni un CSV conforme agli standard: virgole e virgolette nelle celle vengono protette, così il file si importa bene.",
     intro: "Incolla una tabella Markdown e ottieni subito un CSV compatibile con gli standard. Le celle con virgole vengono racchiuse tra virgolette, così il file si importa senza errori.",
     faqs: [
       { question: "Convertire tabella Markdown in CSV è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -70,8 +70,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-viewer": {
     name: "Visualizzatore Markdown online",
     title: "Visualizzatore Markdown online con anteprima live",
-    description: "Visualizza Markdown formattato in tempo reale senza caricare file.",
-    intro: "Leggi e controlla il Markdown come un documento formattato mentre scrivi. È utile per verificare output IA, file README, note e documentazione.",
+    description: "Incolla o scrivi Markdown e leggilo come documento formattato mentre lo modifichi. Utile per output IA, file README e note. Non viene caricato nulla.",
+    intro: "Incolla o scrivi Markdown e leggilo come documento formattato mentre modifichi il testo: titoli, elenchi, tabelle e blocchi di codice compaiono nell’anteprima man mano. È utile per controllare output IA, file README, note e documentazione, e il risultato si può scaricare come HTML.",
     faqs: [
       { question: "Il visualizzatore Markdown è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
       { question: "Il mio testo viene caricato?", answer: "No. L’elaborazione avviene nel browser. Il testo viene salvato solo se crei esplicitamente un link condiviso." },
@@ -81,8 +81,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-html": {
     name: "Convertire Markdown in HTML",
     title: "Convertire Markdown in HTML online",
-    description: "Genera subito HTML pulito e semantico a partire da Markdown.",
-    intro: "Genera HTML pulito e semantico da Markdown con un’anteprima in tempo reale. Copia il codice per un sito web, una newsletter, un CMS o un flusso email.",
+    description: "Converti Markdown in HTML pulito e semantico con anteprima live, poi copia il codice per un sito, un CMS, una newsletter o un’email. Tutto nel browser.",
+    intro: "Genera HTML pulito e semantico dal Markdown, con un’anteprima in tempo reale che mostra il risultato mentre scrivi. Copia il codice per un sito web, un CMS, una newsletter o un flusso email, oppure scarica direttamente il file HTML.",
     faqs: [
       { question: "Convertire Markdown in HTML è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
       { question: "Il mio testo viene caricato?", answer: "No. L’elaborazione avviene nel browser. Il testo viene salvato solo se crei esplicitamente un link condiviso." },
@@ -92,7 +92,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "word-to-markdown": {
     name: "Convertire Word in Markdown",
     title: "Convertire Word in Markdown online gratis",
-    description: "Incolla testo formattato da Word o Google Docs e convertilo in Markdown.",
+    description: "Incolla il testo formattato copiato da Word, Google Docs o una pagina web e ottieni Markdown, con titoli, enfasi, elenchi, link e tabelle convertiti.",
     intro: "Incolla il testo formattato copiato da Word, Google Docs o una pagina web. Il convertitore trasforma titoli, grassetto, elenchi, link e tabelle in Markdown portabile.",
     faqs: [
       { question: "Convertire Word in Markdown è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -103,7 +103,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-em-dashes": {
     name: "Rimuovere i trattini lunghi",
     title: "Rimuovere i trattini lunghi dal testo",
-    description: "Trova e sostituisci i trattini lunghi con una punteggiatura più semplice.",
+    description: "Sostituisci ogni trattino lungo con una virgola, un punto e virgola, un trattino semplice o nulla, e vedi in tempo reale quanti ne sono stati cambiati.",
     intro: "Trova e sostituisci i trattini lunghi nei testi generati dall’IA o scritti a mano. Il conteggio in tempo reale ti dice esattamente quanti sono stati modificati.",
     faqs: [
       { question: "Rimuovere i trattini lunghi è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -114,7 +114,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "clean-ai-text": {
     name: "Pulire il testo di ChatGPT e IA",
     title: "Pulire testo ChatGPT e formattazione IA",
-    description: "Pulisci trattini, virgolette curve, emoji e caratteri nascosti dai testi IA.",
+    description: "Conta e ripulisci gli artefatti di formattazione IA: trattini lunghi, virgolette curve, caratteri invisibili ed emoji, con i conteggi sempre visibili.",
     intro: "Il rapporto sugli artefatti conta i segni di formattazione meccanica, senza cercare di indovinare se il testo è stato scritto dall’IA. Scegli cosa pulire e controlla i conteggi in modo trasparente.",
     faqs: [
       { question: "Pulire il testo di ChatGPT e IA è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -125,7 +125,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-invisible-characters": {
     name: "Rimuovere caratteri invisibili",
     title: "Rimuovere caratteri invisibili dal testo",
-    description: "Rileva e rimuovi spazi a larghezza zero, trattini morbidi e segni direzionali.",
+    description: "Analizza il testo in cerca di spazi a larghezza zero, trattini morbidi, BOM e segni direzionali, mostra un conteggio per tipo e li rimuove in sicurezza.",
     intro: "I caratteri Unicode invisibili possono compromettere ricerche, convalide, codice e operazioni di copia e incolla. Questo strumento identifica ogni tipo di carattere supportato e lo rimuove in sicurezza.",
     faqs: [
       { question: "Rimuovere caratteri invisibili è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -136,8 +136,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-smart-quotes": {
     name: "Convertire virgolette curve in virgolette dritte",
     title: "Sostituire virgolette curve online",
-    description: "Sostituisci le virgolette curve con virgolette dritte e normalizza gli apostrofi.",
-    intro: "Normalizza le virgolette tipografiche per codice, CSV, database, email in testo semplice e sistemi che si aspettano punteggiatura ASCII.",
+    description: "Sostituisci virgolette curve e apostrofi con quelli dritti ASCII, per codice, CSV, database ed email in testo semplice. Il conteggio mostra cosa cambia.",
+    intro: "Normalizza la punteggiatura tipografica: le virgolette curve e gli apostrofi diventano le versioni dritte ASCII, mentre il resto del testo resta invariato. Un conteggio mostra quante sostituzioni sono state fatte, utile prima di incollare in codice, CSV, database o email in testo semplice.",
     faqs: [
       { question: "Convertire virgolette curve in virgolette dritte è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
       { question: "Il mio testo viene caricato?", answer: "No. L’elaborazione avviene nel browser. Il testo viene salvato solo se crei esplicitamente un link condiviso." },
@@ -147,8 +147,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-emojis": {
     name: "Rimuovere le emoji",
     title: "Rimuovere emoji dal testo online",
-    description: "Rimuovi le emoji dal testo all’istante e in privato.",
-    intro: "Elimina le emoji e i loro modificatori lasciando intatti testo e punteggiatura. Il risultato si aggiorna mentre scrivi.",
+    description: "Rimuovi dal testo le emoji e i loro modificatori di tono e variazione, lasciando intatte parole e punteggiatura. Il risultato si aggiorna mentre scrivi.",
+    intro: "Elimina emoji e pittogrammi insieme ai loro modificatori di tono della pelle e ai selettori di variazione, lasciando intatte parole, spaziatura e punteggiatura. Il risultato si aggiorna mentre scrivi e un conteggio indica quanti simboli sono stati rimossi.",
     faqs: [
       { question: "Rimuovere le emoji è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
       { question: "Il mio testo viene caricato?", answer: "No. L’elaborazione avviene nel browser. Il testo viene salvato solo se crei esplicitamente un link condiviso." },
@@ -158,8 +158,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-line-breaks": {
     name: "Correggere le interruzioni di riga del copia-incolla",
     title: "Rimuovere interruzioni di riga dal testo",
-    description: "Correggi le interruzioni di riga indesiderate mantenendo i paragrafi.",
-    intro: "Ripara le righe spezzate copiate da PDF, email e chat IA. Le singole interruzioni di riga diventano spazi, mentre i paragrafi restano leggibili.",
+    description: "Ripara il testo copiato da PDF, email e chat IA: le singole interruzioni di riga diventano spazi, mentre le righe vuote restano stacchi di paragrafo.",
+    intro: "Ripara le righe spezzate del testo copiato da PDF, email e chat IA: ogni singola interruzione di riga diventa uno spazio, mentre le righe vuote restano stacchi di paragrafo. Così i paragrafi tornano continui e si possono incollare altrove senza risistemarli a mano.",
     faqs: [
       { question: "Correggere le interruzioni di riga del copia-incolla è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
       { question: "Il mio testo viene caricato?", answer: "No. L’elaborazione avviene nel browser. Il testo viene salvato solo se crei esplicitamente un link condiviso." },
@@ -169,8 +169,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "chatgpt-conversation-to-document": {
     name: "Convertire conversazioni ChatGPT in documento",
     title: "Esportare conversazioni ChatGPT in documento",
-    description: "Formatta una conversazione ChatGPT copiata come documento pulito.",
-    intro: "Trasforma le trascrizioni copiate da ChatGPT in documenti leggibili, con sezioni chiare per utente e assistente, pronte da condividere o archiviare.",
+    description: "Incolla una conversazione ChatGPT copiata e ottieni un documento pulito, con ogni turno sotto il proprio titolo, pronto da condividere o archiviare.",
+    intro: "Incolla una trascrizione copiata da ChatGPT e ottieni un documento leggibile, in cui ogni turno finisce sotto il proprio titolo utente o assistente. Il risultato è pronto da condividere, stampare o archiviare e si può scaricare come file di testo.",
     faqs: [
       { question: "Convertire conversazioni ChatGPT in documento è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
       { question: "Il mio testo viene caricato?", answer: "No. L’elaborazione avviene nel browser. Il testo viene salvato solo se crei esplicitamente un link condiviso." },
@@ -180,7 +180,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "token-counter": {
     name: "Contatore di token",
     title: "Contatore di token — stima per GPT e Claude",
-    description: "Conta token, parole, caratteri e costo stimato del modello.",
+    description: "Stima quanti token usa un prompt o una risposta, insieme a parole, caratteri e costo. È un’approssimazione nel browser, non il tokenizer del modello.",
     intro: "Stima la dimensione di un prompt prima di inviarlo a un modello. I conteggi sono approssimazioni rapide calcolate nel browser; la fatturazione esatta può variare in base al tokenizer del modello.",
     faqs: [
       { question: "Il contatore di token è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -191,7 +191,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "text-splitter": {
     name: "Suddividi testo",
     title: "Suddividi testo per prompt IA",
-    description: "Dividi testi lunghi in blocchi puliti e copiabili per gli strumenti IA.",
+    description: "Dividi un documento lungo in blocchi fino a 2.000 caratteri che terminano sempre su uno spazio, così nessuna parola viene tagliata a metà.",
     intro: "Spezza documenti lunghi in blocchi di dimensione fissa fino a 2.000 caratteri. Ogni blocco termina in corrispondenza di uno spazio, così nessuna parola viene tagliata a metà, il che significa che un blocco può finire a metà frase. Utile per far entrare i contenuti nei limiti dei prompt e di ciò che si può incollare.",
     faqs: [
       { question: "Suddividi testo è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -202,7 +202,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "text-diff": {
     name: "Confronto di testi",
     title: "Confronto di testi online — Text Diff",
-    description: "Confronta due versioni di un testo e vedi aggiunte ed eliminazioni.",
+    description: "Confronta due versioni di un testo e vedi ogni parola aggiunta o rimossa. Incolla l’originale, una riga di tre trattini, poi la revisione.",
     intro: "Confronta bozze, prompt, risposte generate e testi modificati. Inserisci l’originale sopra una riga con tre soli trattini e il testo revisionato sotto.",
     faqs: [
       { question: "Il confronto di testi è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -213,8 +213,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "json-formatter": {
     name: "Formattatore e validatore JSON",
     title: "Formattatore e validatore JSON",
-    description: "Formatta, minimizza e convalida JSON con errori precisi.",
-    intro: "Incolla il JSON per convalidarlo e formattarlo con un’indentazione leggibile. Se l’input non è valido, l’errore del parser viene mostrato subito.",
+    description: "Convalida e formatta il JSON con un’indentazione leggibile, oppure leggi l’errore esatto del parser quando non è valido. Tutto avviene nel tuo browser.",
+    intro: "Incolla il JSON per convalidarlo e riformattarlo con un’indentazione leggibile, comoda per risposte di API e file di configurazione. Se l’input non è valido, viene mostrato subito il messaggio esatto del parser, con il punto in cui la struttura si interrompe.",
     faqs: [
       { question: "Il formattatore e validatore JSON è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
       { question: "Il mio testo viene caricato?", answer: "No. L’elaborazione avviene nel browser. Il testo viene salvato solo se crei esplicitamente un link condiviso." },
@@ -224,8 +224,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "json-to-csv": {
     name: "Convertire JSON in CSV",
     title: "Convertire JSON in CSV online",
-    description: "Converti array di oggetti JSON in un file CSV scaricabile.",
-    intro: "Trasforma un array JSON in un file CSV pronto per Excel. Ogni chiave degli oggetti diventa una colonna e i valori mancanti restano vuoti.",
+    description: "Trasforma un array di oggetti JSON in un CSV da aprire in un foglio di calcolo. Ogni chiave diventa una colonna e i valori mancanti restano vuoti.",
+    intro: "Trasforma un array di oggetti JSON in un file CSV pronto per Excel, Google Sheets o Numbers. Ogni chiave trovata negli oggetti diventa una colonna e le celle senza valore restano vuote, anche quando gli oggetti non hanno tutti le stesse chiavi.",
     faqs: [
       { question: "Convertire JSON in CSV è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
       { question: "Il mio testo viene caricato?", answer: "No. L’elaborazione avviene nel browser. Il testo viene salvato solo se crei esplicitamente un link condiviso." },
@@ -235,8 +235,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "csv-to-markdown-table": {
     name: "Convertire CSV in tabella Markdown",
     title: "Convertire CSV in tabella Markdown",
-    description: "Converti righe CSV in una tabella Markdown pulita con barre verticali.",
-    intro: "Trasforma dati separati da virgole in una tabella Markdown pronta da incollare in documentazione, GitHub, Notion o in una chat IA.",
+    description: "Trasforma righe separate da virgole in una tabella Markdown con barre verticali da incollare in GitHub, Notion, documentazione o in una chat IA.",
+    intro: "Trasforma dati separati da virgole in una tabella Markdown con barre verticali: la prima riga diventa la riga di intestazione e le colonne restano allineate. Il risultato è pronto da incollare in documentazione, GitHub, Notion o in una chat IA.",
     faqs: [
       { question: "Convertire CSV in tabella Markdown è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
       { question: "Il mio testo viene caricato?", answer: "No. L’elaborazione avviene nel browser. Il testo viene salvato solo se crei esplicitamente un link condiviso." },
@@ -246,7 +246,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "extract-table-from-text": {
     name: "Estrarre tabelle dal testo",
     title: "Estrarre tabelle dal testo online",
-    description: "Trova righe simili a tabelle nel testo e convertile in CSV.",
+    description: "Estrai dal testo le righe delimitate da barre verticali o tabulazioni e scaricale come CSV. Le righe di allineamento Markdown vengono ignorate.",
     intro: "Estrai tabelle delimitate da barre verticali o tabulazioni da un testo qualsiasi. Il risultato è pronto per essere incollato in un foglio di calcolo.",
     faqs: [
       { question: "Estrarre tabelle dal testo è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -257,8 +257,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "word-counter": {
     name: "Conta parole e caratteri",
     title: "Conta parole e caratteri online",
-    description: "Conta parole, caratteri, frasi, paragrafi e tempo di lettura.",
-    intro: "Ottieni statistiche di scrittura istantanee senza caricare il documento. Il rapporto è utile per saggi, post, descrizioni e prompt.",
+    description: "Conta parole, caratteri, frasi e tempo di lettura mentre scrivi. Non viene caricato nulla, quindi è adatto a bozze, saggi, lavori per clienti e prompt.",
+    intro: "Ottieni statistiche di scrittura istantanee mentre digiti: parole, caratteri, frasi e tempo di lettura stimato su una velocità di circa 200 parole al minuto. Nulla viene caricato, quindi il conteggio resta adatto a bozze, saggi, post, descrizioni e prompt.",
     faqs: [
       { question: "Il conta parole e caratteri è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
       { question: "Il mio testo viene caricato?", answer: "No. L’elaborazione avviene nel browser. Il testo viene salvato solo se crei esplicitamente un link condiviso." },
@@ -268,7 +268,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "case-converter": {
     name: "Convertire maiuscole e minuscole",
     title: "Convertire maiuscole e minuscole online",
-    description: "Converti il testo in maiuscolo, minuscolo, title case o sentence case.",
+    description: "Converti il testo in title case, sentence case, MAIUSCOLO o minuscolo scegliendo la modalità sopra l’editor. Sistema le maiuscole incoerenti.",
     intro: "Normalizza subito un testo con maiuscole incoerenti. Il risultato predefinito è il title case; le altre opzioni sono disponibili sopra l’editor.",
     faqs: [
       { question: "Convertire maiuscole e minuscole è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -279,7 +279,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "latex-to-word": {
     name: "Convertire LaTeX in equazioni Word",
     title: "Convertire LaTeX in equazioni Word gratis",
-    description: "Prepara il codice LaTeX per l’editor di equazioni di Word rimuovendo i delimitatori.",
+    description: "Rimuovi i delimitatori dal LaTeX copiato da una risposta IA, così si incolla nell’editor di equazioni di Word con Alt+= invece di restare testo.",
     intro: "Prepara il LaTeX copiato da una risposta IA per l’editor di equazioni di Word, rimuovendo i delimitatori e normalizzando i comandi più comuni. In Word, premi Alt+= per aprire un campo equazione, scegli l’input LaTeX se necessario e incolla lì il risultato: incollandolo in un paragrafo normale non otterrai un’equazione nativa.",
     faqs: [
       { question: "Convertire LaTeX in equazioni Word è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
@@ -290,7 +290,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "html-to-markdown": {
     name: "Convertire HTML in Markdown",
     title: "Convertire HTML in Markdown online",
-    description: "Converti codice HTML in Markdown pulito nel browser. Gratuito, immediato e privato.",
+    description: "Incolla il codice HTML e ottieni Markdown portabile per README, documentazione e prompt LLM. Script, stili e tag sconosciuti vengono rimossi.",
     intro: "Incolla il codice HTML e ottieni Markdown portabile per README, documentazione, app di note e prompt LLM. Titoli, elenchi, link, grassetto, blocchi di codice e tabelle vengono convertiti; script, stili e tag sconosciuti vengono rimossi.",
     placeholder: "<h1>Ciao</h1>\n<p>Questo è <strong>grassetto</strong>, <em>corsivo</em> e <a href=\"https://example.com\">un link</a>.</p>",
     faqs: [
@@ -302,7 +302,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-fancy-text": {
     name: "Testo fancy in testo normale",
     title: "Convertire testo fancy in testo normale",
-    description: "Converti 𝗴𝗿𝗮𝘀𝘀𝗲𝘁𝘁𝗼, 𝘤𝘰𝘳𝘴𝘪𝘷𝘰, small caps e caratteri fullwidth in testo normale.",
+    description: "Converti in lettere normali grassetto, corsivo, script, small caps e caratteri fullwidth Unicode, così ricerca, correttore e parser li leggono di nuovo.",
     intro: "I caratteri pseudo-font dei post social e delle risposte IA sembrano testo formattato, ma sono simboli Unicode speciali che rompono ricerca, correttore ortografico, screen reader e sistemi di selezione dei curriculum. Questo convertitore li riporta a lettere normali e rimuove barrature e sottolineature decorative.",
     placeholder: "Incolla 𝘁𝗲𝘀𝘁𝗼 𝒇𝒂𝒏𝒄𝒚 come ǫᴜᴇsᴛᴏ o ｌａｒｇｏ per riportarlo a lettere normali.",
     faqs: [

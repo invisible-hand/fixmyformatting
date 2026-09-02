@@ -6,7 +6,7 @@ import { languageAlternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: { absolute: "Free Text Formatting Tools for AI Output" },
-  description: "Clean, convert, count, and format text from ChatGPT, Claude, Gemini, and more. Fast, free, and private.",
+  description: "Convert AI output to Word, PDF, Google Docs, or Excel, and strip em dashes, smart quotes, and invisible characters. Free, no signup, runs in your browser.",
   alternates: { canonical: "https://fixmyformatting.com", languages: languageAlternates() },
   openGraph: {
     title: "Free Text Formatting Tools for AI Output",

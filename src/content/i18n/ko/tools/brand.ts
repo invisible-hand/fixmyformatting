@@ -16,11 +16,11 @@ export const brand: BrandCopy = {
     "remove-formatting": "{brand} 서식 제거 — 무료",
   },
   actionDescription: {
-    "to-word": "{brand} 답변을 제목, 목록, 코드, 표가 그대로 유지된 편집 가능한 Word 문서로 변환합니다.",
-    "to-pdf": "텍스트를 업로드하지 않고 {brand} 답변을 깔끔한 인쇄용 PDF 파일로 변환합니다.",
-    "to-google-docs": "{brand} 결과물을 제목, 목록, 링크, 강조, 표를 유지한 채 Google Docs로 옮깁니다.",
-    "table-to-excel": "{brand} Markdown 표를 정렬과 편집이 가능한 실제 Excel 행과 열로 변환합니다.",
-    "remove-formatting": "읽기 쉬운 글자는 그대로 두고 {brand} 답변의 Markdown 서식을 제거합니다.",
+    "to-word": "{brand} 답변을 제목, 목록, 표, 링크, 코드가 서식 그대로 유지된 실제 Word .docx 파일로 변환합니다. 브라우저에서 처리되며 가입이 필요 없습니다.",
+    "to-pdf": "{brand} 답변을 서식이 적용된 미리보기에서 확인한 뒤 인쇄용 PDF로 저장합니다. 브라우저에서 처리되어 업로드도 워터마크도 없습니다.",
+    "to-google-docs": "{brand} 답변을 붙여넣고 서식이 적용된 결과를 복사해 제목, 목록, 링크, 강조, 표가 살아 있는 채로 Google Docs에 붙여넣습니다. 브라우저에서 처리됩니다.",
+    "table-to-excel": "{brand}가 채팅에 표시하는 파이프와 대시 표를 셀마다 값이 하나씩 들어간 실제 .xlsx 파일로 바꿔 Excel에서 정렬하고 편집합니다. 브라우저에서 처리됩니다.",
+    "remove-formatting": "{brand} 답변에서 별표, 해시, 링크 문법을 제거하고 읽기 좋은 글자만 남겨 Markdown이 그대로 보이는 이메일, 양식, 앱에 사용합니다. 브라우저에서 처리됩니다.",
   },
   actionGuidance: {
     "to-word": "{brand} 답변을 보고서, 브리프, 과제 등 다른 사람이 Word에서 편집할 수 있는 문서로 만들어야 할 때 사용하세요.",

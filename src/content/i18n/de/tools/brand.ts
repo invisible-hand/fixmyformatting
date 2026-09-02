@@ -17,10 +17,10 @@ export const brand: BrandCopy = {
   },
   actionDescription: {
     "to-word": "Antworten aus {brand} in bearbeitbare Word-Dokumente umwandeln – mit erhaltenen Überschriften, Listen, Code und Tabellen.",
-    "to-pdf": "Antworten aus {brand} in saubere, druckfertige PDF-Dateien umwandeln, ohne deinen Text hochzuladen.",
+    "to-pdf": "Antworten aus {brand} über die formatierte Vorschau in ein druckfertiges PDF umwandeln – im Browser, ohne Upload und ohne Wasserzeichen.",
     "to-google-docs": "Inhalte aus {brand} in Google Docs übernehmen – mit erhaltenen Überschriften, Listen, Links, Hervorhebungen und Tabellen.",
     "table-to-excel": "Markdown-Tabellen aus {brand} in echte Excel-Zeilen und -Spalten umwandeln – bereit zum Sortieren und Bearbeiten.",
-    "remove-formatting": "Markdown-Formatierung aus {brand}-Antworten entfernen, während der lesbare Text erhalten bleibt.",
+    "remove-formatting": "Sternchen, Rauten und Link-Syntax aus {brand}-Antworten entfernen und den lesbaren Text behalten – für E-Mails, Formulare und Messenger.",
   },
   actionGuidance: {
     "to-word": "Nutze dieses Werkzeug, wenn eine {brand}-Antwort zu einem Bericht, Briefing, einer Aufgabe oder einem Dokument werden soll, das andere in Word bearbeiten können.",

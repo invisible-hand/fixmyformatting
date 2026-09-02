@@ -4,7 +4,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-word": {
     name: "Markdown in Word umwandeln",
     title: "Markdown in Word umwandeln – kostenlos & sofort",
-    description: "Markdown kostenlos und privat in ein korrekt formatiertes Word-Dokument umwandeln.",
+    description: "Markdown aus ChatGPT, Claude oder einem Editor einfügen und als echte .docx-Datei laden – Überschriften, Listen, Tabellen und Code bleiben erhalten.",
     intro: "Verwandle Markdown aus ChatGPT, Claude oder einem anderen Editor in ein echtes Word-Dokument. Überschriften, Listen, Links, Code und Tabellen bleiben erhalten, statt als rohe Sonderzeichen zu erscheinen.",
     faqs: [
       { question: "Ist die Umwandlung von Markdown in Word kostenlos?", answer: "Ja. Das Werkzeug ist kostenlos, benötigt kein Konto und hat kein Nutzungslimit." },
@@ -15,7 +15,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-pdf": {
     name: "Markdown in PDF umwandeln",
     title: "Markdown in PDF umwandeln – kostenlos im Browser",
-    description: "Markdown direkt im Browser in ein übersichtliches PDF umwandeln.",
+    description: "Markdown einfügen, die formatierte Vorschau prüfen und daraus ein druckfertiges PDF speichern. Ohne Upload, ohne Anmeldung, ohne Wasserzeichen.",
     intro: "Sieh dir formatiertes Markdown sofort in der Vorschau an und speichere es über die druckfertige Ansicht als sauberes PDF. Die PDF-Erstellung übernimmt dein Browser, das Dokument bleibt also auf deinem Gerät.",
     faqs: [
       { question: "Ist die Umwandlung von Markdown in PDF kostenlos?", answer: "Ja. Das Werkzeug ist kostenlos, benötigt kein Konto und hat kein Nutzungslimit." },
@@ -26,7 +26,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-google-docs": {
     name: "Markdown in Google Docs umwandeln",
     title: "Markdown in Google Docs umwandeln",
-    description: "Markdown mit Überschriften, Listen, Links und Tabellen in Google Docs übernehmen.",
+    description: "Markdown einfügen, das formatierte Ergebnis kopieren und in Google Docs übernehmen – mit Überschriften, Listen, Links und Tabellen. Auch als .docx.",
     intro: "Füge Markdown ein, kopiere das formatierte Ergebnis und übertrage es in Google Docs. Überschriften, Listen, Hervorhebungen, Links und Tabellen behalten ihre Struktur – ganz ohne manuelle Nacharbeit.",
     faqs: [
       { question: "Ist die Umwandlung von Markdown in Google Docs kostenlos?", answer: "Ja. Das Werkzeug ist kostenlos, benötigt kein Konto und hat kein Nutzungslimit." },
@@ -37,7 +37,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-markdown-formatting": {
     name: "Markdown-Formatierung entfernen",
     title: "Markdown-Formatierung online entfernen",
-    description: "Sternchen, Rauten und andere Markdown-Zeichen entfernen, ohne den Text zu verlieren.",
+    description: "Sternchen, Rauten, Link-Syntax und Codeblöcke aus Markdown entfernen und lesbaren Fließtext zurückbekommen. Läuft im Browser, ohne Upload.",
     intro: "Entferne Sternchen, Überschriftenzeichen, Link-Syntax, Codeblöcke und andere Markdown-Zeichen, ohne den darunterliegenden Text zu beschädigen.",
     faqs: [
       { question: "Ist das Entfernen von Markdown-Formatierung kostenlos?", answer: "Ja. Das Werkzeug ist kostenlos, benötigt kein Konto und hat kein Nutzungslimit." },
@@ -48,7 +48,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-table-to-excel": {
     name: "Markdown-Tabelle in Excel umwandeln",
     title: "Markdown-Tabelle in Excel umwandeln",
-    description: "Markdown-Tabellen in echte Excel-Zeilen und -Spalten umwandeln.",
+    description: "Markdown-Tabelle einfügen und als echte .xlsx-Datei herunterladen – ein Wert pro Zelle, statt die ganze Zeile in einer einzigen Spalte.",
     intro: "Verwandle Tabellen mit senkrechten Strichen und Bindestrichen aus KI-Chats in echte Zeilen und Spalten, die sich in Excel, Numbers und Google Sheets korrekt öffnen lassen.",
     faqs: [
       { question: "Ist die Umwandlung von Markdown-Tabellen in Excel kostenlos?", answer: "Ja. Das Werkzeug ist kostenlos, benötigt kein Konto und hat kein Nutzungslimit." },
@@ -59,7 +59,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-table-to-csv": {
     name: "Markdown-Tabelle in CSV umwandeln",
     title: "Markdown-Tabelle in CSV umwandeln – Konverter",
-    description: "Eine Markdown-Tabelle in eine saubere, kompatible CSV-Datei konvertieren.",
+    description: "Markdown-Tabelle einfügen und normkonforme CSV erhalten: Kommas und Anführungszeichen in Zellen werden maskiert, damit der Import gelingt.",
     intro: "Füge eine Markdown-Tabelle ein und erhalte sofort eine normkonforme CSV-Datei. Zellen mit Kommas oder Anführungszeichen werden korrekt maskiert, damit der Import in Excel, Google Sheets oder Datenbanken reibungslos funktioniert.",
     faqs: [
       { question: "Werden Kommas und Anführungszeichen korrekt behandelt?", answer: "Ja. Zellen, die Kommas, Anführungszeichen oder Zeilenumbrüche enthalten, werden nach CSV-Standard maskiert, damit der Import fehlerfrei klappt." },
@@ -70,7 +70,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-viewer": {
     name: "Markdown-Viewer online",
     title: "Markdown-Viewer online – Live-Vorschau",
-    description: "Formatiertes Markdown in Echtzeit und ohne Datei-Upload anzeigen.",
+    description: "Markdown einfügen oder tippen und beim Bearbeiten als formatiertes Dokument lesen – praktisch für KI-Ausgaben, README-Dateien und Notizen.",
     intro: "Lies und prüfe Markdown als formatiertes Dokument, während du tippst. Ideal, um KI-Ausgaben, README-Dateien, Notizen und Dokumentation vor der Veröffentlichung zu kontrollieren.",
     faqs: [
       { question: "Was kann ich mit dem Markdown-Viewer prüfen?", answer: "Du siehst Überschriften, Listen, Links, Tabellen und Codeblöcke so, wie sie später gerendert werden – praktisch für README-Dateien, KI-Texte und Dokumentation." },
@@ -81,7 +81,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-html": {
     name: "Markdown in HTML umwandeln",
     title: "Markdown in HTML umwandeln – Konverter",
-    description: "Sofort sauberes, semantisches HTML aus Markdown erzeugen.",
+    description: "Markdown in sauberes, semantisches HTML umwandeln, mit Live-Vorschau, und das Markup für Website, CMS, Newsletter oder E-Mail kopieren.",
     intro: "Erzeuge sauberes, semantisches HTML aus Markdown – mit Live-Vorschau. Kopiere das Markup direkt für deine Website, deinen Newsletter, dein CMS oder deinen E-Mail-Workflow.",
     faqs: [
       { question: "Wie sauber ist das erzeugte HTML?", answer: "Der Konverter erzeugt semantisches HTML ohne überflüssige Inline-Styles, sodass du es direkt in Websites, CMS oder E-Mails einsetzen kannst." },
@@ -92,7 +92,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "word-to-markdown": {
     name: "Word in Markdown umwandeln",
     title: "Word in Markdown umwandeln – online",
-    description: "Formatierten Text aus Word oder Google Docs einfügen und in Markdown umwandeln.",
+    description: "Formatierten Text aus Word, Google Docs oder einer Webseite einfügen und als Markdown erhalten – mit Überschriften, Listen, Links und Tabellen.",
     intro: "Füge kopierten formatierten Text aus Word, Google Docs oder einer Webseite ein. Der Konverter übernimmt Überschriften, Hervorhebungen, Listen, Links und Tabellen in portables Markdown.",
     faqs: [
       { question: "Welche Formatierungen werden übernommen?", answer: "Überschriften, Fett- und Kursivdruck, Listen, Links und Tabellen werden in die entsprechende Markdown-Syntax umgewandelt." },
@@ -103,7 +103,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-em-dashes": {
     name: "Gedankenstriche aus Text entfernen",
     title: "Gedankenstriche aus Text entfernen",
-    description: "Lange Gedankenstriche finden und durch einfachere Satzzeichen ersetzen.",
+    description: "Lange Gedankenstriche durch Komma, Semikolon, Bindestrich oder nichts ersetzen und sehen, wie viele geändert wurden. Leerzeichen werden mitbereinigt.",
     intro: "Finde und ersetze lange Gedankenstriche in KI-generierten oder selbst geschriebenen Texten. Die Live-Zählung zeigt dir genau, wie viele Stellen geändert wurden.",
     faqs: [
       { question: "Wodurch werden die Gedankenstriche ersetzt?", answer: "Du kannst lange Gedankenstriche durch Kommas, Bindestriche oder Leerzeichen ersetzen – je nachdem, was im Satz am besten passt." },
@@ -114,7 +114,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "clean-ai-text": {
     name: "ChatGPT- und KI-Text bereinigen",
     title: "ChatGPT-Text bereinigen und KI-Formatierung entfernen",
-    description: "Gedankenstriche, typografische Anführungszeichen, Emojis und versteckte Zeichen bereinigen.",
+    description: "Mechanische Formatierungsartefakte in KI-Texten zählen und bereinigen: Gedankenstriche, typografische Anführungszeichen, unsichtbare Zeichen, Emojis.",
     intro: "Der Bericht zählt mechanische Formatierungsartefakte, ohne zu raten, ob ein Text von einer KI stammt. Wähle die Bereinigungsoptionen und prüfe die transparenten Zähler.",
     faqs: [
       { question: "Ist das Bereinigen von KI-Texten kostenlos?", answer: "Ja. Das Werkzeug ist kostenlos, benötigt kein Konto und hat kein Nutzungslimit." },
@@ -125,7 +125,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-invisible-characters": {
     name: "Unsichtbare Zeichen entfernen",
     title: "Unsichtbare Zeichen aus Text entfernen",
-    description: "Nullbreitenzeichen, weiche Trennzeichen und Richtungsmarken erkennen und entfernen.",
+    description: "Text auf Nullbreitenzeichen, weiche Trennzeichen, BOMs und Richtungsmarken prüfen, jede Art zählen und entfernen, damit Suche und Validierung greifen.",
     intro: "Unsichtbare Unicode-Zeichen können Suche, Validierung, Code und Copy-and-paste beeinträchtigen. Dieses Werkzeug erkennt jeden unterstützten Zeichentyp und entfernt ihn sicher.",
     faqs: [
       { question: "Ist das Entfernen unsichtbarer Zeichen kostenlos?", answer: "Ja. Das Werkzeug ist kostenlos, benötigt kein Konto und hat kein Nutzungslimit." },
@@ -136,8 +136,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-smart-quotes": {
     name: "Typografische Anführungszeichen ersetzen",
     title: "Typografische Anführungszeichen ersetzen online",
-    description: "Geschwungene Anführungszeichen durch gerade ersetzen und Apostrophe vereinheitlichen.",
-    intro: "Typografische Anführungszeichen für Code, CSV, Datenbanken, reine Text-E-Mails und Systeme vereinheitlichen, die ASCII-Satzzeichen erwarten.",
+    description: "Geschwungene Anführungszeichen und Apostrophe durch gerade ASCII-Zeichen ersetzen – sicher für Code, CSV, Datenbanken und reine Text-E-Mails.",
+    intro: "Füge Text mit geschwungenen Anführungszeichen und Apostrophen ein und erhalte eine Fassung mit geraden ASCII-Zeichen, wie sie Code-Editoren, CSV-Parser und Datenbanken erwarten. Ein Bericht zeigt dir, wie viele Zeichen ersetzt wurden.",
     faqs: [
       { question: "Warum sollte ich Anführungszeichen vereinheitlichen?", answer: "Viele Systeme wie Code-Editoren, CSV-Parser und Datenbanken erwarten gerade ASCII-Anführungszeichen. Geschwungene Zeichen können dort Fehler verursachen." },
       { question: "Wird mein Text hochgeladen?", answer: "Nein. Die Verarbeitung erfolgt im Browser. Text wird nur gespeichert, wenn du ausdrücklich einen Freigabelink erstellst." },
@@ -147,7 +147,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-emojis": {
     name: "Emojis entfernen",
     title: "Emojis aus Text entfernen online",
-    description: "Emojis sofort und privat aus Text entfernen.",
+    description: "Emojis samt Hautton- und Variationsmodifikatoren aus Text entfernen, während Wörter und Satzzeichen unverändert bleiben. Das Ergebnis erscheint sofort.",
     intro: "Emoji-Symbole und ihre Modifikatoren entfernen, während normaler Text und Satzzeichen erhalten bleiben. Das Ergebnis wird während der Eingabe aktualisiert.",
     faqs: [
       { question: "Bleibt mein Text beim Entfernen von Emojis erhalten?", answer: "Ja. Es werden nur Emoji-Zeichen entfernt; Text, Zahlen und Satzzeichen bleiben unverändert." },
@@ -158,7 +158,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-line-breaks": {
     name: "Zeilenumbrüche beim Einfügen reparieren",
     title: "Zeilenumbrüche aus Text entfernen",
-    description: "Unerwünschte Zeilenumbrüche entfernen und Absätze beibehalten.",
+    description: "Hart umbrochenen Text aus PDFs, E-Mails und KI-Chats reparieren: Einzelne Zeilenumbrüche werden zu Leerzeichen, Leerzeilen bleiben Absatzgrenzen.",
     intro: "Harte Zeilenumbrüche reparieren, die aus PDFs, E-Mails und KI-Chats kopiert wurden. Einzelne Umbrüche werden zu Leerzeichen, Absätze bleiben lesbar.",
     faqs: [
       { question: "Bleiben Absätze beim Entfernen von Zeilenumbrüchen erhalten?", answer: "Ja. Nur einzelne Zeilenumbrüche innerhalb von Absätzen werden entfernt; doppelte Umbrüche zwischen Absätzen bleiben bestehen." },
@@ -169,8 +169,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "chatgpt-conversation-to-document": {
     name: "ChatGPT-Unterhaltung als Dokument exportieren",
     title: "ChatGPT-Unterhaltung als Dokument exportieren",
-    description: "Eine kopierte ChatGPT-Unterhaltung als übersichtliches Dokument formatieren.",
-    intro: "Verwandle kopierte ChatGPT-Verläufe in lesbare Dokumente mit klar getrennten Abschnitten für Nutzer und Assistent – fertig zum Teilen oder Archivieren.",
+    description: "Kopierten ChatGPT-Verlauf einfügen und ein sauberes Dokument erhalten, in dem jeder Beitrag eine eigene Überschrift trägt – zum Teilen und Archivieren.",
+    intro: "Füge einen aus ChatGPT kopierten Verlauf ein und erhalte ein lesbares Dokument, in dem jeder Beitrag unter einer eigenen Überschrift für Nutzer oder Assistent steht. Das Ergebnis lässt sich als Textdatei herunterladen, teilen oder archivieren.",
     faqs: [
       { question: "Ist der Export von ChatGPT-Unterhaltungen kostenlos?", answer: "Ja. Das Werkzeug ist kostenlos, benötigt kein Konto und hat kein Nutzungslimit." },
       { question: "Wird mein Text hochgeladen?", answer: "Nein. Die Verarbeitung erfolgt im Browser. Text wird nur gespeichert, wenn du ausdrücklich einen Freigabelink erstellst." },
@@ -180,7 +180,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "token-counter": {
     name: "Token-Zähler",
     title: "Token-Zähler – Schätzung für GPT & Claude",
-    description: "Tokens, Wörter, Zeichen und geschätzte Modellkosten zählen.",
+    description: "Schätzen, wie viele Tokens ein Prompt oder eine Antwort braucht – samt Wörtern, Zeichen und Kosten. Näherung im Browser, kein Modell-Tokenizer.",
     intro: "Schätze die Größe deines Prompts, bevor du ihn an ein Modell sendest. Die Zählung erfolgt schnell im Browser als Näherungswert; die exakte Abrechnung kann je nach Tokenizer des Modells abweichen.",
     faqs: [
       { question: "Wie genau ist die Token-Zählung?", answer: "Die Zählung ist eine schnelle browserseitige Schätzung. Die tatsächliche Token-Anzahl kann je nach Modell und Tokenizer leicht abweichen." },
@@ -191,7 +191,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "text-splitter": {
     name: "Text teilen",
     title: "Text teilen für KI-Prompts",
-    description: "Langen Text in saubere, kopierbare Abschnitte für KI-Werkzeuge aufteilen.",
+    description: "Langes Dokument in Abschnitte von bis zu 2.000 Zeichen teilen, die jeweils an einer Leerraumgrenze enden, damit kein Wort zerschnitten wird.",
     intro: "Teile lange Dokumente in Abschnitte fester Größe von bis zu 2.000 Zeichen auf. Jeder Abschnitt endet an einer Leerraumgrenze, sodass kein Wort in der Mitte zerteilt wird – ein Abschnitt kann dadurch aber mitten im Satz enden. Praktisch, um Inhalte durch Prompt- und Einfügelimits zu bekommen.",
     faqs: [
       { question: "Wo wird der Text geteilt?", answer: "Abschnitte sind höchstens 2.000 Zeichen lang und werden am nächstgelegenen Leerraum getrennt. Wörter werden dadurch nie zerteilt, ein Abschnitt kann aber mitten in einem Satz enden." },
@@ -202,7 +202,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "text-diff": {
     name: "Texte vergleichen",
     title: "Texte online vergleichen – Text Diff",
-    description: "Zwei Textversionen vergleichen und Ergänzungen sowie Löschungen anzeigen.",
+    description: "Zwei Textversionen vergleichen und jede Ergänzung oder Löschung markiert sehen. Original einfügen, dann drei Bindestriche, dann die Überarbeitung.",
     intro: "Vergleiche Entwürfe, Prompts, generierte Antworten und überarbeitete Texte. Füge den Originaltext ein, darunter eine Zeile mit nur drei Bindestrichen, dann den überarbeiteten Text.",
     faqs: [
       { question: "Wie trenne ich die beiden Textversionen?", answer: "Setze zwischen den Originaltext und die überarbeitete Version eine eigene Zeile, die nur drei Bindestriche enthält." },
@@ -213,7 +213,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "json-formatter": {
     name: "JSON formatieren & validieren",
     title: "JSON formatieren & validieren",
-    description: "JSON formatieren, minimieren und mit genauen Fehlermeldungen validieren.",
+    description: "JSON validieren und mit lesbarer Einrückung formatieren – oder bei Fehlern die genaue Parser-Meldung sehen. Läuft im Browser, ohne Upload.",
     intro: "Füge JSON ein, um es zu validieren und mit lesbarer Einrückung zu formatieren. Bei ungültiger Eingabe wird der Parser-Fehler sofort angezeigt.",
     faqs: [
       { question: "Was passiert bei ungültigem JSON?", answer: "Das Werkzeug zeigt sofort den genauen Parser-Fehler an, damit du die fehlerhafte Stelle schnell findest." },
@@ -224,7 +224,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "json-to-csv": {
     name: "JSON in CSV umwandeln",
     title: "JSON in CSV umwandeln – Online-Konverter",
-    description: "Arrays aus JSON-Objekten kostenlos in eine herunterladbare CSV-Datei umwandeln.",
+    description: "Ein Array aus JSON-Objekten in CSV umwandeln, herunterladen und in der Tabellenkalkulation öffnen. Jeder Schlüssel wird zur Spalte, Lücken bleiben leer.",
     intro: "Wandle ein JSON-Array in eine tabellenfreundliche CSV-Datei um. Alle Objektschlüssel werden zu Spalten, fehlende Werte bleiben leer – ideal für Excel, Google Sheets und Datenanalysen.",
     faqs: [
       { question: "Welche JSON-Formate werden unterstützt?", answer: "Am besten funktionieren Arrays aus Objekten mit gleichen Schlüsseln. Verschachtelte Werte werden vereinfacht, fehlende Schlüssel bleiben in der CSV leer." },
@@ -235,7 +235,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "csv-to-markdown-table": {
     name: "CSV in Markdown-Tabelle umwandeln",
     title: "CSV in Markdown-Tabelle umwandeln",
-    description: "CSV-Zeilen kostenlos in eine saubere Markdown-Tabelle mit Trennstrichen umwandeln.",
+    description: "Kommagetrennte Zeilen in eine Markdown-Tabelle umwandeln, die du in GitHub, Notion, Dokumentation oder KI-Chats einfügst. Zeile eins wird zur Kopfzeile.",
     intro: "Wandle kommagetrennte Daten in Markdown um, das du direkt in Dokumentationen, GitHub, Notion oder einen KI-Chat einfügen kannst. Spalten werden automatisch erkannt und ausgerichtet.",
     faqs: [
       { question: "Welche Trennzeichen werden erkannt?", answer: "Das Werkzeug erkennt Kommas, Semikolons und Tabulatoren automatisch und wandelt sie in eine Markdown-Pipe-Tabelle um." },
@@ -246,7 +246,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "extract-table-from-text": {
     name: "Tabellen aus Text extrahieren",
     title: "Tabelle aus Text extrahieren – online",
-    description: "Tabellenähnliche Zeilen in Fließtext finden und in CSV umwandeln.",
+    description: "Zeilen mit Pipe- oder Tabulator-Trennung aus umgebendem Fließtext herauslösen und als CSV herunterladen. Markdown-Trennzeilen werden übersprungen.",
     intro: "Extrahiere Tabellen mit Pipe- oder Tabulator-Trennzeichen aus umgebendem Fließtext, etwa aus E-Mails, Logs oder KI-Antworten. Das Ergebnis ist sofort für Tabellenkalkulationen bereit.",
     faqs: [
       { question: "Welche Tabellen werden erkannt?", answer: "Zeilen, die durch Pipes (|) oder Tabulatoren getrennt sind, werden als Tabelle erkannt. Umgebender Fließtext wird automatisch ignoriert." },
@@ -257,8 +257,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "word-counter": {
     name: "Wörter und Zeichen zählen",
     title: "Wörter zählen & Zeichen zählen – online",
-    description: "Wörter, Zeichen, Sätze, Absätze und Lesezeit kostenlos online zählen.",
-    intro: "Erhalte sofort Statistiken zu deinem Text, ohne ihn hochzuladen. Der Bericht ist praktisch für Aufsätze, Beiträge, Beschreibungen und Prompts.",
+    description: "Wörter, Zeichen, Sätze und Lesezeit während der Eingabe zählen. Nichts wird hochgeladen – sicher für Entwürfe, Aufsätze, Kundentexte und Prompts.",
+    intro: "Tippe oder füge deinen Text ein und erhalte sofort Wörter, Zeichen, Sätze, Absätze und die geschätzte Lesezeit. Alles wird während der Eingabe im Browser aktualisiert, sodass auch Entwürfe, Kundentexte und Prompts das Gerät nie verlassen.",
     faqs: [
       { question: "Was zählt das Werkzeug genau?", answer: "Der Bericht zeigt Wörter, Zeichen, Sätze, Absätze und die geschätzte Lesezeit – alles wird während der Eingabe live aktualisiert." },
       { question: "Wird mein Text hochgeladen?", answer: "Nein. Die Verarbeitung erfolgt im Browser. Text wird nur gespeichert, wenn du ausdrücklich einen Freigabelink erstellst." },
@@ -268,7 +268,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "case-converter": {
     name: "Groß- und Kleinschreibung umwandeln",
     title: "Groß-/Kleinschreibung umwandeln – online",
-    description: "Text in Großbuchstaben, Kleinbuchstaben, Titel- oder Satzschreibweise umwandeln.",
+    description: "Text in Titel-, Satz-, Groß- oder Kleinschreibung umwandeln; den Modus wählst du über dem Editor. Uneinheitliche Schreibweise ist sofort behoben.",
     intro: "Bringe uneinheitliche Groß- und Kleinschreibung sofort in Ordnung. Standardmäßig wird die Titelschreibweise erzeugt; weitere Optionen findest du über dem Editor.",
     faqs: [
       { question: "Welche Schreibweisen gibt es?", answer: "Du kannst Text in Großbuchstaben, Kleinbuchstaben, Titelschreibweise (jedes Wort groß) und Satzschreibweise (nur Satzanfang groß) umwandeln." },
@@ -279,7 +279,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "latex-to-word": {
     name: "LaTeX in Word-Formel umwandeln",
     title: "LaTeX in Word-Formel umwandeln",
-    description: "LaTeX für den Word-Formeleditor vorbereiten: Anzeigebegrenzer entfernen und Befehle anpassen.",
+    description: "Anzeigebegrenzer aus LaTeX einer KI-Antwort entfernen, damit sich der Code in Word mit Alt+= als Formel einfügen lässt statt als reiner Text.",
     intro: "Bereite aus einer KI-Antwort kopierten LaTeX-Code für den Word-Formeleditor vor, indem Anzeigebegrenzer entfernt und gängige Befehle normalisiert werden. Drücke in Word Alt+=, um ein Formelfeld zu öffnen, wähle bei Bedarf die LaTeX-Eingabe und füge das Ergebnis dort ein – das Einfügen in einen normalen Absatz erzeugt keine echte Formel.",
     faqs: [
       { question: "Ist die Umwandlung von LaTeX in eine Word-Formel kostenlos?", answer: "Ja. Das Werkzeug ist kostenlos, benötigt kein Konto und hat kein Nutzungslimit." },
@@ -290,7 +290,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "html-to-markdown": {
     name: "HTML in Markdown umwandeln",
     title: "HTML in Markdown umwandeln – online",
-    description: "HTML-Quelltext direkt im Browser in sauberes Markdown umwandeln. Kostenlos und privat.",
+    description: "HTML-Quelltext einfügen und portables Markdown für READMEs, Dokumentation, Notiz-Apps und LLM-Prompts erhalten. Skripte und Styles entfallen.",
     intro: "Füge HTML-Quelltext ein und erhalte portables Markdown für READMEs, Dokumentation, Notiz-Apps und LLM-Prompts. Überschriften, Listen, Links, Hervorhebungen, Codeblöcke und Tabellen werden übernommen; Skripte, Styles und unbekannte Tags werden entfernt.",
     placeholder: "<h1>Hallo</h1>\n<p>Das ist <strong>fett</strong>, <em>kursiv</em> und <a href=\"https://example.com\">ein Link</a>.</p>",
     faqs: [
@@ -302,7 +302,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-fancy-text": {
     name: "Zierschrift in normalen Text umwandeln",
     title: "Zierschrift in normalen Text umwandeln",
-    description: "𝗙𝗲𝘁𝘁𝗲, kursive und andere Unicode-Zierschriften zurück in normalen Text umwandeln.",
+    description: "Fette, kursive und geschriebene Unicode-Zierschriften zurück in normale Buchstaben umwandeln, damit Suche, Rechtschreibprüfung und Parser sie lesen.",
     intro: "Pseudo-Schriftzeichen aus Social-Media-Posts und KI-Ausgaben sehen formatiert aus, sind aber Unicode-Sonderzeichen, die Suche, Rechtschreibprüfung, Screenreader und Bewerbungsparser stören. Dieser Konverter wandelt sie in gewöhnliche Buchstaben zurück und entfernt dekorative Durch- und Unterstreichungen.",
     placeholder: "Füge 𝗳𝗮𝗻𝗰𝘆 𝓉𝑒𝓍𝓉 wie ᴅɪᴇsᴇɴ oder ｂｒｅｉｔｅｎ Text ein, um ihn in normale Buchstaben umzuwandeln.",
     faqs: [

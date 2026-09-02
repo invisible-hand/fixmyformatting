@@ -4,8 +4,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-word": {
     name: "Markdown 转 Word",
     title: "Markdown 转 Word 转换器 — 免费即时",
-    description: "免费、私密地将 Markdown 转换为格式规范的 Word 文档。",
-    intro: "将 ChatGPT、Claude 或任何编辑器生成的 Markdown 转换为真正的 Word 文档。标题、列表、链接、代码和表格都会被保留，而不是显示为原始符号。",
+    description: "粘贴 ChatGPT、Claude 或任何编辑器生成的 Markdown，即可下载真正的 .docx 文件，标题、列表、表格、链接和代码都会保留为 Word 格式。转换在浏览器中完成，无需上传，无需注册。",
+    intro: "将 ChatGPT、Claude 或任何编辑器生成的 Markdown 转换为真正的 Word 文档。标题、列表、链接、代码和表格都会保留为 Word 自身的格式，而不是显示为星号、井号等原始符号。粘贴文本后即可下载 .docx 文件，用 Word、Pages 或 Google 文档打开都能正常排版。",
     faqs: [
       { question: "Markdown 转 Word 免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -15,8 +15,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-pdf": {
     name: "Markdown 转 PDF",
     title: "Markdown 转 PDF — 免费在线转换",
-    description: "直接在浏览器中将 Markdown 转换为清晰的 PDF。",
-    intro: "实时预览格式化后的 Markdown，然后使用打印视图保存为清晰的 PDF。PDF 由浏览器生成，文档始终保留在你的设备上。",
+    description: "粘贴 Markdown，实时查看格式化预览，再直接从浏览器保存为可打印的 PDF。文件由浏览器生成，文本不会上传，无需注册，也不会添加水印。",
+    intro: "实时预览格式化后的 Markdown，确认排版无误后，再通过打印视图保存为清晰的 PDF。标题、列表、表格和代码块都会按渲染后的样式输出，也不会添加水印。PDF 由浏览器自身生成，文档始终保留在你的设备上。",
     faqs: [
       { question: "Markdown 转 PDF 免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -26,8 +26,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-google-docs": {
     name: "Markdown 转 Google 文档",
     title: "Markdown 转 Google 文档转换器",
-    description: "将 Markdown 复制到 Google 文档并保留标题、列表、链接和表格。",
-    intro: "粘贴 Markdown，复制格式化后的结果，再粘贴到 Google 文档中。标题、列表、强调、链接和表格都会保留原有结构，无需手动整理。",
+    description: "粘贴 Markdown，复制富文本结果，再粘贴到 Google 文档，标题、列表、强调、链接和表格都会保持原有结构，也可下载 DOCX。全程在浏览器中处理，无需上传。",
+    intro: "粘贴 Markdown，复制格式化后的富文本结果，再粘贴到 Google 文档中，标题、列表、强调、链接和表格都会保留原有结构，无需手动整理。如果更习惯从文件开始，也可以直接下载 DOCX，再上传到 Google 云端硬盘打开。",
     faqs: [
       { question: "Markdown 转 Google 文档免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -37,8 +37,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-markdown-formatting": {
     name: "删除 Markdown 格式",
     title: "在线删除 Markdown 格式",
-    description: "保留正文，同时删除星号、井号等 Markdown 符号。",
-    intro: "删除星号、井号、链接语法、代码块标记和其他 Markdown 符号，同时完整保留下方的正文内容。",
+    description: "删除星号、井号、链接语法和代码块标记等 Markdown 符号，得到可直接使用的纯文本正文。处理在浏览器中进行，文本不会上传，也无需注册。",
+    intro: "删除星号、井号、链接语法、代码块标记和其他 Markdown 符号，同时完整保留下方的正文内容。适合把 AI 回答或 README 中的内容放进邮件、表单、CMS 等不识别 Markdown 的地方，结果可直接复制，也可以下载为纯文本文件。",
     faqs: [
       { question: "删除 Markdown 格式免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -48,8 +48,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-table-to-excel": {
     name: "Markdown 表格转 Excel",
     title: "Markdown 表格转 Excel 转换器",
-    description: "将 Markdown 竖线表格转换为 Excel 的行和列。",
-    intro: "将从 AI 对话中复制的竖线表格转换为规范的行和列，可直接在 Excel、Numbers 和 Google Sheets 中打开。",
+    description: "粘贴 Markdown 竖线表格，即可下载真正的 .xlsx 文件，每个值单独占一个单元格，而不是整行挤在一列里。转换在浏览器中完成，无需上传，无需注册。",
+    intro: "将从 AI 对话或文档中复制的 Markdown 竖线表格转换为规范的行和列，每个值单独占一个单元格，而不是整行挤在一列里。粘贴后即可下载 .xlsx 文件，用 Excel、Numbers 和 Google Sheets 打开都能正常显示。",
     faqs: [
       { question: "Markdown 表格转 Excel 免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -59,8 +59,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-table-to-csv": {
     name: "Markdown 表格转 CSV",
     title: "Markdown 表格转 CSV 转换器",
-    description: "将 Markdown 表格转换为干净、兼容的 CSV 文件。",
-    intro: "粘贴 Markdown 表格即可立即获得符合标准的 CSV。带引号的单元格和逗号会自动转义，确保文件能顺利导入。",
+    description: "粘贴 Markdown 竖线表格，即可得到符合标准的 CSV，单元格中的逗号和引号会自动转义，导入时不会错乱。处理在浏览器中完成，无需上传，无需注册。",
+    intro: "粘贴 Markdown 竖线表格即可立即获得符合标准的 CSV，第一行作为表头。单元格中的逗号和引号会自动转义并加引号包裹，导入 Excel 或 Google Sheets 时不会串列。结果可以直接复制，也可以下载为 .csv 文件。",
     faqs: [
       { question: "Markdown 表格转 CSV 免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "生成的 CSV 可以直接导入 Excel 吗？", answer: "可以。包含逗号的单元格会自动加引号转义，导入 Excel 或 Google Sheets 时格式不会错乱。" },
@@ -70,8 +70,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-viewer": {
     name: "在线 Markdown 查看器",
     title: "在线 Markdown 查看器 — 实时预览",
-    description: "无需上传文件，实时查看格式化后的 Markdown。",
-    intro: "在输入的同时以格式化文档的形式阅读和检查 Markdown。适合检查 AI 输出、README 内容、笔记和文档。",
+    description: "粘贴或输入 Markdown，即可在编辑的同时以格式化文档的形式阅读，适合检查 AI 输出、README 和笔记。渲染在浏览器中完成，无需上传文件，也无需注册。",
+    intro: "在输入或粘贴的同时，以格式化文档的形式阅读和检查 Markdown。标题、列表、链接、图片、代码块和表格都会实时渲染，适合确认 AI 输出、README 内容、笔记和文档的排版是否正确。渲染在浏览器中完成，无需上传文件。",
     faqs: [
       { question: "在线 Markdown 查看器免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "支持哪些 Markdown 语法？", answer: "支持标题、列表、链接、图片、代码块和表格等常用语法，输入时实时渲染预览。" },
@@ -81,8 +81,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-html": {
     name: "Markdown 转 HTML",
     title: "Markdown 转 HTML 转换器",
-    description: "立即从 Markdown 生成干净、语义化的 HTML。",
-    intro: "从 Markdown 生成干净的语义化 HTML，并带有实时预览。可复制标记用于网站、 newsletter、CMS 或邮件工作流。",
+    description: "将 Markdown 转换为干净的语义化 HTML 并实时预览，可复制标记用于网站、CMS、newsletter 或邮件。转换在浏览器中完成，无需上传，无需注册。",
+    intro: "从 Markdown 生成干净的语义化 HTML，并带有实时预览，方便同时确认标记和最终效果。输出不包含多余的样式或包装标签，可复制用于网站、newsletter、CMS 或邮件工作流，也可以下载为 .html 文件。",
     faqs: [
       { question: "Markdown 转 HTML 免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "生成的 HTML 可以直接用吗？", answer: "可以。输出是干净的语义化标记，可直接粘贴到网站、CMS、邮件模板或 newsletter 工具中。" },
@@ -92,8 +92,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "word-to-markdown": {
     name: "Word 转 Markdown",
     title: "在线 Word 转 Markdown 转换器",
-    description: "粘贴 Word 或 Google 文档的富文本并转换为 Markdown。",
-    intro: "粘贴从 Word、Google 文档或网页复制的富文本。转换器会将标题、强调、列表、链接和表格转换为可移植的 Markdown。",
+    description: "粘贴从 Word、Google 文档或网页复制的富文本，即可得到 Markdown，标题、强调、列表、链接和表格都会转换为对应语法。处理在浏览器中完成，无需上传。",
+    intro: "粘贴从 Word、Google 文档或网页复制的富文本，转换器会读取其中的格式，把标题、加粗、斜体、列表、链接和表格转换为对应的 Markdown 语法。得到的结果是可移植的纯文本，适合放进 README、笔记应用、静态站点或 LLM 提示词。",
     faqs: [
       { question: "Word 转 Markdown 免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "转换后会保留哪些格式？", answer: "标题、加粗、斜体、列表、链接和表格都会转换为对应的 Markdown 语法，正文结构保持不变。" },
@@ -103,8 +103,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-em-dashes": {
     name: "删除文本中的长破折号",
     title: "删除文本中的长破折号",
-    description: "查找长破折号并替换为更常用的标点。",
-    intro: "在 AI 生成或人工撰写的文本中查找并替换长破折号。实时计数会准确显示替换了多少处。",
+    description: "把文本中的每个长破折号替换为逗号、分号、连字符或直接删除，并显示替换了多少处，破折号旁多余的空格也会一并整理。处理在浏览器中完成，无需上传。",
+    intro: "在 AI 生成或人工撰写的文本中查找并替换长破折号，可以替换为逗号、分号、连字符，或者直接删除。破折号旁多余的空格会一并整理，实时计数会准确显示替换了多少处；处理后的文本可直接复制，也可以下载为纯文本文件。",
     faqs: [
       { question: "删除长破折号工具免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "长破折号会被替换成什么？", answer: "可以替换为逗号、连字符或空格，替换数量会实时显示，方便逐处确认。" },
@@ -114,8 +114,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "clean-ai-text": {
     name: "清理 ChatGPT 和 AI 文本",
     title: "清理 ChatGPT 文本与 AI 格式",
-    description: "清理 AI 文本中的破折号、弯引号、表情符号和隐藏字符。",
-    intro: "AI 痕迹报告统计的是机械性格式痕迹，并不判断文本是否由 AI 生成。可以开关各项清理选项，并查看透明的数量统计。",
+    description: "统计并清理 AI 输出中的机械格式痕迹：长破折号、弯引号、不可见字符和表情符号，各项数量始终可见。处理在浏览器中完成，文本不会上传，也无需注册。",
+    intro: "粘贴 AI 输出即可统计并清理其中的机械格式痕迹：长破折号、弯引号、不可见字符和表情符号。各项清理选项都可以单独开关，数量统计始终可见。AI 痕迹报告统计的只是格式特征，并不判断文本是否由 AI 生成。",
     faqs: [
       { question: "清理 ChatGPT 和 AI 文本免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -125,8 +125,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-invisible-characters": {
     name: "删除不可见字符",
     title: "在线检测并删除不可见字符",
-    description: "检测并删除零宽空格、软连字符和方向控制标记。",
-    intro: "不可见的 Unicode 字符可能导致搜索、校验、代码和复制粘贴出现问题。本工具会识别每类受支持的字符并将其安全删除。",
+    description: "扫描文本中的零宽空格、软连字符、BOM 和方向控制标记，按类型显示数量并将其删除，让搜索和校验重新正常工作。扫描在浏览器中完成，无需上传。",
+    intro: "零宽空格、软连字符、BOM 和方向控制标记等不可见 Unicode 字符在屏幕上看不出来，却会导致搜索、校验、代码和复制粘贴出现问题。本工具会扫描文本，按类型列出每类字符的数量，并将它们安全删除，正文内容保持不变。",
     faqs: [
       { question: "删除不可见字符免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -136,8 +136,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-smart-quotes": {
     name: "弯引号转直引号",
     title: "在线将弯引号替换为直引号",
-    description: "将弯引号替换为直引号，并统一撇号格式。",
-    intro: "将排版用的弯引号统一为直引号，适用于代码、CSV、数据库、纯文本邮件等要求 ASCII 标点的场景。",
+    description: "将弯引号和撇号替换为直的 ASCII 引号，让文本可安全用于代码、CSV、数据库和纯文本邮件，并统计修改数量。处理在浏览器中完成，无需上传，无需注册。",
+    intro: "将排版用的弯引号和弯撇号统一替换为直的 ASCII 引号，适用于代码、CSV、数据库、纯文本邮件等要求 ASCII 标点的场景。修改数量会一并显示，方便确认改动范围，其余文字和标点保持原样，结果可直接复制或下载为纯文本文件。",
     faqs: [
       { question: "弯引号转直引号免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -147,8 +147,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-emojis": {
     name: "删除表情符号",
     title: "在线删除文本中的表情符号",
-    description: "即时、私密地删除文本中的表情符号。",
-    intro: "删除表情符号及其修饰符，同时保留正常文本和标点。结果会随输入实时更新。",
+    description: "删除文本中的表情符号及其肤色和变体修饰符，同时完整保留文字和标点，结果随输入实时更新。处理在浏览器中完成，文本不会上传，也无需注册。",
+    intro: "删除文本中的表情符号，以及肤色和变体选择符等修饰符，同时完整保留文字、标点和空格。结果会随输入实时更新，并显示删除的数量，适合整理 AI 回答、社交文案和产品文档等需要纯文字的内容，处理结果可直接复制或下载。",
     faqs: [
       { question: "删除表情符号免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -158,8 +158,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-line-breaks": {
     name: "修复复制粘贴的换行问题",
     title: "删除文本中多余的换行",
-    description: "修复多余换行，同时保留段落结构。",
-    intro: "修复从 PDF、邮件和 AI 对话中复制出的硬换行。单个换行会合并为空格，段落之间的换行则保持清晰。",
+    description: "修复从 PDF、邮件和 AI 对话中复制出的硬换行：单个换行合并为空格，空行仍然保留为段落分隔。处理在浏览器中完成，文本不会上传，也无需注册。",
+    intro: "修复从 PDF、邮件和 AI 对话中复制出的硬换行。段落内部的单个换行会合并为一个空格，让句子重新连贯；空行则仍然保留为段落分隔，因此文章结构不会被压成一整块。结果可以直接复制，也可以下载为纯文本文件。",
     faqs: [
       { question: "修复复制粘贴的换行问题免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -169,8 +169,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "chatgpt-conversation-to-document": {
     name: "ChatGPT 对话转文档",
     title: "ChatGPT 对话导出为文档",
-    description: "将复制的 ChatGPT 对话整理成格式清晰的文档。",
-    intro: "把复制的 ChatGPT 对话记录转换为清晰易读的文档，自动区分用户和助手的内容，方便分享或存档。",
+    description: "粘贴复制的 ChatGPT 对话记录，即可得到结构清晰的文档，每一轮都在各自的发言人标题下，方便分享、打印或存档。整理在浏览器中完成，无需上传。",
+    intro: "把复制的 ChatGPT 对话记录转换为结构清晰的文档，每一轮发言都放在各自的发言人标题下，用户和助手的内容一眼可分。适合把有价值的对话保存下来分享、打印或存档，整理在浏览器中完成，无需上传，也无需注册。",
     faqs: [
       { question: "ChatGPT 对话转文档免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的对话内容会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -180,8 +180,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "token-counter": {
     name: "Token 计数器",
     title: "Token 计数器 — GPT 与 Claude 估算",
-    description: "统计 token、单词、字符数量并估算模型费用。",
-    intro: "在发送给模型之前估算提示词的大小。统计结果为浏览器端的快速近似值，实际计费可能因各模型的分词器不同而有所差异。",
+    description: "估算一段提示词或回复占用多少 token，同时给出单词数、字符数和费用参考。这是浏览器端的近似估算，并非模型自带分词器的结果，文本不会上传。",
+    intro: "在把提示词或回复发送给模型之前，先估算它占用多少 token，同时查看单词数、字符数和费用参考。统计结果为浏览器端的快速近似值，并非模型自带分词器的输出，实际计费可能因各模型不同而有所差异。",
     faqs: [
       { question: "Token 计数器免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -191,7 +191,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "text-splitter": {
     name: "文本分割工具",
     title: "AI 提示词文本分割工具",
-    description: "将长文本分割成干净、可复制的片段，方便用于 AI 工具。",
+    description: "把长文档切分为最长 2,000 个字符的片段，每个片段都在空白处结束，不会把词语切成两半，方便适应提示词长度限制。切分在浏览器中完成，无需上传。",
     intro: "把长文档切成最长 2,000 个字符的定长片段。每个片段都在空白处结束，因此不会把词语切成两半，但一个片段可能停在句子中间。适合让内容适应提示词长度和粘贴长度限制。",
     faqs: [
       { question: "文本分割工具免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
@@ -202,8 +202,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "text-diff": {
     name: "文本对比工具",
     title: "在线文本对比 — 查找文本差异",
-    description: "对比两个文本版本，查看新增和删除的内容。",
-    intro: "对比草稿、提示词、生成的回答和修改后的文案。将原文放在一行仅有三个连字符的分隔线上方，修改后的文本放在下方。",
+    description: "对比一段文本的两个版本，逐词标出新增和删除的内容。把原文放在上方，中间用仅含三个连字符的一行分隔，修改稿放在下方。对比在浏览器中完成，无需上传。",
+    intro: "对比同一段文本的两个版本，逐词标出新增和删除的内容，适合检查草稿、提示词、生成的回答和修改后的文案。将原文放在一行仅有三个连字符的分隔线上方，修改后的文本放在下方，两个版本写在同一个编辑器里，对比结果会实时更新。",
     faqs: [
       { question: "文本对比工具免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -213,8 +213,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "json-formatter": {
     name: "JSON 格式化与校验工具",
     title: "JSON 格式化与校验工具",
-    description: "格式化、压缩并校验 JSON，提供准确的错误提示。",
-    intro: "粘贴 JSON 即可校验并格式化为易读的缩进样式。如果输入无效，会立即显示解析错误信息。",
+    description: "粘贴 JSON 即可校验并以易读的缩进重新排版，格式有误时直接显示解析器给出的错误信息，便于快速定位问题。处理在浏览器中完成，数据不会上传，也无需注册。",
+    intro: "粘贴 JSON 即可校验其是否合法，并以易读的缩进重新排版，方便阅读接口返回和配置文件。如果输入无效，会直接显示解析器给出的错误信息，便于快速定位问题所在。处理在浏览器中完成，数据不会上传，也无需注册。",
     faqs: [
       { question: "JSON 格式化与校验工具免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的 JSON 数据会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -224,8 +224,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "json-to-csv": {
     name: "JSON 转 CSV",
     title: "JSON 转 CSV 在线转换工具",
-    description: "将 JSON 对象数组转换为可下载的 CSV 文件。",
-    intro: "将 JSON 数组转换为适合电子表格的 CSV 文件。所有对象键都会成为列，缺失的值保持为空。",
+    description: "把 JSON 对象数组展开为可下载的 CSV 文件，可直接用电子表格打开，每个键成为一列，缺失的值留空。转换在浏览器中完成，数据不会上传，也无需注册。",
+    intro: "把 JSON 对象数组展开为适合电子表格的 CSV 文件：所有出现过的对象键都会成为列，某条记录缺失的值留空，因此各行的列始终对齐。结果可直接下载，并用 Excel 或 Google Sheets 打开，转换在浏览器中完成。",
     faqs: [
       { question: "JSON 转 CSV 免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -235,8 +235,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "csv-to-markdown-table": {
     name: "CSV 转 Markdown 表格",
     title: "CSV 转 Markdown 表格在线工具",
-    description: "将 CSV 数据行转换为干净的 Markdown 竖线表格。",
-    intro: "将逗号分隔的数据转换为 Markdown 表格，可直接粘贴到文档、GitHub、Notion 或 AI 对话中。",
+    description: "把逗号分隔的数据行转换为 Markdown 竖线表格，可直接粘贴到 GitHub、Notion、文档或 AI 对话中，第一行作为表头。转换在浏览器中完成，无需上传。",
+    intro: "将逗号分隔的数据转换为 Markdown 竖线表格，第一行作为表头，其余各行成为表格内容。生成的表格可直接粘贴到 GitHub、Notion、文档或 AI 对话中，在支持 Markdown 的地方都会正常渲染，也可以下载为文本文件。",
     faqs: [
       { question: "CSV 转 Markdown 表格免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -246,8 +246,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "extract-table-from-text": {
     name: "从文本中提取表格",
     title: "在线从文本中提取表格",
-    description: "查找文本中的表格行并转换为 CSV。",
-    intro: "从大段文字中提取竖线分隔或制表符分隔的表格，结果可直接用于电子表格。",
+    description: "从大段文字中提取竖线分隔或制表符分隔的表格行并下载为 CSV，Markdown 的对齐分隔行会被跳过而不会当成数据。处理在浏览器中完成，无需上传。",
+    intro: "从掺杂着说明文字的大段内容中，识别并提取竖线分隔或制表符分隔的表格行，其余正文会被忽略。Markdown 的对齐分隔行会被跳过，不会当成数据。提取结果可直接下载为 CSV，用 Excel 或 Google Sheets 打开。",
     faqs: [
       { question: "从文本中提取表格免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -257,8 +257,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "word-counter": {
     name: "字数统计工具",
     title: "字数统计与字符计数工具",
-    description: "统计字数、字符数、句子、段落和阅读时长。",
-    intro: "无需上传文档即可获取实时写作统计，适用于论文、帖子、简介和提示词等场景。",
+    description: "在输入的同时统计字数、字符数、句子数、段落数和阅读时长，结果实时更新。文本不会上传，因此可以放心用于草稿、论文、客户文件和提示词，也无需注册。",
+    intro: "在输入或粘贴的同时统计字数、字符数、句子数、段落数和预计阅读时长，所有数字都会实时更新。文本不会上传，也无需注册，因此可以放心用于草稿、论文、客户文件、社交文案和提示词，长文档同样可以直接粘贴进来。",
     faqs: [
       { question: "字数统计工具免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -268,8 +268,8 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "case-converter": {
     name: "大小写转换工具",
     title: "英文大小写在线转换工具",
-    description: "将文本转换为大写、小写、首字母大写或句首大写。",
-    intro: "即刻统一混乱的大小写格式。默认输出为首字母大写，编辑器上方还提供其他大小写选项。",
+    description: "在编辑器上方切换模式，把文本转换为首字母大写、句首大写、全部大写或全部小写，一次粘贴即可统一混乱的大小写。转换在浏览器中完成，无需上传。",
+    intro: "一次粘贴即可统一混乱的大小写格式。默认输出为首字母大写，在编辑器上方还可以切换为句首大写、全部大写或全部小写，结果随选择实时更新，适合整理标题、表格字段和导入导出的数据，无需逐句手动改写。",
     faqs: [
       { question: "大小写转换工具免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
       { question: "我的文本会上传吗？", answer: "不会。处理在浏览器中进行。只有主动创建分享链接时才会保存文本。" },
@@ -279,7 +279,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "latex-to-word": {
     name: "LaTeX 转 Word 公式",
     title: "LaTeX 转 Word 公式转换器",
-    description: "删除公式定界符并规范命令，让 LaTeX 可直接用于 Word 公式编辑器。",
+    description: "删除从 AI 回答中复制的 LaTeX 的公式定界符，让它可以按 Alt+= 粘贴进 Word 公式编辑器，而不是变成一串普通文字。处理在浏览器中完成，无需上传。",
     intro: "将 AI 回复中复制的 LaTeX 转换为 Word 公式编辑器可直接使用的格式：自动删除公式定界符并规范常见命令。在 Word 中按 Alt+= 打开公式框，如有需要选择 LaTeX 输入模式，然后粘贴处理结果；直接粘贴到普通段落不会生成原生公式。",
     faqs: [
       { question: "LaTeX 转 Word 公式免费吗？", answer: "是的。完全免费，无需账户，也没有使用次数限制。" },
@@ -290,7 +290,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "html-to-markdown": {
     name: "HTML 转 Markdown",
     title: "在线 HTML 转 Markdown 转换器",
-    description: "在浏览器中将 HTML 源码转换为干净的 Markdown。免费、即时且私密。",
+    description: "粘贴 HTML 源码，即可得到适用于 README、文档、笔记应用和 LLM 提示词的可移植 Markdown，脚本、样式和未知标签会被丢弃。转换在浏览器中完成，无需上传。",
     intro: "粘贴 HTML 源码，即可获得适用于 README、文档、笔记应用和 LLM 提示词的可移植 Markdown。标题、列表、链接、强调、代码块和表格都会转换；脚本、样式和未知标签会被丢弃。",
     placeholder: "<h1>你好</h1>\n<p>这是<strong>加粗</strong>、<em>斜体</em>和<a href=\"https://example.com\">链接</a>。</p>",
     faqs: [
@@ -302,7 +302,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "remove-fancy-text": {
     name: "花体字转普通文本",
     title: "在线花体字转普通文本转换器",
-    description: "把粗体、斜体、手写体、小型大写和全角等 Unicode 花体字还原为普通文字。",
+    description: "把粗体、斜体、手写体、小型大写和全角等 Unicode 伪字体还原为普通字母，让搜索、拼写检查和简历解析系统能正常读取。转换在浏览器中完成，无需上传。",
     intro: "社交帖子和 AI 输出中的伪字体字符（数学粗体、手写体、小型大写、全角字母等）看起来有样式，实际上是特殊的 Unicode 符号，会影响搜索、拼写检查、屏幕阅读器和简历解析系统。本工具将它们还原为普通字母，并移除装饰性的删除线和下划线。",
     placeholder: "粘贴 𝗳𝗮𝗻𝗰𝘆 𝓉𝑒𝓍𝓉、ᴛʜɪs 或 ｆｕｌｌｗｉｄｔｈ 等花体字，即可还原为普通文字。",
     faqs: [
