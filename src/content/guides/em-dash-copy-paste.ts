@@ -158,7 +158,7 @@ Note that iOS also applies smart dash substitution in some apps, which converts 
 | Python | \`\\u2014\` or \`\\N{EM DASH}\` |
 | Windows-1252 byte | \`0x97\` |
 
-That last row explains a common corruption. The em dash exists at byte \`0x97\` in Windows-1252 but not in ISO-8859-1, so text mislabelled between the two turns em dashes into a control character or the familiar \`â€"\` mojibake. If your dashes have arrived as three garbled characters, the file is UTF-8 being read as a single-byte encoding, and the fix is the declared encoding rather than the punctuation.
+That last row explains a common corruption. The em dash exists at byte \`0x97\` in Windows-1252 but not in ISO-8859-1, so text mislabelled between the two turns em dashes into a control character or the familiar \`â€”\` mojibake. If your dashes have arrived as three garbled characters, the file is UTF-8 being read as a single-byte encoding, and the fix is the declared encoding rather than the punctuation.
 
 In a terminal or a script, matching it in a regular expression is \`\\u2014\` in most flavours; the three-dash family together is \`[-\\u2013\\u2014]\`.`,
     },
@@ -193,7 +193,7 @@ For the full treatment of when each mark is correct, spacing conventions, and th
 
 There is also the stylistic reason people strip them: models produce em dashes far more consistently than human writers do, which is why the mark reads as an AI tell. That pattern is covered in [why ChatGPT uses so many em dashes](/guides/why-chatgpt-uses-em-dashes).
 
-When you need them gone, [Remove Em Dashes](/remove-em-dashes) replaces every em dash with the substitute you choose — a comma, a colon, a plain hyphen, or nothing — and reports how many it changed, so you can check the count against what you expected rather than trusting a silent find-and-replace. For a document carrying smart quotes and non-breaking spaces as well, [AI Text Cleaner](/clean-ai-text) handles the whole set in one pass.`,
+When you need them gone, [Remove Em Dashes](/remove-em-dashes) replaces every em dash with the substitute you choose — a comma, a semicolon, a plain hyphen, or nothing — and reports how many it changed, so you can check the count against what you expected rather than trusting a silent find-and-replace. For a document carrying smart quotes and non-breaking spaces as well, [AI Text Cleaner](/clean-ai-text) handles the whole set in one pass.`,
     },
   ],
   faqs: [

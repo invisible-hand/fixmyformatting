@@ -21,11 +21,11 @@ export const guide: GuideTranslation = {
     },
     "the-em-dash": {
       heading: "エムダッシュ",
-      body: "エムダッシュは句を区切り、カンマより強く、ピリオドより柔らかい切れ目を作ります。\n\n- **対で、挿入句を囲む**：*The results — which nobody expected — were clear.*\n- **単独で、結論や逆転の前に**：*She checked everything twice — and still missed it.*\n- **会話で言いよどみを示す**場合。\n\n**スペースの有無**は唯一の本当の文体上の意見対立です。米国の出版慣習（Chicago Manual of Style）はスペースなし：*word—word*。英国の慣習（Oxford、英国の新聞の大半）はスペース付きのエンダッシュを代わりに使います：*word – word*。どちらも正しく、文書内での一貫性が重要です。AIの出力は典型的にスペース付きのエムダッシュ（*word — word*）を使い、これは両者のハイブリッドであり、どちらの伝統で訓練された編集者にも微妙に違和感を与える理由です。\n\nエムダッシュは、モデルが人間よりはるかに一貫して使うため、AI生成テキストの非公式なサインとなった記号でもあります。詳しくは[ChatGPTがエムダッシュを多用する理由](/guides/why-chatgpt-uses-em-dashes)をご覧ください。",
+      body: "エムダッシュは句を区切り、カンマより強く、ピリオドより柔らかい切れ目を作ります。\n\n- **対で、挿入句を囲む**：*The results — which nobody expected — were clear.*\n- **単独で、結論や逆転の前に**：*She checked everything twice — and still missed it.*\n- **会話で言いよどみを示す**場合。\n\n**スペースの有無**は唯一の本当の文体上の意見対立であり、しかも見解は3つに分かれます。Chicago、APA、MLAはスペースなし：*word—word*。APスタイルは前後に1つずつスペースを入れます：*word — word*。New Hart's Rulesに従う英国のハウススタイルは、代わりにスペース付きのエンダッシュを使います：*word – word*。いずれも正しく、文書内での一貫性が重要です。AIの出力は典型的にスペース付きのエムダッシュを使いますが、これはハイブリッドではなくAPスタイルであり、Chicagoを唯一の米国式と考える編集者にだけ間違って見えるのです。\n\nエムダッシュは、モデルが人間よりはるかに一貫して使うため、AI生成テキストの非公式なサインとなった記号でもあります。詳しくは[ChatGPTがエムダッシュを多用する理由](/guides/why-chatgpt-uses-em-dashes)をご覧ください。",
     },
     "typing-them": {
       heading: "それぞれの入力方法",
-      body: "| プラットフォーム | エンダッシュ（–） | エムダッシュ（—） |\n| --- | --- | --- |\n| macOS | <kbd>Option</kbd> + <kbd>-</kbd> | <kbd>Option</kbd> + <kbd>Shift</kbd> + <kbd>-</kbd> |\n| Windows | <kbd>Alt</kbd> + <kbd>0150</kbd> | <kbd>Alt</kbd> + <kbd>0151</kbd> |\n| Linux | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>u</kbd>, 2013 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>u</kbd>, 2014 |\n| Word / Docs | 単語の間にハイフン2つで自動変換 | ハイフン2つで自動変換 |\n| HTML | `&ndash;` | `&mdash;` |\n| iOS / Android | ハイフンキーを長押し | ハイフンキーを長押し |\n\nWindowsのAltコードはテンキーが必要で、多くのノートPCユーザーがこれらの文字を結局入力しないのはこのためです。",
+      body: "| プラットフォーム | エンダッシュ（–） | エムダッシュ（—） |\n| --- | --- | --- |\n| macOS | <kbd>Option</kbd> + <kbd>-</kbd> | <kbd>Option</kbd> + <kbd>Shift</kbd> + <kbd>-</kbd> |\n| Windows | <kbd>Alt</kbd> + <kbd>0150</kbd> | <kbd>Alt</kbd> + <kbd>0151</kbd> |\n| Linux | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>u</kbd>, 2013 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>u</kbd>, 2014 |\n| Microsoft Word | `word - word` と打って空白を入力すると自動変換 | `word--word` と打って空白を入力すると自動変換 |\n| Googleドキュメント | 挿入 &rarr; 特殊文字 | 既定では自動変換されない。挿入 &rarr; 特殊文字を使うか、`--` の置換ルールを自分で追加 |\n| HTML | `&ndash;` | `&mdash;` |\n| iOS / Android | ハイフンキーを長押し | ハイフンキーを長押し |\n\nWindowsのAltコードはテンキーが必要で、多くのノートPCユーザーがこれらの文字を結局入力しないのはこのためです。",
     },
     "when-it-breaks-things": {
       heading: "違いが実際に問題を起こす場合",
@@ -35,8 +35,8 @@ export const guide: GuideTranslation = {
   faqs: [
     { question: "エムダッシュとエンダッシュの違いは何ですか？", answer: "エンダッシュ（–、U+2013）は「〜から」「〜を通じて」を意味し、2020–2024のような範囲を示します。エムダッシュ（—、U+2014）は文中の句を強めのカンマのように区切ります。エムダッシュはおよそ2倍の幅があり、両者は別々のUnicode文字です。" },
     { question: "ダッシュの代わりにハイフンを使うべき場面は？", answer: "単語を1つの単位に結合する場合はハイフンを使います：well-known、twenty-three、re-elect。範囲、2者間の接続、文中の区切りを意味するなら、エンダッシュまたはエムダッシュを使います。" },
-    { question: "エムダッシュの前後にスペースは必要ですか？", answer: "文体ガイドによります。米国の慣習はスペースなし（word—word）、英国の慣習は一般的にスペース付きのエンダッシュ（word – word）を使います。どちらも正しく、1つの文書内での一貫性が重要です。" },
-    { question: "エムダッシュはどうやって入力しますか？", answer: "macOSでは Option + Shift + ハイフンを押します。Windowsではテンキーで Alt を押しながら 0151 と入力します。WordとGoogleドキュメントでは単語の間にハイフンを2つ打つと自動変換されます。スマートフォンではハイフンキーを長押しします。" },
+    { question: "エムダッシュの前後にスペースは必要ですか？", answer: "文体ガイドによります。Chicago、APA、MLAはスペースなし（word—word）。APスタイルは前後に1つずつスペースを入れます（word — word）。New Hart's Rulesに従う英国のハウススタイルは、代わりにスペース付きのエンダッシュ（word – word）を使います。いずれも正しく、1つの文書内での一貫性が重要です。" },
+    { question: "エムダッシュはどうやって入力しますか？", answer: "macOSでは Option + Shift + ハイフンを押します。Windowsではテンキーで Alt を押しながら 0151 と入力します。Wordでは単語の間にハイフンを2つ打つと自動変換されます。Googleドキュメントには組み込みのショートカットも既定の自動変換もないため、挿入＞特殊文字を使うか、置換ルールを自分で追加してください。スマートフォンではハイフンキーを長押しします。" },
     { question: "エンダッシュの代わりにハイフンを使うと問題になりますか？", answer: "文章中では、ほとんどの読者が気づかない軽微な不正確さです。しかしデータ、コード、URL、検索や解析の対象になるものでは大きな問題です。3つは別々の文字であり、厳密な一致が失敗するからです。" },
   ],
 };

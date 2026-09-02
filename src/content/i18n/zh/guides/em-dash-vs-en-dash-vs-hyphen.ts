@@ -21,11 +21,11 @@ export const guide: GuideTranslation = {
     },
     "the-em-dash": {
       heading: "长破折号",
-      body: "长破折号用于分隔短语，造成的停顿比逗号更强，又比句号更弱。\n\n- **成对使用，包住插入语**：*The results — which nobody expected — were clear.*\n- **单独使用，引出结论或转折**：*She checked everything twice — and still missed it.*\n- **在对话中表示被打断的话**。\n\n**是否加空格**是唯一真正存在分歧的文体问题。美国出版惯例（Chicago Manual of Style）让长破折号紧贴文字：*word—word*。英国惯例（Oxford 及多数英国报纸）则改用两侧带空格的连接号：*word – word*。两种写法都正确，关键是同一篇文档内保持一致。AI 输出通常使用带空格的长破折号——*word — word*——这是两种惯例的混合体，所以在熟悉任一传统的编辑看来会隐约觉得不对劲。\n\n长破折号还成了 AI 生成文本的一种非官方标志，因为模型使用它的频率远比人类稳定。这一点在 [为什么 ChatGPT 用这么多长破折号](/guides/why-chatgpt-uses-em-dashes) 中有详细讨论。",
+      body: "长破折号用于分隔短语，造成的停顿比逗号更强，又比句号更弱。\n\n- **成对使用，包住插入语**：*The results — which nobody expected — were clear.*\n- **单独使用，引出结论或转折**：*She checked everything twice — and still missed it.*\n- **在对话中表示被打断的话**。\n\n**是否加空格**是唯一真正存在分歧的文体问题，而且分歧是三方的。Chicago、APA 和 MLA 让长破折号紧贴文字：*word—word*。AP Stylebook 则在两侧各加一个空格：*word — word*。遵循 New Hart's Rules 的英国出版规范改用两侧带空格的连接号：*word – word*。三种写法都正确，关键是同一篇文档内保持一致。AI 输出通常使用带空格的长破折号，那其实就是 AP 的写法，而不是什么混合体——只有把 Chicago 当作美国唯一惯例的编辑才会觉得它不对劲。\n\n长破折号还成了 AI 生成文本的一种非官方标志，因为模型使用它的频率远比人类稳定。这一点在 [为什么 ChatGPT 用这么多长破折号](/guides/why-chatgpt-uses-em-dashes) 中有详细讨论。",
     },
     "typing-them": {
       heading: "如何输入每个符号",
-      body: "| 平台 | 连接号（–） | 长破折号（—） |\n| --- | --- | --- |\n| macOS | <kbd>Option</kbd> + <kbd>-</kbd> | <kbd>Option</kbd> + <kbd>Shift</kbd> + <kbd>-</kbd> |\n| Windows | <kbd>Alt</kbd> + <kbd>0150</kbd> | <kbd>Alt</kbd> + <kbd>0151</kbd> |\n| Linux | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>u</kbd>，2013 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>u</kbd>，2014 |\n| Word / Docs | 单词之间输入两个连字符会自动更正 | 输入两个连字符会自动更正 |\n| HTML | `&ndash;` | `&mdash;` |\n| iOS / Android | 长按连字符键 | 长按连字符键 |\n\nWindows 的 Alt 代码需要数字小键盘，这就是为什么很多笔记本用户干脆从来不输入这些字符。",
+      body: "| 平台 | 连接号（–） | 长破折号（—） |\n| --- | --- | --- |\n| macOS | <kbd>Option</kbd> + <kbd>-</kbd> | <kbd>Option</kbd> + <kbd>Shift</kbd> + <kbd>-</kbd> |\n| Windows | <kbd>Alt</kbd> + <kbd>0150</kbd> | <kbd>Alt</kbd> + <kbd>0151</kbd> |\n| Linux | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>u</kbd>，2013 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>u</kbd>，2014 |\n| Microsoft Word | 输入 `word - word`（连字符两侧带空格）后再敲一个空格会自动更正 | 输入 `word--word` 后再敲一个空格会自动更正 |\n| Google Docs | 插入 &rarr; 特殊字符 | 默认不做任何转换；使用插入 &rarr; 特殊字符，或自行添加 `--` 替换规则 |\n| HTML | `&ndash;` | `&mdash;` |\n| iOS / Android | 长按连字符键 | 长按连字符键 |\n\nWindows 的 Alt 代码需要数字小键盘，这就是为什么很多笔记本用户干脆从来不输入这些字符。",
     },
     "when-it-breaks-things": {
       heading: "什么时候混用真的会出问题",
@@ -35,8 +35,8 @@ export const guide: GuideTranslation = {
   faqs: [
     { question: "长破折号和连接号有什么区别？", answer: "连接号（–，U+2013）表示\"到\"或\"至\"，用于标记范围，如 2020–2024。长破折号（—，U+2014）在句中分隔短语，作用类似一个语气更强的逗号。长破折号的宽度大约是连接号的两倍，两者是独立的 Unicode 字符。" },
     { question: "什么时候应该用连字符而不是破折号？", answer: "要把多个词合成一个整体时用连字符：well-known、twenty-three、re-elect。如果你要表达的是范围、两方之间的连接，或句中的停顿，就应该用连接号或长破折号。" },
-    { question: "长破折号两侧要加空格吗？", answer: "取决于所遵循的文体规范。美国惯例让它紧贴文字（word—word），英国惯例通常使用两侧带空格的连接号（word – word）。两种写法都正确，关键是同一篇文档内保持一致。" },
-    { question: "如何输入长破折号？", answer: "在 macOS 上按 Option + Shift + 连字符键。在 Windows 上按住 Alt 并在数字小键盘上输入 0151。在 Word 和 Google Docs 中，在单词之间输入两个连字符会自动转换。在手机上，长按连字符键。" },
+    { question: "长破折号两侧要加空格吗？", answer: "取决于所遵循的文体规范。Chicago、APA 和 MLA 让它紧贴文字（word—word）。AP Stylebook 在两侧各加一个空格（word — word）。遵循 New Hart's Rules 的英国出版规范则改用两侧带空格的连接号（word – word）。三种写法都正确，关键是同一篇文档内保持一致。" },
+    { question: "如何输入长破折号？", answer: "在 macOS 上按 Option + Shift + 连字符键。在 Windows 上按住 Alt 并在数字小键盘上输入 0151。在 Word 中，在单词之间输入两个连字符会自动转换；Google Docs 既没有内置快捷键，默认也不会自动转换，需要使用插入 > 特殊字符，或自行添加替换规则。在手机上，长按连字符键。" },
     { question: "用连字符代替连接号要紧吗？", answer: "在行文中，这只是大多数读者注意不到的小瑕疵。但在数据、代码、URL 或任何会被搜索和解析的内容中，影响很大——因为三者是不同的字符，精确匹配会失败。" },
   ],
 };

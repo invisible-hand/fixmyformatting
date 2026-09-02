@@ -127,14 +127,14 @@ The failure mode is not grammatical. Every dash may be correctly placed and the 
 
 This is also why the mark became an informal signal of machine-written text — models produce em dashes at a far steadier rate than human writers do, since typing one costs them no extra effort. That pattern, and why it is not evidence of anything on its own, is covered in [why ChatGPT uses so many em dashes](/guides/why-chatgpt-uses-em-dashes).
 
-If you are working through a document that already has too many, [Remove Em Dashes](/remove-em-dashes) replaces every em dash with a substitute you choose — a comma, a colon, a plain hyphen, or nothing — and reports the count so you can check it against what you expected.`,
+If you are working through a document that already has too many, [Remove Em Dashes](/remove-em-dashes) replaces every em dash with a substitute you choose — a comma, a semicolon, a plain hyphen, or nothing — and reports the count so you can check it against what you expected.`,
     },
     {
       id: "how-to-type-it",
       heading: "How do you type an em dash?",
       body: `There is no em dash key on a standard keyboard. On a Mac, press <kbd>Option</kbd> + <kbd>Shift</kbd> + <kbd>-</kbd>. On Windows, hold <kbd>Alt</kbd> and type \`0151\` on the numeric keypad. In HTML it is \`&mdash;\`.
 
-Word and Google Docs can also produce one from a double hyphen, and every other platform hides it behind a long-press or a character picker.
+Word also produces one from a double hyphen automatically; Google Docs does not by default, so there you use Insert &rarr; Special characters or add your own substitution rule. Every other platform hides the character behind a long-press or a character picker.
 
 For the full set of shortcuts — Word, Docs, iOS, Android, Linux, and the code-level representations — see [em dash: copy, paste and type it anywhere](/guides/em-dash-copy-paste), which also has the character itself ready to copy.`,
     },

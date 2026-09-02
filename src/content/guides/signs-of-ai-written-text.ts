@@ -63,7 +63,7 @@ So this section is here to help you recognise a register, not to give you a test
       heading: "How to check a document in one pass",
       body: `A practical order of operations, cheapest check first:
 
-1. **Scan for invisible characters.** This is the highest-signal, lowest-effort check. Paste the text into the [Invisible Character Scanner](/remove-invisible-characters) — it lists every zero-width space, soft hyphen, byte-order mark, and direction mark it finds, with counts.
+1. **Scan for invisible characters.** This is the highest-signal, lowest-effort check. Paste the text into the [Invisible Character Viewer](/show-invisible-characters), which deletes nothing and labels each hidden character in place — \`[ZWSP]\`, \`[SHY]\`, \`[BOM]\`, \`[LRM]\`, \`[NBSP]\`, \`[NNBSP]\` — so you can see how many there are and where they sit, including the non-breaking and narrow no-break spaces. The [Invisible Character Scanner](/remove-invisible-characters) is the other half of the pair: it reports totals for hidden characters, zero-width characters, and soft hyphens and strips them, leaving no-break spaces in place.
 2. **Count the mechanical artefacts together.** The [AI Text Cleaner](/clean-ai-text) reports em dashes, smart quotes, invisible characters, and emoji in a single pass, so you can see whether several signals co-occur rather than chasing one at a time.
 3. **Read for the stylistic patterns.** Only after you have the counts. Numbers first stops you from talking yourself into a conclusion.
 4. **Weigh the context.** Text pasted from Word will carry smart quotes regardless of who wrote it. Text typed into a plain textarea will not.
@@ -75,7 +75,7 @@ Co-occurrence is what matters. A single em dash means nothing. Em dashes *and* s
       heading: "Why none of this is proof",
       body: `Every sign above has an innocent explanation.
 
-Word and Google Docs convert double hyphens into em dashes and straight quotes into curly ones automatically. Copying from any modern website can carry invisible characters. Professional editors write in exactly the balanced, hedged register that reads as machine-generated. Non-native English speakers often write in a more formal, structurally regular style, which is precisely why commercial AI detectors flag their work at markedly higher rates.
+Word converts double hyphens into em dashes, and both Word and Google Docs convert straight quotes into curly ones automatically. Copying from any modern website can carry invisible characters. Professional editors write in exactly the balanced, hedged register that reads as machine-generated. Non-native English speakers often write in a more formal, structurally regular style, which is precisely why commercial AI detectors flag their work at markedly higher rates.
 
 There is also the obvious circularity: a person can paste AI output into a text editor, run a cleanup pass, and remove every mechanical sign in about ten seconds. The signals that are easiest to measure are also the easiest to erase.
 
@@ -96,7 +96,7 @@ So the honest position is this. Formatting analysis tells you **what characters 
     {
       question: "Does using em dashes or smart quotes mean I will be accused of using AI?",
       answer:
-        "It should not, and it is a bad basis for an accusation. Word and Google Docs generate both automatically from ordinary typing. If you are worried about how a document reads, converting punctuation to plain ASCII removes the artefacts without changing a word of your writing.",
+        "It should not, and it is a bad basis for an accusation. Word generates both automatically from ordinary typing, and Google Docs curls quotes the same way. If you are worried about how a document reads, converting punctuation to plain ASCII removes the artefacts without changing a word of your writing.",
     },
     {
       question: "Can I remove these signs from AI-generated text?",
