@@ -11,10 +11,29 @@ const columnName = (index: number) => {
   return name;
 };
 
+/**
+ * Deliberately narrow: only a plain decimal integer or fraction becomes a real
+ * numeric cell. Leading zeros (`007`), a leading `+`, thousands separators,
+ * currency symbols, exponents and padded values all stay text, because in every
+ * one of those cases the exact string the user typed is the information. A
+ * padded value is text too: the caller already trims every cell, so surviving
+ * whitespace was meant to be there.
+ */
+const numericExpression = /^-?(0|[1-9]\d*)(\.\d+)?$/;
+
+const numericValue = (cell: string) => {
+  if (!numericExpression.test(cell)) return null;
+  return Number.isFinite(Number(cell)) ? cell : null;
+};
+
 export function createXlsx(rows: string[][]) {
   const sheetRows = rows.map((row, rowIndex) => {
     const cells = row.map((cell, columnIndex) => {
       const reference = `${columnName(columnIndex)}${rowIndex + 1}`;
+      // The header row is a label row: it stays text and keeps its bold style.
+      const numeric = rowIndex === 0 ? null : numericValue(cell);
+      // No `t` attribute means "number", which is what makes the cell summable.
+      if (numeric !== null) return `<c r="${reference}"><v>${numeric}</v></c>`;
       return `<c r="${reference}" t="inlineStr"${rowIndex === 0 ? ' s="1"' : ""}><is><t xml:space="preserve">${xml(cell)}</t></is></c>`;
     }).join("");
     return `<row r="${rowIndex + 1}">${cells}</row>`;

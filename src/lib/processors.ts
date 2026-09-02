@@ -108,7 +108,11 @@ function stripMarkdown(input: string) {
     .replace(/^#{1,6}\s+/gm, "")
     .replace(/^>\s?/gm, "")
     .replace(/(\*\*|__)(.*?)\1/g, "$2")
-    .replace(/([*_~`])([^]*?)\1/g, "$2")
+    .replace(/([*~`])([^]*?)\1/g, "$2")
+    // CommonMark allows `*` intraword but not `_`, so underscore emphasis only
+    // counts at a word boundary. Without this, snake_case_word, MY_ENV_VAR and
+    // file_name.txt lose their underscores and silently become new words.
+    .replace(/(?<![\p{L}\p{N}_])_([^]*?)_(?![\p{L}\p{N}_])/gu, "$1")
     .replace(/^\s*[-+*]\s+/gm, "• ")
     .replace(/^\s*\d+\.\s+/gm, "")
     .trim();
@@ -380,8 +384,12 @@ export function processText(slug: string, input: string, settings: ProcessSettin
   }
   if (processor === "remove-em-dashes") {
     const found = count(input, /—/g);
-    const replacements = { comma: ",", semicolon: ";", hyphen: "-", remove: "" };
-    const replacement = replacements[settings.dashReplacement ?? "comma"];
+    const replacements: Record<string, string> = { comma: ",", semicolon: ";", hyphen: "-", remove: "" };
+    // Settings arrive from share links, so the key can be anything at runtime
+    // even though the type says otherwise. Fall back to the documented default
+    // rather than splicing the string "undefined" into the user's text.
+    const key = settings.dashReplacement ?? "comma";
+    const replacement = key in replacements ? replacements[key] : ",";
     let output = input.replaceAll("—", replacement);
     if (replacement) {
       const escaped = replacement.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -398,9 +406,14 @@ export function processText(slug: string, input: string, settings: ProcessSettin
     const emojis = count(input, emojiExpression);
     const output = input
       .replaceAll("—", ",")
+      // Same tidy-up as remove-em-dashes' default: drop the space the dash left,
+      // otherwise " — " becomes " ," and every clause gains a stray space.
+      .replace(/\s+,/g, ",")
       .replace(/[“”]/g, '"')
       .replace(/[‘’]/g, "'")
       .replace(invisibleExpression, "")
+      // Converted, never deleted: removing a no-break space joins two words.
+      .replace(/[\u00a0\u202f]/g, " ")
       .replace(emojiExpression, "")
       .replace(/[ \t]{2,}/g, " ");
     return { output, stats: [{ label: "Em dashes", value: dashes }, { label: "Smart quotes", value: quotes }, { label: "Hidden characters", value: hidden }, { label: "Emojis", value: emojis }] };
@@ -520,7 +533,12 @@ export function processText(slug: string, input: string, settings: ProcessSettin
     return { output, stats: [{ label: "Rows", value: Math.max(0, rows.length - 1) }, { label: "Columns", value: rows[0]?.length ?? 0 }] };
   }
   if (processor === "extract-table-from-text") {
-    const rows = input.split(/\r?\n/).filter((line) => line.includes("|") || line.includes("\t")).map((line) => line.split(line.includes("|") ? "|" : "\t").map((cell) => cell.trim()).filter(Boolean));
+    const rows = input
+      .split(/\r?\n/)
+      .filter((line) => line.includes("|") || line.includes("\t"))
+      .map((line) => line.split(line.includes("|") ? "|" : "\t").map((cell) => cell.trim()).filter(Boolean))
+      // A Markdown alignment row (`| --- | ---: |`) is table syntax, not data.
+      .filter((cells) => !(cells.length > 0 && cells.every((cell) => /^:?-+:?$/.test(cell))));
     return { output: tableToCsv(rows), stats: [{ label: "Tables found", value: rows.length > 1 ? 1 : 0 }, { label: "Rows", value: rows.length }] };
   }
   if (processor === "word-counter") {

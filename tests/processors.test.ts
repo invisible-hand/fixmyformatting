@@ -164,8 +164,14 @@ describe("text processors", () => {
       output: "Help me test strike",
       stats: [{ label: "Characters converted", value: 16 }, { label: "Words", value: 4 }],
     });
+    // The clean-ai-text output below intentionally changed in the "space before
+    // the comma" fix: replacing " \u2014 " with "," used to leave "The plan , a good
+    // one , ships". The tidy-up remove-em-dashes already applied is now shared,
+    // so the commas sit against the preceding word. Everything else -- the
+    // quotes, the emoji, the hidden character, and all four stats -- is
+    // unchanged, which is what this guard exists to pin.
     expect(processText("clean-ai-text", "The plan \u2014 a good one \u2014 ships \u2018today\u2019 with \u201cno\u201d \ud83c\udf89 caveats. Really.\u200b")).toEqual({
-      output: "The plan , a good one , ships 'today' with \"no\" caveats. Really.",
+      output: "The plan, a good one, ships 'today' with \"no\" caveats. Really.",
       stats: [
         { label: "Em dashes", value: 2 },
         { label: "Smart quotes", value: 4 },
@@ -208,6 +214,73 @@ describe("text processors", () => {
 
   it("counts GPT-4o tokens locally", () => {
     expect(countModelTokens("Hello world").stats[0]).toEqual({ label: "GPT-4o tokens", value: 2 });
+  });
+
+  it("keeps snake_case identifiers intact while still stripping real emphasis", () => {
+    const strip = (input: string) => processText("remove-markdown-formatting", input).output;
+    expect(strip("snake_case_word")).toBe("snake_case_word");
+    expect(strip("a_b_c")).toBe("a_b_c");
+    expect(strip("MY_ENV_VAR")).toBe("MY_ENV_VAR");
+    expect(strip("_italic_")).toBe("italic");
+    expect(strip("__bold__")).toBe("bold");
+    expect(strip("some _emphasis_ here")).toBe("some emphasis here");
+    expect(strip("*star*")).toBe("star");
+    expect(strip("**star**")).toBe("star");
+    expect(strip("Set MY_ENV_VAR in _config_ and read data_loader.py")).toBe("Set MY_ENV_VAR in config and read data_loader.py");
+  });
+
+  it("removes the space an em dash leaves in front of its replacement", () => {
+    expect(processText("clean-ai-text", "The plan — a good one — ships").output).toBe("The plan, a good one, ships");
+  });
+
+  it("converts no-break spaces to ordinary spaces without joining words", () => {
+    const result = processText("clean-ai-text", "a\u00a0nbsp and a\u202fnarrow one");
+    expect(result.output).toBe("a nbsp and a narrow one");
+    expect(result.stats.map((stat) => stat.label)).toEqual(["Em dashes", "Smart quotes", "Hidden characters", "Emojis"]);
+  });
+
+  it("falls back to the default replacement for a dash setting it does not know", () => {
+    const rogue = { dashReplacement: "colon" } as unknown as Parameters<typeof processText>[2];
+    expect(processText("remove-em-dashes", "a — b", rogue).output).toBe("a, b");
+    const rogueCase = { caseMode: "smallcaps" } as unknown as Parameters<typeof processText>[2];
+    expect(processText("case-converter", "hello world", rogueCase).output).toBe("Hello World");
+    const rogueList = { listDirection: "sideways" } as unknown as Parameters<typeof processText>[2];
+    expect(processText("bullet-points-to-paragraph", "- One\n- Two", rogueList).output).toBe("One. Two.");
+  });
+
+  it("drops the Markdown alignment row when extracting a table from text", () => {
+    const result = processText("extract-table-from-text", "| Owner | Task |\n| --- | ---: |\n| Ada | Parser |\n| Bob | 412 |");
+    expect(result.output).toBe("Owner,Task\nAda,Parser\nBob,412");
+    expect(result.stats).toEqual([{ label: "Tables found", value: 1 }, { label: "Rows", value: 3 }]);
+    expect(processText("extract-table-from-text", "| A | B |\n|:---:|:-|\n| 1 | 2 |").output).toBe("A,B\n1,2");
+    // A row of real dashes is not an alignment row and must survive.
+    expect(processText("extract-table-from-text", "| A | B |\n| - | -- |\n| 1 | 2 |").output).toBe("A,B\n1,2");
+  });
+
+  it("writes numeric spreadsheet cells as numbers and everything else as text", async () => {
+    const { createXlsx } = await import("../src/lib/xlsx");
+    const files = unzipSync(createXlsx([
+      ["Region", "Units", "Code", "Share"],
+      ["North", "412", "007", "-3.5"],
+      ["South", "+1", "1,024", "$9"],
+      ["East", " 8 ", "1e3", "12."],
+    ]));
+    const sheet = strFromU8(files["xl/worksheets/sheet1.xml"]);
+    // Header row stays inline text and keeps its bold style.
+    expect(sheet).toContain('<c r="A1" t="inlineStr" s="1"><is><t xml:space="preserve">Region</t></is></c>');
+    expect(sheet).toContain('<c r="B1" t="inlineStr" s="1"><is><t xml:space="preserve">Units</t></is></c>');
+    // Real numbers: no `t` attribute, so Excel treats them as numeric.
+    expect(sheet).toContain('<c r="B2"><v>412</v></c>');
+    expect(sheet).toContain('<c r="D2"><v>-3.5</v></c>');
+    // Values that only look numeric must stay text.
+    for (const reference of ["C2", "B3", "C3", "D3", "B4", "C4", "D4", "A2"]) {
+      expect(sheet).toContain(`<c r="${reference}" t="inlineStr">`);
+    }
+    expect(sheet).toContain('<c r="C2" t="inlineStr"><is><t xml:space="preserve">007</t></is></c>');
+    // The package still contains every part a valid .xlsx needs.
+    for (const part of ["[Content_Types].xml", "_rels/.rels", "xl/workbook.xml", "xl/_rels/workbook.xml.rels", "xl/styles.xml"]) {
+      expect(files[part]).toBeDefined();
+    }
   });
 
   it("preserves rich Markdown structure in DOCX output", async () => {
