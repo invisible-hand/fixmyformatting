@@ -192,7 +192,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
     name: "Suddividi testo",
     title: "Suddividi testo per prompt IA",
     description: "Dividi testi lunghi in blocchi puliti e copiabili per gli strumenti IA.",
-    intro: "Spezza documenti lunghi in blocchi pratici vicino ai confini dei paragrafi. Aiuta a far entrare i contenuti nei prompt senza tagliare le parole a metà.",
+    intro: "Spezza documenti lunghi in blocchi di dimensione fissa fino a 2.000 caratteri. Ogni blocco termina in corrispondenza di uno spazio, così nessuna parola viene tagliata a metà, il che significa che un blocco può finire a metà frase. Utile per far entrare i contenuti nei limiti dei prompt e di ciò che si può incollare.",
     faqs: [
       { question: "Suddividi testo è gratuito?", answer: "Sì. È gratuito, non richiede un account e non ha limiti di utilizzo." },
       { question: "Il mio testo viene caricato?", answer: "No. L’elaborazione avviene nel browser. Il testo viene salvato solo se crei esplicitamente un link condiviso." },

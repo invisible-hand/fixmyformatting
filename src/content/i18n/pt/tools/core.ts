@@ -192,10 +192,10 @@ export const tools: Partial<Record<string, ToolCopy>> = {
     name: "Dividir texto em partes",
     title: "Dividir texto em partes para prompts de IA",
     description: "Divida textos longos em partes limpas e fáceis de copiar para ferramentas de IA.",
-    intro: "Quebre documentos longos em partes práticas, respeitando os limites de parágrafo. Assim o conteúdo cabe nos prompts sem cortar palavras no meio.",
+    intro: "Quebre documentos longos em partes de tamanho fixo de até 2.000 caracteres. Cada parte termina em um espaço em branco, então nenhuma palavra é cortada no meio — o que significa que uma parte pode terminar no meio de uma frase. Útil para fazer o conteúdo caber nos limites de prompt e de colagem.",
     faqs: [
       { question: "Dividir texto em partes é grátis?", answer: "Sim. É grátis, não exige conta e não tem limite de uso." },
-      { question: "O texto é cortado no meio das frases?", answer: "Não. A divisão procura respeitar os limites de parágrafo para não quebrar palavras nem frases." },
+      { question: "O texto é cortado no meio das frases?", answer: "Pode acontecer. Cada parte tem no máximo 2.000 caracteres e é cortada no espaço em branco mais próximo: nenhuma palavra é quebrada, mas uma parte pode terminar no meio de uma frase." },
       { question: "Funciona no celular?", answer: "Sim. O editor funciona em navegadores atuais para celular e computador." },
     ],
   },

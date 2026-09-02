@@ -192,7 +192,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
     name: "Découpeur de texte",
     title: "Découpeur de texte pour prompts IA",
     description: "Découpez un texte long en morceaux propres et faciles à copier pour les outils IA.",
-    intro: "Divisez de longs documents en morceaux pratiques, en respectant autant que possible les limites de paragraphes. Cela permet de faire tenir le contenu dans les prompts sans couper les mots en deux.",
+    intro: "Divisez de longs documents en morceaux de taille fixe d'au plus 2 000 caractères. Chaque morceau se termine sur une espace, donc aucun mot n'est coupé en deux, ce qui implique qu'un morceau peut se terminer en pleine phrase. Pratique pour faire tenir un contenu sous les limites de prompt et de collage.",
     faqs: [
       { question: "Le découpeur de texte est-il gratuit ?", answer: "Oui. L'outil est gratuit, sans compte et sans limite d'utilisation." },
       { question: "Mon texte est-il envoyé ?", answer: "Non. Le traitement se fait dans le navigateur. Le texte n'est stocké que si vous créez explicitement un lien de partage." },

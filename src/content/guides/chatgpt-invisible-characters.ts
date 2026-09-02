@@ -8,7 +8,7 @@ export const invisibleCharacters: GuideDefinition = {
   dek: "The watermark theory, what the bytes actually show, and how to check your own text.",
   cluster: "ai-tells",
   published: "2026-07-25",
-  updated: "2026-07-25",
+  updated: "2026-09-01",
   answer:
     "AI output does often contain invisible Unicode — most commonly non-breaking and narrow no-break spaces. But these are mundane byproducts of text formatting, not a hidden watermark. Real text watermarking exists and works by biasing word choice statistically, leaving no special characters to find. You can check any text yourself in a few seconds.",
   sections: [
@@ -57,7 +57,7 @@ The practical implication cuts against the panic: if a model you use is watermar
 
 - **Search and find-and-replace fail.** A zero-width space between two letters means searching for the word finds nothing, with no visible reason.
 - **Form validation rejects input.** An email address or licence key with a trailing non-breaking space fails a comparison that looks correct on screen.
-- **Code will not compile or parse.** A non-breaking space where a regular space belongs produces a syntax error pointing at a line that looks perfectly fine.
+- **Code breaks in some languages and not others.** A non-breaking space where a regular space belongs is a syntax error in Python, Go, Ruby, shell, and JSON, pointing at a line that looks perfectly fine. JavaScript, TypeScript, and C accept U+00A0 as ordinary whitespace and compile without complaint — which is its own problem, because the character then survives in the file until it reaches a tool that does object.
 - **CSV imports corrupt.** A byte-order mark attaches to the first column header, so the first field silently fails to map.
 - **Duplicate records appear.** Two entries that look identical are different strings, so deduplication misses them.
 
@@ -66,7 +66,7 @@ These failures are especially annoying because the text looks correct. Every deb
     {
       id: "how-to-check",
       heading: "How to check and clean your own text",
-      body: `Paste the text into the [Invisible Character Scanner](/remove-invisible-characters). It reports every zero-width space, soft hyphen, byte-order mark, and direction mark it finds, with a count for each type, and removes them on request. Nothing leaves your browser — the scan runs locally.
+      body: `Paste the text into the [Invisible Character Scanner](/remove-invisible-characters). It removes them on request and reports three numbers: the total hidden characters found, how many of those were zero-width, and how many were soft hyphens. The zero-width figure also covers the left-to-right and right-to-left direction marks, and a byte-order mark counts toward the total without getting a line of its own. When you need to know which character sits exactly where, [Show Invisible Characters](/show-invisible-characters) labels each one in place instead of deleting it. Nothing leaves your browser — both run locally.
 
 If you want the wider picture, the [AI Text Cleaner](/clean-ai-text) covers invisible characters alongside em dashes, smart quotes, and emoji in one pass.
 
@@ -94,7 +94,7 @@ For the full list of what these characters are and what each one does, see the [
     {
       question: "How do I find invisible characters in my text?",
       answer:
-        "Paste it into a scanner that lists code points, such as our Invisible Character Scanner. It identifies each type of invisible character present, counts them, and removes them on request, running entirely in your browser.",
+        "Paste it into a scanner. Our Invisible Character Scanner reports how many hidden characters are present, how many are zero-width, and how many are soft hyphens, then removes them on request. To see which character sits where, Show Invisible Characters labels each one in place. Both run entirely in your browser.",
     },
     {
       question: "Are invisible characters dangerous?",

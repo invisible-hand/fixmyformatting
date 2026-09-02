@@ -192,7 +192,7 @@ export const tools: Partial<Record<string, ToolCopy>> = {
     name: "Dividir texto en fragmentos",
     title: "Dividir texto en fragmentos para prompts de IA",
     description: "Divide textos largos en fragmentos limpios y listos para copiar.",
-    intro: "Divide documentos largos en fragmentos prácticos respetando los límites de los párrafos. Así el contenido cabe en los prompts sin cortar palabras por la mitad.",
+    intro: "Divide documentos largos en fragmentos de tamaño fijo de hasta 2.000 caracteres. Cada fragmento termina en un espacio en blanco, así que ninguna palabra queda cortada por la mitad, aunque eso significa que un fragmento puede terminar a mitad de frase. Útil para que el contenido pase por los límites de los prompts y del pegado.",
     faqs: [
       { question: "¿Dividir texto en fragmentos es gratis?", answer: "Sí. Es gratis, no requiere cuenta y no tiene límite de uso." },
       { question: "¿Se sube mi texto?", answer: "No. El procesamiento ocurre en tu navegador. Solo se guarda si creas explícitamente un enlace compartido." },

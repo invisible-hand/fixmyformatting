@@ -86,7 +86,7 @@ export const figures: FigureCopy = {
   "token-chunks": {
     "caption": "Tokens sind Wortfragmente, daher stimmen Zeichenzahl und Token-Anzahl selten überein.",
     "notes": [
-      "37 Zeichen · 7 Tokens · etwa 5,3 Zeichen pro Token",
+      "36 Zeichen · 7 Tokens · etwa 5,1 Zeichen pro Token",
       "Grobe Faustregel für Englisch: 1 Token ≈ 4 Zeichen ≈ 0,75 Wörter.",
       "Code, nichtenglische Schriften und seltene Wörter verbrauchen mehr Tokens pro Zeichen."
     ],

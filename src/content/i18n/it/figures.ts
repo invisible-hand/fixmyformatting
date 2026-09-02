@@ -86,7 +86,7 @@ export const figures: FigureCopy = {
   "token-chunks": {
     "caption": "I token sono frammenti di parole, quindi il conteggio dei caratteri e quello dei token raramente coincidono.",
     "notes": [
-      "37 caratteri · 7 token · circa 5,3 caratteri per token",
+      "36 caratteri · 7 token · circa 5,1 caratteri per token",
       "Una regola pratica per l'inglese: 1 token ≈ 4 caratteri ≈ 0,75 parole.",
       "Codice, alfabeti non latini e parole rare usano più token per carattere."
     ],

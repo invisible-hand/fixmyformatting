@@ -56,7 +56,7 @@ The pattern is consistent: they enter when text moves from a *presentation* cont
 
 **Trimming does not help.** Two different reasons, and it is worth being precise about which one you are hitting. First, \`trim()\` only touches the ends of a string, so anything sitting between two words is untouched no matter how Unicode-aware it is. Second, the zero-width characters are not whitespace at all: in both JavaScript and Python, \`\\s\` does not match U+200B and \`trim()\`/\`strip()\` leaves it in place. A non-breaking space is the opposite case — it *is* whitespace by Unicode property, so JavaScript's \`trim()\` and Python's \`strip()\` do remove it, while trims defined against ASCII only, such as Java's \`String.trim()\` and PHP's default \`trim()\`, leave it behind. "I already trimmed it" is a dead end most often because the character is a zero-width one, or is in the middle.
 
-**Code fails to compile.** A non-breaking space where a normal space belongs produces a syntax error at a line that looks perfect.
+**Code fails to compile — in some languages.** A non-breaking space where a normal space belongs is a syntax error in Python, Go, Ruby, shell, and JSON, at a line that looks perfect. JavaScript, TypeScript, and C treat U+00A0 as ordinary whitespace and compile it happily, so it stays in the source until something stricter reads the file.
 
 **CSV imports corrupt.** A byte-order mark attaches to the first header, so \`id\` becomes \`\\uFEFFid\` and the first column silently fails to map.
 
@@ -67,7 +67,7 @@ The pattern is consistent: they enter when text moves from a *presentation* cont
     {
       id: "finding-and-removing",
       heading: "Finding and removing them",
-      body: `**Scan first.** Paste the text into the [Invisible Character Scanner](/remove-invisible-characters). It reports which types are present and how many of each, then removes them on request. Seeing the counts first tells you whether you are dealing with one stray character or systematic contamination.
+      body: `**Scan first.** Paste the text into the [Invisible Character Scanner](/remove-invisible-characters). It reports the total it found plus separate counts for zero-width characters and soft hyphens, then removes them on request. To see which character sits where, use [Show Invisible Characters](/show-invisible-characters), which labels each one in place. Seeing the counts first tells you whether you are dealing with one stray character or systematic contamination.
 
 **In an editor.** VS Code highlights most invisible characters by default via its unicode-highlight setting. For regex-capable find-and-replace, this pattern catches the common set:
 
