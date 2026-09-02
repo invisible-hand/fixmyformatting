@@ -16,11 +16,11 @@ export const brand: BrandCopy = {
     "remove-formatting": "{brand} sans formatage Markdown — Gratuit",
   },
   actionDescription: {
-    "to-word": "Convertissez les réponses de {brand} en documents Word modifiables, avec titres, listes, code et tableaux conservés.",
-    "to-pdf": "Convertissez les réponses de {brand} en fichiers PDF propres et prêts à imprimer, sans envoyer votre texte.",
-    "to-google-docs": "Transférez le contenu de {brand} dans Google Docs en conservant titres, listes, liens, emphases et tableaux.",
-    "table-to-excel": "Convertissez les tableaux Markdown de {brand} en véritables lignes et colonnes Excel, prêtes à trier et à modifier.",
-    "remove-formatting": "Supprimez le formatage Markdown des réponses de {brand} tout en conservant le texte lisible intact.",
+    "to-word": "Convertissez les réponses de {brand} en véritable fichier Word .docx : titres, listes, tableaux, liens et code restent de la mise en forme.",
+    "to-pdf": "Transformez une réponse de {brand} en PDF propre et prêt à imprimer depuis l’aperçu mis en forme du navigateur, sans envoi ni filigrane.",
+    "to-google-docs": "Collez une réponse de {brand}, copiez le texte enrichi obtenu et collez-le dans Google Docs avec titres, listes, liens et tableaux intacts.",
+    "table-to-excel": "Convertissez les tableaux à barres et tirets de {brand} en vrai fichier .xlsx, une valeur par cellule, prêt à trier et modifier dans Excel.",
+    "remove-formatting": "Supprimez astérisques, dièses et syntaxe des liens d’une réponse de {brand} pour garder un texte lisible dans les e-mails et les formulaires.",
   },
   actionGuidance: {
     "to-word": "Utilisez cet outil quand une réponse de {brand} doit devenir un rapport, une note de synthèse, un devoir ou un document que d'autres personnes peuvent modifier dans Word.",

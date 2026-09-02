@@ -16,11 +16,11 @@ export const brand: BrandCopy = {
     "remove-formatting": "Rimuovere formattazione Markdown da {brand}",
   },
   actionDescription: {
-    "to-word": "Converti le risposte di {brand} in documenti Word modificabili con titoli, elenchi, codice e tabelle conservati.",
-    "to-pdf": "Converti le risposte di {brand} in file PDF puliti e pronti per la stampa senza caricare il testo.",
-    "to-google-docs": "Porta l’output di {brand} in Google Docs conservando titoli, elenchi, link, enfasi e tabelle.",
-    "table-to-excel": "Converti le tabelle Markdown di {brand} in vere righe e colonne Excel, pronte da ordinare e modificare.",
-    "remove-formatting": "Rimuovi la formattazione Markdown dalle risposte di {brand} mantenendo intatto il testo leggibile.",
+    "to-word": "Converti le risposte di {brand} in un vero file Word .docx, con titoli, elenchi, tabelle, link e codice conservati come formattazione.",
+    "to-pdf": "Trasforma una risposta di {brand} in un PDF pronto per la stampa partendo dall’anteprima nel browser. Nulla viene caricato, nessuna filigrana.",
+    "to-google-docs": "Incolla una risposta di {brand}, copia il risultato formattato e portalo in Google Docs con titoli, elenchi, link, enfasi e tabelle intatti.",
+    "table-to-excel": "Trasforma le tabelle con barre e trattini che {brand} mostra in chat in un vero file .xlsx con un valore per cella, pronto da ordinare in Excel.",
+    "remove-formatting": "Elimina asterischi, cancelletti e sintassi dei link da una risposta di {brand}, conservando il testo leggibile per email, moduli e app.",
   },
   actionGuidance: {
     "to-word": "Usa questa opzione quando una risposta di {brand} deve diventare un rapporto, un brief, un compito o un documento che altri possono modificare in Word.",

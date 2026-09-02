@@ -16,11 +16,11 @@ export const brand: BrandCopy = {
     "remove-formatting": "删除 {brand} Markdown 格式",
   },
   actionDescription: {
-    "to-word": "将 {brand} 的回答转换为可编辑的 Word 文档，标题、列表、代码和表格都会保留。",
-    "to-pdf": "将 {brand} 的回答转换为干净、可直接打印的 PDF 文件，无需上传文本。",
-    "to-google-docs": "将 {brand} 的输出内容移入 Google Docs，同时保留标题、列表、链接、强调和表格。",
-    "table-to-excel": "将 {brand} 的 Markdown 表格转换为真正的 Excel 行和列，可直接排序和编辑。",
-    "remove-formatting": "删除 {brand} 回答中的 Markdown 格式，同时完整保留可读的正文内容。",
+    "to-word": "将 {brand} 的回答转换为真正的 Word .docx 文件，标题、列表、表格、链接和代码都会保留为格式，而不是原始的 Markdown 符号。转换在浏览器中完成，无需上传。",
+    "to-pdf": "在浏览器的格式化预览中把 {brand} 的回答变成干净、可直接打印的 PDF。文本不会上传，也不会添加水印，无需注册即可使用。",
+    "to-google-docs": "粘贴 {brand} 的回答，复制富文本结果，再粘贴到 Google Docs，标题、列表、链接、强调和表格都会保持原样。转换在浏览器中完成，无需上传。",
+    "table-to-excel": "把 {brand} 在对话中输出的竖线加横线表格转换为真正的 .xlsx 文件，每个值单独占一个单元格，可直接在 Excel 中排序和编辑，无需上传。",
+    "remove-formatting": "删除 {brand} 回答中的星号、井号和链接语法，保留可读的正文，适用于会把 Markdown 原样显示的邮件、表单和应用。处理在浏览器中完成，无需上传。",
   },
   actionGuidance: {
     "to-word": "当 {brand} 的回答需要变成报告、简报、作业或可供他人在 Word 中编辑的文档时，使用本工具。",

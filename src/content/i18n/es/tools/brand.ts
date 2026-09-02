@@ -16,11 +16,11 @@ export const brand: BrandCopy = {
     "remove-formatting": "Eliminar formato de {brand}",
   },
   actionDescription: {
-    "to-word": "Convierte las respuestas de {brand} en documentos Word editables conservando títulos, listas, código y tablas.",
-    "to-pdf": "Convierte las respuestas de {brand} en archivos PDF limpios y listos para imprimir, sin subir tu texto.",
-    "to-google-docs": "Traslada el contenido de {brand} a Google Docs conservando títulos, listas, enlaces, énfasis y tablas.",
-    "table-to-excel": "Convierte las tablas Markdown de {brand} en filas y columnas reales de Excel, listas para ordenar y editar.",
-    "remove-formatting": "Elimina el formato Markdown de las respuestas de {brand} manteniendo intacto el texto legible.",
+    "to-word": "Convierte las respuestas de {brand} en un .docx real, con títulos, listas, tablas, enlaces y código como formato y no como Markdown a la vista.",
+    "to-pdf": "Convierte una respuesta de {brand} en un PDF limpio listo para imprimir desde la vista previa del navegador, sin subir nada y sin marca de agua.",
+    "to-google-docs": "Pega una respuesta de {brand}, copia el resultado con formato y llévalo a Google Docs con títulos, listas, enlaces, énfasis y tablas intactos.",
+    "table-to-excel": "Convierte las tablas con barras verticales que {brand} muestra en el chat en un .xlsx real con un valor por celda, listo para editar en Excel.",
+    "remove-formatting": "Quita asteriscos, almohadillas y sintaxis de enlaces de una respuesta de {brand} y conserva el texto legible para correos, formularios y apps.",
   },
   actionGuidance: {
     "to-word": "Usa esta opción cuando una respuesta de {brand} deba convertirse en un informe, un resumen, una tarea o un documento que otras personas puedan editar en Word.",
