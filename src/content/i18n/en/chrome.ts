@@ -81,6 +81,16 @@ export const workspace: WorkspaceMessages = {
   listLabel: "Convert to",
   listToParagraph: "Paragraph",
   listToBullets: "Bullet points",
+  loadExample: "Load an example",
+  exampleLoaded: "Example loaded",
+  keepUrls: "Keep link URLs",
+  listMarkersLabel: "List markers",
+  listMarkersKeep: "Keep as bullets and numbers",
+  listMarkersRemove: "Remove",
+  keepCode: "Keep code blocks as written",
+  tidySpacing: "Tidy spacing too",
+  showChanges: "Show what changed",
+  stripMarkdown: "Also remove Markdown symbols",
 };
 
 export const guideChrome: GuideChrome = {

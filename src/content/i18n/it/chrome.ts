@@ -82,7 +82,17 @@ export const workspace: WorkspaceMessages = {
   "dashRemove": "Niente",
   "listLabel": "Converti in",
   "listToParagraph": "Paragrafo",
-  "listToBullets": "Elenco puntato"
+  "listToBullets": "Elenco puntato",
+  "loadExample": "Carica un esempio",
+  "exampleLoaded": "Esempio caricato",
+  "keepUrls": "Mantieni URL dei link",
+  "listMarkersLabel": "Marcatori di elenco",
+  "listMarkersKeep": "Mantieni come elenchi puntati e numerati",
+  "listMarkersRemove": "Rimuovi",
+  "keepCode": "Mantieni i blocchi di codice come scritti",
+  "tidySpacing": "Sistema anche la spaziatura",
+  "showChanges": "Mostra cosa è cambiato",
+  "stripMarkdown": "Rimuovi anche i simboli Markdown"
 };
 
 export const guideChrome: GuideChrome = {

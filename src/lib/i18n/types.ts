@@ -118,6 +118,17 @@ export type WorkspaceMessages = {
   listLabel: string;
   listToParagraph: string;
   listToBullets: string;
+  /** Optional until every locale carries them; the workspace falls back to English. */
+  loadExample?: string;
+  exampleLoaded?: string;
+  keepUrls?: string;
+  listMarkersLabel?: string;
+  listMarkersKeep?: string;
+  listMarkersRemove?: string;
+  keepCode?: string;
+  tidySpacing?: string;
+  showChanges?: string;
+  stripMarkdown?: string;
 };
 
 export type GuideChrome = {

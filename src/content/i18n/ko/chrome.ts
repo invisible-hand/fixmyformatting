@@ -82,7 +82,17 @@ export const workspace: WorkspaceMessages = {
   "dashRemove": "없음",
   "listLabel": "변환 형식",
   "listToParagraph": "문단",
-  "listToBullets": "글머리 기호"
+  "listToBullets": "글머리 기호",
+  "loadExample": "예시 불러오기",
+  "exampleLoaded": "예시를 불러왔습니다",
+  "keepUrls": "링크 URL 유지",
+  "listMarkersLabel": "목록 기호",
+  "listMarkersKeep": "글머리 기호와 번호로 유지",
+  "listMarkersRemove": "제거",
+  "keepCode": "코드 블록을 그대로 유지",
+  "tidySpacing": "공백도 정리",
+  "showChanges": "변경 내용 보기",
+  "stripMarkdown": "Markdown 기호도 함께 제거"
 };
 
 export const guideChrome: GuideChrome = {

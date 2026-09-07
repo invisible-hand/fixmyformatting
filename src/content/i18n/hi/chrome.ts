@@ -82,7 +82,17 @@ export const workspace: WorkspaceMessages = {
   "dashRemove": "कुछ नहीं",
   "listLabel": "किसमें बदलें",
   "listToParagraph": "पैराग्राफ़",
-  "listToBullets": "बुलेट पॉइंट"
+  "listToBullets": "बुलेट पॉइंट",
+  "loadExample": "उदाहरण लोड करें",
+  "exampleLoaded": "उदाहरण लोड हो गया",
+  "keepUrls": "लिंक के URL रखें",
+  "listMarkersLabel": "सूची चिह्न",
+  "listMarkersKeep": "बुलेट और नंबर के रूप में रखें",
+  "listMarkersRemove": "हटाएँ",
+  "keepCode": "कोड ब्लॉक जस के तस रखें",
+  "tidySpacing": "स्पेसिंग भी ठीक करें",
+  "showChanges": "बदलाव देखें",
+  "stripMarkdown": "Markdown चिह्न भी हटाएँ"
 };
 
 export const guideChrome: GuideChrome = {

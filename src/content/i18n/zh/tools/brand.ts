@@ -16,18 +16,18 @@ export const brand: BrandCopy = {
     "remove-formatting": "删除 {brand} Markdown 格式",
   },
   actionDescription: {
-    "to-word": "将 {brand} 的回答转换为真正的 Word .docx 文件，标题、列表、表格、链接和代码都会保留为格式，而不是原始的 Markdown 符号。转换在浏览器中完成，无需上传。",
+    "to-word": "把 {brand} 的回答变成真正的 .docx：Word 标题样式、可编辑表格、嵌套列表、链接和代码，浏览器端完成。",
     "to-pdf": "在浏览器的格式化预览中把 {brand} 的回答变成干净、可直接打印的 PDF。文本不会上传，也不会添加水印，无需注册即可使用。",
     "to-google-docs": "粘贴 {brand} 的回答，复制富文本结果，再粘贴到 Google Docs，标题、列表、链接、强调和表格都会保持原样。转换在浏览器中完成，无需上传。",
-    "table-to-excel": "把 {brand} 在对话中输出的竖线加横线表格转换为真正的 .xlsx 文件，每个值单独占一个单元格，可直接在 Excel 中排序和编辑，无需上传。",
-    "remove-formatting": "删除 {brand} 回答中的星号、井号和链接语法，保留可读的正文，适用于会把 Markdown 原样显示的邮件、表单和应用。处理在浏览器中完成，无需上传。",
+    "table-to-excel": "粘贴挤在 Excel 一列里的 {brand} 表格，下载真正的 .xlsx，每个值单独占一个单元格，数字仍是数字。",
+    "remove-formatting": "删除 {brand} 回答中的星号、井号和链接语法，不改一个字。可保留 URL、列表或代码，并查看改动之处。",
   },
   actionGuidance: {
     "to-word": "当 {brand} 的回答需要变成报告、简报、作业或可供他人在 Word 中编辑的文档时，使用本工具。",
     "to-pdf": "实时预览会显示 {brand} 回答打印出来的效果，确认后再在浏览器中选择“另存为 PDF”。",
     "to-google-docs": "当直接从 {brand} 粘贴会留下可见的 Markdown 符号时，复制这里的富文本结果并粘贴到 Google Docs。",
-    "table-to-excel": "本工具可以修复 {brand} 在对话中显示的竖线加横线表格语法，并下载为真正的 .xlsx 电子表格。",
-    "remove-formatting": "清理后的文本可用于邮件、表单、聊天应用或会把 {brand} 的星号和标题符号原样显示的编辑器。",
+    "table-to-excel": "当 {brand} 的表格带着竖线粘贴进 A 列时使用：预览会先显示每个单元格的样子，下载的是真正的 .xlsx。",
+    "remove-formatting": "清理后的文本可用于邮件、表单、聊天应用，或会把 {brand} 的星号和标题符号原样显示的编辑器；编辑器上方的开关可以保留 URL、列表符号或代码。",
   },
   reasons: {
     "chatgpt": "ChatGPT 经常以 Markdown 形式返回有用的结构，粘贴到办公软件时会露出星号、井号和竖线表格。",

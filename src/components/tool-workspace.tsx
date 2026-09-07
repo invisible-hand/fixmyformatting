@@ -49,6 +49,16 @@ export type ToolWorkspaceLabels = {
   listLabel: string;
   listToParagraph: string;
   listToBullets: string;
+  loadExample: string;
+  exampleLoaded: string;
+  keepUrls: string;
+  listMarkersLabel: string;
+  listMarkersKeep: string;
+  listMarkersRemove: string;
+  keepCode: string;
+  tidySpacing: string;
+  showChanges: string;
+  stripMarkdown: string;
 };
 
 type Props = {
@@ -73,64 +83,30 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
   const [caseMode, setCaseMode] = useState<NonNullable<ProcessSettings["caseMode"]>>(initialSettings.caseMode ?? "title");
   const [dashReplacement, setDashReplacement] = useState<NonNullable<ProcessSettings["dashReplacement"]>>(initialSettings.dashReplacement ?? "comma");
   const [listDirection, setListDirection] = useState<NonNullable<ProcessSettings["listDirection"]>>(initialSettings.listDirection ?? "paragraph");
+  const [keepUrls, setKeepUrls] = useState(Boolean(initialSettings.keepUrls));
+  const [listMarkers, setListMarkers] = useState<NonNullable<ProcessSettings["listMarkers"]>>(initialSettings.listMarkers === "remove" ? "remove" : "keep");
+  const [keepCode, setKeepCode] = useState(Boolean(initialSettings.keepCode));
+  const [tidySpacing, setTidySpacing] = useState(Boolean(initialSettings.tidySpacing));
+  const [showChanges, setShowChanges] = useState(Boolean(initialSettings.showChanges));
+  const [stripMarkdownToo, setStripMarkdownToo] = useState(Boolean(initialSettings.stripMarkdown));
   const [smallResult, setSmallResult] = useState<{ input: string; settings: ProcessSettings; result: ProcessedResult } | null>(null);
   const [largeResult, setLargeResult] = useState<{ input: string; result: ProcessedResult } | null>(null);
   const deferredInput = useDeferredValue(input);
   const outputRef = useRef<HTMLDivElement>(null);
   const reportRef = useRef<HTMLDivElement>(null);
   const conversionTracked = useRef(false);
-  const processSettings = useMemo(() => ({ caseMode, dashReplacement, listDirection }), [caseMode, dashReplacement, listDirection]);
-  const settingsMatch = smallResult?.settings.caseMode === processSettings.caseMode
-    && smallResult?.settings.dashReplacement === processSettings.dashReplacement
-    && smallResult?.settings.listDirection === processSettings.listDirection;
+  const processSettings = useMemo<ProcessSettings>(
+    () => ({ caseMode, dashReplacement, listDirection, keepUrls, listMarkers, keepCode, tidySpacing, showChanges, stripMarkdown: stripMarkdownToo }),
+    [caseMode, dashReplacement, listDirection, keepUrls, listMarkers, keepCode, tidySpacing, showChanges, stripMarkdownToo],
+  );
+  const settingsMatch = JSON.stringify(smallResult?.settings) === JSON.stringify(processSettings);
   const result = deferredInput.length > workerThreshold
     ? (largeResult?.input === deferredInput ? largeResult.result : { output: "", stats: [] })
     : (smallResult?.input === deferredInput && settingsMatch ? smallResult.result : { output: "", stats: [] });
   const processor = getProcessorSlug(tool.slug);
-  const ui = {
-    input: labels?.input ?? "Input",
-    output: labels?.output ?? (tool.outputLabel ?? "Preview"),
-    emptyResult: labels?.emptyResult ?? "Your result appears here as you type.",
-    characters: labels?.characters ?? "chars",
-    report: labels?.report ?? "report",
-    live: labels?.live ?? "Live",
-    updating: labels?.updating ?? "Updating…",
-    copy: labels?.copy ?? "Copy",
-    copied: labels?.copied ?? "Copied",
-    download: labels?.download ?? "Download",
-    share: labels?.share ?? "Copy link to result",
-    shareCopied: labels?.shareCopied ?? "Share link copied",
-    embed: labels?.embed ?? "Embed",
-    embedCopied: labels?.embedCopied ?? "Embed code copied",
-    downloadImage: labels?.downloadImage ?? "Download as image",
-    free: labels?.free ?? "Free",
-    noSignup: labels?.noSignup ?? "No signup",
-    private: labels?.private ?? "Processing happens in your browser — text never uploaded.",
-    printPdf: labels?.printPdf ?? "Print / Save PDF",
-    downloaded: labels?.downloaded ?? "Downloaded",
-    excelDownloaded: labels?.excelDownloaded ?? "Excel file downloaded",
-    reportImageDownloaded: labels?.reportImageDownloaded ?? "Report image downloaded",
-    pasteFirst: labels?.pasteFirst ?? "Paste some text first",
-    creatingLink: labels?.creatingLink ?? "Creating link…",
-    couldNotCreateLink: labels?.couldNotCreateLink ?? "Could not create link",
-    shareUnavailable: labels?.shareUnavailable ?? "Share unavailable",
-    reportNote: labels?.reportNote ?? "Counts mechanical artifacts only. This is not AI detection.",
-    conversionOptions: labels?.conversionOptions ?? "Conversion options",
-    editorView: labels?.editorView ?? "Editor view",
-    caseLabel: labels?.caseLabel ?? "Case",
-    caseTitle: labels?.caseTitle ?? "Title Case",
-    caseSentence: labels?.caseSentence ?? "Sentence case",
-    caseUpper: labels?.caseUpper ?? "UPPERCASE",
-    caseLower: labels?.caseLower ?? "lowercase",
-    dashLabel: labels?.dashLabel ?? "Replace em dashes with",
-    dashComma: labels?.dashComma ?? "Comma",
-    dashSemicolon: labels?.dashSemicolon ?? "Semicolon",
-    dashHyphen: labels?.dashHyphen ?? "Hyphen",
-    dashRemove: labels?.dashRemove ?? "Nothing",
-    listLabel: labels?.listLabel ?? "Convert to",
-    listToParagraph: labels?.listToParagraph ?? "Paragraph",
-    listToBullets: labels?.listToBullets ?? "Bullet points",
-  };
+  // Every string comes from the server (ToolPage merges the English defaults with the
+  // locale bundle), so no fallback prose ships in the client bundle.
+  const ui = { ...(labels as ToolWorkspaceLabels), output: labels?.output ?? tool.outputLabel ?? "Preview" };
 
   /** Stat values are usually numbers; a few are words or carry a time unit. */
   const localizeStatValue = (value: string | number) => {
@@ -196,60 +172,21 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
 
   async function download() {
     if (!result.output && !result.html) return;
-    if (tool.download === "docx") {
-      const { createMarkdownDocx } = await import("@/lib/markdown-docx");
-      const blob = await createMarkdownDocx(input);
-      saveBlob(blob, `${tool.slug}.docx`);
-      track("tool_action", { tool: tool.slug, action: "download" });
-      flash("DOCX downloaded");
-      return;
-    }
-    if (tool.download === "xlsx") {
-      const lines = input.split(/\r?\n/);
-      const start = lines.findIndex((line, index) => line.includes("|") && /^\|?[\s:|-]+\|?$/.test(lines[index + 1]?.trim() ?? ""));
-      const tableLines = start < 0 ? [] : [lines[start], ...lines.slice(start + 2).filter((line) => line.includes("|"))];
-      const rows = tableLines.map((line) => line.trim().replace(/^\||\|$/g, "").split("|").map((cell) => cell.trim()));
-      const { createXlsx } = await import("@/lib/xlsx");
-      const buffer = createXlsx(rows);
-      saveBlob(new Blob([buffer.buffer as ArrayBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), `${tool.slug}.xlsx`);
-      track("tool_action", { tool: tool.slug, action: "download" });
-      flash(ui.excelDownloaded);
-      return;
-    }
-    if (processor === "markdown-to-pdf") {
-      window.print();
-      return;
-    }
-    const content = tool.download === "html" ? (result.html ?? result.output) : result.output;
-    const extension = tool.download ?? "txt";
-    saveBlob(new Blob([content], { type: extension === "html" ? "text/html" : "text/plain" }), `${tool.slug}.${extension}`);
-    track("tool_action", { tool: tool.slug, action: "download" });
-    flash(ui.downloaded);
+    const { downloadResult } = await import("@/lib/workspace-actions");
+    const message = await downloadResult({ tool, processor, input, result, labels: { downloaded: ui.downloaded, excelDownloaded: ui.excelDownloaded, printPdf: ui.printPdf } });
+    if (message) flash(message);
   }
 
   async function createShare() {
     if (!input) return flash(ui.pasteFirst);
     flash(ui.creatingLink);
-    try {
-      const response = await fetch("/api/share", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ tool: tool.slug, input, settings: { locale, ...processSettings } }),
-      });
-      const data = (await response.json()) as { id?: string; error?: string };
-      if (!response.ok || !data.id) throw new Error(data.error ?? ui.couldNotCreateLink);
-      await navigator.clipboard.writeText(`${window.location.origin}/s/${data.id}`);
-      track("tool_action", { tool: tool.slug, action: "share" });
-      flash(ui.shareCopied);
-    } catch (error) {
-      flash(error instanceof Error ? error.message : ui.shareUnavailable);
-    }
+    const { shareResult } = await import("@/lib/workspace-actions");
+    flash(await shareResult({ tool, input, settings: { locale, ...processSettings }, labels: { shareCopied: ui.shareCopied, couldNotCreateLink: ui.couldNotCreateLink, shareUnavailable: ui.shareUnavailable } }));
   }
 
   async function copyEmbed() {
-    const code = `<iframe src="${window.location.origin}${publicPath ?? `/${tool.slug}`}?embed=1" title="${tool.name}" width="100%" height="540" loading="lazy"></iframe>`;
-    await navigator.clipboard.writeText(code);
-    track("tool_action", { tool: tool.slug, action: "embed" });
+    const { copyEmbedCode } = await import("@/lib/workspace-actions");
+    await copyEmbedCode(tool, publicPath);
     flash(ui.embedCopied);
   }
 
@@ -263,6 +200,14 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
     anchor.click();
     track("tool_action", { tool: tool.slug, action: "report_image" });
     flash(ui.reportImageDownloaded);
+  }
+
+  function loadExample() {
+    if (!tool.example) return;
+    setInput(tool.example);
+    setMobileTab("output");
+    track("tool_action", { tool: tool.slug, action: "example" });
+    flash(ui.exampleLoaded);
   }
 
   async function onPaste(event: React.ClipboardEvent<HTMLTextAreaElement>) {
@@ -283,8 +228,27 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
 
   return (
     <section className="workspace" aria-label={`${tool.name} tool`}>
-      {(processor === "case-converter" || processor === "remove-em-dashes" || processor === "bullet-points-to-paragraph") && (
+      {(processor === "case-converter" || processor === "remove-em-dashes" || processor === "bullet-points-to-paragraph" || processor === "remove-markdown-formatting" || processor === "clean-ai-text") && (
         <div className="tool-options" aria-label={ui.conversionOptions}>
+          {processor === "remove-markdown-formatting" && (
+            <>
+              <label className="check"><input type="checkbox" checked={keepUrls} onChange={(event) => setKeepUrls(event.target.checked)} />{ui.keepUrls}</label>
+              <label>{ui.listMarkersLabel}
+                <select value={listMarkers} onChange={(event) => setListMarkers(event.target.value === "remove" ? "remove" : "keep")}>
+                  <option value="keep">{ui.listMarkersKeep}</option>
+                  <option value="remove">{ui.listMarkersRemove}</option>
+                </select>
+              </label>
+              <label className="check"><input type="checkbox" checked={keepCode} onChange={(event) => setKeepCode(event.target.checked)} />{ui.keepCode}</label>
+              <label className="check"><input type="checkbox" checked={tidySpacing} onChange={(event) => setTidySpacing(event.target.checked)} />{ui.tidySpacing}</label>
+            </>
+          )}
+          {processor === "clean-ai-text" && (
+            <label className="check"><input type="checkbox" checked={stripMarkdownToo} onChange={(event) => setStripMarkdownToo(event.target.checked)} />{ui.stripMarkdown}</label>
+          )}
+          {(processor === "remove-markdown-formatting" || processor === "clean-ai-text") && (
+            <label className="check"><input type="checkbox" checked={showChanges} onChange={(event) => setShowChanges(event.target.checked)} />{ui.showChanges}</label>
+          )}
           {processor === "case-converter" && (
             <label>{ui.caseLabel}
               <select value={caseMode} onChange={(event) => setCaseMode(event.target.value as NonNullable<ProcessSettings["caseMode"]>)}>
@@ -321,7 +285,12 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
       </div>
       <div className="editor-grid">
         <div className={`editor-panel input-panel ${mobileTab === "input" ? "mobile-active" : ""}`}>
-          <div className="panel-label"><span>{ui.input}</span><span>{input.length.toLocaleString(locale)} {ui.characters}</span></div>
+          <div className="panel-label">
+            <span>{ui.input}</span>
+            {tool.example && !input
+              ? <button type="button" className="link-button" onClick={loadExample}>{ui.loadExample}</button>
+              : <span>{input.length.toLocaleString(locale)} {ui.characters}</span>}
+          </div>
           <textarea dir="auto"
             value={input}
             onChange={(event) => setInput(event.target.value)}
@@ -366,13 +335,4 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
       <div className="trust-strip">{ui.free} <span>·</span> {ui.noSignup} <span>·</span> {ui.private}</div>
     </section>
   );
-}
-
-function saveBlob(blob: Blob, filename: string) {
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = filename;
-  anchor.click();
-  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }

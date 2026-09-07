@@ -10,6 +10,8 @@ export type ToolDefinition = {
   outputLabel?: string;
   report?: boolean;
   download?: "docx" | "xlsx" | "csv" | "html" | "txt";
+  /** Sample input a visitor can load with one click to see the tool work on a realistic broken paste. */
+  example?: string;
   intro: string;
   faqs: { question: string; answer: string }[];
   /** ISO date (YYYY-MM-DD) of the last content change; feeds dateModified + the visible "Updated" line. */
@@ -64,18 +66,131 @@ const define = (
 });
 
 export const coreTools: ToolDefinition[] = [
-  define("markdown-to-word", "Markdown to Word", "Markdown to Word Converter — Free & Instant", "Paste Markdown from ChatGPT, Claude, or any editor and download a real .docx file with headings, lists, tables, links, and code kept as formatting.", "Markdown & documents", "Turn Markdown from ChatGPT, Claude, or any editor into a real Word document. Headings, lists, links, code, and tables are preserved instead of appearing as raw symbols.", { download: "docx" }),
+  define("markdown-to-word", "Markdown to Word", "Markdown to Word Converter — Real .docx, Free", "Paste a ChatGPT or Claude answer and download a real .docx with Word heading styles, editable tables, nested lists, links and code, built in your browser.", "Markdown & documents", "Copy a response with the Copy button and Word shows the Markdown source: ## in front of headings, ** around bold, pipes where a table should be. This converter turns that source into a genuine Word document. Headings become Word's Heading 1 to Heading 6 styles, so the navigation pane and a table of contents see them; bullets and numbered items become real list paragraphs, nested by their indentation; pipe tables become editable Word tables; links stay clickable; inline code and fenced blocks are set in Courier New; block quotes are indented and italic. Load the example to download a sample .docx and open it in Word before pasting your own text. When you only need a paragraph or two, selecting the rendered answer and pasting it into Word often keeps the formatting already; the converter is for long or structured answers and for anything someone else will edit.", {
+    download: "docx",
+    updated: "2026-09-06",
+    example: "# Quarterly review\n\nA short summary of **what shipped** and *what slipped*, with the [full changelog](https://example.com/changelog) linked.\n\n## Highlights\n\n- Parser handles escaped pipes\n  - Including `\\|` inside table cells\n- Numbers stay numbers in the Excel export\n- Word export gains heading styles\n\n## Next steps\n\n1. Review the open pull requests\n2. Merge and tag `v1.4.0`\n3. Announce the release\n\n> The release freeze starts Friday.\n\n## Numbers\n\n| Area | Owner | Status |\n| --- | --- | :-: |\n| Parser | Ada | Done |\n| Export | Bob | In review |\n\n```bash\nnpm test && npm run build\n```\n",
+    faqs: [
+      {
+        question: "What does the Word document actually contain?",
+        answer:
+          "Real Word structure, not text that looks like it. A # heading becomes the Heading 1 style, ## becomes Heading 2 and so on to Heading 6, which is what Word's navigation pane, outline view and table of contents read. Bullets and numbered items become list paragraphs, nested by indentation. Pipe tables become tables you can resize and sort. Links stay clickable, code is set in Courier New, and block quotes are indented and italic.",
+      },
+      {
+        question: "Why does pasting a ChatGPT answer into Word show ** and ##?",
+        answer:
+          "The Copy button under a response puts the Markdown source on the clipboard as plain text, and Word has no Markdown parser, so it prints the symbols literally. Selecting the rendered answer with the mouse usually copies formatted HTML instead, which Word pastes with headings and bold intact. When the clipboard held Markdown, this converter is the fix.",
+      },
+      {
+        question: "When is plain copy and paste enough?",
+        answer:
+          "For a paragraph or two, select the rendered answer in the chat window, copy, and paste into Word with Keep Source Formatting. Nested lists, code blocks and wide tables are where that route gets unreliable, and the result depends on the browser and the chat app. For long answers, anything with tables, or a document other people will edit, convert to .docx instead.",
+      },
+      {
+        question: "Can I see a sample before pasting my own text?",
+        answer:
+          "Yes. Load an example fills the editor with an answer that has headings, nested bullets, a numbered list, a quote, a table and a code block. Press Download to get that as a .docx and open it in Word or LibreOffice to check the styles.",
+      },
+      {
+        question: "What is not converted?",
+        answer:
+          "Images become their alt text, because embedding a picture from a URL would require fetching it. Merged cells do not exist in Markdown, so a table with them is not something a converter can invent. Footnotes and HTML tags inside the Markdown are passed through as text.",
+      },
+      {
+        question: "Is Markdown to Word free, and is my text uploaded?",
+        answer:
+          "It is free, with no account and no usage limit. The .docx is assembled in your browser; text is stored only if you explicitly create a share link.",
+      },
+    ],
+  }),
   define("markdown-to-pdf", "Markdown to PDF", "Markdown to PDF — Free Online Converter", "Paste Markdown, check the formatted preview, and save a print-ready PDF straight from your browser. No upload, no signup, and no watermark added.", "Markdown & documents", "Preview formatted Markdown instantly, then use the print-ready view to save a crisp PDF. The browser handles PDF creation, so your document stays on your device."),
   define("markdown-to-google-docs", "Markdown to Google Docs", "Markdown to Google Docs Converter", "Paste Markdown, copy the rich-text result, and paste it into Google Docs with headings, lists, emphasis, links, and tables intact. DOCX download too.", "Markdown & documents", "Paste Markdown, copy the rich result, and paste it into Google Docs. Headings, lists, emphasis, links, and tables retain their structure without manual cleanup.", { download: "docx" }),
-  define("remove-markdown-formatting", "Remove Markdown Formatting", "Remove Markdown Formatting Online", "Strip asterisks, hashes, link syntax, and code fences from Markdown and get plain readable text back. Runs in your browser; nothing is uploaded.", "Markdown & documents", "Remove asterisks, heading marks, link syntax, code fences, and other Markdown characters without damaging the words underneath.", { outputLabel: "Clean text", download: "txt" }),
-  define("markdown-table-to-excel", "Markdown Table to Excel", "Markdown Table to Excel Converter", "Paste a Markdown pipe table and download a genuine .xlsx file with one value per cell, instead of the whole row landing in a single column.", "Markdown & documents", "Convert pipe-and-dash tables copied from AI chats into rows and columns that open correctly in Excel, Numbers, and Google Sheets.", { download: "xlsx" }),
+  define("remove-markdown-formatting", "Remove Markdown Formatting", "Remove Markdown Formatting Online, Keep Every Word", "Strip **, ## and link syntax from ChatGPT or Claude text without changing a word. Keep URLs, list markers or code if you like, and see what changed.", "Markdown & documents", "Text copied from ChatGPT, Claude or Gemini arrives as Markdown, so an email, a form or a chat app shows the asterisks, hashes and square brackets literally. This tool removes them with fixed find-and-replace rules: it never adds, removes or substitutes a word, and the counts above the result show how many symbols went. By default headings lose their hashes, bold and italic lose their asterisks and underscores, links keep their visible text, bullets become • and numbered items keep their numbers, code fences are removed and the code stays, and pipe tables become tab-separated rows. Tick Keep link URLs to get text (url), choose Remove under List markers for flowing prose, tick Keep code blocks to leave fenced code exactly as written, tick Tidy spacing to collapse doubled spaces and stacked blank lines, and tick Show what changed to see a word-level diff that proves only formatting moved. Identifiers such as snake_case_word and MY_ENV_VAR are left alone.", {
+    report: true,
+    outputLabel: "Clean text",
+    download: "txt",
+    updated: "2026-09-06",
+    placeholder: "## Weekly summary\n\nWe shipped **three** fixes and *one* feature. See [the changelog](https://example.com/changelog).\n\n- Parser handles `\\|` inside cells\n- Numbers stay numbers\n\n1. Review\n2. Merge\n",
+    example: "## Weekly summary\n\nWe shipped **three** fixes and *one* feature this week, see [the changelog](https://example.com/changelog) for details.\n\n### What changed\n\n- The parser now handles an escaped pipe `\\|` inside cells\n- `MY_ENV_VAR` and snake_case_word are left alone\n- Numbers stay numbers in the `.xlsx` export\n\n### Next steps\n\n1. Review the **open** pull requests\n2. Merge and tag `v1.4.0`\n\n> Note: the release freeze starts Friday.\n\n```bash\nnpm test && npm run build\n```\n\n| Area | Owner |\n| --- | --- |\n| Parser | Ada |\n| Export | Bob |\n",
+    faqs: [
+      {
+        question: "Does it change my words?",
+        answer:
+          "No. The cleanup is a fixed set of find-and-replace rules over formatting characters only: asterisks, underscores, hashes, backticks, square brackets, pipes and dashes. It never adds, removes or substitutes a word, and the Show what changed view marks every character that moved so you can check. There is no AI rewriting involved.",
+      },
+      {
+        question: "What is removed by default?",
+        answer:
+          "Heading hashes, bold and italic markers, link and image syntax (the link text stays, the URL goes), block-quote arrows, horizontal rules, code fences and inline backticks (the code itself stays), and the pipes and alignment row of a table, whose cells become tab-separated so they still paste into a spreadsheet. Bullets become • and numbered items keep their numbers.",
+      },
+      {
+        question: "Can I keep the URLs, the list markers or the code?",
+        answer:
+          "Yes, each is a switch above the editor. Keep link URLs turns [text](url) into text (url). List markers set to Remove drops bullets and numbers for flowing prose. Keep code blocks leaves fenced code exactly as written, fences included, so it can go into a README or a ticket unchanged. The switches are saved in a share link.",
+      },
+      {
+        question: "Does it fix the spacing as well?",
+        answer:
+          "Tick Tidy spacing and runs of spaces or tabs collapse to one, trailing whitespace is trimmed from each line, and three or more blank lines become one paragraph break. Hard line breaks inside a paragraph are left alone here; Fix Copy-Paste Line Breaks handles those, and the AI Text Cleaner handles em dashes, smart quotes and invisible characters.",
+      },
+      {
+        question: "How do I see exactly what changed?",
+        answer:
+          "Tick Show what changed. The result panel switches to a word-level diff of the input against the output, with removed characters struck through and anything added highlighted. Copy and Download still give you the clean text, not the diff.",
+      },
+      {
+        question: "Is it free, and is my text uploaded?",
+        answer:
+          "It is free, with no account and no usage limit. The processing runs in your browser; text is stored only if you explicitly create a share link.",
+      },
+    ],
+  }),
+  define("markdown-table-to-excel", "Markdown Table to Excel", "Convert Markdown Table to Excel (.xlsx) Online Free", "Paste a ChatGPT or Markdown table that landed in one Excel column and download a real .xlsx with one value per cell, numbers kept as numbers.", "Markdown & documents", "A table copied from ChatGPT, Claude or Gemini is a Markdown pipe table: plain text with a | between values and a row of dashes under the header. Excel splits pasted text on tabs, not pipes, so the whole table stacks into column A. Paste it here and the preview shows the exact cells the workbook will contain. Download saves a genuine .xlsx, and Copy puts tab-separated cells on the clipboard that paste straight into Excel, Google Sheets or Numbers as a grid. Every table in the text becomes its own sheet, blank cells stay blank, an escaped \\| becomes a pipe, the alignment row and the padding spaces are dropped, and plain numbers become numeric cells you can sum, while codes such as 007 or 1,024 stay text so nothing is silently changed.", {
+    download: "xlsx",
+    outputLabel: "Cell preview",
+    updated: "2026-09-06",
+    placeholder: "Paste the table exactly as it came out of the chat, pipes and all:\n\n| Region | Q1 | Q2 |\n| --- | ---: | ---: |\n| Europe | 412 | 486 |\n| Asia | 377 | 381 |\n",
+    example: "Here is the comparison you asked for:\n\n| Region | Q1 sales | Q2 sales | Growth | Code | Notes |\n|:-------|---------:|---------:|-------:|:----:|:------|\n| Europe | 412 | 486 | 18% | 007 | A cell with a \\| pipe in it |\n| Asia | 1,024 | 1,190 | 16.2% | 012 | |\n| Americas | 377 | -3.5 | | 018 | The blank cell to the left stays blank |\n\nAnd the per-product breakdown:\n\n| Product | Units |\n| --- | ---: |\n| Widget | 1200 |\n| Gadget | 850 |\n",
+    faqs: [
+      {
+        question: "Why does a ChatGPT table paste into one column in Excel?",
+        answer:
+          "Because the clipboard holds a Markdown pipe table: plain text with | characters between the values and a row of dashes under the header. Excel and Google Sheets split pasted text on tab characters, not pipes, so each line is treated as one value and the whole table stacks into column A. Converting it first produces real cell boundaries.",
+      },
+      {
+        question: "Do numbers stay numbers in the .xlsx file?",
+        answer:
+          "Plain integers and decimals such as 412, -3.5 or 16.2 become numeric cells you can sum and sort. Anything where the exact characters carry meaning stays text: codes with leading zeros like 007, values with thousands separators like 1,024, currency and percent signs, and exponents. The preview right-aligns exactly the cells that will be numeric.",
+      },
+      {
+        question: "What happens to blank cells, escaped pipes and the row of dashes?",
+        answer:
+          "A blank cell becomes an empty cell rather than shifting the row. A pipe written as \\| inside a cell becomes a plain | in the output. The alignment row of dashes and colons is formatting, not data, so it is dropped, and the spaces Markdown pads cells with are trimmed so lookups match.",
+      },
+      {
+        question: "Can it convert several tables at once?",
+        answer:
+          "Yes. Paste the whole answer, prose included. Every pipe table in it is found and becomes its own sheet in the workbook, named Table 1, Table 2 and so on, and the preview shows each sheet before you download.",
+      },
+      {
+        question: "Can I paste the result into Google Sheets or Numbers without downloading a file?",
+        answer:
+          "Yes. Copy puts the cells on the clipboard as tab-separated text, which Excel, Google Sheets and Numbers all paste as a grid with one value per cell. Download is for when you want a file to keep or send.",
+      },
+      {
+        question: "Is Markdown Table to Excel free, and is my table uploaded?",
+        answer:
+          "It is free, with no account and no usage limit. Parsing and the .xlsx file are built in your browser; the table is stored only if you explicitly create a share link.",
+      },
+    ],
+  }),
   define("markdown-table-to-csv", "Markdown Table to CSV", "Markdown Table to CSV Converter", "Paste a Markdown pipe table and get standards-compatible CSV, with commas and quotes inside cells escaped so the file imports without breaking.", "Markdown & documents", "Paste a Markdown table and get standards-compatible CSV immediately. Quoted cells and commas are escaped so the file imports cleanly.", { download: "csv" }),
   define("markdown-viewer", "Markdown Viewer", "Markdown Viewer Online — Live Preview", "Paste or type Markdown and read it as a formatted document while you edit. Useful for checking AI output, README files, and notes. Nothing is uploaded.", "Markdown & documents", "Read and inspect Markdown as a formatted document while you type. It is useful for checking AI output, README content, notes, and documentation.", { download: "html" }),
   define("markdown-to-html", "Markdown to HTML", "Markdown to HTML Converter", "Convert Markdown into clean semantic HTML with a live preview, then copy the markup for a site, CMS, newsletter, or email. Runs in your browser.", "Markdown & documents", "Generate clean semantic HTML from Markdown with a live preview. Copy the markup for a website, newsletter, CMS, or email workflow.", { outputLabel: "HTML", download: "html" }),
   define("word-to-markdown", "Word to Markdown", "Word to Markdown Converter Online", "Paste rich text copied from Word, Google Docs, or a web page and get Markdown back, with headings, emphasis, lists, links, and tables converted.", "Markdown & documents", "Paste copied rich text from Word, Google Docs, or a webpage. The converter turns headings, emphasis, lists, links, and tables into portable Markdown.", { outputLabel: "Markdown", download: "txt", placeholder: "Paste rich text from Word or Google Docs here…" }),
   define("html-to-markdown", "HTML to Markdown", "HTML to Markdown Converter — Free & Private", "Paste HTML source and get portable Markdown for READMEs, documentation, notes apps, and LLM prompts. Scripts, styles, and unknown tags are dropped.", "Markdown & documents", "Paste HTML source and get portable Markdown for READMEs, documentation, notes apps, and LLM prompts. Headings, lists, links, emphasis, code blocks, and tables are converted; scripts, styles, and unknown tags are dropped.", { outputLabel: "Markdown", download: "txt", placeholder: "<h1>Hello</h1>\n<p>This is <strong>bold</strong>, <em>italic</em>, and <a href=\"https://example.com\">a link</a>.</p>" }),
   define("remove-em-dashes", "Remove Em Dashes", "Remove Em Dashes from Text", "Replace every em dash with a comma, semicolon, hyphen, or nothing, and see how many were changed. The space the dash left behind is tidied up too.", "Markdown & documents", "Find and replace em dashes in AI-generated or human-written text. The live count tells you exactly how many were changed.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste text with em dashes — like this one — to replace them." }),
-  define("clean-ai-text", "AI Text Cleaner", "Clean ChatGPT Text & AI Formatting", "Count and clean the mechanical formatting artifacts in AI output: em dashes, smart quotes, invisible characters, and emoji. Counts stay visible.", "AI cleanup", "The AI Artifact Report counts mechanical formatting artifacts; it does not guess whether text was written by AI. Toggle cleanup choices and review the transparent counts.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste ChatGPT, Claude, or Gemini text here — “smart quotes,” emoji ✨ and hidden characters are reported." }),
+  define("clean-ai-text", "AI Text Cleaner", "Clean ChatGPT Text & AI Formatting", "Count and clean the formatting artifacts in AI output: em dashes, smart quotes, invisible characters, emoji and, optionally, Markdown. Counts stay visible.", "AI cleanup", "The AI Artifact Report counts mechanical formatting artifacts; it does not guess whether text was written by AI. Em dashes become commas, curly quotes become straight ones, invisible characters and emoji are removed, and doubled spaces collapse. Tick Also remove Markdown symbols to strip asterisks, hashes and link syntax in the same pass, and Show what changed to see a word-level diff. Every word stays in place; only punctuation, spacing and character encoding change.", { report: true, outputLabel: "Clean text", download: "txt", updated: "2026-09-06", placeholder: "Paste ChatGPT, Claude, or Gemini text here — “smart quotes,” emoji ✨ and hidden characters are reported." }),
   define("humanize-ai-text", "AI Formatting Humanizer", "Humanize AI Text — Formatting Cleanup, Free", "Remove the formatting fingerprints of AI output: em dashes, smart quotes, invisible characters, emoji, and fancy fonts. Wording and meaning stay intact.", "AI cleanup", "Paste AI output and every mechanical formatting artifact is normalized in one pass: em dashes become commas, curly quotes and apostrophes become straight ones, invisible characters and emoji are removed, no-break spaces become ordinary spaces, and pseudo-font Unicode returns to plain letters. The words themselves are never touched. AI detectors score word choice and sentence structure, which formatting cleanup does not change.", {
     report: true,
     outputLabel: "Clean text",
@@ -213,7 +328,7 @@ const brandActionCopy: Record<(typeof brandActions)[number], {
   guidance: (brand: string) => string;
 }> = {
   "to-word": {
-    description: (brand) => `Convert ${brand} answers into a real Word .docx file, with headings, lists, tables, links, and code kept as formatting instead of raw Markdown.`,
+    description: (brand) => `Turn a ${brand} answer into a real .docx with Word heading styles, editable tables, nested lists, links and code, built in your browser.`,
     guidance: (brand) => `Use this when a ${brand} answer needs to become a report, brief, assignment, or document that other people can edit in Word.`,
   },
   "to-pdf": {
@@ -225,12 +340,12 @@ const brandActionCopy: Record<(typeof brandActions)[number], {
     guidance: (brand) => `Copy the rich-text result and paste it into Google Docs when a normal paste from ${brand} leaves visible Markdown symbols.`,
   },
   "table-to-excel": {
-    description: (brand) => `Turn the pipe-and-dash tables ${brand} prints in chat into a genuine .xlsx file with one value per cell, ready to sort and edit in Excel.`,
-    guidance: (brand) => `This fixes the pipe-and-dash table syntax ${brand} displays in chat and downloads a genuine .xlsx spreadsheet.`,
+    description: (brand) => `Paste the ${brand} table that landed in one Excel column and download a real .xlsx with one value per cell and numbers kept as numbers.`,
+    guidance: (brand) => `Use it when a ${brand} table pastes into column A with the pipes still showing: the preview shows the cells and the download is a genuine .xlsx.`,
   },
   "remove-formatting": {
-    description: (brand) => `Strip asterisks, hashes, and link syntax from a ${brand} answer and keep the readable words, for email, forms, and apps that show Markdown raw.`,
-    guidance: (brand) => `Use the clean text in email, forms, messaging apps, or editors that show ${brand} asterisks and heading marks literally.`,
+    description: (brand) => `Strip asterisks, hashes and link syntax from a ${brand} answer without changing a word. Keep URLs, lists or code, and see what changed.`,
+    guidance: (brand) => `Use the clean text in email, forms, messaging apps, or editors that show ${brand} asterisks and heading marks literally; the switches above the editor keep URLs, list markers or code.`,
   },
 };
 

@@ -82,7 +82,17 @@ export const workspace: WorkspaceMessages = {
   "dashRemove": "削除",
   "listLabel": "変換先",
   "listToParagraph": "段落",
-  "listToBullets": "箇条書き"
+  "listToBullets": "箇条書き",
+  "loadExample": "例を読み込む",
+  "exampleLoaded": "例を読み込みました",
+  "keepUrls": "リンクのURLを残す",
+  "listMarkersLabel": "リスト記号",
+  "listMarkersKeep": "箇条書き・番号のまま残す",
+  "listMarkersRemove": "削除",
+  "keepCode": "コードブロックをそのまま残す",
+  "tidySpacing": "空白も整える",
+  "showChanges": "変更点を表示",
+  "stripMarkdown": "Markdown記号も削除する"
 };
 
 export const guideChrome: GuideChrome = {

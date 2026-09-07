@@ -229,6 +229,38 @@ describe("text processors", () => {
     expect(strip("Set MY_ENV_VAR in _config_ and read data_loader.py")).toBe("Set MY_ENV_VAR in config and read data_loader.py");
   });
 
+  it("strips Markdown deterministically: every word survives in order, only symbols change", () => {
+    const sample = "## Title\n\nWe shipped **three** fixes, see [the changelog](https://example.com/c).\n\n- First `code_a` item\n- Second item\n\n1. Review\n2) Merge\n\n> quoted line\n\n---\n\n```\nnpm test\n```\n\n| Area | Owner |\n| --- | ---: |\n| Parser | Ada |";
+    const clean = processText("remove-markdown-formatting", sample).output;
+    expect(clean).toBe("Title\n\nWe shipped three fixes, see the changelog.\n\n• First code_a item\n• Second item\n\n1. Review\n2) Merge\n\nquoted line\n\nnpm test\n\nArea\tOwner\nParser\tAda");
+    const wordsOf = (text: string) => text.replace(/https?:\/\/\S+|[^\p{L}\p{N}_\s]/gu, " ").split(/\s+/).filter(Boolean);
+    expect(wordsOf(clean)).toEqual(wordsOf(sample));
+  });
+
+  it("honours the keep-URL, list-marker, keep-code and spacing switches", () => {
+    const run = (input: string, settings: Parameters<typeof processText>[2]) => processText("remove-markdown-formatting", input, settings).output;
+    expect(run("see [docs](https://x.io/d)", { keepUrls: true })).toBe("see docs (https://x.io/d)");
+    expect(run("- a\n- b\n\n1. c", { listMarkers: "remove" })).toBe("a\nb\n\nc");
+    expect(run("- a\n\n1. c", { listMarkers: "keep" })).toBe("• a\n\n1. c");
+    expect(run("```js\nconst *x* = 1;\n```", {})).toBe("const *x* = 1;");
+    expect(run("```js\nconst *x* = 1;\n```", { keepCode: true })).toBe("```js\nconst *x* = 1;\n```");
+    expect(run("a  b\t\tc   \n\n\n\nd", { tidySpacing: true })).toBe("a b c\n\nd");
+    expect(run("a  b", {})).toBe("a  b");
+    const shown = processText("remove-markdown-formatting", "**bold** word", { showChanges: true });
+    expect(shown.output).toBe("bold word");
+    expect(shown.html).toContain('<span class="diff-removed">**</span>');
+    expect(shown.html).toContain("diff-unchanged");
+    expect(processText("remove-markdown-formatting", "**bold** word").html).toBeUndefined();
+    expect(processText("remove-markdown-formatting", "**bold** word").stats).toEqual([{ label: "Symbols removed", value: 4 }, { label: "Words", value: 2 }]);
+  });
+
+  it("lets the AI text cleaner strip Markdown in the same pass and show the diff", () => {
+    const result = processText("clean-ai-text", "The **plan** — a “good” one", { stripMarkdown: true, showChanges: true });
+    expect(result.output).toBe('The plan, a "good" one');
+    expect(result.html).toContain("diff-removed");
+    expect(processText("clean-ai-text", "The **plan**").output).toBe("The **plan**");
+  });
+
   it("removes the space an em dash leaves in front of its replacement", () => {
     expect(processText("clean-ai-text", "The plan — a good one — ships").output).toBe("The plan, a good one, ships");
   });
@@ -255,6 +287,42 @@ describe("text processors", () => {
     expect(processText("extract-table-from-text", "| A | B |\n|:---:|:-|\n| 1 | 2 |").output).toBe("A,B\n1,2");
     // A row of real dashes is not an alignment row and must survive.
     expect(processText("extract-table-from-text", "| A | B |\n| - | -- |\n| 1 | 2 |").output).toBe("A,B\n1,2");
+  });
+
+  it("finds every pipe table in an answer, keeps blank cells, and unescapes pipes", async () => {
+    const { parseMarkdownTables } = await import("../src/lib/processors");
+    const answer = "Intro line\n\n| A | B | C |\n|:--|--:|:-:|\n| x \\| y | | 3 |\n| p | q | r |\n\nSome prose in between.\n\n| Only | Two |\n| --- | --- |\n| 1 | 2 |\n\nOutro.";
+    const tables = parseMarkdownTables(answer);
+    expect(tables).toHaveLength(2);
+    expect(tables[0]).toEqual([["A", "B", "C"], ["x | y", "", "3"], ["p", "q", "r"]]);
+    expect(tables[1]).toEqual([["Only", "Two"], ["1", "2"]]);
+    // A row of real dashes is data, not an alignment row.
+    expect(parseMarkdownTables("| A | B |\n| - | -- |\n| 1 | 2 |")[0]).toEqual([["A", "B"], ["1", "2"]]);
+    expect(parseMarkdownTables("no table here")).toEqual([]);
+  });
+
+  it("previews the Excel conversion as a cell grid and copies tab-separated cells", () => {
+    const result = processText("markdown-table-to-excel", "| Region | Units | Code |\n| --- | ---: | --- |\n| Europe | 412 | 007 |\n| Asia | 1,024 | |\n\n| P | Q |\n|---|---|\n| 1 | 2 |");
+    expect(result.output).toBe("Region\tUnits\tCode\nEurope\t412\t007\nAsia\t1,024\t\n\nP\tQ\n1\t2");
+    expect(result.html).toContain('<caption>Sheet 1 · 2 rows × 3 columns</caption>');
+    expect(result.html).toContain('<caption>Sheet 2 · 1 row × 2 columns</caption>');
+    // Only the cells that will be numeric in the workbook are marked numeric in the preview.
+    expect(result.html).toContain('<td class="num">412</td>');
+    expect(result.html).toContain("<td>007</td>");
+    expect(result.html).toContain("<td>1,024</td>");
+    expect(result.html).toContain("<td></td>");
+    expect(result.stats).toEqual([{ label: "Tables found", value: 2 }, { label: "Rows", value: 3 }, { label: "Columns", value: 3 }]);
+    expect(processText("markdown-table-to-excel", "just words").output).toBe("");
+  });
+
+  it("writes each table to its own sheet in one workbook", async () => {
+    const { createWorkbook } = await import("../src/lib/xlsx");
+    const files = unzipSync(createWorkbook([[["A"], ["1"]], [["B"], ["x"]]]));
+    expect(strFromU8(files["xl/workbook.xml"])).toContain('<sheet name="Table 1" sheetId="1" r:id="rId1"/><sheet name="Table 2" sheetId="2" r:id="rId2"/>');
+    expect(strFromU8(files["xl/worksheets/sheet1.xml"])).toContain('<c r="A2"><v>1</v></c>');
+    expect(strFromU8(files["xl/worksheets/sheet2.xml"])).toContain('<c r="A2" t="inlineStr"><is><t xml:space="preserve">x</t></is></c>');
+    expect(strFromU8(files["[Content_Types].xml"])).toContain("/xl/worksheets/sheet2.xml");
+    expect(strFromU8(files["xl/_rels/workbook.xml.rels"])).toContain('Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles"');
   });
 
   it("writes numeric spreadsheet cells as numbers and everything else as text", async () => {
@@ -292,5 +360,18 @@ describe("text processors", () => {
     expect(documentXml).toContain("<w:numPr>");
     expect(documentXml).toContain("Courier New");
     expect(strFromU8(files["word/_rels/document.xml.rels"])).toContain("https://example.com");
+  });
+
+  it("turns quotes, rules and images into Word paragraphs instead of literal symbols", async () => {
+    const blob = await createMarkdownDocx("> quoted *line*\n\n---\n\n![Chart of sales](https://example.com/c.png) after");
+    const files = unzipSync(new Uint8Array(await blob.arrayBuffer()));
+    const documentXml = strFromU8(files["word/document.xml"]);
+    expect(documentXml).toContain("quoted ");
+    expect(documentXml).toContain("<w:i/>");
+    expect(documentXml).toContain('<w:ind w:left="720"/>');
+    expect(documentXml).not.toContain("&gt; quoted");
+    expect(documentXml).not.toContain("---");
+    expect(documentXml).toContain("Chart of sales after");
+    expect(documentXml).not.toContain("example.com/c.png");
   });
 });

@@ -16,18 +16,18 @@ export const brand: BrandCopy = {
     "remove-formatting": "Eliminar formato de {brand}",
   },
   actionDescription: {
-    "to-word": "Convierte las respuestas de {brand} en un .docx real, con títulos, listas, tablas, enlaces y código como formato y no como Markdown a la vista.",
+    "to-word": "Convierte una respuesta de {brand} en un .docx real: títulos de Word, tablas editables, listas anidadas, enlaces y código. Todo en tu navegador.",
     "to-pdf": "Convierte una respuesta de {brand} en un PDF limpio listo para imprimir desde la vista previa del navegador, sin subir nada y sin marca de agua.",
     "to-google-docs": "Pega una respuesta de {brand}, copia el resultado con formato y llévalo a Google Docs con títulos, listas, enlaces, énfasis y tablas intactos.",
-    "table-to-excel": "Convierte las tablas con barras verticales que {brand} muestra en el chat en un .xlsx real con un valor por celda, listo para editar en Excel.",
-    "remove-formatting": "Quita asteriscos, almohadillas y sintaxis de enlaces de una respuesta de {brand} y conserva el texto legible para correos, formularios y apps.",
+    "table-to-excel": "Pega la tabla de {brand} que cayó en una sola columna de Excel y descarga un .xlsx real con un valor por celda y los números como números.",
+    "remove-formatting": "Quita asteriscos, almohadillas y enlaces de una respuesta de {brand} sin cambiar una palabra. Conserva URLs, listas o código y mira qué cambió.",
   },
   actionGuidance: {
     "to-word": "Usa esta opción cuando una respuesta de {brand} deba convertirse en un informe, un resumen, una tarea o un documento que otras personas puedan editar en Word.",
     "to-pdf": "La vista previa en vivo muestra cómo se imprimirá la respuesta de {brand} antes de elegir Guardar como PDF en tu navegador.",
     "to-google-docs": "Copia el resultado con formato y pégalo en Google Docs cuando un pegado normal desde {brand} deja símbolos Markdown visibles.",
-    "table-to-excel": "Esto corrige la sintaxis de tabla con barras verticales y guiones que {brand} muestra en el chat y descarga una hoja de cálculo .xlsx de verdad.",
-    "remove-formatting": "Usa el texto limpio en correos, formularios, aplicaciones de mensajería o editores que muestran literalmente los asteriscos y almohadillas de {brand}.",
+    "table-to-excel": "Úsalo cuando una tabla de {brand} se pegue en la columna A con las barras aún visibles: la vista previa muestra las celdas y la descarga es un .xlsx genuino.",
+    "remove-formatting": "Usa el texto limpio en correos, formularios o apps de mensajería, o en editores que muestran literalmente los asteriscos y las almohadillas de {brand}; los interruptores sobre el editor conservan las URLs, los marcadores de lista o el código.",
   },
   reasons: {
     "chatgpt": "ChatGPT suele devolver estructuras útiles en Markdown, lo que deja visibles asteriscos, almohadillas y tablas con barras verticales al pegar en programas de oficina.",

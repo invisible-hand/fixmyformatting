@@ -1,3 +1,4 @@
+import { isNumericCell } from "./numeric-cell";
 import { getProcessorSlug } from "./tools";
 import { diffWords } from "diff";
 
@@ -12,6 +13,18 @@ export type ProcessSettings = {
   caseMode?: "title" | "upper" | "lower" | "sentence";
   dashReplacement?: "comma" | "semicolon" | "hyphen" | "remove";
   listDirection?: "paragraph" | "bullets";
+  /** remove-markdown-formatting: keep the URL of a link as "text (url)" instead of the text alone. */
+  keepUrls?: boolean;
+  /** remove-markdown-formatting: keep bullets (as •) and list numbers, or drop them. */
+  listMarkers?: "keep" | "remove";
+  /** remove-markdown-formatting: leave fenced code blocks exactly as written, fences included. */
+  keepCode?: boolean;
+  /** remove-markdown-formatting: also collapse repeated spaces, trailing whitespace and stacked blank lines. */
+  tidySpacing?: boolean;
+  /** remove-markdown-formatting / clean-ai-text: render the result as a word-level diff against the input. */
+  showChanges?: boolean;
+  /** clean-ai-text: also strip Markdown symbols in the same pass. */
+  stripMarkdown?: boolean;
 };
 
 const escapeHtml = (value: string) =>
@@ -62,6 +75,15 @@ export function renderMarkdown(markdown: string) {
       html += `<h${level}>${inlineMarkdown(heading[2])}</h${level}>`;
       continue;
     }
+    const quote = line.match(/^\s*>\s?(.+)$/);
+    if (quote) {
+      if (inList) {
+        html += "</ul>";
+        inList = false;
+      }
+      html += `<blockquote><p>${inlineMarkdown(quote[1])}</p></blockquote>`;
+      continue;
+    }
     const list = line.match(/^\s*[-*+]\s+(.+)$/);
     if (list) {
       if (!inList) {
@@ -82,15 +104,69 @@ export function renderMarkdown(markdown: string) {
   return html;
 }
 
+/**
+ * Split a pipe row into cells. A pipe escaped as `\|` is content (a GitHub /
+ * CommonMark-GFM convention chat assistants follow when a cell needs a literal
+ * bar), so the split runs on unescaped pipes only and the escape is removed.
+ */
 function parseMarkdownRow(row: string) {
-  return row.trim().replace(/^\||\|$/g, "").split("|").map((cell) => cell.trim());
+  return row
+    .trim()
+    .replace(/^\|/, "")
+    .replace(/(?<!\\)\|$/, "")
+    .split(/(?<!\\)\|/)
+    .map((cell) => cell.replace(/\\\|/g, "|").trim());
+}
+
+const alignmentRow = (line: string | undefined) => /^\|?[\s:|-]+\|?$/.test(line?.trim() ?? "") && (line ?? "").includes("-");
+
+/**
+ * Every pipe table in the input, in order: a header row, an alignment row,
+ * then body rows until the first line without a pipe. Prose between tables is
+ * skipped, so a table buried in a long answer is found without trimming it out
+ * by hand.
+ */
+export function parseMarkdownTables(input: string): string[][][] {
+  const lines = input.split(/\r?\n/);
+  const tables: string[][][] = [];
+  for (let index = 0; index < lines.length; index += 1) {
+    if (!lines[index].includes("|") || !alignmentRow(lines[index + 1])) continue;
+    const rows = [parseMarkdownRow(lines[index])];
+    let cursor = index + 2;
+    while (cursor < lines.length && lines[cursor].includes("|")) {
+      rows.push(parseMarkdownRow(lines[cursor]));
+      cursor += 1;
+    }
+    tables.push(rows);
+    index = cursor - 1;
+  }
+  return tables;
 }
 
 function parseMarkdownTable(input: string) {
-  const lines = input.split(/\r?\n/);
-  const start = lines.findIndex((line, index) => line.includes("|") && /^\|?[\s:|-]+\|?$/.test(lines[index + 1]?.trim() ?? ""));
-  if (start < 0) return [] as string[][];
-  return [parseMarkdownRow(lines[start]), ...lines.slice(start + 2).filter((line) => line.includes("|")).map(parseMarkdownRow)];
+  return parseMarkdownTables(input)[0] ?? [];
+}
+
+const tableToTsv = (rows: string[][]) => rows.map((row) => row.map((cell) => cell.replace(/[\t\r\n]+/g, " ")).join("\t")).join("\n");
+
+/**
+ * The preview grid mirrors the workbook: one <table> per sheet, the header row
+ * as <th>, and a cell that will become a numeric cell in the .xlsx marked so
+ * it right-aligns the way Excel will show it. Blank cells render as blank.
+ */
+function tablesToGrid(tables: string[][][]) {
+  return tables.map((rows, tableIndex) => {
+    const width = Math.max(...rows.map((row) => row.length));
+    const [header, ...body] = rows;
+    const cells = (row: string[], tag: "th" | "td") =>
+      Array.from({ length: width }, (_, column) => {
+        const cell = row[column] ?? "";
+        const numeric = tag === "td" && isNumericCell(cell);
+        return `<${tag}${numeric ? ' class="num"' : ""}>${escapeHtml(cell)}</${tag}>`;
+      }).join("");
+    const caption = `Sheet ${tableIndex + 1} · ${body.length} ${body.length === 1 ? "row" : "rows"} × ${width} ${width === 1 ? "column" : "columns"}`;
+    return `<table class="cell-grid"><caption>${caption}</caption><thead><tr>${cells(header, "th")}</tr></thead><tbody>${body.map((row) => `<tr>${cells(row, "td")}</tr>`).join("")}</tbody></table>`;
+  }).join("");
 }
 
 const csvCell = (value: unknown) => {
@@ -100,22 +176,53 @@ const csvCell = (value: unknown) => {
 
 const tableToCsv = (rows: string[][]) => rows.map((row) => row.map(csvCell).join(",")).join("\n");
 
-function stripMarkdown(input: string) {
-  return input
-    .replace(/```[\s\S]*?```/g, (block) => block.replace(/^```\w*\n?|\n?```$/g, ""))
+export type StripMarkdownOptions = Pick<ProcessSettings, "keepUrls" | "listMarkers" | "keepCode" | "tidySpacing">;
+
+/**
+ * Deterministic find-and-replace over formatting characters only. Every word
+ * of the input survives in the same order; the test suite asserts it. The
+ * options change what counts as formatting, never what happens to words.
+ */
+function stripMarkdown(input: string, options: StripMarkdownOptions = {}) {
+  const { keepUrls = false, listMarkers = "keep", keepCode = false, tidySpacing = false } = options;
+  // Fenced blocks are lifted out first so that nothing below can touch code —
+  // a `*` or `_` inside code is code, not emphasis — and put back at the end.
+  const fences: string[] = [];
+  let output = input.replace(/```[\s\S]*?```/g, (block) => {
+    fences.push(keepCode ? block : block.replace(/^```[^\n]*\n?|\n?```$/g, ""));
+    return `\u0000${fences.length - 1}\u0000`;
+  });
+  output = output
     .replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g, keepUrls ? "$1 ($2)" : "$1")
     .replace(/^#{1,6}\s+/gm, "")
     .replace(/^>\s?/gm, "")
+    .replace(/^\s*(?:[-*_]\s*){3,}$/gm, "")
     .replace(/(\*\*|__)(.*?)\1/g, "$2")
     .replace(/([*~`])([^]*?)\1/g, "$2")
     // CommonMark allows `*` intraword but not `_`, so underscore emphasis only
     // counts at a word boundary. Without this, snake_case_word, MY_ENV_VAR and
     // file_name.txt lose their underscores and silently become new words.
     .replace(/(?<![\p{L}\p{N}_])_([^]*?)_(?![\p{L}\p{N}_])/gu, "$1")
-    .replace(/^\s*[-+*]\s+/gm, "• ")
-    .replace(/^\s*\d+\.\s+/gm, "")
-    .trim();
+    // Horizontal whitespace only: `\s*` would swallow the blank line above a list item.
+    .replace(/^[ \t]*[-+*][ \t]+/gm, listMarkers === "keep" ? "• " : "")
+    .replace(/^[ \t]*(\d+[.)])[ \t]+/gm, listMarkers === "keep" ? "$1 " : "")
+    // The alignment row goes with its line break, so header and body stay adjacent.
+    .replace(/^\|?[ \t]*:?-{2,}:?[ \t]*(\|[ \t]*:?-{2,}:?[ \t]*)*\|?[ \t]*\n?/gm, "")
+    .replace(/^\|(.*)\|$/gm, (_, row: string) => row.split(/(?<!\\)\|/).map((cell) => cell.trim()).join("\t"));
+  if (tidySpacing) {
+    output = output.replace(/[ \t]{2,}/g, " ").replace(/[ \t]+$/gm, "").replace(/\n{3,}/g, "\n\n");
+  }
+  return output.replace(/\u0000(\d+)\u0000/g, (_, index: string) => fences[Number(index)]).trim();
+}
+
+/** Word-level diff of a cleanup, so the reader can see that only symbols changed. */
+function changesHtml(before: string, after: string) {
+  const changes = diffWords(before, after);
+  return `<div class="diff-output">${changes.map((change) => {
+    const className = change.added ? "diff-added" : change.removed ? "diff-removed" : "diff-unchanged";
+    return `<span class="${className}">${escapeHtml(change.value)}</span>`;
+  }).join("")}</div>`;
 }
 
 function decodeEntities(value: string) {
@@ -366,10 +473,29 @@ export function processText(slug: string, input: string, settings: ProcessSettin
     return { output: html, html, stats: [{ label: "HTML elements", value: count(html, /<[a-z][^>]*>/g) }] };
   }
   if (processor === "remove-markdown-formatting") {
-    const output = stripMarkdown(input);
-    return { output, stats: [{ label: "Symbols removed", value: Math.max(0, input.length - output.length) }] };
+    const output = stripMarkdown(input, settings);
+    return {
+      output,
+      html: settings.showChanges ? changesHtml(input, output) : undefined,
+      stats: [{ label: "Symbols removed", value: Math.max(0, input.length - output.length) }, { label: "Words", value: words(output) }],
+    };
   }
-  if (["markdown-table-to-excel", "markdown-table-to-csv"].includes(processor)) {
+  if (processor === "markdown-table-to-excel") {
+    const tables = parseMarkdownTables(input);
+    if (!tables.length) return { output: "", html: "", stats: [] };
+    // Copy gives tab-separated cells, which paste straight into a spreadsheet
+    // grid; the download is the same tables as real .xlsx sheets.
+    return {
+      output: tables.map(tableToTsv).join("\n\n"),
+      html: tablesToGrid(tables),
+      stats: [
+        { label: "Tables found", value: tables.length },
+        { label: "Rows", value: tables.reduce((total, rows) => total + rows.length - 1, 0) },
+        { label: "Columns", value: Math.max(...tables.map((rows) => rows[0]?.length ?? 0)) },
+      ],
+    };
+  }
+  if (processor === "markdown-table-to-csv") {
     const rows = parseMarkdownTable(input);
     return { output: tableToCsv(rows), stats: [{ label: "Rows", value: Math.max(0, rows.length - 1) }, { label: "Columns", value: rows[0]?.length ?? 0 }] };
   }
@@ -416,7 +542,12 @@ export function processText(slug: string, input: string, settings: ProcessSettin
       .replace(/[\u00a0\u202f]/g, " ")
       .replace(emojiExpression, "")
       .replace(/[ \t]{2,}/g, " ");
-    return { output, stats: [{ label: "Em dashes", value: dashes }, { label: "Smart quotes", value: quotes }, { label: "Hidden characters", value: hidden }, { label: "Emojis", value: emojis }] };
+    const cleaned = settings.stripMarkdown ? stripMarkdown(output) : output;
+    return {
+      output: cleaned,
+      html: settings.showChanges ? changesHtml(input, cleaned) : undefined,
+      stats: [{ label: "Em dashes", value: dashes }, { label: "Smart quotes", value: quotes }, { label: "Hidden characters", value: hidden }, { label: "Emojis", value: emojis }],
+    };
   }
   if (processor === "humanize-ai-text") {
     // The full mechanical-formatting pass: a superset of clean-ai-text that also
@@ -502,10 +633,7 @@ export function processText(slug: string, input: string, settings: ProcessSettin
     const changes = diffWords(before, after);
     const additions = changes.filter((change) => change.added).reduce((total, change) => total + words(change.value), 0);
     const deletions = changes.filter((change) => change.removed).reduce((total, change) => total + words(change.value), 0);
-    const html = `<div class="diff-output">${changes.map((change) => {
-      const className = change.added ? "diff-added" : change.removed ? "diff-removed" : "diff-unchanged";
-      return `<span class="${className}">${escapeHtml(change.value)}</span>`;
-    }).join("")}</div>`;
+    const html = changesHtml(before, after);
     return { output: after, html, stats: [{ label: "Additions", value: additions }, { label: "Deletions", value: deletions }] };
   }
   if (processor === "json-formatter") {

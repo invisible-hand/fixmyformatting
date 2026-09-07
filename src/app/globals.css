@@ -131,6 +131,8 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .workspace { margin-bottom: 64px; }
 .tool-options { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
 .tool-options label { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 13px; font-weight: 700; }
+.tool-options label.check { cursor: pointer; }
+.tool-options label.check input { width: 16px; height: 16px; margin: 0; accent-color: var(--accent); }
 .tool-options select { min-height: 38px; padding: 0 34px 0 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); }
 .editor-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 510px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); }
 .editor-panel { min-width: 0; display: flex; flex-direction: column; }
@@ -156,9 +158,17 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .rendered-output h1, .rendered-output h2, .rendered-output h3 { line-height: 1.2; letter-spacing: -0.01em; }
 .rendered-output p { margin: 0 0 1em; }
 .rendered-output code { background: var(--surface-2); border-radius: 4px; padding: 2px 5px; font-family: ui-monospace, monospace; font-size: 0.9em; }
+.rendered-output blockquote { margin: 0 0 1em; padding-inline-start: 16px; border-inline-start: 3px solid var(--line); color: var(--muted); font-style: italic; }
 .rendered-output pre { padding: 15px; overflow: auto; border-radius: 8px; background: #162019; color: #eef7f0; }
 .rendered-output table { width: 100%; border-collapse: collapse; }
 .rendered-output th, .rendered-output td { padding: 8px 10px; border: 1px solid var(--line); text-align: start; }
+.rendered-output .cell-grid { margin: 0 0 18px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.rendered-output .cell-grid caption { caption-side: top; text-align: start; padding: 0 0 6px; color: var(--muted); font-size: 12px; font-weight: 750; text-transform: uppercase; letter-spacing: 0.05em; }
+.rendered-output .cell-grid th { background: var(--surface-2); font-weight: 750; }
+.rendered-output .cell-grid td.num { text-align: end; }
+.rendered-output .cell-grid td:empty::after { content: ""; display: inline-block; min-height: 1em; }
+.panel-label .link-button { min-height: 0; padding: 0; border: 0; background: none; color: var(--accent); font: inherit; font-weight: 750; text-transform: none; letter-spacing: 0; cursor: pointer; }
+.panel-label .link-button:hover { text-decoration: underline; }
 .diff-output { white-space: pre-wrap; overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; line-height: 1.8; }
 .diff-added { background: #d9fbe5; color: #155b31; text-decoration: none; }
 .diff-removed { background: #ffe0e0; color: #8f2323; text-decoration: line-through; }

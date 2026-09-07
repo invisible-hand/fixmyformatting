@@ -3,13 +3,13 @@ import type { ToolCopy } from "@/lib/i18n/types";
 export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-word": {
     name: "Markdown을 Word로 변환",
-    title: "Markdown을 Word로 변환 — 무료 즉시 변환",
-    description: "ChatGPT나 Claude에서 복사한 Markdown을 붙여넣으면 제목, 목록, 표, 링크, 코드가 서식 그대로 살아 있는 .docx 파일을 내려받습니다. 브라우저에서 처리되며 가입이 필요 없습니다.",
-    intro: "ChatGPT, Claude 등 어떤 편집기에서 작성한 Markdown도 실제 Word 문서로 바꿉니다. 제목, 목록, 링크, 코드, 표가 서식으로 살아 있어 별표나 우물 정 기호가 그대로 노출되지 않습니다. 변환은 브라우저에서 이루어지며 결과는 .docx 파일로 내려받아 Word에서 바로 편집할 수 있습니다.",
+    title: "Markdown을 Word로 변환 — 진짜 .docx 무료",
+    description: "ChatGPT나 Claude 답변을 붙여넣으면 제목 스타일, 편집 가능한 표, 중첩 목록, 링크, 코드가 담긴 진짜 .docx를 내려받습니다.",
+    intro: "제목은 Word의 제목 1~6 스타일이 되어 탐색 창과 목차에서 인식되고, 목록은 들여쓰기에 따라 중첩된 실제 목록이 되며, 표는 편집 가능한 Word 표가 되고, 링크는 클릭할 수 있게 남고, 코드는 Courier New로 표시되며, 인용은 들여쓰기와 기울임으로 표현됩니다. Load an example을 누르면 샘플 .docx를 내려받아 미리 열어 볼 수 있습니다. 짧은 답변 한두 문단이라면 렌더링된 답변을 그대로 복사해 붙여넣는 것만으로도 서식이 살아 있는 경우가 많습니다.",
     faqs: [
-      { question: "Markdown을 Word로 변환하는 것은 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
-      { question: "텍스트가 업로드되나요?", answer: "아니요. 브라우저에서 처리됩니다. 공유 링크를 직접 만들 때만 저장됩니다." },
-      { question: "모바일에서도 사용할 수 있나요?", answer: "네. 최신 모바일 및 데스크톱 브라우저에서 작동합니다." },
+      { question: "Word 문서에는 실제로 무엇이 담기나요?", answer: "말 그대로 서식이 담깁니다. # 제목은 제목 1 스타일이 되고 ##은 제목 2가 되는 식으로 제목 6까지 이어지며, Word의 탐색 창과 목차가 이를 그대로 인식합니다. 글머리 기호와 번호 목록은 들여쓰기에 따라 중첩된 목록 문단이 되고, 파이프 표는 크기 조절과 정렬이 되는 실제 표가 되며, 링크는 클릭할 수 있고, 코드는 Courier New로, 인용은 들여쓰기와 기울임으로 표시됩니다." },
+      { question: "왜 붙여넣으면 **와 ##가 그대로 보이고, 언제 그냥 복사해도 괜찮나요?", answer: "복사 버튼은 Markdown 원문을 일반 텍스트로 클립보드에 담기 때문에 Word가 기호를 그대로 출력합니다. 렌더링된 답변을 마우스로 선택하면 보통 서식 있는 HTML이 복사되어 제목과 굵게가 그대로 유지됩니다. 짧은 답변 한두 문단이라면 이렇게 선택해 Keep Source Formatting으로 붙여넣는 것만으로 충분합니다." },
+      { question: "미리 샘플을 볼 수 있나요? 변환되지 않는 것도 있나요?", answer: "네. Load an example을 누르면 제목, 중첩 목록, 번호 목록, 인용, 표, 코드 블록이 들어간 답변이 채워지고, Download로 .docx를 받아 Word나 LibreOffice에서 스타일을 먼저 확인할 수 있습니다. 이미지는 대체 텍스트로만 남고, 병합된 셀은 Markdown에 없는 개념이라 재현되지 않으며, 각주는 변환되지 않습니다." },
     ],
   },
   "markdown-to-pdf": {
@@ -36,24 +36,24 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   },
   "remove-markdown-formatting": {
     name: "Markdown 서식 제거",
-    title: "Markdown 서식 제거 — 온라인 무료",
-    description: "별표, 해시, 링크 문법, 코드 블록 같은 Markdown 기호를 제거하고 읽기 좋은 일반 텍스트만 남깁니다. 브라우저에서 처리되어 텍스트가 업로드되지 않습니다.",
-    intro: "별표, 제목 기호, 링크 문법, 코드 블록 등 Markdown 문자를 제거하면서 아래에 있는 글자는 그대로 보존합니다. 깨끗하고 읽기 쉬운 일반 텍스트가 완성됩니다.",
+    title: "Markdown 서식 제거, 단어는 그대로",
+    description: "ChatGPT나 Claude 텍스트에서 **, ##, 링크 문법만 제거하고 단어는 그대로 둡니다. URL, 목록 기호, 코드는 선택해 유지할 수 있습니다.",
+    intro: "고정된 찾기-바꾸기 규칙만 사용하므로 단어를 추가하거나 삭제하거나 바꾸는 일은 절대 없습니다. 제목의 해시, 굵게와 기울임의 별표와 밑줄, 링크와 이미지 문법, 코드 펜스와 백틱, 표의 파이프가 사라지고 글자만 남습니다. Keep link URLs를 켜면 [텍스트](url)가 텍스트 (url)로 바뀌고, List markers를 Remove로 두면 글머리 기호와 번호가 사라져 흐르는 문장이 되며, Keep code blocks를 켜면 코드 펜스를 그대로 남기고, Tidy spacing은 겹친 공백과 빈 줄을 정리하고, Show what changed는 단어 단위 비교로 무엇이 바뀌었는지 보여줍니다. snake_case_word나 MY_ENV_VAR 같은 식별자는 그대로 둡니다.",
     faqs: [
-      { question: "Markdown 서식 제거는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
-      { question: "텍스트가 업로드되나요?", answer: "아니요. 브라우저에서 처리됩니다. 공유 링크를 직접 만들 때만 저장됩니다." },
-      { question: "모바일에서도 사용할 수 있나요?", answer: "네. 최신 모바일 및 데스크톱 브라우저에서 작동합니다." },
+      { question: "제 글자를 바꾸기도 하나요?", answer: "아니요. 별표, 밑줄, 해시, 백틱, 대괄호, 파이프, 대시 같은 서식 문자에만 적용되는 고정된 찾기-바꾸기 규칙입니다. 단어를 추가하거나 삭제하거나 바꾸지 않으며, Show what changed를 켜면 이동한 글자를 모두 표시해 직접 확인할 수 있습니다. AI가 다시 쓰는 과정은 없습니다." },
+      { question: "기본적으로 무엇이 제거되고, 어떤 스위치로 URL이나 목록, 코드를 남길 수 있나요?", answer: "제목의 해시, 굵게와 기울임 기호, 링크와 이미지 문법(링크 텍스트는 남고 URL은 사라짐), 인용 화살표, 구분선, 코드 펜스와 인라인 백틱, 표의 파이프가 사라집니다. Keep link URLs는 URL을 괄호로 남기고, List markers를 Remove로 두면 흐르는 문장이 되며, Keep code blocks는 코드 펜스를 포함해 그대로 남깁니다." },
+      { question: "공백도 정리되나요? 무엇이 바뀌었는지 어떻게 보나요?", answer: "Tidy spacing을 켜면 겹친 공백과 탭이 하나로 줄고 줄 끝 공백이 지워지며 세 줄 이상의 빈 줄이 한 번으로 합쳐집니다. Show what changed를 켜면 결과 창이 단어 단위 비교로 바뀌어 무엇이 지워졌고 무엇이 추가됐는지 보여주며, Copy와 Download는 비교 화면이 아닌 깨끗한 텍스트를 그대로 내줍니다." },
     ],
   },
   "markdown-table-to-excel": {
     name: "Markdown 표를 Excel로 변환",
-    title: "Markdown 표를 Excel로 변환 — 무료",
-    description: "AI 채팅에서 복사한 Markdown 파이프 표를 붙여넣으면 셀마다 값이 하나씩 들어간 실제 .xlsx 파일을 내려받습니다. 브라우저에서 처리되며 가입이 필요 없습니다.",
-    intro: "AI 채팅에서 복사한 파이프 표를 Excel, Numbers, Google Sheets에서 올바르게 열리는 행과 열로 변환합니다. 표 구조가 깨지지 않고 그대로 옮겨집니다.",
+    title: "Markdown 표를 Excel(.xlsx)로 무료 변환",
+    description: "ChatGPT 표가 한 열에 붙여넣어졌다면, 셀마다 값 하나씩 들어간 실제 .xlsx로 바꿔 숫자는 숫자로 유지합니다.",
+    intro: "AI 채팅에서 복사한 표는 파이프로 열을 흉내 낸 Markdown 표라, Excel에 붙여넣으면 A열 하나에 다 쌓입니다. 이 도구는 미리보기로 실제 셀 모습을 먼저 보여주고, 답변에 있는 표마다 각각의 시트로 나눕니다. 빈 셀은 빈 셀로 남고, 이스케이프된 \\|는 |로 복원되며, 412 같은 일반 숫자는 숫자 셀이 되지만 007이나 1,024처럼 자릿수가 의미를 갖는 값은 텍스트로 남습니다. 다운로드 없이도 복사 버튼이 탭으로 구분된 셀을 클립보드에 담아 Excel, Sheets, Numbers에 바로 표로 붙여넣을 수 있게 해 줍니다.",
     faqs: [
-      { question: "Markdown 표를 Excel로 변환하는 것은 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
-      { question: "텍스트가 업로드되나요?", answer: "아니요. 브라우저에서 처리됩니다. 공유 링크를 직접 만들 때만 저장됩니다." },
-      { question: "모바일에서도 사용할 수 있나요?", answer: "네. 최신 모바일 및 데스크톱 브라우저에서 작동합니다." },
+      { question: "ChatGPT 표가 왜 Excel 한 열에 붙여넣어지나요?", answer: "클립보드에 담긴 것이 | 문자로 값을 구분하고 헤더 아래에 대시 행이 있는 Markdown 파이프 표이기 때문입니다. Excel과 Google Sheets는 붙여넣은 텍스트를 파이프가 아니라 탭 기준으로 나누므로 각 줄이 값 하나로 처리되어 표 전체가 A열에 쌓입니다. 먼저 변환하면 실제 셀 경계가 생깁니다." },
+      { question: ".xlsx 파일에서 숫자는 숫자로 유지되나요? 빈 셀이나 이스케이프된 파이프는요?", answer: "412나 16.2 같은 일반 정수와 소수는 합산과 정렬이 가능한 숫자 셀이 됩니다. 007처럼 앞자리 0이 있는 코드나 1,024처럼 천 단위 구분 기호가 있는 값은 문자 그대로가 의미를 가지므로 텍스트로 남습니다. 빈 셀은 행을 밀리지 않고 빈 셀로 남고, \\|로 이스케이프된 파이프는 |로 복원되며, 정렬을 나타내던 대시 행은 데이터가 아니므로 사라집니다." },
+      { question: "표가 여러 개면 어떻게 되고, 다운로드 없이 붙여넣을 수도 있나요?", answer: "네. 산문이 섞여 있어도 답변 전체를 붙여넣으면 됩니다. 안에 있는 모든 파이프 표가 각각 Table 1, Table 2 같은 자체 시트가 되어 다운로드 전에 미리보기로 확인할 수 있습니다. Copy는 탭으로 구분된 셀을 클립보드에 담아 Excel, Google Sheets, Numbers 어디에나 셀 단위로 붙여넣어집니다." },
     ],
   },
   "markdown-table-to-csv": {
@@ -114,11 +114,11 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "clean-ai-text": {
     name: "ChatGPT 및 AI 텍스트 정리",
     title: "ChatGPT 텍스트 정리 및 AI 서식 제거",
-    description: "AI 출력의 긴 대시, 곡선 따옴표, 보이지 않는 문자, 이모지를 종류별로 세어 보여주고 원하는 항목만 정리합니다. 브라우저에서 처리되어 텍스트가 업로드되지 않습니다.",
+    description: "AI 출력의 긴 대시, 곡선 따옴표, 보이지 않는 문자, 이모지, 원하면 Markdown까지 세어 정리합니다. 개수는 항상 보입니다.",
     intro: "AI 아티팩트 보고서는 기계적인 서식 흔적의 개수를 보여줄 뿐, 텍스트가 AI로 작성되었는지 추측하지 않습니다. 정리 항목을 원하는 대로 켜고 끄면서 투명한 개수를 확인하세요.",
     faqs: [
       { question: "ChatGPT 및 AI 텍스트 정리는 무료인가요?", answer: "네. 무료이며 계정이나 사용 제한이 없습니다." },
-      { question: "텍스트가 업로드되나요?", answer: "아니요. 브라우저에서 처리됩니다. 공유 링크를 직접 만들 때만 저장됩니다." },
+      { question: "Markdown 기호도 함께 정리할 수 있나요?", answer: "네. Also remove Markdown symbols 스위치를 켜면 같은 단계에서 별표, 해시, 링크 문법까지 제거되고, Show what changed 스위치를 켜면 무엇이 바뀌었는지 단어 단위로 확인할 수 있습니다." },
       { question: "모바일에서도 사용할 수 있나요?", answer: "네. 최신 모바일 및 데스크톱 브라우저에서 작동합니다." },
     ],
   },

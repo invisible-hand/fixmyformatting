@@ -12,28 +12,30 @@ import {
   TextRun,
 } from "docx";
 
-function inlineRuns(markdown: string) {
+function inlineRuns(source: string, base: { italics?: boolean } = {}) {
+  // An image cannot be embedded from a URL without a fetch, so it becomes its alt text.
+  const markdown = source.replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1");
   const children: Array<InstanceType<typeof TextRun> | InstanceType<typeof ExternalHyperlink>> = [];
   const pattern = /(\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)|`([^`]+)`|\*\*([^*]+)\*\*|__([^_]+)__|\*([^*\n]+)\*|_([^_\n]+)_)/g;
   let cursor = 0;
   for (const match of markdown.matchAll(pattern)) {
     const index = match.index ?? 0;
-    if (index > cursor) children.push(new TextRun(markdown.slice(cursor, index)));
+    if (index > cursor) children.push(new TextRun({ text: markdown.slice(cursor, index), ...base }));
     if (match[2] && match[3]) {
       children.push(new ExternalHyperlink({
         link: match[3],
-        children: [new TextRun({ text: match[2], style: "Hyperlink" })],
+        children: [new TextRun({ text: match[2], style: "Hyperlink", ...base })],
       }));
     } else if (match[4]) {
-      children.push(new TextRun({ text: match[4], font: "Courier New" }));
+      children.push(new TextRun({ text: match[4], font: "Courier New", ...base }));
     } else if (match[5] || match[6]) {
-      children.push(new TextRun({ text: match[5] ?? match[6], bold: true }));
+      children.push(new TextRun({ text: match[5] ?? match[6], bold: true, ...base }));
     } else {
       children.push(new TextRun({ text: match[7] ?? match[8], italics: true }));
     }
     cursor = index + match[0].length;
   }
-  if (cursor < markdown.length) children.push(new TextRun(markdown.slice(cursor)));
+  if (cursor < markdown.length) children.push(new TextRun({ text: markdown.slice(cursor), ...base }));
   return children.length ? children : [new TextRun("")];
 }
 
@@ -84,6 +86,21 @@ export async function createMarkdownDocx(input: string) {
         })),
       }));
       index = cursor - 1;
+      continue;
+    }
+
+    if (/^\s*(?:[-*_]\s*){3,}$/.test(line)) {
+      // A horizontal rule has no Word equivalent worth faking; it becomes a paragraph break.
+      children.push(new Paragraph({ children: [new TextRun("")] }));
+      continue;
+    }
+
+    const quote = line.match(/^\s*>\s?(.*)$/);
+    if (quote) {
+      children.push(new Paragraph({
+        children: inlineRuns(quote[1], { italics: true }),
+        indent: { left: 720 },
+      }));
       continue;
     }
 
