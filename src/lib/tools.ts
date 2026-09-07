@@ -66,7 +66,43 @@ const define = (
 });
 
 export const coreTools: ToolDefinition[] = [
-  define("markdown-to-word", "Markdown to Word", "Markdown to Word Converter — Free & Instant", "Paste Markdown from ChatGPT, Claude, or any editor and download a real .docx file with headings, lists, tables, links, and code kept as formatting.", "Markdown & documents", "Turn Markdown from ChatGPT, Claude, or any editor into a real Word document. Headings, lists, links, code, and tables are preserved instead of appearing as raw symbols.", { download: "docx" }),
+  define("markdown-to-word", "Markdown to Word", "Markdown to Word Converter — Real .docx, Free", "Paste a ChatGPT or Claude answer and download a real .docx with Word heading styles, editable tables, nested lists, links and code, built in your browser.", "Markdown & documents", "Copy a response with the Copy button and Word shows the Markdown source: ## in front of headings, ** around bold, pipes where a table should be. This converter turns that source into a genuine Word document. Headings become Word's Heading 1 to Heading 6 styles, so the navigation pane and a table of contents see them; bullets and numbered items become real list paragraphs, nested by their indentation; pipe tables become editable Word tables; links stay clickable; inline code and fenced blocks are set in Courier New; block quotes are indented and italic. Load the example to download a sample .docx and open it in Word before pasting your own text. When you only need a paragraph or two, selecting the rendered answer and pasting it into Word often keeps the formatting already; the converter is for long or structured answers and for anything someone else will edit.", {
+    download: "docx",
+    updated: "2026-09-06",
+    example: "# Quarterly review\n\nA short summary of **what shipped** and *what slipped*, with the [full changelog](https://example.com/changelog) linked.\n\n## Highlights\n\n- Parser handles escaped pipes\n  - Including `\\|` inside table cells\n- Numbers stay numbers in the Excel export\n- Word export gains heading styles\n\n## Next steps\n\n1. Review the open pull requests\n2. Merge and tag `v1.4.0`\n3. Announce the release\n\n> The release freeze starts Friday.\n\n## Numbers\n\n| Area | Owner | Status |\n| --- | --- | :-: |\n| Parser | Ada | Done |\n| Export | Bob | In review |\n\n```bash\nnpm test && npm run build\n```\n",
+    faqs: [
+      {
+        question: "What does the Word document actually contain?",
+        answer:
+          "Real Word structure, not text that looks like it. A # heading becomes the Heading 1 style, ## becomes Heading 2 and so on to Heading 6, which is what Word's navigation pane, outline view and table of contents read. Bullets and numbered items become list paragraphs, nested by indentation. Pipe tables become tables you can resize and sort. Links stay clickable, code is set in Courier New, and block quotes are indented and italic.",
+      },
+      {
+        question: "Why does pasting a ChatGPT answer into Word show ** and ##?",
+        answer:
+          "The Copy button under a response puts the Markdown source on the clipboard as plain text, and Word has no Markdown parser, so it prints the symbols literally. Selecting the rendered answer with the mouse usually copies formatted HTML instead, which Word pastes with headings and bold intact. When the clipboard held Markdown, this converter is the fix.",
+      },
+      {
+        question: "When is plain copy and paste enough?",
+        answer:
+          "For a paragraph or two, select the rendered answer in the chat window, copy, and paste into Word with Keep Source Formatting. Nested lists, code blocks and wide tables are where that route gets unreliable, and the result depends on the browser and the chat app. For long answers, anything with tables, or a document other people will edit, convert to .docx instead.",
+      },
+      {
+        question: "Can I see a sample before pasting my own text?",
+        answer:
+          "Yes. Load an example fills the editor with an answer that has headings, nested bullets, a numbered list, a quote, a table and a code block. Press Download to get that as a .docx and open it in Word or LibreOffice to check the styles.",
+      },
+      {
+        question: "What is not converted?",
+        answer:
+          "Images become their alt text, because embedding a picture from a URL would require fetching it. Merged cells do not exist in Markdown, so a table with them is not something a converter can invent. Footnotes and HTML tags inside the Markdown are passed through as text.",
+      },
+      {
+        question: "Is Markdown to Word free, and is my text uploaded?",
+        answer:
+          "It is free, with no account and no usage limit. The .docx is assembled in your browser; text is stored only if you explicitly create a share link.",
+      },
+    ],
+  }),
   define("markdown-to-pdf", "Markdown to PDF", "Markdown to PDF — Free Online Converter", "Paste Markdown, check the formatted preview, and save a print-ready PDF straight from your browser. No upload, no signup, and no watermark added.", "Markdown & documents", "Preview formatted Markdown instantly, then use the print-ready view to save a crisp PDF. The browser handles PDF creation, so your document stays on your device."),
   define("markdown-to-google-docs", "Markdown to Google Docs", "Markdown to Google Docs Converter", "Paste Markdown, copy the rich-text result, and paste it into Google Docs with headings, lists, emphasis, links, and tables intact. DOCX download too.", "Markdown & documents", "Paste Markdown, copy the rich result, and paste it into Google Docs. Headings, lists, emphasis, links, and tables retain their structure without manual cleanup.", { download: "docx" }),
   define("remove-markdown-formatting", "Remove Markdown Formatting", "Remove Markdown Formatting Online, Keep Every Word", "Strip **, ## and link syntax from ChatGPT or Claude text without changing a word. Keep URLs, list markers or code if you like, and see what changed.", "Markdown & documents", "Text copied from ChatGPT, Claude or Gemini arrives as Markdown, so an email, a form or a chat app shows the asterisks, hashes and square brackets literally. This tool removes them with fixed find-and-replace rules: it never adds, removes or substitutes a word, and the counts above the result show how many symbols went. By default headings lose their hashes, bold and italic lose their asterisks and underscores, links keep their visible text, bullets become • and numbered items keep their numbers, code fences are removed and the code stays, and pipe tables become tab-separated rows. Tick Keep link URLs to get text (url), choose Remove under List markers for flowing prose, tick Keep code blocks to leave fenced code exactly as written, tick Tidy spacing to collapse doubled spaces and stacked blank lines, and tick Show what changed to see a word-level diff that proves only formatting moved. Identifiers such as snake_case_word and MY_ENV_VAR are left alone.", {
@@ -292,7 +328,7 @@ const brandActionCopy: Record<(typeof brandActions)[number], {
   guidance: (brand: string) => string;
 }> = {
   "to-word": {
-    description: (brand) => `Convert ${brand} answers into a real Word .docx file, with headings, lists, tables, links, and code kept as formatting instead of raw Markdown.`,
+    description: (brand) => `Turn a ${brand} answer into a real .docx with Word heading styles, editable tables, nested lists, links and code, built in your browser.`,
     guidance: (brand) => `Use this when a ${brand} answer needs to become a report, brief, assignment, or document that other people can edit in Word.`,
   },
   "to-pdf": {

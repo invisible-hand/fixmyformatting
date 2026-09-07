@@ -75,6 +75,15 @@ export function renderMarkdown(markdown: string) {
       html += `<h${level}>${inlineMarkdown(heading[2])}</h${level}>`;
       continue;
     }
+    const quote = line.match(/^\s*>\s?(.+)$/);
+    if (quote) {
+      if (inList) {
+        html += "</ul>";
+        inList = false;
+      }
+      html += `<blockquote><p>${inlineMarkdown(quote[1])}</p></blockquote>`;
+      continue;
+    }
     const list = line.match(/^\s*[-*+]\s+(.+)$/);
     if (list) {
       if (!inList) {

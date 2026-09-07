@@ -8,7 +8,7 @@ export const markdownInWord: GuideDefinition = {
   dek: "The symbols are real formatting instructions — Word just has no idea how to read them.",
   cluster: "how-to",
   published: "2026-07-25",
-  updated: "2026-07-25",
+  updated: "2026-09-06",
   answer:
     "Those symbols are Markdown, a plain-text formatting language that chat models write in. Asterisks mark bold, hash marks mark headings, and pipes build tables. Word has no Markdown parser, so it treats them as ordinary characters and prints them literally. Converting the text before pasting turns them into real formatting.",
   sections: [
@@ -39,7 +39,9 @@ Nothing is broken and nothing was corrupted in transit. You are looking at corre
       heading: "Why Word cannot read it",
       body: `Word stores formatting as structured data inside the document. Bold is an attribute attached to a run of characters, not a pair of asterisks around it. When you paste plain text, Word takes every character at face value, because from its perspective an asterisk is a punctuation mark someone typed deliberately.
 
-This is why the usual workarounds disappoint:
+How you copied decides what the clipboard holds. The **Copy** button under a response puts the Markdown source on the clipboard as plain text, which is where the symbols come from. Drag-selecting the rendered answer in the chat window usually copies formatted HTML instead, and Word or Google Docs paste that with headings and bold intact, so a short answer often needs no converter at all. Nested lists, code blocks and wide tables are where that route gets unreliable, and the result varies by browser and chat app.
+
+Once the clipboard holds Markdown, the usual workarounds disappoint:
 
 - **Paste Special → Formatted Text** does nothing, because there was no formatting on the clipboard to preserve. The clipboard held plain characters.
 - **Find and replace** removes the asterisks but leaves the text unbolded, so you lose the structure entirely rather than gaining it.
@@ -52,13 +54,13 @@ Google Docs behaves the same way for the same reason. Notion, Obsidian, and most
       heading: "Three ways to get properly formatted text",
       body: `Which one you want depends on whether you need the formatting or just want it gone.
 
-**1. Convert to a Word document.** The most complete option. [Markdown to Word](/markdown-to-word) turns the response into a real \`.docx\` with genuine heading styles, bold runs, lists, and tables — the kind Word's navigation pane and table of contents can actually see. Use this when the output is going to become a report or anything someone else will edit.
+**1. Convert to a Word document.** The most complete option. [Markdown to Word](/markdown-to-word) turns the response into a real \`.docx\` with genuine heading styles, bold runs, nested lists, editable tables, clickable links and Courier New code — the kind Word's navigation pane and table of contents can actually see. Its *Load an example* button gives you a sample answer to download as \`.docx\` and open before you trust it with your own. Use this when the output is going to become a report or anything someone else will edit.
 
 **2. Convert to rich text and paste.** [Markdown to Google Docs](/markdown-to-google-docs) produces formatted rich text you can copy straight into Google Docs, Word, Outlook, or any editor that accepts pasted HTML. Use this when you are dropping a section into a document that already exists.
 
 **3. Strip the symbols entirely.** Sometimes you want clean prose with no formatting at all — for an email, a form field, a CMS box, or a chat message. [Remove Markdown Formatting](/remove-markdown-formatting) deletes the syntax characters while leaving every word intact, which is what find-and-replace fails to do safely.
 
-All three run in your browser. Nothing is uploaded.`,
+All three run in your browser. Nothing is uploaded. And if you only need a paragraph or two, the zero-tool route from the previous section — select the rendered answer, copy, paste with *Keep Source Formatting* — is worth trying first.`,
     },
     {
       id: "stopping-it-at-the-source",
@@ -81,7 +83,7 @@ If the specific thing you are fighting with is a table rather than prose, that h
     {
       question: "How do I paste ChatGPT output into Word with formatting?",
       answer:
-        "Convert it first. Markdown to Word produces a .docx with real heading styles, bold runs, lists, and tables; Markdown to Google Docs produces rich text you can paste directly into an existing document. Pasting the raw response will always show the syntax characters.",
+        "For a short answer, select the rendered text in the chat window rather than using the Copy button, then paste into Word with Keep Source Formatting; the clipboard carries HTML and the headings and bold usually survive. For long or structured answers, convert first: Markdown to Word produces a .docx with real heading styles, nested lists and editable tables; Markdown to Google Docs produces rich text you can paste into an existing document.",
     },
     {
       question: "Does Paste Special fix Markdown symbols?",

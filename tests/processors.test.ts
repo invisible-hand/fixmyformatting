@@ -361,4 +361,17 @@ describe("text processors", () => {
     expect(documentXml).toContain("Courier New");
     expect(strFromU8(files["word/_rels/document.xml.rels"])).toContain("https://example.com");
   });
+
+  it("turns quotes, rules and images into Word paragraphs instead of literal symbols", async () => {
+    const blob = await createMarkdownDocx("> quoted *line*\n\n---\n\n![Chart of sales](https://example.com/c.png) after");
+    const files = unzipSync(new Uint8Array(await blob.arrayBuffer()));
+    const documentXml = strFromU8(files["word/document.xml"]);
+    expect(documentXml).toContain("quoted ");
+    expect(documentXml).toContain("<w:i/>");
+    expect(documentXml).toContain('<w:ind w:left="720"/>');
+    expect(documentXml).not.toContain("&gt; quoted");
+    expect(documentXml).not.toContain("---");
+    expect(documentXml).toContain("Chart of sales after");
+    expect(documentXml).not.toContain("example.com/c.png");
+  });
 });

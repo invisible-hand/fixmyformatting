@@ -158,6 +158,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .rendered-output h1, .rendered-output h2, .rendered-output h3 { line-height: 1.2; letter-spacing: -0.01em; }
 .rendered-output p { margin: 0 0 1em; }
 .rendered-output code { background: var(--surface-2); border-radius: 4px; padding: 2px 5px; font-family: ui-monospace, monospace; font-size: 0.9em; }
+.rendered-output blockquote { margin: 0 0 1em; padding-inline-start: 16px; border-inline-start: 3px solid var(--line); color: var(--muted); font-style: italic; }
 .rendered-output pre { padding: 15px; overflow: auto; border-radius: 8px; background: #162019; color: #eef7f0; }
 .rendered-output table { width: 100%; border-collapse: collapse; }
 .rendered-output th, .rendered-output td { padding: 8px 10px; border: 1px solid var(--line); text-align: start; }
