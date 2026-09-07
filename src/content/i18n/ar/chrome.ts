@@ -82,7 +82,17 @@ export const workspace: WorkspaceMessages = {
   "dashRemove": "لا شيء",
   "listLabel": "التحويل إلى",
   "listToParagraph": "فقرة",
-  "listToBullets": "نقاط"
+  "listToBullets": "نقاط",
+  "loadExample": "تحميل مثال",
+  "exampleLoaded": "تم تحميل المثال",
+  "keepUrls": "إبقاء عناوين الروابط",
+  "listMarkersLabel": "علامات القوائم",
+  "listMarkersKeep": "الإبقاء كنقاط وأرقام",
+  "listMarkersRemove": "إزالة",
+  "keepCode": "الإبقاء على الأكواد كما كُتبت",
+  "tidySpacing": "تنظيف المسافات أيضًا",
+  "showChanges": "إظهار ما تغيّر",
+  "stripMarkdown": "إزالة رموز Markdown أيضًا"
 };
 
 export const guideChrome: GuideChrome = {

@@ -16,18 +16,18 @@ export const brand: BrandCopy = {
     "remove-formatting": "Rimuovere formattazione Markdown da {brand}",
   },
   actionDescription: {
-    "to-word": "Converti le risposte di {brand} in un vero file Word .docx, con titoli, elenchi, tabelle, link e codice conservati come formattazione.",
+    "to-word": "Trasforma una risposta di {brand} in un vero file .docx con stili Word, tabelle ed elenchi annidati, link e codice, creato nel browser.",
     "to-pdf": "Trasforma una risposta di {brand} in un PDF pronto per la stampa partendo dall’anteprima nel browser. Nulla viene caricato, nessuna filigrana.",
     "to-google-docs": "Incolla una risposta di {brand}, copia il risultato formattato e portalo in Google Docs con titoli, elenchi, link, enfasi e tabelle intatti.",
-    "table-to-excel": "Trasforma le tabelle con barre e trattini che {brand} mostra in chat in un vero file .xlsx con un valore per cella, pronto da ordinare in Excel.",
-    "remove-formatting": "Elimina asterischi, cancelletti e sintassi dei link da una risposta di {brand}, conservando il testo leggibile per email, moduli e app.",
+    "table-to-excel": "Incolla la tabella di {brand} finita in un’unica colonna Excel e scarica un vero .xlsx con un valore per cella e numeri che restano numeri.",
+    "remove-formatting": "Elimina asterischi, cancelletti e link Markdown da {brand} senza cambiare una parola. Mantieni URL, elenchi o codice, e vedi cosa cambia.",
   },
   actionGuidance: {
     "to-word": "Usa questa opzione quando una risposta di {brand} deve diventare un rapporto, un brief, un compito o un documento che altri possono modificare in Word.",
     "to-pdf": "L’anteprima live mostra come verrà stampata la risposta di {brand} prima che tu scelga Salva come PDF nel browser.",
     "to-google-docs": "Copia il risultato formattato e incollalo in Google Docs quando un normale incolla da {brand} lascia visibili i simboli Markdown.",
-    "table-to-excel": "Questo strumento sistema la sintassi delle tabelle con barre e trattini che {brand} mostra in chat e scarica un vero foglio di calcolo .xlsx.",
-    "remove-formatting": "Usa il testo pulito in email, moduli, app di messaggistica o editor che mostrano letteralmente gli asterischi e i cancelletti di {brand}.",
+    "table-to-excel": "Usa questa opzione quando una tabella di {brand} si incolla nella colonna A con le barre ancora visibili: l’anteprima mostra le celle e il download è un vero file .xlsx.",
+    "remove-formatting": "Usa il testo pulito in email, moduli, app di messaggistica o editor che mostrano letteralmente gli asterischi e i segni dei titoli di {brand}; gli interruttori sopra l’editor mantengono URL, marcatori di elenco o codice.",
   },
   reasons: {
     "chatgpt": "ChatGPT spesso restituisce strutture utili in Markdown, che mostrano asterischi, cancelletti e tabelle con barre quando vengono incollate nei programmi da ufficio.",

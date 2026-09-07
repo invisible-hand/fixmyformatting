@@ -3,13 +3,25 @@ import type { ToolCopy } from "@/lib/i18n/types";
 export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-word": {
     name: "Markdown in Word umwandeln",
-    title: "Markdown in Word umwandeln – kostenlos & sofort",
-    description: "Markdown aus ChatGPT, Claude oder einem Editor einfügen und als echte .docx-Datei laden – Überschriften, Listen, Tabellen und Code bleiben erhalten.",
-    intro: "Verwandle Markdown aus ChatGPT, Claude oder einem anderen Editor in ein echtes Word-Dokument. Überschriften, Listen, Links, Code und Tabellen bleiben erhalten, statt als rohe Sonderzeichen zu erscheinen.",
+    title: "Markdown in Word umwandeln – echte .docx, online",
+    description: "Echte .docx mit Word-Überschriften, bearbeitbaren Tabellen, verschachtelten Listen, Links und Code – erstellt im Browser.",
+    intro: "Kopierst du eine Antwort mit dem Copy-Button, zeigt Word die Markdown-Quelle: ## vor Überschriften, ** um Fettes, Striche, wo eine Tabelle stehen sollte. Dieser Konverter macht daraus ein echtes Word-Dokument. Überschriften werden zu Word-Formatvorlagen Überschrift 1 bis Überschrift 6, die der Navigationsbereich und ein Inhaltsverzeichnis erkennen; Listen werden nach ihrer Einrückung verschachtelt, Pipe-Tabellen werden bearbeitbare Word-Tabellen, Links bleiben anklickbar, Code steht in Courier New, und Zitate sind eingerückt und kursiv. „Beispiel laden“ lädt eine Beispielantwort, aus der du zuerst eine Muster-.docx herunterladen und öffnen kannst. Für einen einzelnen Absatz reicht oft schon, die gerenderte Antwort auszuwählen und in Word einzufügen; der Konverter lohnt sich bei langen oder stark strukturierten Antworten und für alles, was jemand anders bearbeiten wird.",
     faqs: [
-      { question: "Ist die Umwandlung von Markdown in Word kostenlos?", answer: "Ja. Das Werkzeug ist kostenlos, benötigt kein Konto und hat kein Nutzungslimit." },
-      { question: "Wird mein Text hochgeladen?", answer: "Nein. Die Verarbeitung erfolgt im Browser. Text wird nur gespeichert, wenn du ausdrücklich einen Freigabelink erstellst." },
-      { question: "Funktioniert es auf Mobilgeräten?", answer: "Ja. Der Editor funktioniert in aktuellen mobilen und Desktop-Browsern." },
+      {
+        question: "Was enthält die Word-Datei tatsächlich?",
+        answer:
+          "Echte Word-Struktur, keinen Text, der nur so aussieht. Eine #-Überschrift wird zur Formatvorlage Überschrift 1, ## zu Überschrift 2 und so weiter bis Überschrift 6 – das lesen Words Navigationsbereich, Gliederungsansicht und Inhaltsverzeichnis. Aufzählungen und nummerierte Listen werden zu Listenabsätzen, verschachtelt nach Einrückung. Pipe-Tabellen werden zu Tabellen, die du in der Größe ändern und sortieren kannst. Links bleiben anklickbar, Code steht in Courier New, und Zitate sind eingerückt und kursiv.",
+      },
+      {
+        question: "Warum zeigt das Einfügen einer ChatGPT-Antwort in Word ** und ##?",
+        answer:
+          "Der Copy-Button unter einer Antwort legt die Markdown-Quelle als reinen Text in die Zwischenablage, und Word hat keinen Markdown-Parser, also druckt es die Zeichen wörtlich. Wählst du stattdessen die gerenderte Antwort mit der Maus aus, kopierst du meist formatiertes HTML, das Word mit intakten Überschriften und Fettschrift einfügt. Stand Markdown in der Zwischenablage, ist dieser Konverter die Lösung – für einen Absatz oder zwei reicht oft schon, die gerenderte Antwort auszuwählen, zu kopieren und mit „Formatierung der Quelle beibehalten“ einzufügen.",
+      },
+      {
+        question: "Kann ich vorher ein Beispiel ansehen, und was wird nicht übertragen?",
+        answer:
+          "Ja. „Beispiel laden“ füllt den Editor mit einer Antwort, die Überschriften, verschachtelte Aufzählungen, eine nummerierte Liste, ein Zitat, eine Tabelle und einen Codeblock enthält. Lade sie als .docx herunter und öffne sie in Word oder LibreOffice, um die Formatvorlagen zu prüfen. Bilder werden zu ihrem Alt-Text, weil das Einbetten eines Bildes von einer Adresse einen Abruf erfordern würde. Verbundene Zellen gibt es in Markdown nicht, also kann ein Konverter sie in einer Tabelle auch nicht erfinden. Fußnoten und HTML-Tags im Markdown werden als Text übernommen.",
+      },
     ],
   },
   "markdown-to-pdf": {
@@ -36,24 +48,48 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   },
   "remove-markdown-formatting": {
     name: "Markdown-Formatierung entfernen",
-    title: "Markdown-Formatierung online entfernen",
-    description: "Sternchen, Rauten, Link-Syntax und Codeblöcke aus Markdown entfernen und lesbaren Fließtext zurückbekommen. Läuft im Browser, ohne Upload.",
-    intro: "Entferne Sternchen, Überschriftenzeichen, Link-Syntax, Codeblöcke und andere Markdown-Zeichen, ohne den darunterliegenden Text zu beschädigen.",
+    title: "Markdown-Formatierung entfernen – online, jedes Wort bleibt",
+    description: "Entfernt **, ## und Link-Syntax, ohne ein Wort zu ändern. URLs, Listenzeichen oder Code bleiben erhalten, Änderungen sichtbar.",
+    intro: "Die Bereinigung folgt festen Suchen-und-Ersetzen-Regeln: Sie fügt nie ein Wort hinzu, entfernt keins und ersetzt keins, sie räumt nur Formatierungszeichen weg. Standardmäßig verlieren Überschriften ihre Rauten, Fett- und Kursivschrift ihre Sternchen, Codeblöcke bleiben als Code erhalten, und Bezeichner wie snake_case_word oder MY_ENV_VAR bleiben unangetastet. Über dem Editor stehen fünf Schalter: „Link-URLs behalten“ hängt die Adresse in Klammern an, „Listenzeichen“ lässt dich zwischen Aufzählung und Fließtext wählen, „Codeblöcke wie geschrieben behalten“ lässt Zäune und Code unverändert, „Leerraum auch aufräumen“ fasst doppelte Leerzeichen und Leerzeilen zusammen, und „Änderungen anzeigen“ zeigt einen wortgenauen Vergleich, der beweist, dass nur Formatierung verschoben wurde.",
     faqs: [
-      { question: "Ist das Entfernen von Markdown-Formatierung kostenlos?", answer: "Ja. Das Werkzeug ist kostenlos, benötigt kein Konto und hat kein Nutzungslimit." },
-      { question: "Wird mein Text hochgeladen?", answer: "Nein. Die Verarbeitung erfolgt im Browser. Text wird nur gespeichert, wenn du ausdrücklich einen Freigabelink erstellst." },
-      { question: "Funktioniert es auf Mobilgeräten?", answer: "Ja. Der Editor funktioniert in aktuellen mobilen und Desktop-Browsern." },
+      {
+        question: "Verändert es meine Wörter?",
+        answer:
+          "Nein. Die Bereinigung ist eine feste Menge von Suchen-und-Ersetzen-Regeln, die nur Formatierungszeichen betreffen: Sternchen, Unterstriche, Rauten, Backticks, eckige Klammern, Striche und Pipes. Sie fügt nie ein Wort hinzu, entfernt keins und ersetzt keins – „Änderungen anzeigen“ markiert jedes verschobene Zeichen, damit du es prüfen kannst. Es findet keine KI-Umformulierung statt.",
+      },
+      {
+        question: "Was wird standardmäßig entfernt, und mit welchen Schaltern behalte ich URLs, Listenzeichen oder Code?",
+        answer:
+          "Standardmäßig verschwinden Rauten vor Überschriften, Sternchen und Unterstriche bei Fett- und Kursivschrift, Link- und Bild-Syntax (der sichtbare Text bleibt, die Adresse geht), Zitatpfeile, Trennlinien sowie Codezäune und einzelne Backticks (der Code selbst bleibt). „Link-URLs behalten“ macht aus [Text](url) die Form Text (url), „Listenzeichen“ auf „Entfernen“ lässt Fließtext ohne Aufzählung entstehen, und „Codeblöcke wie geschrieben behalten“ lässt Zäune und Code unverändert.",
+      },
+      {
+        question: "Räumt es auch die Leerzeichen auf, und wie sehe ich genau, was sich geändert hat?",
+        answer:
+          "„Leerraum auch aufräumen“ fasst doppelte Leerzeichen und Tabulatoren zusammen, entfernt Leerzeichen am Zeilenende und macht aus drei oder mehr Leerzeilen einen Absatzumbruch. Aktiviere „Änderungen anzeigen“, um einen wortgenauen Vergleich von Eingabe und Ergebnis zu sehen; Kopieren und Herunterladen liefern weiterhin den sauberen Text, nicht den Vergleich.",
+      },
     ],
   },
   "markdown-table-to-excel": {
     name: "Markdown-Tabelle in Excel umwandeln",
-    title: "Markdown-Tabelle in Excel umwandeln",
-    description: "Markdown-Tabelle einfügen und als echte .xlsx-Datei herunterladen – ein Wert pro Zelle, statt die ganze Zeile in einer einzigen Spalte.",
-    intro: "Verwandle Tabellen mit senkrechten Strichen und Bindestrichen aus KI-Chats in echte Zeilen und Spalten, die sich in Excel, Numbers und Google Sheets korrekt öffnen lassen.",
+    title: "Markdown-Tabelle in Excel (.xlsx) – online, kostenlos",
+    description: "Eine ChatGPT-Tabelle, die in einer Spalte landet, wird zur echten .xlsx-Datei: ein Wert pro Zelle, Zahlen bleiben Zahlen.",
+    intro: "Verwandelt eine Tabelle aus ChatGPT, Claude oder Gemini, die als Markdown-Pipe-Tabelle in einer Spalte landet, in eine echte .xlsx-Datei. Die Vorschau zeigt genau die Zellen, die später im Arbeitsblatt stehen: Jede Tabelle im Text bekommt ihr eigenes Tabellenblatt, leere Zellen bleiben leer, ein maskiertes \\| wird wieder zu einem Strich |, und einfache Zahlen werden numerische Zellen, während Codes wie 007 oder 1.024 als Text erhalten bleiben, damit nichts still verändert wird. Kopieren legt die Zellen tabgetrennt in die Zwischenablage, sodass sie sich direkt in Excel, Sheets oder Numbers als Raster einfügen lassen.",
     faqs: [
-      { question: "Ist die Umwandlung von Markdown-Tabellen in Excel kostenlos?", answer: "Ja. Das Werkzeug ist kostenlos, benötigt kein Konto und hat kein Nutzungslimit." },
-      { question: "Wird mein Text hochgeladen?", answer: "Nein. Die Verarbeitung erfolgt im Browser. Text wird nur gespeichert, wenn du ausdrücklich einen Freigabelink erstellst." },
-      { question: "Funktioniert es auf Mobilgeräten?", answer: "Ja. Der Editor funktioniert in aktuellen mobilen und Desktop-Browsern." },
+      {
+        question: "Warum landet eine ChatGPT-Tabelle in Excel in einer einzigen Spalte?",
+        answer:
+          "Weil die Zwischenablage eine Markdown-Pipe-Tabelle enthält: reiner Text mit |-Zeichen zwischen den Werten und einer Strichzeile unter der Kopfzeile. Excel und Google Sheets trennen eingefügten Text an Tabulatoren, nicht an Pipes, sodass jede Zeile als ein Wert behandelt wird und die ganze Tabelle in Spalte A landet. Die Umwandlung erzeugt echte Zellgrenzen.",
+      },
+      {
+        question: "Bleiben Zahlen in der .xlsx-Datei Zahlen?",
+        answer:
+          "Einfache Ganzzahlen und Dezimalzahlen wie 412, -3,5 oder 16,2 werden zu numerischen Zellen, die du summieren und sortieren kannst. Alles, bei dem die genauen Zeichen zählen, bleibt Text: Codes mit führenden Nullen wie 007, Werte mit Tausendertrennzeichen wie 1.024, Währungs- und Prozentzeichen sowie Exponenten. Eine leere Zelle bleibt einfach leer, und ein maskiertes \\| wird zu einem einfachen |.",
+      },
+      {
+        question: "Wandelt es mehrere Tabellen gleichzeitig um, und kann ich das Ergebnis ohne Download einfügen?",
+        answer:
+          "Ja. Füge die ganze Antwort samt Fließtext ein – jede Pipe-Tabelle darin wird zu einem eigenen Tabellenblatt, benannt Tabelle 1, Tabelle 2 und so weiter, und die Vorschau zeigt jedes Blatt vor dem Download. Kopieren legt die Zellen zudem tabgetrennt in die Zwischenablage, die sich direkt in Excel, Google Sheets oder Numbers als Raster einfügen lassen – ganz ohne Datei herunterzuladen.",
+      },
     ],
   },
   "markdown-table-to-csv": {
@@ -114,12 +150,12 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "clean-ai-text": {
     name: "ChatGPT- und KI-Text bereinigen",
     title: "ChatGPT-Text bereinigen und KI-Formatierung entfernen",
-    description: "Mechanische Formatierungsartefakte in KI-Texten zählen und bereinigen: Gedankenstriche, typografische Anführungszeichen, unsichtbare Zeichen, Emojis.",
-    intro: "Der Bericht zählt mechanische Formatierungsartefakte, ohne zu raten, ob ein Text von einer KI stammt. Wähle die Bereinigungsoptionen und prüfe die transparenten Zähler.",
+    description: "Zählt und bereinigt Formatierungsartefakte in KI-Texten: Gedankenstriche, Anführungszeichen, unsichtbare Zeichen, Emojis und optional Markdown.",
+    intro: "Der Bericht zählt mechanische Formatierungsartefakte, ohne zu raten, ob ein Text von einer KI stammt. Wähle die Bereinigungsoptionen, aktiviere bei Bedarf „Auch Markdown-Symbole entfernen“ und „Änderungen anzeigen“, und prüfe die transparenten Zähler.",
     faqs: [
       { question: "Ist das Bereinigen von KI-Texten kostenlos?", answer: "Ja. Das Werkzeug ist kostenlos, benötigt kein Konto und hat kein Nutzungslimit." },
       { question: "Wird mein Text hochgeladen?", answer: "Nein. Die Verarbeitung erfolgt im Browser. Text wird nur gespeichert, wenn du ausdrücklich einen Freigabelink erstellst." },
-      { question: "Funktioniert es auf Mobilgeräten?", answer: "Ja. Der Editor funktioniert in aktuellen mobilen und Desktop-Browsern." },
+      { question: "Kann ich auch Markdown-Symbole entfernen und sehen, was sich geändert hat?", answer: "Ja. Aktiviere „Auch Markdown-Symbole entfernen“, um Sternchen, Rauten und Link-Syntax im selben Durchgang zu entfernen, und „Änderungen anzeigen“ für einen wortgenauen Vergleich von Eingabe und Ergebnis." },
     ],
   },
   "remove-invisible-characters": {

@@ -82,7 +82,17 @@ export const workspace: WorkspaceMessages = {
   "dashRemove": "不替换",
   "listLabel": "转换为",
   "listToParagraph": "段落",
-  "listToBullets": "项目符号"
+  "listToBullets": "项目符号",
+  "loadExample": "加载示例",
+  "exampleLoaded": "示例已加载",
+  "keepUrls": "保留链接 URL",
+  "listMarkersLabel": "列表符号",
+  "listMarkersKeep": "保留为项目符号和编号",
+  "listMarkersRemove": "删除",
+  "keepCode": "保留代码块原样",
+  "tidySpacing": "同时整理空格",
+  "showChanges": "查看改动之处",
+  "stripMarkdown": "同时删除 Markdown 符号"
 };
 
 export const guideChrome: GuideChrome = {

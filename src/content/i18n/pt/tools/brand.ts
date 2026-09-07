@@ -16,18 +16,18 @@ export const brand: BrandCopy = {
     "remove-formatting": "Remover Formatação Markdown do {brand}",
   },
   actionDescription: {
-    "to-word": "Converta respostas do {brand} em um arquivo .docx de verdade, com títulos, listas, tabelas, links e código preservados como formatação real.",
+    "to-word": "Transforme uma resposta do {brand} em um .docx de verdade: títulos, tabelas editáveis, listas aninhadas, links e código do Word.",
     "to-pdf": "Transforme uma resposta do {brand} em um PDF limpo e pronto para impressão a partir da prévia no navegador, sem upload e sem marca d'água.",
     "to-google-docs": "Cole uma resposta do {brand}, copie o resultado em texto rico e leve ao Google Docs com títulos, listas, links, ênfases e tabelas intactos.",
-    "table-to-excel": "Converta as tabelas de barras e traços que o {brand} mostra no chat em um .xlsx de verdade, com um valor por célula, pronto para ordenar.",
-    "remove-formatting": "Tire asteriscos, cerquilhas e sintaxe de links de uma resposta do {brand} e fique com o texto legível para e-mail, formulários e apps.",
+    "table-to-excel": "Cole a tabela do {brand} que caiu em uma coluna só do Excel e baixe um .xlsx de verdade, com um valor por célula e números mantidos como números.",
+    "remove-formatting": "Tire asteriscos, cerquilhas e sintaxe de links de uma resposta do {brand} sem mudar uma palavra. Mantenha URLs, listas ou código.",
   },
   actionGuidance: {
     "to-word": "Use quando uma resposta do {brand} precisar virar um relatório, resumo, trabalho ou documento que outras pessoas possam editar no Word.",
     "to-pdf": "A prévia ao vivo mostra como a resposta do {brand} será impressa antes de você escolher Salvar como PDF no navegador.",
     "to-google-docs": "Copie o resultado em texto rico e cole no Google Docs quando uma colagem comum do {brand} deixar símbolos Markdown visíveis.",
-    "table-to-excel": "Isso corrige a sintaxe de tabela com barras e traços que o {brand} exibe no chat e baixa uma planilha .xlsx de verdade.",
-    "remove-formatting": "Use o texto limpo em e-mails, formulários, aplicativos de mensagem ou editores que mostram os asteriscos e as cerquilhas do {brand} literalmente.",
+    "table-to-excel": "Use quando uma tabela do {brand} colar na coluna A com as barras ainda visíveis: a prévia mostra as células e o download é um .xlsx genuíno.",
+    "remove-formatting": "Use o texto limpo em e-mails, formulários, aplicativos de mensagem ou editores que mostram os asteriscos e as cerquilhas do {brand} literalmente; as opções acima do editor mantêm URLs, marcadores de lista ou código.",
   },
   reasons: {
     "chatgpt": "O ChatGPT costuma retornar estruturas úteis em Markdown, o que expõe asteriscos, cerquilhas e tabelas com barras ao colar em programas de escritório.",

@@ -172,57 +172,21 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
 
   async function download() {
     if (!result.output && !result.html) return;
-    if (tool.download === "docx") {
-      const { createMarkdownDocx } = await import("@/lib/markdown-docx");
-      const blob = await createMarkdownDocx(input);
-      saveBlob(blob, `${tool.slug}.docx`);
-      track("tool_action", { tool: tool.slug, action: "download" });
-      flash("DOCX downloaded");
-      return;
-    }
-    if (tool.download === "xlsx") {
-      // Same parser as the preview, so the file holds exactly the cells shown.
-      const [{ parseMarkdownTables }, { createWorkbook }] = await Promise.all([import("@/lib/processors"), import("@/lib/xlsx")]);
-      const buffer = createWorkbook(parseMarkdownTables(input));
-      saveBlob(new Blob([buffer.buffer as ArrayBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), `${tool.slug}.xlsx`);
-      track("tool_action", { tool: tool.slug, action: "download" });
-      flash(ui.excelDownloaded);
-      return;
-    }
-    if (processor === "markdown-to-pdf") {
-      window.print();
-      return;
-    }
-    const content = tool.download === "html" ? (result.html ?? result.output) : result.output;
-    const extension = tool.download ?? "txt";
-    saveBlob(new Blob([content], { type: extension === "html" ? "text/html" : "text/plain" }), `${tool.slug}.${extension}`);
-    track("tool_action", { tool: tool.slug, action: "download" });
-    flash(ui.downloaded);
+    const { downloadResult } = await import("@/lib/workspace-actions");
+    const message = await downloadResult({ tool, processor, input, result, labels: { downloaded: ui.downloaded, excelDownloaded: ui.excelDownloaded, printPdf: ui.printPdf } });
+    if (message) flash(message);
   }
 
   async function createShare() {
     if (!input) return flash(ui.pasteFirst);
     flash(ui.creatingLink);
-    try {
-      const response = await fetch("/api/share", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ tool: tool.slug, input, settings: { locale, ...processSettings } }),
-      });
-      const data = (await response.json()) as { id?: string; error?: string };
-      if (!response.ok || !data.id) throw new Error(data.error ?? ui.couldNotCreateLink);
-      await navigator.clipboard.writeText(`${window.location.origin}/s/${data.id}`);
-      track("tool_action", { tool: tool.slug, action: "share" });
-      flash(ui.shareCopied);
-    } catch (error) {
-      flash(error instanceof Error ? error.message : ui.shareUnavailable);
-    }
+    const { shareResult } = await import("@/lib/workspace-actions");
+    flash(await shareResult({ tool, input, settings: { locale, ...processSettings }, labels: { shareCopied: ui.shareCopied, couldNotCreateLink: ui.couldNotCreateLink, shareUnavailable: ui.shareUnavailable } }));
   }
 
   async function copyEmbed() {
-    const code = `<iframe src="${window.location.origin}${publicPath ?? `/${tool.slug}`}?embed=1" title="${tool.name}" width="100%" height="540" loading="lazy"></iframe>`;
-    await navigator.clipboard.writeText(code);
-    track("tool_action", { tool: tool.slug, action: "embed" });
+    const { copyEmbedCode } = await import("@/lib/workspace-actions");
+    await copyEmbedCode(tool, publicPath);
     flash(ui.embedCopied);
   }
 
@@ -371,13 +335,4 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
       <div className="trust-strip">{ui.free} <span>·</span> {ui.noSignup} <span>·</span> {ui.private}</div>
     </section>
   );
-}
-
-function saveBlob(blob: Blob, filename: string) {
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = filename;
-  anchor.click();
-  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }

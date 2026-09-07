@@ -16,18 +16,18 @@ export const brand: BrandCopy = {
     "remove-formatting": "{brand} sans formatage Markdown — Gratuit",
   },
   actionDescription: {
-    "to-word": "Convertissez les réponses de {brand} en véritable fichier Word .docx : titres, listes, tableaux, liens et code restent de la mise en forme.",
+    "to-word": "Transformez une réponse {brand} en vrai .docx : styles de titre Word, tableaux modifiables, listes imbriquées, liens et code du navigateur.",
     "to-pdf": "Transformez une réponse de {brand} en PDF propre et prêt à imprimer depuis l’aperçu mis en forme du navigateur, sans envoi ni filigrane.",
     "to-google-docs": "Collez une réponse de {brand}, copiez le texte enrichi obtenu et collez-le dans Google Docs avec titres, listes, liens et tableaux intacts.",
-    "table-to-excel": "Convertissez les tableaux à barres et tirets de {brand} en vrai fichier .xlsx, une valeur par cellule, prêt à trier et modifier dans Excel.",
-    "remove-formatting": "Supprimez astérisques, dièses et syntaxe des liens d’une réponse de {brand} pour garder un texte lisible dans les e-mails et les formulaires.",
+    "table-to-excel": "Collez le tableau {brand} tombé dans une colonne Excel et téléchargez un vrai .xlsx, une valeur par cellule, les nombres restant des nombres.",
+    "remove-formatting": "Supprimez astérisques, dièses et liens d’une réponse {brand} sans changer un mot. Gardez URL, listes ou code, et voyez ce qui a changé.",
   },
   actionGuidance: {
     "to-word": "Utilisez cet outil quand une réponse de {brand} doit devenir un rapport, une note de synthèse, un devoir ou un document que d'autres personnes peuvent modifier dans Word.",
     "to-pdf": "L'aperçu en direct montre comment la réponse de {brand} s'imprimera avant que vous choisissiez Enregistrer au format PDF dans votre navigateur.",
     "to-google-docs": "Copiez le résultat en texte enrichi et collez-le dans Google Docs quand un collage classique depuis {brand} laisse apparaître des symboles Markdown.",
-    "table-to-excel": "Cet outil corrige la syntaxe des tableaux en barres et tirets affichés par {brand} et télécharge un véritable classeur .xlsx.",
-    "remove-formatting": "Utilisez le texte nettoyé dans les e-mails, les formulaires, les messageries ou les éditeurs qui affichent littéralement les astérisques et les marques de titres de {brand}.",
+    "table-to-excel": "Utilisez-le quand un tableau {brand} se colle dans la colonne A avec les barres encore visibles : l’aperçu montre les cellules et le téléchargement est un vrai .xlsx.",
+    "remove-formatting": "Utilisez le texte nettoyé dans les e-mails, les formulaires, les messageries ou les éditeurs qui affichent littéralement les astérisques et les marques de titres de {brand} ; les réglages au-dessus de l’éditeur gardent les URL, les puces ou le code.",
   },
   reasons: {
     "chatgpt": "ChatGPT renvoie souvent une structure utile en Markdown, ce qui fait apparaître des astérisques, des dièses et des tableaux à barres verticales lors du collage dans un logiciel de bureautique.",

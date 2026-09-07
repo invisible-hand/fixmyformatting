@@ -3,13 +3,22 @@ import type { ToolCopy } from "@/lib/i18n/types";
 export const tools: Partial<Record<string, ToolCopy>> = {
   "markdown-to-word": {
     name: "Convertir Markdown a Word",
-    title: "Convertir Markdown a Word gratis y al instante",
-    description: "Pega Markdown de ChatGPT, Claude o cualquier editor y descarga un .docx real con títulos, listas, tablas, enlaces y código ya formateados.",
-    intro: "Convierte el Markdown de ChatGPT, Claude o cualquier editor en un documento Word de verdad. Títulos, listas, enlaces, código y tablas se conservan en lugar de aparecer como símbolos sueltos.",
+    title: "Convertir Markdown a Word — .docx real, gratis",
+    description: "Pega una respuesta de ChatGPT o Claude y descarga un .docx real con estilos de título de Word, tablas editables, listas anidadas, enlaces y código.",
+    intro: "Copia una respuesta con el botón Copiar y Word muestra el código Markdown: ## delante de los títulos, ** rodeando la negrita, barras donde debería haber una tabla. Este conversor convierte ese código en un documento Word genuino: los títulos se convierten en los estilos Heading 1 a Heading 6 de Word, así que el panel de navegación y la tabla de contenidos los reconocen; las viñetas y las listas numeradas se convierten en párrafos de lista reales, anidados según su sangría; las tablas con barras verticales se convierten en tablas editables; los enlaces siguen siendo pulsables; el código en línea y en bloque se muestra en Courier New; las citas en bloque quedan sangradas y en cursiva. Carga el ejemplo para descargar un .docx de muestra y ábrelo en Word antes de pegar tu propio texto. Cuando solo necesitas un párrafo o dos, seleccionar la respuesta renderizada y pegarla en Word suele conservar ya el formato; el conversor es para respuestas largas o estructuradas y para cualquier documento que otra persona vaya a editar.",
     faqs: [
-      { question: "¿Convertir Markdown a Word es gratis?", answer: "Sí. Es gratis, no requiere cuenta y no tiene límite de uso." },
-      { question: "¿Se sube mi texto?", answer: "No. El procesamiento ocurre en tu navegador. Solo se guarda si creas explícitamente un enlace compartido." },
-      { question: "¿Puedo usarlo en el móvil?", answer: "Sí. El editor funciona en navegadores actuales de móvil y escritorio." },
+      {
+        question: "¿Qué contiene realmente el documento Word?",
+        answer: "Estructura de Word de verdad, no texto que lo parece. Un título con # se convierte en el estilo Heading 1, ## en Heading 2 y así hasta Heading 6, que es lo que leen el panel de navegación, la vista de esquema y la tabla de contenidos de Word. Las viñetas y las listas numeradas se convierten en párrafos de lista anidados según su sangría. Las tablas con barras verticales se convierten en tablas que puedes redimensionar y ordenar. Los enlaces siguen siendo pulsables, el código se muestra en Courier New y las citas en bloque quedan sangradas y en cursiva.",
+      },
+      {
+        question: "¿Por qué al pegar una respuesta de ChatGPT en Word aparecen ** y ##, y cuándo basta con copiar y pegar sin más?",
+        answer: "El botón Copiar bajo una respuesta pone el código Markdown en el portapapeles como texto plano, y Word no tiene analizador de Markdown, así que imprime los símbolos literalmente. Para un párrafo o dos, seleccionar la respuesta renderizada con el ratón suele copiar HTML con formato, que Word pega con títulos y negrita intactos; en respuestas largas, con tablas o listas anidadas, ese pegado se vuelve poco fiable y conviene convertir a .docx.",
+      },
+      {
+        question: "¿Puedo ver un ejemplo antes de pegar mi propio texto, y qué no se convierte?",
+        answer: "Sí. Cargar ejemplo rellena el editor con una respuesta con títulos, viñetas anidadas, una lista numerada, una cita, una tabla y un bloque de código; pulsa Descargar para obtener ese .docx de muestra y ábrelo en Word antes de confiar en él con tu propio texto. Las imágenes se convierten en su texto alternativo, las celdas combinadas no existen en Markdown y no pueden inventarse, y las notas al pie y las etiquetas HTML dentro del Markdown pasan como texto sin más.",
+      },
     ],
   },
   "markdown-to-pdf": {
@@ -36,24 +45,42 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   },
   "remove-markdown-formatting": {
     name: "Eliminar formato Markdown",
-    title: "Eliminar formato Markdown online gratis",
-    description: "Quita asteriscos, almohadillas, sintaxis de enlaces y bloques de código, y recupera texto plano legible. Ocurre en tu navegador, sin subir nada.",
-    intro: "Pega el Markdown de un chat de IA, un README o unas notas y recupera texto plano legible. Se quitan los asteriscos, las almohadillas de títulos, la sintaxis de enlaces y los bloques de código, mientras que las palabras, el texto visible de los enlaces y el contenido de las tablas se conservan intactos.",
+    title: "Eliminar formato Markdown, sin tocar ni una palabra",
+    description: "Quita **, ## y la sintaxis de enlaces de ChatGPT o Claude sin cambiar ni una palabra. Conserva URLs, marcadores de lista o código, y mira qué cambió.",
+    intro: "El texto copiado de ChatGPT, Claude o Gemini llega como Markdown, así que un correo, un formulario o una app de chat muestra los asteriscos, las almohadillas y los corchetes tal cual. Esta herramienta los elimina con reglas fijas de buscar y reemplazar: nunca añade, quita ni sustituye una palabra, y los recuentos sobre el resultado indican cuántos símbolos se han quitado. Por defecto los títulos pierden sus almohadillas, la negrita y la cursiva pierden sus asteriscos y guiones bajos, los enlaces conservan su texto visible, las viñetas se convierten en • y las listas numeradas conservan sus números, los bloques de código se eliminan y el código se conserva, y las tablas con barras verticales se convierten en filas separadas por tabulaciones. Marca Conservar URLs de enlaces para obtener texto (url), elige Quitar en Marcadores de lista para prosa continua, marca Mantener bloques de código tal cual para dejar el código exactamente como está escrito, marca Ajustar también el espaciado para unificar espacios dobles y líneas en blanco apiladas, y marca Mostrar cambios para ver un diff palabra por palabra que demuestra que solo se movió el formato. Identificadores como snake_case_word y MY_ENV_VAR quedan intactos.",
     faqs: [
-      { question: "¿Eliminar formato Markdown es gratis?", answer: "Sí. Es gratis, no requiere cuenta y no tiene límite de uso." },
-      { question: "¿Se pierde contenido al quitar los símbolos?", answer: "No. Solo se eliminan los caracteres de formato; las palabras, los enlaces y el contenido de las tablas se conservan." },
-      { question: "¿Se sube mi texto?", answer: "No. El procesamiento ocurre en tu navegador. Solo se guarda si creas explícitamente un enlace compartido." },
+      {
+        question: "¿Cambia mis palabras?",
+        answer: "No. La limpieza es un conjunto fijo de reglas de buscar y reemplazar sobre caracteres de formato: asteriscos, guiones bajos, almohadillas, acentos graves, corchetes, barras verticales y guiones. Nunca añade, quita ni sustituye una palabra, y la vista Mostrar cambios marca cada carácter que se movió para que puedas comprobarlo. No hay ninguna reescritura por IA.",
+      },
+      {
+        question: "¿Qué se elimina por defecto, y qué interruptores conservan las URLs, los marcadores de lista o el código?",
+        answer: "Por defecto se eliminan las almohadillas de los títulos, los marcadores de negrita y cursiva, la sintaxis de enlaces e imágenes (el texto del enlace se conserva, la URL desaparece), las flechas de cita, las líneas horizontales, los bloques de código y los acentos graves en línea (el código se conserva), y las barras y la fila de alineación de una tabla, cuyas celdas pasan a estar separadas por tabulaciones para poder pegarlas en una hoja de cálculo. Conservar URLs de enlaces convierte [texto](url) en texto (url); Marcadores de lista en Quitar elimina viñetas y números para prosa continua; Mantener bloques de código tal cual deja el código exactamente como estaba, con las etiquetas incluidas.",
+      },
+      {
+        question: "¿También corrige el espaciado, y cómo veo exactamente qué cambió?",
+        answer: "Marca Ajustar también el espaciado y las series de espacios o tabulaciones se reducen a uno, se recorta el espacio sobrante al final de cada línea y tres o más líneas en blanco se convierten en un único salto de párrafo. Marca Mostrar cambios y el panel de resultado pasa a un diff palabra por palabra con lo eliminado tachado y lo añadido resaltado; Copiar y Descargar siguen dando el texto limpio, no el diff.",
+      },
     ],
   },
   "markdown-table-to-excel": {
     name: "Convertir tabla Markdown a Excel",
-    title: "Convertir tabla Markdown a Excel gratis",
-    description: "Pega una tabla Markdown con barras verticales y descarga un .xlsx real con un valor por celda, en vez de la fila entera en una sola columna.",
-    intro: "Convierte las tablas con barras verticales y guiones copiadas de chats de IA en filas y columnas que se abren correctamente en Excel, Numbers y Google Sheets.",
+    title: "Convertir tabla Markdown a Excel (.xlsx) gratis",
+    description: "Pega una tabla de ChatGPT o Markdown que cayó en una sola columna de Excel y descarga un .xlsx real con un valor por celda y los números como números.",
+    intro: "Una tabla copiada de ChatGPT, Claude o Gemini es una tabla Markdown con barras verticales: texto plano con un | entre los valores y una fila de guiones bajo el encabezado. Excel divide el texto pegado por tabulaciones, no por barras, así que toda la tabla se apila en la columna A. Pégala aquí y la vista previa muestra exactamente las celdas que tendrá el libro. Descargar guarda un .xlsx genuino, y Copiar pone celdas separadas por tabulaciones en el portapapeles que se pegan directamente en Excel, Google Sheets o Numbers como una cuadrícula. Cada tabla del texto se convierte en su propia hoja, las celdas en blanco quedan en blanco, una barra escapada \\| se convierte en |, la fila de alineación y los espacios de relleno se eliminan, y los números normales se convierten en celdas numéricas que puedes sumar, mientras que códigos como 007 o 1,024 se mantienen como texto para que nada cambie en silencio.",
     faqs: [
-      { question: "¿Convertir tabla Markdown a Excel es gratis?", answer: "Sí. Es gratis, no requiere cuenta y no tiene límite de uso." },
-      { question: "¿Funciona con Google Sheets y Numbers?", answer: "Sí. El resultado se abre correctamente en Excel, Google Sheets y Numbers." },
-      { question: "¿Se sube mi texto?", answer: "No. El procesamiento ocurre en tu navegador. Solo se guarda si creas explícitamente un enlace compartido." },
+      {
+        question: "¿Por qué una tabla de ChatGPT se pega en una sola columna en Excel?",
+        answer: "Porque el portapapeles contiene una tabla Markdown con barras verticales: texto plano con caracteres | entre los valores y una fila de guiones bajo el encabezado. Excel y Google Sheets dividen el texto pegado por tabulaciones, no por barras, así que cada línea se trata como un único valor y toda la tabla se apila en la columna A. Convertirla primero produce límites de celda reales.",
+      },
+      {
+        question: "¿Los números siguen siendo números en el .xlsx, incluidas las celdas en blanco y las barras escapadas?",
+        answer: "Los enteros y decimales normales, como 412, -3.5 o 16.2, se convierten en celdas numéricas que puedes sumar y ordenar. Todo aquello donde los caracteres exactos importan se mantiene como texto: códigos con ceros a la izquierda como 007, valores con separador de miles como 1,024, signos de moneda y de porcentaje, y exponentes. Una celda en blanco se convierte en una celda vacía sin desplazar la fila, y una barra escrita como \\| dentro de una celda se convierte en un | normal.",
+      },
+      {
+        question: "¿Puede convertir varias tablas a la vez, y puedo pegar el resultado sin descargar un archivo?",
+        answer: "Sí a las dos. Pega la respuesta completa, con la prosa incluida: cada tabla con barras verticales se detecta y se convierte en su propia hoja del libro. Y si no quieres descargar nada, Copiar pone las celdas en el portapapeles como texto separado por tabulaciones, que Excel, Google Sheets y Numbers pegan como una cuadrícula.",
+      },
     ],
   },
   "markdown-table-to-csv": {
@@ -114,10 +141,10 @@ export const tools: Partial<Record<string, ToolCopy>> = {
   "clean-ai-text": {
     name: "Limpiar texto de ChatGPT e IA",
     title: "Limpiar texto de ChatGPT y formato de IA",
-    description: "Cuenta y limpia los artefactos mecánicos del texto de IA: rayas largas, comillas tipográficas, caracteres invisibles y emojis, con recuentos visibles.",
+    description: "Cuenta y limpia artefactos de texto de IA: rayas largas, comillas tipográficas, caracteres invisibles, emojis y, si quieres, Markdown. Recuentos visibles.",
     intro: "El informe de artefactos de IA cuenta los elementos mecánicos de formato; no intenta adivinar si el texto lo escribió una IA. Activa las opciones de limpieza que necesites y revisa los recuentos transparentes.",
     faqs: [
-      { question: "¿Qué elementos limpia esta herramienta?", answer: "Detecta y elimina rayas largas, comillas tipográficas, emojis y caracteres invisibles. Puedes activar o desactivar cada opción y ver el recuento de cada tipo." },
+      { question: "¿Qué elementos limpia esta herramienta?", answer: "Detecta y elimina rayas largas, comillas tipográficas, emojis y caracteres invisibles. Activa Eliminar también símbolos Markdown para quitar además asteriscos, almohadillas y enlaces en el mismo paso, y Mostrar cambios para ver un diff palabra por palabra. Cada opción se activa por separado y verás el recuento de cada tipo." },
       { question: "¿Se sube mi texto?", answer: "No. El procesamiento ocurre en tu navegador. Solo se guarda si creas explícitamente un enlace compartido." },
       { question: "¿Funciona en el móvil?", answer: "Sí. El editor funciona en navegadores actuales de móvil y escritorio." },
     ],
