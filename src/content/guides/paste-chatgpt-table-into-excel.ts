@@ -8,7 +8,7 @@ export const tableToExcel: GuideDefinition = {
   dek: "Why the whole table lands in column A, and the two reliable ways to fix it.",
   cluster: "how-to",
   published: "2026-07-25",
-  updated: "2026-09-01",
+  updated: "2026-09-06",
   answer:
     "A ChatGPT table is a Markdown pipe table — plain text using | characters to suggest columns. Spreadsheets expect cell boundaries, not pipes, so every row lands in a single column. Converting the table to XLSX or CSV first produces real rows and columns that open correctly in Excel, Sheets, and Numbers.",
   sections: [
@@ -36,7 +36,7 @@ The alignment row is the giveaway that this was never spreadsheet data. No sprea
       heading: "The fastest fix: convert before pasting",
       body: `Rather than pasting and repairing, convert the table into a format spreadsheets already understand.
 
-**For Excel and Numbers**, [Markdown Table to Excel](/markdown-table-to-excel) produces a genuine \`.xlsx\` file. Paste the table, download the spreadsheet, open it. Numbers stay numbers, the header row stays a header row, and nothing needs splitting afterwards.
+**For Excel and Numbers**, [Markdown Table to Excel](/markdown-table-to-excel) produces a genuine \`.xlsx\` file. Paste the table, check the cell preview, download the spreadsheet, open it. Numbers stay numbers, the header row stays a header row, and nothing needs splitting afterwards. You can paste the whole answer rather than hunting for the table: every pipe table in it becomes its own sheet. And if you would rather not download anything, *Copy* puts tab-separated cells on the clipboard, which Excel, Sheets and Numbers all paste as a grid.
 
 **For Google Sheets**, [Markdown Table to CSV](/markdown-table-to-csv) is usually smoother. CSV imports natively through *File → Import*, and you avoid the download-then-upload round trip that XLSX requires in a browser. The converter escapes quotes and embedded commas properly, which is where hand-rolled conversions typically break.
 

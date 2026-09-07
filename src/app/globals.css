@@ -159,6 +159,13 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 .rendered-output pre { padding: 15px; overflow: auto; border-radius: 8px; background: #162019; color: #eef7f0; }
 .rendered-output table { width: 100%; border-collapse: collapse; }
 .rendered-output th, .rendered-output td { padding: 8px 10px; border: 1px solid var(--line); text-align: start; }
+.rendered-output .cell-grid { margin: 0 0 18px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.rendered-output .cell-grid caption { caption-side: top; text-align: start; padding: 0 0 6px; color: var(--muted); font-size: 12px; font-weight: 750; text-transform: uppercase; letter-spacing: 0.05em; }
+.rendered-output .cell-grid th { background: var(--surface-2); font-weight: 750; }
+.rendered-output .cell-grid td.num { text-align: end; }
+.rendered-output .cell-grid td:empty::after { content: ""; display: inline-block; min-height: 1em; }
+.panel-label .link-button { min-height: 0; padding: 0; border: 0; background: none; color: var(--accent); font: inherit; font-weight: 750; text-transform: none; letter-spacing: 0; cursor: pointer; }
+.panel-label .link-button:hover { text-decoration: underline; }
 .diff-output { white-space: pre-wrap; overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; line-height: 1.8; }
 .diff-added { background: #d9fbe5; color: #155b31; text-decoration: none; }
 .diff-removed { background: #ffe0e0; color: #8f2323; text-decoration: line-through; }

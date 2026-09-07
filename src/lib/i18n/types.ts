@@ -118,6 +118,9 @@ export type WorkspaceMessages = {
   listLabel: string;
   listToParagraph: string;
   listToBullets: string;
+  /** Optional until every locale carries them; the workspace falls back to English. */
+  loadExample?: string;
+  exampleLoaded?: string;
 };
 
 export type GuideChrome = {

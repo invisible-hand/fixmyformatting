@@ -1,3 +1,4 @@
+import { isNumericCell } from "./numeric-cell";
 import { getProcessorSlug } from "./tools";
 import { diffWords } from "diff";
 
@@ -82,15 +83,69 @@ export function renderMarkdown(markdown: string) {
   return html;
 }
 
+/**
+ * Split a pipe row into cells. A pipe escaped as `\|` is content (a GitHub /
+ * CommonMark-GFM convention chat assistants follow when a cell needs a literal
+ * bar), so the split runs on unescaped pipes only and the escape is removed.
+ */
 function parseMarkdownRow(row: string) {
-  return row.trim().replace(/^\||\|$/g, "").split("|").map((cell) => cell.trim());
+  return row
+    .trim()
+    .replace(/^\|/, "")
+    .replace(/(?<!\\)\|$/, "")
+    .split(/(?<!\\)\|/)
+    .map((cell) => cell.replace(/\\\|/g, "|").trim());
+}
+
+const alignmentRow = (line: string | undefined) => /^\|?[\s:|-]+\|?$/.test(line?.trim() ?? "") && (line ?? "").includes("-");
+
+/**
+ * Every pipe table in the input, in order: a header row, an alignment row,
+ * then body rows until the first line without a pipe. Prose between tables is
+ * skipped, so a table buried in a long answer is found without trimming it out
+ * by hand.
+ */
+export function parseMarkdownTables(input: string): string[][][] {
+  const lines = input.split(/\r?\n/);
+  const tables: string[][][] = [];
+  for (let index = 0; index < lines.length; index += 1) {
+    if (!lines[index].includes("|") || !alignmentRow(lines[index + 1])) continue;
+    const rows = [parseMarkdownRow(lines[index])];
+    let cursor = index + 2;
+    while (cursor < lines.length && lines[cursor].includes("|")) {
+      rows.push(parseMarkdownRow(lines[cursor]));
+      cursor += 1;
+    }
+    tables.push(rows);
+    index = cursor - 1;
+  }
+  return tables;
 }
 
 function parseMarkdownTable(input: string) {
-  const lines = input.split(/\r?\n/);
-  const start = lines.findIndex((line, index) => line.includes("|") && /^\|?[\s:|-]+\|?$/.test(lines[index + 1]?.trim() ?? ""));
-  if (start < 0) return [] as string[][];
-  return [parseMarkdownRow(lines[start]), ...lines.slice(start + 2).filter((line) => line.includes("|")).map(parseMarkdownRow)];
+  return parseMarkdownTables(input)[0] ?? [];
+}
+
+const tableToTsv = (rows: string[][]) => rows.map((row) => row.map((cell) => cell.replace(/[\t\r\n]+/g, " ")).join("\t")).join("\n");
+
+/**
+ * The preview grid mirrors the workbook: one <table> per sheet, the header row
+ * as <th>, and a cell that will become a numeric cell in the .xlsx marked so
+ * it right-aligns the way Excel will show it. Blank cells render as blank.
+ */
+function tablesToGrid(tables: string[][][]) {
+  return tables.map((rows, tableIndex) => {
+    const width = Math.max(...rows.map((row) => row.length));
+    const [header, ...body] = rows;
+    const cells = (row: string[], tag: "th" | "td") =>
+      Array.from({ length: width }, (_, column) => {
+        const cell = row[column] ?? "";
+        const numeric = tag === "td" && isNumericCell(cell);
+        return `<${tag}${numeric ? ' class="num"' : ""}>${escapeHtml(cell)}</${tag}>`;
+      }).join("");
+    const caption = `Sheet ${tableIndex + 1} · ${body.length} ${body.length === 1 ? "row" : "rows"} × ${width} ${width === 1 ? "column" : "columns"}`;
+    return `<table class="cell-grid"><caption>${caption}</caption><thead><tr>${cells(header, "th")}</tr></thead><tbody>${body.map((row) => `<tr>${cells(row, "td")}</tr>`).join("")}</tbody></table>`;
+  }).join("");
 }
 
 const csvCell = (value: unknown) => {
@@ -369,7 +424,22 @@ export function processText(slug: string, input: string, settings: ProcessSettin
     const output = stripMarkdown(input);
     return { output, stats: [{ label: "Symbols removed", value: Math.max(0, input.length - output.length) }] };
   }
-  if (["markdown-table-to-excel", "markdown-table-to-csv"].includes(processor)) {
+  if (processor === "markdown-table-to-excel") {
+    const tables = parseMarkdownTables(input);
+    if (!tables.length) return { output: "", html: "", stats: [] };
+    // Copy gives tab-separated cells, which paste straight into a spreadsheet
+    // grid; the download is the same tables as real .xlsx sheets.
+    return {
+      output: tables.map(tableToTsv).join("\n\n"),
+      html: tablesToGrid(tables),
+      stats: [
+        { label: "Tables found", value: tables.length },
+        { label: "Rows", value: tables.reduce((total, rows) => total + rows.length - 1, 0) },
+        { label: "Columns", value: Math.max(...tables.map((rows) => rows[0]?.length ?? 0)) },
+      ],
+    };
+  }
+  if (processor === "markdown-table-to-csv") {
     const rows = parseMarkdownTable(input);
     return { output: tableToCsv(rows), stats: [{ label: "Rows", value: Math.max(0, rows.length - 1) }, { label: "Columns", value: rows[0]?.length ?? 0 }] };
   }

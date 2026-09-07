@@ -257,6 +257,42 @@ describe("text processors", () => {
     expect(processText("extract-table-from-text", "| A | B |\n| - | -- |\n| 1 | 2 |").output).toBe("A,B\n1,2");
   });
 
+  it("finds every pipe table in an answer, keeps blank cells, and unescapes pipes", async () => {
+    const { parseMarkdownTables } = await import("../src/lib/processors");
+    const answer = "Intro line\n\n| A | B | C |\n|:--|--:|:-:|\n| x \\| y | | 3 |\n| p | q | r |\n\nSome prose in between.\n\n| Only | Two |\n| --- | --- |\n| 1 | 2 |\n\nOutro.";
+    const tables = parseMarkdownTables(answer);
+    expect(tables).toHaveLength(2);
+    expect(tables[0]).toEqual([["A", "B", "C"], ["x | y", "", "3"], ["p", "q", "r"]]);
+    expect(tables[1]).toEqual([["Only", "Two"], ["1", "2"]]);
+    // A row of real dashes is data, not an alignment row.
+    expect(parseMarkdownTables("| A | B |\n| - | -- |\n| 1 | 2 |")[0]).toEqual([["A", "B"], ["1", "2"]]);
+    expect(parseMarkdownTables("no table here")).toEqual([]);
+  });
+
+  it("previews the Excel conversion as a cell grid and copies tab-separated cells", () => {
+    const result = processText("markdown-table-to-excel", "| Region | Units | Code |\n| --- | ---: | --- |\n| Europe | 412 | 007 |\n| Asia | 1,024 | |\n\n| P | Q |\n|---|---|\n| 1 | 2 |");
+    expect(result.output).toBe("Region\tUnits\tCode\nEurope\t412\t007\nAsia\t1,024\t\n\nP\tQ\n1\t2");
+    expect(result.html).toContain('<caption>Sheet 1 · 2 rows × 3 columns</caption>');
+    expect(result.html).toContain('<caption>Sheet 2 · 1 row × 2 columns</caption>');
+    // Only the cells that will be numeric in the workbook are marked numeric in the preview.
+    expect(result.html).toContain('<td class="num">412</td>');
+    expect(result.html).toContain("<td>007</td>");
+    expect(result.html).toContain("<td>1,024</td>");
+    expect(result.html).toContain("<td></td>");
+    expect(result.stats).toEqual([{ label: "Tables found", value: 2 }, { label: "Rows", value: 3 }, { label: "Columns", value: 3 }]);
+    expect(processText("markdown-table-to-excel", "just words").output).toBe("");
+  });
+
+  it("writes each table to its own sheet in one workbook", async () => {
+    const { createWorkbook } = await import("../src/lib/xlsx");
+    const files = unzipSync(createWorkbook([[["A"], ["1"]], [["B"], ["x"]]]));
+    expect(strFromU8(files["xl/workbook.xml"])).toContain('<sheet name="Table 1" sheetId="1" r:id="rId1"/><sheet name="Table 2" sheetId="2" r:id="rId2"/>');
+    expect(strFromU8(files["xl/worksheets/sheet1.xml"])).toContain('<c r="A2"><v>1</v></c>');
+    expect(strFromU8(files["xl/worksheets/sheet2.xml"])).toContain('<c r="A2" t="inlineStr"><is><t xml:space="preserve">x</t></is></c>');
+    expect(strFromU8(files["[Content_Types].xml"])).toContain("/xl/worksheets/sheet2.xml");
+    expect(strFromU8(files["xl/_rels/workbook.xml.rels"])).toContain('Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles"');
+  });
+
   it("writes numeric spreadsheet cells as numbers and everything else as text", async () => {
     const { createXlsx } = await import("../src/lib/xlsx");
     const files = unzipSync(createXlsx([

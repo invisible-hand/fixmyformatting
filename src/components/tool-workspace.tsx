@@ -49,6 +49,8 @@ export type ToolWorkspaceLabels = {
   listLabel: string;
   listToParagraph: string;
   listToBullets: string;
+  loadExample: string;
+  exampleLoaded: string;
 };
 
 type Props = {
@@ -130,6 +132,8 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
     listLabel: labels?.listLabel ?? "Convert to",
     listToParagraph: labels?.listToParagraph ?? "Paragraph",
     listToBullets: labels?.listToBullets ?? "Bullet points",
+    loadExample: labels?.loadExample ?? "Load an example",
+    exampleLoaded: labels?.exampleLoaded ?? "Example loaded",
   };
 
   /** Stat values are usually numbers; a few are words or carry a time unit. */
@@ -205,12 +209,9 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
       return;
     }
     if (tool.download === "xlsx") {
-      const lines = input.split(/\r?\n/);
-      const start = lines.findIndex((line, index) => line.includes("|") && /^\|?[\s:|-]+\|?$/.test(lines[index + 1]?.trim() ?? ""));
-      const tableLines = start < 0 ? [] : [lines[start], ...lines.slice(start + 2).filter((line) => line.includes("|"))];
-      const rows = tableLines.map((line) => line.trim().replace(/^\||\|$/g, "").split("|").map((cell) => cell.trim()));
-      const { createXlsx } = await import("@/lib/xlsx");
-      const buffer = createXlsx(rows);
+      // Same parser as the preview, so the file holds exactly the cells shown.
+      const [{ parseMarkdownTables }, { createWorkbook }] = await Promise.all([import("@/lib/processors"), import("@/lib/xlsx")]);
+      const buffer = createWorkbook(parseMarkdownTables(input));
       saveBlob(new Blob([buffer.buffer as ArrayBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }), `${tool.slug}.xlsx`);
       track("tool_action", { tool: tool.slug, action: "download" });
       flash(ui.excelDownloaded);
@@ -263,6 +264,14 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
     anchor.click();
     track("tool_action", { tool: tool.slug, action: "report_image" });
     flash(ui.reportImageDownloaded);
+  }
+
+  function loadExample() {
+    if (!tool.example) return;
+    setInput(tool.example);
+    setMobileTab("output");
+    track("tool_action", { tool: tool.slug, action: "example" });
+    flash(ui.exampleLoaded);
   }
 
   async function onPaste(event: React.ClipboardEvent<HTMLTextAreaElement>) {
@@ -321,7 +330,12 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
       </div>
       <div className="editor-grid">
         <div className={`editor-panel input-panel ${mobileTab === "input" ? "mobile-active" : ""}`}>
-          <div className="panel-label"><span>{ui.input}</span><span>{input.length.toLocaleString(locale)} {ui.characters}</span></div>
+          <div className="panel-label">
+            <span>{ui.input}</span>
+            {tool.example && !input
+              ? <button type="button" className="link-button" onClick={loadExample}>{ui.loadExample}</button>
+              : <span>{input.length.toLocaleString(locale)} {ui.characters}</span>}
+          </div>
           <textarea dir="auto"
             value={input}
             onChange={(event) => setInput(event.target.value)}

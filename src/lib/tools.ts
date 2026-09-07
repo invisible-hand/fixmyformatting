@@ -10,6 +10,8 @@ export type ToolDefinition = {
   outputLabel?: string;
   report?: boolean;
   download?: "docx" | "xlsx" | "csv" | "html" | "txt";
+  /** Sample input a visitor can load with one click to see the tool work on a realistic broken paste. */
+  example?: string;
   intro: string;
   faqs: { question: string; answer: string }[];
   /** ISO date (YYYY-MM-DD) of the last content change; feeds dateModified + the visible "Updated" line. */
@@ -68,7 +70,45 @@ export const coreTools: ToolDefinition[] = [
   define("markdown-to-pdf", "Markdown to PDF", "Markdown to PDF — Free Online Converter", "Paste Markdown, check the formatted preview, and save a print-ready PDF straight from your browser. No upload, no signup, and no watermark added.", "Markdown & documents", "Preview formatted Markdown instantly, then use the print-ready view to save a crisp PDF. The browser handles PDF creation, so your document stays on your device."),
   define("markdown-to-google-docs", "Markdown to Google Docs", "Markdown to Google Docs Converter", "Paste Markdown, copy the rich-text result, and paste it into Google Docs with headings, lists, emphasis, links, and tables intact. DOCX download too.", "Markdown & documents", "Paste Markdown, copy the rich result, and paste it into Google Docs. Headings, lists, emphasis, links, and tables retain their structure without manual cleanup.", { download: "docx" }),
   define("remove-markdown-formatting", "Remove Markdown Formatting", "Remove Markdown Formatting Online", "Strip asterisks, hashes, link syntax, and code fences from Markdown and get plain readable text back. Runs in your browser; nothing is uploaded.", "Markdown & documents", "Remove asterisks, heading marks, link syntax, code fences, and other Markdown characters without damaging the words underneath.", { outputLabel: "Clean text", download: "txt" }),
-  define("markdown-table-to-excel", "Markdown Table to Excel", "Markdown Table to Excel Converter", "Paste a Markdown pipe table and download a genuine .xlsx file with one value per cell, instead of the whole row landing in a single column.", "Markdown & documents", "Convert pipe-and-dash tables copied from AI chats into rows and columns that open correctly in Excel, Numbers, and Google Sheets.", { download: "xlsx" }),
+  define("markdown-table-to-excel", "Markdown Table to Excel", "Convert Markdown Table to Excel (.xlsx) Online Free", "Paste a ChatGPT or Markdown table that landed in one Excel column and download a real .xlsx with one value per cell, numbers kept as numbers.", "Markdown & documents", "A table copied from ChatGPT, Claude or Gemini is a Markdown pipe table: plain text with a | between values and a row of dashes under the header. Excel splits pasted text on tabs, not pipes, so the whole table stacks into column A. Paste it here and the preview shows the exact cells the workbook will contain. Download saves a genuine .xlsx, and Copy puts tab-separated cells on the clipboard that paste straight into Excel, Google Sheets or Numbers as a grid. Every table in the text becomes its own sheet, blank cells stay blank, an escaped \\| becomes a pipe, the alignment row and the padding spaces are dropped, and plain numbers become numeric cells you can sum, while codes such as 007 or 1,024 stay text so nothing is silently changed.", {
+    download: "xlsx",
+    outputLabel: "Cell preview",
+    updated: "2026-09-06",
+    placeholder: "Paste the table exactly as it came out of the chat, pipes and all:\n\n| Region | Q1 | Q2 |\n| --- | ---: | ---: |\n| Europe | 412 | 486 |\n| Asia | 377 | 381 |\n",
+    example: "Here is the comparison you asked for:\n\n| Region | Q1 sales | Q2 sales | Growth | Code | Notes |\n|:-------|---------:|---------:|-------:|:----:|:------|\n| Europe | 412 | 486 | 18% | 007 | A cell with a \\| pipe in it |\n| Asia | 1,024 | 1,190 | 16.2% | 012 | |\n| Americas | 377 | -3.5 | | 018 | The blank cell to the left stays blank |\n\nAnd the per-product breakdown:\n\n| Product | Units |\n| --- | ---: |\n| Widget | 1200 |\n| Gadget | 850 |\n",
+    faqs: [
+      {
+        question: "Why does a ChatGPT table paste into one column in Excel?",
+        answer:
+          "Because the clipboard holds a Markdown pipe table: plain text with | characters between the values and a row of dashes under the header. Excel and Google Sheets split pasted text on tab characters, not pipes, so each line is treated as one value and the whole table stacks into column A. Converting it first produces real cell boundaries.",
+      },
+      {
+        question: "Do numbers stay numbers in the .xlsx file?",
+        answer:
+          "Plain integers and decimals such as 412, -3.5 or 16.2 become numeric cells you can sum and sort. Anything where the exact characters carry meaning stays text: codes with leading zeros like 007, values with thousands separators like 1,024, currency and percent signs, and exponents. The preview right-aligns exactly the cells that will be numeric.",
+      },
+      {
+        question: "What happens to blank cells, escaped pipes and the row of dashes?",
+        answer:
+          "A blank cell becomes an empty cell rather than shifting the row. A pipe written as \\| inside a cell becomes a plain | in the output. The alignment row of dashes and colons is formatting, not data, so it is dropped, and the spaces Markdown pads cells with are trimmed so lookups match.",
+      },
+      {
+        question: "Can it convert several tables at once?",
+        answer:
+          "Yes. Paste the whole answer, prose included. Every pipe table in it is found and becomes its own sheet in the workbook, named Table 1, Table 2 and so on, and the preview shows each sheet before you download.",
+      },
+      {
+        question: "Can I paste the result into Google Sheets or Numbers without downloading a file?",
+        answer:
+          "Yes. Copy puts the cells on the clipboard as tab-separated text, which Excel, Google Sheets and Numbers all paste as a grid with one value per cell. Download is for when you want a file to keep or send.",
+      },
+      {
+        question: "Is Markdown Table to Excel free, and is my table uploaded?",
+        answer:
+          "It is free, with no account and no usage limit. Parsing and the .xlsx file are built in your browser; the table is stored only if you explicitly create a share link.",
+      },
+    ],
+  }),
   define("markdown-table-to-csv", "Markdown Table to CSV", "Markdown Table to CSV Converter", "Paste a Markdown pipe table and get standards-compatible CSV, with commas and quotes inside cells escaped so the file imports without breaking.", "Markdown & documents", "Paste a Markdown table and get standards-compatible CSV immediately. Quoted cells and commas are escaped so the file imports cleanly.", { download: "csv" }),
   define("markdown-viewer", "Markdown Viewer", "Markdown Viewer Online — Live Preview", "Paste or type Markdown and read it as a formatted document while you edit. Useful for checking AI output, README files, and notes. Nothing is uploaded.", "Markdown & documents", "Read and inspect Markdown as a formatted document while you type. It is useful for checking AI output, README content, notes, and documentation.", { download: "html" }),
   define("markdown-to-html", "Markdown to HTML", "Markdown to HTML Converter", "Convert Markdown into clean semantic HTML with a live preview, then copy the markup for a site, CMS, newsletter, or email. Runs in your browser.", "Markdown & documents", "Generate clean semantic HTML from Markdown with a live preview. Copy the markup for a website, newsletter, CMS, or email workflow.", { outputLabel: "HTML", download: "html" }),
@@ -225,8 +265,8 @@ const brandActionCopy: Record<(typeof brandActions)[number], {
     guidance: (brand) => `Copy the rich-text result and paste it into Google Docs when a normal paste from ${brand} leaves visible Markdown symbols.`,
   },
   "table-to-excel": {
-    description: (brand) => `Turn the pipe-and-dash tables ${brand} prints in chat into a genuine .xlsx file with one value per cell, ready to sort and edit in Excel.`,
-    guidance: (brand) => `This fixes the pipe-and-dash table syntax ${brand} displays in chat and downloads a genuine .xlsx spreadsheet.`,
+    description: (brand) => `Paste the ${brand} table that landed in one Excel column and download a real .xlsx with one value per cell and numbers kept as numbers.`,
+    guidance: (brand) => `Use it when a ${brand} table pastes into column A with the pipes still showing: the preview shows the cells and the download is a genuine .xlsx.`,
   },
   "remove-formatting": {
     description: (brand) => `Strip asterisks, hashes, and link syntax from a ${brand} answer and keep the readable words, for email, forms, and apps that show Markdown raw.`,
