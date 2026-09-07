@@ -51,6 +51,14 @@ export type ToolWorkspaceLabels = {
   listToBullets: string;
   loadExample: string;
   exampleLoaded: string;
+  keepUrls: string;
+  listMarkersLabel: string;
+  listMarkersKeep: string;
+  listMarkersRemove: string;
+  keepCode: string;
+  tidySpacing: string;
+  showChanges: string;
+  stripMarkdown: string;
 };
 
 type Props = {
@@ -75,16 +83,23 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
   const [caseMode, setCaseMode] = useState<NonNullable<ProcessSettings["caseMode"]>>(initialSettings.caseMode ?? "title");
   const [dashReplacement, setDashReplacement] = useState<NonNullable<ProcessSettings["dashReplacement"]>>(initialSettings.dashReplacement ?? "comma");
   const [listDirection, setListDirection] = useState<NonNullable<ProcessSettings["listDirection"]>>(initialSettings.listDirection ?? "paragraph");
+  const [keepUrls, setKeepUrls] = useState(Boolean(initialSettings.keepUrls));
+  const [listMarkers, setListMarkers] = useState<NonNullable<ProcessSettings["listMarkers"]>>(initialSettings.listMarkers === "remove" ? "remove" : "keep");
+  const [keepCode, setKeepCode] = useState(Boolean(initialSettings.keepCode));
+  const [tidySpacing, setTidySpacing] = useState(Boolean(initialSettings.tidySpacing));
+  const [showChanges, setShowChanges] = useState(Boolean(initialSettings.showChanges));
+  const [stripMarkdownToo, setStripMarkdownToo] = useState(Boolean(initialSettings.stripMarkdown));
   const [smallResult, setSmallResult] = useState<{ input: string; settings: ProcessSettings; result: ProcessedResult } | null>(null);
   const [largeResult, setLargeResult] = useState<{ input: string; result: ProcessedResult } | null>(null);
   const deferredInput = useDeferredValue(input);
   const outputRef = useRef<HTMLDivElement>(null);
   const reportRef = useRef<HTMLDivElement>(null);
   const conversionTracked = useRef(false);
-  const processSettings = useMemo(() => ({ caseMode, dashReplacement, listDirection }), [caseMode, dashReplacement, listDirection]);
-  const settingsMatch = smallResult?.settings.caseMode === processSettings.caseMode
-    && smallResult?.settings.dashReplacement === processSettings.dashReplacement
-    && smallResult?.settings.listDirection === processSettings.listDirection;
+  const processSettings = useMemo<ProcessSettings>(
+    () => ({ caseMode, dashReplacement, listDirection, keepUrls, listMarkers, keepCode, tidySpacing, showChanges, stripMarkdown: stripMarkdownToo }),
+    [caseMode, dashReplacement, listDirection, keepUrls, listMarkers, keepCode, tidySpacing, showChanges, stripMarkdownToo],
+  );
+  const settingsMatch = JSON.stringify(smallResult?.settings) === JSON.stringify(processSettings);
   const result = deferredInput.length > workerThreshold
     ? (largeResult?.input === deferredInput ? largeResult.result : { output: "", stats: [] })
     : (smallResult?.input === deferredInput && settingsMatch ? smallResult.result : { output: "", stats: [] });
@@ -134,6 +149,14 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
     listToBullets: labels?.listToBullets ?? "Bullet points",
     loadExample: labels?.loadExample ?? "Load an example",
     exampleLoaded: labels?.exampleLoaded ?? "Example loaded",
+    keepUrls: labels?.keepUrls ?? "Keep link URLs",
+    listMarkersLabel: labels?.listMarkersLabel ?? "List markers",
+    listMarkersKeep: labels?.listMarkersKeep ?? "Keep as bullets and numbers",
+    listMarkersRemove: labels?.listMarkersRemove ?? "Remove",
+    keepCode: labels?.keepCode ?? "Keep code blocks as written",
+    tidySpacing: labels?.tidySpacing ?? "Tidy spacing too",
+    showChanges: labels?.showChanges ?? "Show what changed",
+    stripMarkdown: labels?.stripMarkdown ?? "Also remove Markdown symbols",
   };
 
   /** Stat values are usually numbers; a few are words or carry a time unit. */
@@ -292,8 +315,27 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
 
   return (
     <section className="workspace" aria-label={`${tool.name} tool`}>
-      {(processor === "case-converter" || processor === "remove-em-dashes" || processor === "bullet-points-to-paragraph") && (
+      {(processor === "case-converter" || processor === "remove-em-dashes" || processor === "bullet-points-to-paragraph" || processor === "remove-markdown-formatting" || processor === "clean-ai-text") && (
         <div className="tool-options" aria-label={ui.conversionOptions}>
+          {processor === "remove-markdown-formatting" && (
+            <>
+              <label className="check"><input type="checkbox" checked={keepUrls} onChange={(event) => setKeepUrls(event.target.checked)} />{ui.keepUrls}</label>
+              <label>{ui.listMarkersLabel}
+                <select value={listMarkers} onChange={(event) => setListMarkers(event.target.value === "remove" ? "remove" : "keep")}>
+                  <option value="keep">{ui.listMarkersKeep}</option>
+                  <option value="remove">{ui.listMarkersRemove}</option>
+                </select>
+              </label>
+              <label className="check"><input type="checkbox" checked={keepCode} onChange={(event) => setKeepCode(event.target.checked)} />{ui.keepCode}</label>
+              <label className="check"><input type="checkbox" checked={tidySpacing} onChange={(event) => setTidySpacing(event.target.checked)} />{ui.tidySpacing}</label>
+            </>
+          )}
+          {processor === "clean-ai-text" && (
+            <label className="check"><input type="checkbox" checked={stripMarkdownToo} onChange={(event) => setStripMarkdownToo(event.target.checked)} />{ui.stripMarkdown}</label>
+          )}
+          {(processor === "remove-markdown-formatting" || processor === "clean-ai-text") && (
+            <label className="check"><input type="checkbox" checked={showChanges} onChange={(event) => setShowChanges(event.target.checked)} />{ui.showChanges}</label>
+          )}
           {processor === "case-converter" && (
             <label>{ui.caseLabel}
               <select value={caseMode} onChange={(event) => setCaseMode(event.target.value as NonNullable<ProcessSettings["caseMode"]>)}>

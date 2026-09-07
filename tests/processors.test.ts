@@ -229,6 +229,38 @@ describe("text processors", () => {
     expect(strip("Set MY_ENV_VAR in _config_ and read data_loader.py")).toBe("Set MY_ENV_VAR in config and read data_loader.py");
   });
 
+  it("strips Markdown deterministically: every word survives in order, only symbols change", () => {
+    const sample = "## Title\n\nWe shipped **three** fixes, see [the changelog](https://example.com/c).\n\n- First `code_a` item\n- Second item\n\n1. Review\n2) Merge\n\n> quoted line\n\n---\n\n```\nnpm test\n```\n\n| Area | Owner |\n| --- | ---: |\n| Parser | Ada |";
+    const clean = processText("remove-markdown-formatting", sample).output;
+    expect(clean).toBe("Title\n\nWe shipped three fixes, see the changelog.\n\n• First code_a item\n• Second item\n\n1. Review\n2) Merge\n\nquoted line\n\nnpm test\n\nArea\tOwner\nParser\tAda");
+    const wordsOf = (text: string) => text.replace(/https?:\/\/\S+|[^\p{L}\p{N}_\s]/gu, " ").split(/\s+/).filter(Boolean);
+    expect(wordsOf(clean)).toEqual(wordsOf(sample));
+  });
+
+  it("honours the keep-URL, list-marker, keep-code and spacing switches", () => {
+    const run = (input: string, settings: Parameters<typeof processText>[2]) => processText("remove-markdown-formatting", input, settings).output;
+    expect(run("see [docs](https://x.io/d)", { keepUrls: true })).toBe("see docs (https://x.io/d)");
+    expect(run("- a\n- b\n\n1. c", { listMarkers: "remove" })).toBe("a\nb\n\nc");
+    expect(run("- a\n\n1. c", { listMarkers: "keep" })).toBe("• a\n\n1. c");
+    expect(run("```js\nconst *x* = 1;\n```", {})).toBe("const *x* = 1;");
+    expect(run("```js\nconst *x* = 1;\n```", { keepCode: true })).toBe("```js\nconst *x* = 1;\n```");
+    expect(run("a  b\t\tc   \n\n\n\nd", { tidySpacing: true })).toBe("a b c\n\nd");
+    expect(run("a  b", {})).toBe("a  b");
+    const shown = processText("remove-markdown-formatting", "**bold** word", { showChanges: true });
+    expect(shown.output).toBe("bold word");
+    expect(shown.html).toContain('<span class="diff-removed">**</span>');
+    expect(shown.html).toContain("diff-unchanged");
+    expect(processText("remove-markdown-formatting", "**bold** word").html).toBeUndefined();
+    expect(processText("remove-markdown-formatting", "**bold** word").stats).toEqual([{ label: "Symbols removed", value: 4 }, { label: "Words", value: 2 }]);
+  });
+
+  it("lets the AI text cleaner strip Markdown in the same pass and show the diff", () => {
+    const result = processText("clean-ai-text", "The **plan** — a “good” one", { stripMarkdown: true, showChanges: true });
+    expect(result.output).toBe('The plan, a "good" one');
+    expect(result.html).toContain("diff-removed");
+    expect(processText("clean-ai-text", "The **plan**").output).toBe("The **plan**");
+  });
+
   it("removes the space an em dash leaves in front of its replacement", () => {
     expect(processText("clean-ai-text", "The plan — a good one — ships").output).toBe("The plan, a good one, ships");
   });

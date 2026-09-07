@@ -69,7 +69,46 @@ export const coreTools: ToolDefinition[] = [
   define("markdown-to-word", "Markdown to Word", "Markdown to Word Converter — Free & Instant", "Paste Markdown from ChatGPT, Claude, or any editor and download a real .docx file with headings, lists, tables, links, and code kept as formatting.", "Markdown & documents", "Turn Markdown from ChatGPT, Claude, or any editor into a real Word document. Headings, lists, links, code, and tables are preserved instead of appearing as raw symbols.", { download: "docx" }),
   define("markdown-to-pdf", "Markdown to PDF", "Markdown to PDF — Free Online Converter", "Paste Markdown, check the formatted preview, and save a print-ready PDF straight from your browser. No upload, no signup, and no watermark added.", "Markdown & documents", "Preview formatted Markdown instantly, then use the print-ready view to save a crisp PDF. The browser handles PDF creation, so your document stays on your device."),
   define("markdown-to-google-docs", "Markdown to Google Docs", "Markdown to Google Docs Converter", "Paste Markdown, copy the rich-text result, and paste it into Google Docs with headings, lists, emphasis, links, and tables intact. DOCX download too.", "Markdown & documents", "Paste Markdown, copy the rich result, and paste it into Google Docs. Headings, lists, emphasis, links, and tables retain their structure without manual cleanup.", { download: "docx" }),
-  define("remove-markdown-formatting", "Remove Markdown Formatting", "Remove Markdown Formatting Online", "Strip asterisks, hashes, link syntax, and code fences from Markdown and get plain readable text back. Runs in your browser; nothing is uploaded.", "Markdown & documents", "Remove asterisks, heading marks, link syntax, code fences, and other Markdown characters without damaging the words underneath.", { outputLabel: "Clean text", download: "txt" }),
+  define("remove-markdown-formatting", "Remove Markdown Formatting", "Remove Markdown Formatting Online, Keep Every Word", "Strip **, ## and link syntax from ChatGPT or Claude text without changing a word. Keep URLs, list markers or code if you like, and see what changed.", "Markdown & documents", "Text copied from ChatGPT, Claude or Gemini arrives as Markdown, so an email, a form or a chat app shows the asterisks, hashes and square brackets literally. This tool removes them with fixed find-and-replace rules: it never adds, removes or substitutes a word, and the counts above the result show how many symbols went. By default headings lose their hashes, bold and italic lose their asterisks and underscores, links keep their visible text, bullets become • and numbered items keep their numbers, code fences are removed and the code stays, and pipe tables become tab-separated rows. Tick Keep link URLs to get text (url), choose Remove under List markers for flowing prose, tick Keep code blocks to leave fenced code exactly as written, tick Tidy spacing to collapse doubled spaces and stacked blank lines, and tick Show what changed to see a word-level diff that proves only formatting moved. Identifiers such as snake_case_word and MY_ENV_VAR are left alone.", {
+    report: true,
+    outputLabel: "Clean text",
+    download: "txt",
+    updated: "2026-09-06",
+    placeholder: "## Weekly summary\n\nWe shipped **three** fixes and *one* feature. See [the changelog](https://example.com/changelog).\n\n- Parser handles `\\|` inside cells\n- Numbers stay numbers\n\n1. Review\n2. Merge\n",
+    example: "## Weekly summary\n\nWe shipped **three** fixes and *one* feature this week, see [the changelog](https://example.com/changelog) for details.\n\n### What changed\n\n- The parser now handles an escaped pipe `\\|` inside cells\n- `MY_ENV_VAR` and snake_case_word are left alone\n- Numbers stay numbers in the `.xlsx` export\n\n### Next steps\n\n1. Review the **open** pull requests\n2. Merge and tag `v1.4.0`\n\n> Note: the release freeze starts Friday.\n\n```bash\nnpm test && npm run build\n```\n\n| Area | Owner |\n| --- | --- |\n| Parser | Ada |\n| Export | Bob |\n",
+    faqs: [
+      {
+        question: "Does it change my words?",
+        answer:
+          "No. The cleanup is a fixed set of find-and-replace rules over formatting characters only: asterisks, underscores, hashes, backticks, square brackets, pipes and dashes. It never adds, removes or substitutes a word, and the Show what changed view marks every character that moved so you can check. There is no AI rewriting involved.",
+      },
+      {
+        question: "What is removed by default?",
+        answer:
+          "Heading hashes, bold and italic markers, link and image syntax (the link text stays, the URL goes), block-quote arrows, horizontal rules, code fences and inline backticks (the code itself stays), and the pipes and alignment row of a table, whose cells become tab-separated so they still paste into a spreadsheet. Bullets become • and numbered items keep their numbers.",
+      },
+      {
+        question: "Can I keep the URLs, the list markers or the code?",
+        answer:
+          "Yes, each is a switch above the editor. Keep link URLs turns [text](url) into text (url). List markers set to Remove drops bullets and numbers for flowing prose. Keep code blocks leaves fenced code exactly as written, fences included, so it can go into a README or a ticket unchanged. The switches are saved in a share link.",
+      },
+      {
+        question: "Does it fix the spacing as well?",
+        answer:
+          "Tick Tidy spacing and runs of spaces or tabs collapse to one, trailing whitespace is trimmed from each line, and three or more blank lines become one paragraph break. Hard line breaks inside a paragraph are left alone here; Fix Copy-Paste Line Breaks handles those, and the AI Text Cleaner handles em dashes, smart quotes and invisible characters.",
+      },
+      {
+        question: "How do I see exactly what changed?",
+        answer:
+          "Tick Show what changed. The result panel switches to a word-level diff of the input against the output, with removed characters struck through and anything added highlighted. Copy and Download still give you the clean text, not the diff.",
+      },
+      {
+        question: "Is it free, and is my text uploaded?",
+        answer:
+          "It is free, with no account and no usage limit. The processing runs in your browser; text is stored only if you explicitly create a share link.",
+      },
+    ],
+  }),
   define("markdown-table-to-excel", "Markdown Table to Excel", "Convert Markdown Table to Excel (.xlsx) Online Free", "Paste a ChatGPT or Markdown table that landed in one Excel column and download a real .xlsx with one value per cell, numbers kept as numbers.", "Markdown & documents", "A table copied from ChatGPT, Claude or Gemini is a Markdown pipe table: plain text with a | between values and a row of dashes under the header. Excel splits pasted text on tabs, not pipes, so the whole table stacks into column A. Paste it here and the preview shows the exact cells the workbook will contain. Download saves a genuine .xlsx, and Copy puts tab-separated cells on the clipboard that paste straight into Excel, Google Sheets or Numbers as a grid. Every table in the text becomes its own sheet, blank cells stay blank, an escaped \\| becomes a pipe, the alignment row and the padding spaces are dropped, and plain numbers become numeric cells you can sum, while codes such as 007 or 1,024 stay text so nothing is silently changed.", {
     download: "xlsx",
     outputLabel: "Cell preview",
@@ -115,7 +154,7 @@ export const coreTools: ToolDefinition[] = [
   define("word-to-markdown", "Word to Markdown", "Word to Markdown Converter Online", "Paste rich text copied from Word, Google Docs, or a web page and get Markdown back, with headings, emphasis, lists, links, and tables converted.", "Markdown & documents", "Paste copied rich text from Word, Google Docs, or a webpage. The converter turns headings, emphasis, lists, links, and tables into portable Markdown.", { outputLabel: "Markdown", download: "txt", placeholder: "Paste rich text from Word or Google Docs here…" }),
   define("html-to-markdown", "HTML to Markdown", "HTML to Markdown Converter — Free & Private", "Paste HTML source and get portable Markdown for READMEs, documentation, notes apps, and LLM prompts. Scripts, styles, and unknown tags are dropped.", "Markdown & documents", "Paste HTML source and get portable Markdown for READMEs, documentation, notes apps, and LLM prompts. Headings, lists, links, emphasis, code blocks, and tables are converted; scripts, styles, and unknown tags are dropped.", { outputLabel: "Markdown", download: "txt", placeholder: "<h1>Hello</h1>\n<p>This is <strong>bold</strong>, <em>italic</em>, and <a href=\"https://example.com\">a link</a>.</p>" }),
   define("remove-em-dashes", "Remove Em Dashes", "Remove Em Dashes from Text", "Replace every em dash with a comma, semicolon, hyphen, or nothing, and see how many were changed. The space the dash left behind is tidied up too.", "Markdown & documents", "Find and replace em dashes in AI-generated or human-written text. The live count tells you exactly how many were changed.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste text with em dashes — like this one — to replace them." }),
-  define("clean-ai-text", "AI Text Cleaner", "Clean ChatGPT Text & AI Formatting", "Count and clean the mechanical formatting artifacts in AI output: em dashes, smart quotes, invisible characters, and emoji. Counts stay visible.", "AI cleanup", "The AI Artifact Report counts mechanical formatting artifacts; it does not guess whether text was written by AI. Toggle cleanup choices and review the transparent counts.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste ChatGPT, Claude, or Gemini text here — “smart quotes,” emoji ✨ and hidden characters are reported." }),
+  define("clean-ai-text", "AI Text Cleaner", "Clean ChatGPT Text & AI Formatting", "Count and clean the formatting artifacts in AI output: em dashes, smart quotes, invisible characters, emoji and, optionally, Markdown. Counts stay visible.", "AI cleanup", "The AI Artifact Report counts mechanical formatting artifacts; it does not guess whether text was written by AI. Em dashes become commas, curly quotes become straight ones, invisible characters and emoji are removed, and doubled spaces collapse. Tick Also remove Markdown symbols to strip asterisks, hashes and link syntax in the same pass, and Show what changed to see a word-level diff. Every word stays in place; only punctuation, spacing and character encoding change.", { report: true, outputLabel: "Clean text", download: "txt", updated: "2026-09-06", placeholder: "Paste ChatGPT, Claude, or Gemini text here — “smart quotes,” emoji ✨ and hidden characters are reported." }),
   define("humanize-ai-text", "AI Formatting Humanizer", "Humanize AI Text — Formatting Cleanup, Free", "Remove the formatting fingerprints of AI output: em dashes, smart quotes, invisible characters, emoji, and fancy fonts. Wording and meaning stay intact.", "AI cleanup", "Paste AI output and every mechanical formatting artifact is normalized in one pass: em dashes become commas, curly quotes and apostrophes become straight ones, invisible characters and emoji are removed, no-break spaces become ordinary spaces, and pseudo-font Unicode returns to plain letters. The words themselves are never touched. AI detectors score word choice and sentence structure, which formatting cleanup does not change.", {
     report: true,
     outputLabel: "Clean text",
@@ -269,8 +308,8 @@ const brandActionCopy: Record<(typeof brandActions)[number], {
     guidance: (brand) => `Use it when a ${brand} table pastes into column A with the pipes still showing: the preview shows the cells and the download is a genuine .xlsx.`,
   },
   "remove-formatting": {
-    description: (brand) => `Strip asterisks, hashes, and link syntax from a ${brand} answer and keep the readable words, for email, forms, and apps that show Markdown raw.`,
-    guidance: (brand) => `Use the clean text in email, forms, messaging apps, or editors that show ${brand} asterisks and heading marks literally.`,
+    description: (brand) => `Strip asterisks, hashes and link syntax from a ${brand} answer without changing a word. Keep URLs, lists or code, and see what changed.`,
+    guidance: (brand) => `Use the clean text in email, forms, messaging apps, or editors that show ${brand} asterisks and heading marks literally; the switches above the editor keep URLs, list markers or code.`,
   },
 };
 
