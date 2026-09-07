@@ -8,6 +8,7 @@ import { SiteHeader } from "./site-header";
 import { SiteFooter } from "./site-footer";
 import { ToolWorkspace } from "./tool-workspace";
 import { EmbedMode } from "./embed-mode";
+import { workspaceDefaults } from "@/lib/workspace-defaults";
 
 const siteUrl = "https://fixmyformatting.com";
 
@@ -47,6 +48,7 @@ export function ToolPage({
   // timeZone: UTC so a YYYY-MM-DD string renders as that calendar day everywhere.
   const updatedLabel = new Intl.DateTimeFormat(locale, { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${tool.updated}T00:00:00Z`));
   const workspaceLabels = localized ? {
+    ...workspaceDefaults,
     input: localized.input,
     output: localized.output,
     emptyResult: localized.emptyResult,
@@ -69,7 +71,7 @@ export function ToolPage({
     statLabels: bundles[locale as LocaleCode].stats.labels,
     statValues: bundles[locale as LocaleCode].stats.values,
     minutes: bundles[locale as LocaleCode].stats.minutes,
-  } : undefined;
+  } : { ...workspaceDefaults };
   const schemas = [
     {
       "@context": "https://schema.org",

@@ -104,60 +104,9 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
     ? (largeResult?.input === deferredInput ? largeResult.result : { output: "", stats: [] })
     : (smallResult?.input === deferredInput && settingsMatch ? smallResult.result : { output: "", stats: [] });
   const processor = getProcessorSlug(tool.slug);
-  const ui = {
-    input: labels?.input ?? "Input",
-    output: labels?.output ?? (tool.outputLabel ?? "Preview"),
-    emptyResult: labels?.emptyResult ?? "Your result appears here as you type.",
-    characters: labels?.characters ?? "chars",
-    report: labels?.report ?? "report",
-    live: labels?.live ?? "Live",
-    updating: labels?.updating ?? "Updating…",
-    copy: labels?.copy ?? "Copy",
-    copied: labels?.copied ?? "Copied",
-    download: labels?.download ?? "Download",
-    share: labels?.share ?? "Copy link to result",
-    shareCopied: labels?.shareCopied ?? "Share link copied",
-    embed: labels?.embed ?? "Embed",
-    embedCopied: labels?.embedCopied ?? "Embed code copied",
-    downloadImage: labels?.downloadImage ?? "Download as image",
-    free: labels?.free ?? "Free",
-    noSignup: labels?.noSignup ?? "No signup",
-    private: labels?.private ?? "Processing happens in your browser — text never uploaded.",
-    printPdf: labels?.printPdf ?? "Print / Save PDF",
-    downloaded: labels?.downloaded ?? "Downloaded",
-    excelDownloaded: labels?.excelDownloaded ?? "Excel file downloaded",
-    reportImageDownloaded: labels?.reportImageDownloaded ?? "Report image downloaded",
-    pasteFirst: labels?.pasteFirst ?? "Paste some text first",
-    creatingLink: labels?.creatingLink ?? "Creating link…",
-    couldNotCreateLink: labels?.couldNotCreateLink ?? "Could not create link",
-    shareUnavailable: labels?.shareUnavailable ?? "Share unavailable",
-    reportNote: labels?.reportNote ?? "Counts mechanical artifacts only. This is not AI detection.",
-    conversionOptions: labels?.conversionOptions ?? "Conversion options",
-    editorView: labels?.editorView ?? "Editor view",
-    caseLabel: labels?.caseLabel ?? "Case",
-    caseTitle: labels?.caseTitle ?? "Title Case",
-    caseSentence: labels?.caseSentence ?? "Sentence case",
-    caseUpper: labels?.caseUpper ?? "UPPERCASE",
-    caseLower: labels?.caseLower ?? "lowercase",
-    dashLabel: labels?.dashLabel ?? "Replace em dashes with",
-    dashComma: labels?.dashComma ?? "Comma",
-    dashSemicolon: labels?.dashSemicolon ?? "Semicolon",
-    dashHyphen: labels?.dashHyphen ?? "Hyphen",
-    dashRemove: labels?.dashRemove ?? "Nothing",
-    listLabel: labels?.listLabel ?? "Convert to",
-    listToParagraph: labels?.listToParagraph ?? "Paragraph",
-    listToBullets: labels?.listToBullets ?? "Bullet points",
-    loadExample: labels?.loadExample ?? "Load an example",
-    exampleLoaded: labels?.exampleLoaded ?? "Example loaded",
-    keepUrls: labels?.keepUrls ?? "Keep link URLs",
-    listMarkersLabel: labels?.listMarkersLabel ?? "List markers",
-    listMarkersKeep: labels?.listMarkersKeep ?? "Keep as bullets and numbers",
-    listMarkersRemove: labels?.listMarkersRemove ?? "Remove",
-    keepCode: labels?.keepCode ?? "Keep code blocks as written",
-    tidySpacing: labels?.tidySpacing ?? "Tidy spacing too",
-    showChanges: labels?.showChanges ?? "Show what changed",
-    stripMarkdown: labels?.stripMarkdown ?? "Also remove Markdown symbols",
-  };
+  // Every string comes from the server (ToolPage merges the English defaults with the
+  // locale bundle), so no fallback prose ships in the client bundle.
+  const ui = { ...(labels as ToolWorkspaceLabels), output: labels?.output ?? tool.outputLabel ?? "Preview" };
 
   /** Stat values are usually numbers; a few are words or carry a time unit. */
   const localizeStatValue = (value: string | number) => {
