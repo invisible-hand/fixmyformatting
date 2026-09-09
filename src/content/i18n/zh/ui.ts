@@ -43,4 +43,7 @@ export const ui: UiMessages = {
   mobileAnswer: "可以。编辑器支持现代手机和桌面浏览器。",
   introSuffix: "将内容粘贴到上方即可立即查看结果，无需上传文本或创建账户。",
   categories: { markdown: "Markdown 与文档", cleanup: "AI 文本清理", data: "数据与提示词" },
+  featureEyebrow: "新功能 · AI 驱动",
+  featureCta: "去除AI痕迹 →",
+  stepRun: "把文本粘贴到上方，点击“De-slop”，几秒钟即可完成编辑。",
 };

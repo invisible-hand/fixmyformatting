@@ -1,6 +1,8 @@
 import type { ToolCopy } from "@/lib/i18n/types";
+import { deSlop } from "./de-slop";
 
 export const tools: Partial<Record<string, ToolCopy>> = {
+  "de-slop": deSlop,
   "markdown-to-word": {
     name: "Converter Markdown para Word",
     title: "Converter Markdown para Word — .docx de verdade, grátis",

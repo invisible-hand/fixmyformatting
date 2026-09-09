@@ -21,11 +21,15 @@ export const pages: PageCopy = {
     metaTitle: "Privacy | Fix My Formatting",
     description: "Privacy details for Fix My Formatting browser tools and optional share links.",
     h1: "Privacy",
-    dek: "Short version: tool input stays in your browser unless you create a share link.",
+    dek: "Short version: tool input stays in your browser unless you create a share link or use De-slop.",
     sections: [
       {
         heading: "Browser processing",
         body: ["Conversions and analysis run locally on your device. Ordinary tool input is not sent to our servers."],
+      },
+      {
+        heading: "The De-slop tool",
+        body: ["De-slop is the one exception to browser-only processing: when you press De-slop, the text in the editor is sent to OpenAI's API for a single edit and the result is returned to your browser. We do not store the input or the output. OpenAI processes API requests under its API data-usage terms. No other tool sends text anywhere."],
       },
       {
         heading: "Share links",

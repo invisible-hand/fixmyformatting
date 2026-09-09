@@ -28,6 +28,10 @@ export const pages: PageCopy = {
         ]
       },
       {
+        heading: "A ferramenta De-slop",
+        body: ["O De-slop é a única exceção ao processamento só no navegador: ao clicar em De-slop, o texto do editor é enviado à API da OpenAI para uma única edição, e o resultado volta para o seu navegador. Não armazenamos o texto de entrada nem o de saída. A OpenAI trata as chamadas de API sob seus termos de uso de dados da API. Nenhuma outra ferramenta envia texto para lugar nenhum."],
+      },
+      {
         "heading": "Links compartilhados",
         "body": [
           "Ao escolher “Copiar link do resultado”, o texto, a ferramenta selecionada e as configurações são armazenados para que o link possa ser aberto. Não compartilhe informações sensíveis ou pessoais. Os resultados compartilhados expiram após 180 dias por padrão."
@@ -92,7 +96,13 @@ export const workspace: WorkspaceMessages = {
   "keepCode": "Manter blocos de código como estão",
   "tidySpacing": "Também arrumar espaçamento",
   "showChanges": "Ver o que mudou",
-  "stripMarkdown": "Também remover símbolos Markdown"
+  "stripMarkdown": "Também remover símbolos Markdown",
+  "deslop": "Fazer De-slop no texto",
+  "deslopping": "Fazendo De-slop…",
+  "deslopFailed": "Não foi possível fazer o De-slop do texto. Tente novamente em instantes.",
+  "deslopLimit": "Limite atingido. Esta ferramenta tem custo por execução, por isso permite poucas execuções por hora. Tente novamente mais tarde.",
+  "privateRemote": "Esta ferramenta envia seu texto à OpenAI para a edição e não o armazena. Todas as outras ferramentas rodam no seu navegador.",
+  "unchanged": "Nenhum padrão de IA encontrado. O texto foi devolvido sem alterações.",
 };
 
 export const guideChrome: GuideChrome = {

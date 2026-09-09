@@ -2,6 +2,8 @@ import type { StatTranslations } from "@/lib/stat-labels";
 
 export const stats: StatTranslations = {
   labels: {
+      "AI phrases removed": "已去除的AI用语",
+      "Words after": "处理后字数",
       "Words": "字数",
       "Elements": "元素",
       "HTML elements": "HTML 元素",

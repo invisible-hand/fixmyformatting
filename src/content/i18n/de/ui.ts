@@ -43,4 +43,7 @@ export const ui: UiMessages = {
   mobileAnswer: "Ja. Der Editor funktioniert in aktuellen mobilen und Desktop-Browsern.",
   introSuffix: "Füge deinen Inhalt oben ein und erhalte sofort das Ergebnis – ohne Upload und ohne Konto.",
   categories: { markdown: "Markdown und Dokumente", cleanup: "KI-Text bereinigen", data: "Daten & Prompts" },
+  featureEyebrow: "Neu · KI-gestützt",
+  featureCta: "Text de-sloppen →",
+  stepRun: "Text oben einfügen und auf De-slop klicken. Die Bearbeitung dauert wenige Sekunden.",
 };

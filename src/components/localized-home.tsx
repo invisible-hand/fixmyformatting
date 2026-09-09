@@ -11,9 +11,11 @@ export function LocalizedHome({ locale }: { locale: LocaleCode }) {
   const tools = toolSlugsForLocale(locale)
     .filter((slug) => coreTools.some((tool) => tool.slug === slug))
     .map((slug) => localizeTool(slug, locale));
-  const quickLinks = ["clean-ai-text", "markdown-to-word", "remove-invisible-characters"]
+  const quickLinks = ["de-slop", "clean-ai-text", "markdown-to-word"]
     .map((slug) => tools.find((tool) => tool.slug === slug))
     .filter((tool) => Boolean(tool));
+  const deslop = tools.find((tool) => tool.slug === "de-slop");
+  const feature = deslop && t.featureEyebrow && t.featureCta ? { tool: deslop, eyebrow: t.featureEyebrow, cta: t.featureCta } : null;
   const categories = [...new Set(tools.map((tool) => tool.category))];
   const url = `https://fixmyformatting.com${localizedPath(locale)}`;
   const schemas = [
@@ -35,6 +37,16 @@ export function LocalizedHome({ locale }: { locale: LocaleCode }) {
             ))}
           </div>
         </header>
+        {feature && (
+          <section className="home-feature" aria-labelledby="feature-title">
+            <div className="home-feature-copy">
+              <span className="eyebrow">{feature.eyebrow}</span>
+              <h2 id="feature-title"><a href={localizedPath(locale, feature.tool.slug)}>{feature.tool.name}</a></h2>
+              <p>{feature.tool.description}</p>
+              <a className="primary-action" href={localizedPath(locale, feature.tool.slug)}>{feature.cta}</a>
+            </div>
+          </section>
+        )}
         <section id="tools" className="tool-directory">
           {categories.map((category) => (
             <section className="category-section" key={category}>

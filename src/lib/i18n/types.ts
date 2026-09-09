@@ -55,6 +55,11 @@ export type UiMessages = {
   mobileAnswer: string;
   introSuffix: string;
   categories: { markdown: string; cleanup: string; data: string };
+  /** Homepage feature card for De-slop; the card renders only when both are present. */
+  featureEyebrow?: string;
+  featureCta?: string;
+  /** Replaces stepPaste on tools that run on a button press instead of live. */
+  stepRun?: string;
 };
 
 /**
@@ -129,6 +134,13 @@ export type WorkspaceMessages = {
   tidySpacing?: string;
   showChanges?: string;
   stripMarkdown?: string;
+  /** De-slop, the one tool whose result comes from a server call. */
+  deslop?: string;
+  deslopping?: string;
+  deslopFailed?: string;
+  deslopLimit?: string;
+  privateRemote?: string;
+  unchanged?: string;
 };
 
 export type GuideChrome = {

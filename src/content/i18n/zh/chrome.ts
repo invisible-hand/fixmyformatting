@@ -28,6 +28,10 @@ export const pages: PageCopy = {
         ]
       },
       {
+        heading: "De-slop 工具",
+        body: ["De-slop 是本站唯一不在浏览器内处理的工具：点击“De-slop”后，编辑器中的文本会被发送到 OpenAI 的 API 完成一次编辑，结果再返回给你的浏览器。我们不会保存输入或输出内容。OpenAI 按其 API 数据使用条款处理这些请求。本站没有其他任何工具会把文本发送出去。"],
+      },
+      {
         "heading": "分享链接",
         "body": [
           "当你选择“复制分享链接”时，输入内容、所选工具和设置会被保存，以便链接能够正常打开。请勿分享敏感或个人信息。分享的结果默认在 180 天后过期。"
@@ -92,7 +96,13 @@ export const workspace: WorkspaceMessages = {
   "keepCode": "保留代码块原样",
   "tidySpacing": "同时整理空格",
   "showChanges": "查看改动之处",
-  "stripMarkdown": "同时删除 Markdown 符号"
+  "stripMarkdown": "同时删除 Markdown 符号",
+  "deslop": "去除AI痕迹（De-slop）",
+  "deslopping": "正在去除AI痕迹…",
+  "deslopFailed": "无法处理这段文本，请稍后再试。",
+  "deslopLimit": "已达到使用上限。此工具每次运行都有成本，因此每小时限次使用，请稍后再试。",
+  "privateRemote": "此工具会把你的文本发送给 OpenAI 完成编辑，处理后不会保存。本站其他所有工具都在你的浏览器中运行。",
+  "unchanged": "未发现AI写作痕迹，文本原样返回。",
 };
 
 export const guideChrome: GuideChrome = {

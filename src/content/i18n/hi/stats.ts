@@ -2,6 +2,8 @@ import type { StatTranslations } from "@/lib/stat-labels";
 
 export const stats: StatTranslations = {
   labels: {
+      "AI phrases removed": "हटाए गए AI वाक्यांश",
+      "Words after": "बाद के शब्द",
       "Words": "शब्द",
       "Elements": "एलिमेंट",
       "HTML elements": "HTML एलिमेंट",

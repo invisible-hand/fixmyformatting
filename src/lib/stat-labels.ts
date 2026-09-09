@@ -16,7 +16,7 @@ export const statLabelKeys = [
   "Line breaks fixed", "Messages formatted", "Estimated tokens", "Characters",
   "Chunks produced", "Additions", "Deletions", "Status", "Lines", "Tables found",
   "Sentences", "Reading time", "Characters converted", "Equations converted",
-  "GPT-4o tokens", "Claude estimate",
+  "GPT-4o tokens", "Claude estimate", "Words after", "AI phrases removed",
 ] as const;
 
 export type StatLabelKey = (typeof statLabelKeys)[number];

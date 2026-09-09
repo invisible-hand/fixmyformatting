@@ -43,4 +43,7 @@ export const ui: UiMessages = {
   mobileAnswer: "네. 최신 모바일 및 데스크톱 브라우저에서 작동합니다.",
   introSuffix: "내용을 위에 붙여넣으면 업로드나 가입 없이 결과를 바로 확인할 수 있습니다.",
   categories: { markdown: "Markdown 및 문서", cleanup: "AI 텍스트 정리", data: "데이터 및 프롬프트" },
+  featureEyebrow: "신규 · AI 기반",
+  featureCta: "텍스트 De-slop 처리 →",
+  stepRun: "위에 텍스트를 붙여넣고 De-slop을 누르세요. 편집에는 몇 초 정도 걸립니다.",
 };

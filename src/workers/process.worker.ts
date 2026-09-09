@@ -2,7 +2,7 @@
 
 import { processText } from "@/lib/processors";
 import type { ProcessSettings } from "@/lib/processors";
-import { getProcessorSlug } from "@/lib/tools";
+import { getProcessorSlug } from "@/lib/tool-routing";
 
 self.onmessage = async (event: MessageEvent<{ slug: string; input: string; settings?: ProcessSettings }>) => {
   const { slug, input, settings } = event.data;

@@ -1,3 +1,7 @@
+import { actionSource, brandActions, brands, getProcessorSlug } from "./tool-routing";
+
+export { actionSource, brandActions, brands, getProcessorSlug };
+
 export type ToolCategory = "Markdown & documents" | "AI cleanup" | "Data & prompts";
 
 export type ToolDefinition = {
@@ -16,6 +20,13 @@ export type ToolDefinition = {
   faqs: { question: string; answer: string }[];
   /** ISO date (YYYY-MM-DD) of the last content change; feeds dateModified + the visible "Updated" line. */
   updated: string;
+  /**
+   * The result comes from a server API instead of the in-browser processor:
+   * the workspace shows a run button rather than updating live, the trust
+   * strip says where the text goes, and the share/keepalive paths never
+   * re-run it. Only de-slop so far.
+   */
+  remote?: boolean;
 };
 
 /**
@@ -189,6 +200,47 @@ export const coreTools: ToolDefinition[] = [
   define("markdown-to-html", "Markdown to HTML", "Markdown to HTML Converter", "Convert Markdown into clean semantic HTML with a live preview, then copy the markup for a site, CMS, newsletter, or email. Runs in your browser.", "Markdown & documents", "Generate clean semantic HTML from Markdown with a live preview. Copy the markup for a website, newsletter, CMS, or email workflow.", { outputLabel: "HTML", download: "html" }),
   define("word-to-markdown", "Word to Markdown", "Word to Markdown Converter Online", "Paste rich text copied from Word, Google Docs, or a web page and get Markdown back, with headings, emphasis, lists, links, and tables converted.", "Markdown & documents", "Paste copied rich text from Word, Google Docs, or a webpage. The converter turns headings, emphasis, lists, links, and tables into portable Markdown.", { outputLabel: "Markdown", download: "txt", placeholder: "Paste rich text from Word or Google Docs here…" }),
   define("html-to-markdown", "HTML to Markdown", "HTML to Markdown Converter — Free & Private", "Paste HTML source and get portable Markdown for READMEs, documentation, notes apps, and LLM prompts. Scripts, styles, and unknown tags are dropped.", "Markdown & documents", "Paste HTML source and get portable Markdown for READMEs, documentation, notes apps, and LLM prompts. Headings, lists, links, emphasis, code blocks, and tables are converted; scripts, styles, and unknown tags are dropped.", { outputLabel: "Markdown", download: "txt", placeholder: "<h1>Hello</h1>\n<p>This is <strong>bold</strong>, <em>italic</em>, and <a href=\"https://example.com\">a link</a>.</p>" }),
+  define("de-slop", "De-slop", "De-slop AI Text: Remove AI Writing Patterns, Free", "Paste AI-written text and get it back without the tells: em dashes, “delve”, “not just X but Y”, padded triads, chatbot sign-offs. Meaning and facts stay.", "AI cleanup", "Slop is the writing that gives a language model away: em dashes as the default pause, \"delve\", \"tapestry\" and \"testament\", \"not just X but Y\", every list padded to three items, sentences that end on \"highlighting its significance\", a closer that restates the paragraph. De-slop sends your text to a language model with an editing brief built from Wikipedia's Signs of AI writing list and returns the same text with those patterns removed. It is an edit, not a rewrite: every fact, number, name, quotation and URL stays as written, the language of the input is kept, length stays within about fifteen percent, and code and Markdown that carry real structure are left alone. Decorative formatting goes: emoji bullets, random bold, headings on a short note, horizontal rules. Tick Show what changed to see a word-level diff of the edit. Because each run costs money, text is capped at 8,000 characters and a visitor gets a handful of runs per hour; the mechanical tools on this site remain unlimited.", {
+    remote: true,
+    report: true,
+    outputLabel: "De-slopped text",
+    download: "txt",
+    updated: "2026-09-08",
+    placeholder: "Paste AI-written text here, then press De-slop. Em dashes, “delve”, “not just X but Y” and the rest of the tells are edited out; meaning and facts stay.",
+    example: "In today’s fast-paced digital landscape, remote work isn’t just a trend — it’s a fundamental shift in how we approach productivity. Companies that embrace flexible arrangements are not only attracting top talent but also fostering a culture of trust, autonomy, and innovation. Studies consistently show that remote employees report higher satisfaction, and it’s worth noting that this serves as a testament to the power of autonomy.\n\nHowever, remote work comes with its own set of challenges. Communication can become fragmented, collaboration may suffer, and the boundary between work and life often blurs — highlighting the importance of intentional practices. Leaders must navigate this complex terrain by delving into what truly motivates their teams, leveraging robust tools, and cultivating a seamless experience for everyone involved.\n\nUltimately, the future of work is not about where we work, but how we work. By embracing change, prioritizing well-being, and staying adaptable, organizations can unlock the full potential of their people. ✨ I hope this helps! Let me know if you’d like me to expand on any section.",
+    faqs: [
+      {
+        question: "What counts as slop, and what does De-slop change?",
+        answer:
+          "The patterns editors use to spot machine-written text, as catalogued on Wikipedia's Signs of AI writing page: AI vocabulary such as delve, tapestry, testament, pivotal, robust and seamless; negative parallelisms like \"not just X but Y\"; lists padded to exactly three items; \"serves as\" and \"boasts\" in place of \"is\" and \"has\"; vague attributions such as \"experts agree\"; trailing clauses like \"highlighting its significance\"; empty claims of importance; em dashes as the default pause; emoji bullets, random bold and headings on short text; chatbot openers and sign-offs. Each is replaced with the plain statement or cut.",
+      },
+      {
+        question: "Does it change the meaning or the facts?",
+        answer:
+          "No. The editing brief tells the model to keep every fact, number, name, date, URL and quotation exactly as written, to keep the language of the input, to keep the author's register and point of view, and to stay within about fifteen percent of the original length. It is an edit, not a summary and not a rewrite. If the text has no tells, it comes back unchanged.",
+      },
+      {
+        question: "Will the result pass an AI detector?",
+        answer:
+          "That is not what the tool is for and no promise is made. De-slop removes the patterns human readers notice, which are also the patterns most detectors weight heavily, so scores usually move; but detectors are unreliable in both directions and this tool is an editor, not an evasion tool. Read the result and make it yours.",
+      },
+      {
+        question: "Is my text uploaded?",
+        answer:
+          "Yes, for this tool only. The text is sent to OpenAI's API (GPT-5.6 Terra with reasoning off) for the single edit and the result is returned to your browser. Fix My Formatting does not store the input or the output, and OpenAI handles API requests under its API data-usage terms rather than the consumer ChatGPT terms. Every other tool on this site still runs entirely in your browser.",
+      },
+      {
+        question: "Why is there a limit?",
+        answer:
+          "Every run costs real money for the model call, so the tool takes up to 8,000 characters per run and allows a small number of runs per hour per visitor, with a site-wide daily cap. When a limit is reached you get a clear message and can come back later. There is no account and no payment; the mechanical tools on this site remain unlimited.",
+      },
+      {
+        question: "How is this different from the AI Formatting Humanizer?",
+        answer:
+          "The AI Formatting Humanizer is mechanical: it normalizes punctuation, quotes, invisible characters and pseudo-fonts and never touches a word. De-slop rewrites wording and sentence shape, which is what actually reads as machine-written. Run De-slop first, then the humanizer if any smart quotes or hidden characters remain.",
+      },
+    ],
+  }),
   define("remove-em-dashes", "Remove Em Dashes", "Remove Em Dashes from Text", "Replace every em dash with a comma, semicolon, hyphen, or nothing, and see how many were changed. The space the dash left behind is tidied up too.", "Markdown & documents", "Find and replace em dashes in AI-generated or human-written text. The live count tells you exactly how many were changed.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste text with em dashes — like this one — to replace them." }),
   define("clean-ai-text", "AI Text Cleaner", "Clean ChatGPT Text & AI Formatting", "Count and clean the formatting artifacts in AI output: em dashes, smart quotes, invisible characters, emoji and, optionally, Markdown. Counts stay visible.", "AI cleanup", "The AI Artifact Report counts mechanical formatting artifacts; it does not guess whether text was written by AI. Em dashes become commas, curly quotes become straight ones, invisible characters and emoji are removed, and doubled spaces collapse. Tick Also remove Markdown symbols to strip asterisks, hashes and link syntax in the same pass, and Show what changed to see a word-level diff. Every word stays in place; only punctuation, spacing and character encoding change.", { report: true, outputLabel: "Clean text", download: "txt", updated: "2026-09-06", placeholder: "Paste ChatGPT, Claude, or Gemini text here — “smart quotes,” emoji ✨ and hidden characters are reported." }),
   define("humanize-ai-text", "AI Formatting Humanizer", "Humanize AI Text — Formatting Cleanup, Free", "Remove the formatting fingerprints of AI output: em dashes, smart quotes, invisible characters, emoji, and fancy fonts. Wording and meaning stay intact.", "AI cleanup", "Paste AI output and every mechanical formatting artifact is normalized in one pass: em dashes become commas, curly quotes and apostrophes become straight ones, invisible characters and emoji are removed, no-break spaces become ordinary spaces, and pseudo-font Unicode returns to plain letters. The words themselves are never touched. AI detectors score word choice and sentence structure, which formatting cleanup does not change.", {
@@ -284,9 +336,6 @@ export const coreTools: ToolDefinition[] = [
   define("latex-to-word", "LaTeX to Word Equation", "LaTeX to Word Equation Converter", "Strip display delimiters from LaTeX copied out of an AI answer so it pastes into Word's equation editor with Alt+= instead of landing as literal text.", "Data & prompts", "Prepare LaTeX copied from an AI response for Word's equation editor by removing display delimiters and normalizing common commands. In Word, press Alt+= to open an equation box, choose LaTeX input if needed, and paste the result there; pasting into a normal paragraph will not create a native equation.", { report: true, outputLabel: "Word equation input", download: "txt", placeholder: "\\[ E = mc^2 \\]\n\n$$\\frac{a}{b}$$" }),
 ];
 
-export const brands = ["chatgpt", "claude", "gemini", "copilot", "perplexity", "deepseek", "grok"] as const;
-export const brandActions = ["to-word", "to-pdf", "to-google-docs", "table-to-excel", "remove-formatting"] as const;
-
 export const brandNames: Record<(typeof brands)[number], string> = {
   chatgpt: "ChatGPT",
   claude: "Claude",
@@ -297,13 +346,6 @@ export const brandNames: Record<(typeof brands)[number], string> = {
   grok: "Grok",
 };
 
-export const actionSource: Record<(typeof brandActions)[number], string> = {
-  "to-word": "markdown-to-word",
-  "to-pdf": "markdown-to-pdf",
-  "to-google-docs": "markdown-to-google-docs",
-  "table-to-excel": "markdown-table-to-excel",
-  "remove-formatting": "remove-markdown-formatting",
-};
 
 const actionLabel: Record<(typeof brandActions)[number], string> = {
   "to-word": "to Word",
@@ -386,9 +428,3 @@ export function getTool(slug: string) {
   return allTools.find((tool) => tool.slug === slug);
 }
 
-export function getProcessorSlug(slug: string) {
-  const brandMatch = brands.find((brand) => slug.startsWith(`${brand}-`));
-  if (!brandMatch) return slug;
-  const action = slug.slice(brandMatch.length + 1) as (typeof brandActions)[number];
-  return actionSource[action] ?? slug;
-}

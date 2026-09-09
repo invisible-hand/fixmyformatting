@@ -43,4 +43,7 @@ export const ui: UiMessages = {
   mobileAnswer: "はい。最新のモバイルおよびデスクトップブラウザで動作します。",
   introSuffix: "上に内容を貼り付けるだけで、アップロードや登録なしですぐに結果を確認できます。",
   categories: { markdown: "Markdownと文書", cleanup: "AI文章の整理", data: "データとプロンプト" },
+  featureEyebrow: "New・AI搭載",
+  featureCta: "文章をDe-slopする →",
+  stepRun: "上に貼り付けてDe-slopを押してください。編集は数秒で完了します。",
 };

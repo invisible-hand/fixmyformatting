@@ -3,7 +3,7 @@
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { track } from "@vercel/analytics";
 import type { ToolDefinition } from "@/lib/tools";
-import { getProcessorSlug } from "@/lib/tools";
+import { getProcessorSlug } from "@/lib/tool-routing";
 import type { ProcessedResult, ProcessSettings } from "@/lib/processors";
 
 export type ToolWorkspaceLabels = {
@@ -59,6 +59,12 @@ export type ToolWorkspaceLabels = {
   tidySpacing: string;
   showChanges: string;
   stripMarkdown: string;
+  deslop: string;
+  deslopping: string;
+  deslopFailed: string;
+  deslopLimit: string;
+  privateRemote: string;
+  unchanged: string;
 };
 
 type Props = {
@@ -91,6 +97,10 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
   const [stripMarkdownToo, setStripMarkdownToo] = useState(Boolean(initialSettings.stripMarkdown));
   const [smallResult, setSmallResult] = useState<{ input: string; settings: ProcessSettings; result: ProcessedResult } | null>(null);
   const [largeResult, setLargeResult] = useState<{ input: string; result: ProcessedResult } | null>(null);
+  // Remote tools (de-slop) run on a button press and keep the last result on
+  // screen while the input is edited, so the reader can compare and re-run.
+  const [remoteResult, setRemoteResult] = useState<{ input: string; output: string; stats: ProcessedResult["stats"]; html?: string } | null>(null);
+  const [busy, setBusy] = useState(false);
   const deferredInput = useDeferredValue(input);
   const outputRef = useRef<HTMLDivElement>(null);
   const reportRef = useRef<HTMLDivElement>(null);
@@ -100,9 +110,12 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
     [caseMode, dashReplacement, listDirection, keepUrls, listMarkers, keepCode, tidySpacing, showChanges, stripMarkdownToo],
   );
   const settingsMatch = JSON.stringify(smallResult?.settings) === JSON.stringify(processSettings);
-  const result = deferredInput.length > workerThreshold
-    ? (largeResult?.input === deferredInput ? largeResult.result : { output: "", stats: [] })
-    : (smallResult?.input === deferredInput && settingsMatch ? smallResult.result : { output: "", stats: [] });
+  const remote = Boolean(tool.remote);
+  const result: ProcessedResult = remote
+    ? (remoteResult ? { output: remoteResult.output, html: showChanges ? remoteResult.html : undefined, stats: remoteResult.stats } : { output: "", stats: [] })
+    : deferredInput.length > workerThreshold
+      ? (largeResult?.input === deferredInput ? largeResult.result : { output: "", stats: [] })
+      : (smallResult?.input === deferredInput && settingsMatch ? smallResult.result : { output: "", stats: [] });
   const processor = getProcessorSlug(tool.slug);
   // Every string comes from the server (ToolPage merges the English defaults with the
   // locale bundle), so no fallback prose ships in the client bundle.
@@ -130,7 +143,7 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
   }, [deferredInput, tool.slug]);
 
   useEffect(() => {
-    if (deferredInput.length > workerThreshold) return;
+    if (remote || deferredInput.length > workerThreshold) return;
     let active = true;
     void import("@/lib/processors").then(({ processText }) => {
       const baseResult = processText(tool.slug, deferredInput, processSettings);
@@ -140,18 +153,35 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
       if (active) setSmallResult({ input: deferredInput, settings: processSettings, result: processed });
     });
     return () => { active = false; };
-  }, [deferredInput, processSettings, processor, tool.slug]);
+  }, [deferredInput, processSettings, processor, remote, tool.slug]);
 
   useEffect(() => {
-    if (deferredInput.length <= workerThreshold) return;
+    if (remote || deferredInput.length <= workerThreshold) return;
     const worker = new Worker(new URL("../workers/process.worker.ts", import.meta.url));
     worker.onmessage = (event: MessageEvent<ProcessedResult>) => setLargeResult({ input: deferredInput, result: event.data });
     worker.postMessage({ slug: tool.slug, input: deferredInput, settings: processSettings });
     return () => worker.terminate();
-  }, [deferredInput, processSettings, tool.slug]);
+  }, [deferredInput, processSettings, remote, tool.slug]);
 
   function flash(message: string) {
     setNotice(message);
+  }
+
+  async function runRemote() {
+    if (!input.trim() || busy) return;
+    setBusy(true);
+    setMobileTab("output");
+    try {
+      const { runRemoteEdit } = await import("@/lib/workspace-actions");
+      const run = await runRemoteEdit(tool, input);
+      if (!run.ok) return flash(run.status === 429 ? ui.deslopLimit : (run.error ?? ui.deslopFailed));
+      setRemoteResult({ input, output: run.output, stats: run.stats, html: run.html });
+      if (run.unchanged) flash(ui.unchanged);
+    } catch {
+      flash(ui.deslopFailed);
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function copyOutput() {
@@ -211,6 +241,7 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
   }
 
   async function onPaste(event: React.ClipboardEvent<HTMLTextAreaElement>) {
+    if (remote) return;
     if (processor !== "word-to-markdown") {
       window.setTimeout(() => {
         setMobileTab("output");
@@ -228,8 +259,13 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
 
   return (
     <section className="workspace" aria-label={`${tool.name} tool`}>
-      {(processor === "case-converter" || processor === "remove-em-dashes" || processor === "bullet-points-to-paragraph" || processor === "remove-markdown-formatting" || processor === "clean-ai-text") && (
+      {(remote || processor === "case-converter" || processor === "remove-em-dashes" || processor === "bullet-points-to-paragraph" || processor === "remove-markdown-formatting" || processor === "clean-ai-text") && (
         <div className="tool-options" aria-label={ui.conversionOptions}>
+          {remote && (
+            <button type="button" className="primary-action remote-run" onClick={runRemote} disabled={busy || !input.trim()} aria-busy={busy}>
+              {busy ? ui.deslopping : ui.deslop}
+            </button>
+          )}
           {processor === "remove-markdown-formatting" && (
             <>
               <label className="check"><input type="checkbox" checked={keepUrls} onChange={(event) => setKeepUrls(event.target.checked)} />{ui.keepUrls}</label>
@@ -246,7 +282,7 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
           {processor === "clean-ai-text" && (
             <label className="check"><input type="checkbox" checked={stripMarkdownToo} onChange={(event) => setStripMarkdownToo(event.target.checked)} />{ui.stripMarkdown}</label>
           )}
-          {(processor === "remove-markdown-formatting" || processor === "clean-ai-text") && (
+          {(remote || processor === "remove-markdown-formatting" || processor === "clean-ai-text") && (
             <label className="check"><input type="checkbox" checked={showChanges} onChange={(event) => setShowChanges(event.target.checked)} />{ui.showChanges}</label>
           )}
           {processor === "case-converter" && (
@@ -294,6 +330,7 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
           <textarea dir="auto"
             value={input}
             onChange={(event) => setInput(event.target.value)}
+            onKeyDown={remote ? (event) => { if ((event.metaKey || event.ctrlKey) && event.key === "Enter") void runRemote(); } : undefined}
             onPaste={onPaste}
             placeholder={tool.placeholder}
             aria-label={`${tool.name} input`}
@@ -302,7 +339,7 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
           />
         </div>
         <div ref={outputRef} className={`editor-panel output-panel ${mobileTab === "output" ? "mobile-active" : ""}`}>
-          <div className="panel-label"><span>{ui.output}</span><span aria-live="polite">{deferredInput !== input ? ui.updating : ui.live}</span></div>
+          <div className="panel-label"><span>{ui.output}</span><span aria-live="polite">{remote ? (busy ? ui.deslopping : remoteResult && remoteResult.input !== input ? ui.updating : "") : deferredInput !== input ? ui.updating : ui.live}</span></div>
           {result.html && processor !== "markdown-to-html" ? (
             <div className="rendered-output" dir="auto" dangerouslySetInnerHTML={{ __html: result.html }} />
           ) : (
@@ -332,7 +369,7 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
         {tool.report && <button onClick={downloadImage} disabled={!result.stats.length}>{ui.downloadImage}</button>}
         <span className="notice" role="status">{notice}</span>
       </div>
-      <div className="trust-strip">{ui.free} <span>·</span> {ui.noSignup} <span>·</span> {ui.private}</div>
+      <div className="trust-strip">{ui.free} <span>·</span> {ui.noSignup} <span>·</span> {remote ? ui.privateRemote : ui.private}</div>
     </section>
   );
 }
