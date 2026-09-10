@@ -8,6 +8,10 @@ describe("de-slop", () => {
     const slop = "Let's delve into this — it's not just a tool but a testament to robust design. I hope this helps!";
     expect(countTells(slop)).toBe(5);
     expect(countTells("The cache is a map from key to value.")).toBe(0);
+    // Structural tells from Simon Willison's highlighter and the Claudisms banlist.
+    const structural = "Here's the thing: no roadmap, no playbook, no safety net. Turns out the only metric that matters is shipping. That's not nothing. Sit with that. I'll be honest, despite these challenges, time will tell.";
+    expect(countTells(structural)).toBeGreaterThanOrEqual(8);
+    expect(countTells("Turns of the wheel and a real estate agent's honest appraisal.")).toBe(0);
   });
 
   it("reports before/after stats with labels every locale can translate", () => {
@@ -32,5 +36,6 @@ describe("de-slop", () => {
     expect(deslopInstructions).toContain("Return the edited text and nothing else");
     // The example input is slop by the brief's own measure.
     expect(countTells(tool.example!)).toBeGreaterThan(5);
+    expect(deslopInstructions).toContain("Faux-thoughtful filler");
   });
 });
