@@ -63,4 +63,5 @@ export const workspaceDefaults: Omit<ToolWorkspaceLabels, "output"> = {
   deslopLimit: "Limit reached. This tool costs money per run, so it allows a few runs per hour. Try again later.",
   privateRemote: "This tool sends your text to OpenAI for the edit and does not store it. Every other tool runs in your browser.",
   unchanged: "No AI patterns found. Text returned unchanged.",
+  remoteEmpty: "Paste text, then press De-slop. The edit takes a few seconds.",
 };

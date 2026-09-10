@@ -141,6 +141,7 @@ export type WorkspaceMessages = {
   deslopLimit?: string;
   privateRemote?: string;
   unchanged?: string;
+  remoteEmpty?: string;
 };
 
 export type GuideChrome = {

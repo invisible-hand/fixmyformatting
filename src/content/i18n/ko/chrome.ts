@@ -103,6 +103,7 @@ export const workspace: WorkspaceMessages = {
   "deslopLimit": "한도에 도달했습니다. 이 도구는 실행마다 비용이 들기 때문에 시간당 실행 횟수를 제한합니다. 나중에 다시 시도해 주세요.",
   "privateRemote": "이 도구는 편집을 위해 텍스트를 OpenAI로 전송하며 저장하지 않습니다. 다른 모든 도구는 브라우저 안에서 실행됩니다.",
   "unchanged": "AI 패턴이 발견되지 않았습니다. 텍스트가 변경 없이 그대로 반환되었습니다.",
+  "remoteEmpty": "텍스트를 붙여넣고 De-slop을 누르십시오. 편집에는 몇 초가 걸립니다.",
 };
 
 export const guideChrome: GuideChrome = {

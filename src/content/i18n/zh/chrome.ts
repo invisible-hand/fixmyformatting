@@ -103,6 +103,7 @@ export const workspace: WorkspaceMessages = {
   "deslopLimit": "已达到使用上限。此工具每次运行都有成本，因此每小时限次使用，请稍后再试。",
   "privateRemote": "此工具会把你的文本发送给 OpenAI 完成编辑，处理后不会保存。本站其他所有工具都在你的浏览器中运行。",
   "unchanged": "未发现AI写作痕迹，文本原样返回。",
+  "remoteEmpty": "粘贴文本，然后点击 De-slop。编辑需要几秒钟。",
 };
 
 export const guideChrome: GuideChrome = {

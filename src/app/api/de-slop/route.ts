@@ -15,7 +15,7 @@ import { DeslopError, deslopMaxChars, deslopModel, deslopStats, runDeslop } from
 export const maxDuration = 60;
 
 const limits = {
-  perHour: Number(process.env.DESLOP_PER_HOUR ?? 6),
+  perHour: Number(process.env.DESLOP_PER_HOUR ?? 10),
   perDay: Number(process.env.DESLOP_PER_DAY ?? 20),
   siteDaily: Number(process.env.DESLOP_SITE_DAILY ?? 150),
   monthlyBudgetCents: Math.round(Number(process.env.DESLOP_MONTHLY_BUDGET_USD ?? 15) * 100),

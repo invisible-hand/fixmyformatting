@@ -103,6 +103,7 @@ export const workspace: WorkspaceMessages = {
   "deslopLimit": "Limit erreicht. Dieses Werkzeug kostet pro Durchlauf Geld, daher sind nur wenige Durchläufe pro Stunde erlaubt. Versuch es später erneut.",
   "privateRemote": "Dieses Werkzeug sendet deinen Text zur Bearbeitung an OpenAI und speichert ihn nicht. Alle anderen Werkzeuge laufen in deinem Browser.",
   "unchanged": "Keine KI-Muster gefunden. Text unverändert zurückgegeben.",
+  "remoteEmpty": "Text einfügen und auf De-slop klicken. Die Bearbeitung dauert einige Sekunden.",
 };
 
 export const guideChrome: GuideChrome = {

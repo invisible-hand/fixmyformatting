@@ -103,6 +103,7 @@ export const workspace: WorkspaceMessages = {
   "deslopLimit": "Limite atteinte. Cet outil coûte de l'argent à chaque passage, il autorise donc quelques passages par heure. Réessayez plus tard.",
   "privateRemote": "Cet outil envoie votre texte à OpenAI pour l'édition et ne le conserve pas. Tous les autres outils fonctionnent dans votre navigateur.",
   "unchanged": "Aucun tic d'IA détecté. Le texte est renvoyé inchangé.",
+  "remoteEmpty": "Collez le texte, puis cliquez sur De-slop. La correction prend quelques secondes.",
 };
 
 export const guideChrome: GuideChrome = {

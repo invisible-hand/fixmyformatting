@@ -65,6 +65,7 @@ export type ToolWorkspaceLabels = {
   deslopLimit: string;
   privateRemote: string;
   unchanged: string;
+  remoteEmpty: string;
 };
 
 type Props = {
@@ -101,6 +102,9 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
   // screen while the input is edited, so the reader can compare and re-run.
   const [remoteResult, setRemoteResult] = useState<{ input: string; output: string; stats: ProcessedResult["stats"]; html?: string } | null>(null);
   const [busy, setBusy] = useState(false);
+  // Shown inside the output panel until the next run: a two-second flash is
+  // easy to miss for a refusal the reader needs to act on (the hourly cap).
+  const [remoteError, setRemoteError] = useState("");
   const deferredInput = useDeferredValue(input);
   const outputRef = useRef<HTMLDivElement>(null);
   const reportRef = useRef<HTMLDivElement>(null);
@@ -170,14 +174,20 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
   async function runRemote() {
     if (!input.trim() || busy) return;
     setBusy(true);
+    setRemoteError("");
     setMobileTab("output");
     try {
       const { runRemoteEdit } = await import("@/lib/workspace-actions");
       const run = await runRemoteEdit(tool, input);
-      if (!run.ok) return flash(run.status === 429 ? ui.deslopLimit : (run.error ?? ui.deslopFailed));
+      if (!run.ok) {
+        const message = run.status === 429 ? ui.deslopLimit : (run.error ?? ui.deslopFailed);
+        setRemoteError(message);
+        return flash(message);
+      }
       setRemoteResult({ input, output: run.output, stats: run.stats, html: run.html });
       if (run.unchanged) flash(ui.unchanged);
     } catch {
+      setRemoteError(ui.deslopFailed);
       flash(ui.deslopFailed);
     } finally {
       setBusy(false);
@@ -343,7 +353,7 @@ export function ToolWorkspace({ tool, initialInput = "", initialSettings = {}, l
           {result.html && processor !== "markdown-to-html" ? (
             <div className="rendered-output" dir="auto" dangerouslySetInnerHTML={{ __html: result.html }} />
           ) : (
-            <pre dir="auto" className={`text-output ${result.valid === false ? "error-output" : ""}`}>{result.output || ui.emptyResult}</pre>
+            <pre dir="auto" className={`text-output ${result.valid === false || (remote && remoteError) ? "error-output" : ""}`}>{remote && remoteError ? remoteError : result.output || (remote ? (busy ? ui.deslopping : ui.remoteEmpty) : ui.emptyResult)}</pre>
           )}
         </div>
       </div>
