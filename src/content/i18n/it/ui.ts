@@ -43,4 +43,7 @@ export const ui: UiMessages = {
   mobileAnswer: "Sì. L’editor funziona nei browser moderni per smartphone e desktop.",
   introSuffix: "Incolla il contenuto qui sopra per ottenere subito il risultato, senza caricare il testo o creare un account.",
   categories: { markdown: "Markdown e documenti", cleanup: "Pulizia del testo IA", data: "Dati e prompt" },
+  featureEyebrow: "Novità · basato sull'IA",
+  featureCta: "De-slop del testo →",
+  stepRun: "Incollalo qui sopra e premi De-slop. La modifica richiede pochi secondi.",
 };

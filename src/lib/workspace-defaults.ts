@@ -57,4 +57,10 @@ export const workspaceDefaults: Omit<ToolWorkspaceLabels, "output"> = {
   tidySpacing: "Tidy spacing too",
   showChanges: "Show what changed",
   stripMarkdown: "Also remove Markdown symbols",
+  deslop: "De-slop this text",
+  deslopping: "De-slopping…",
+  deslopFailed: "Could not de-slop the text. Try again in a moment.",
+  deslopLimit: "Limit reached. This tool costs money per run, so it allows a few runs per hour. Try again later.",
+  privateRemote: "This tool sends your text to OpenAI for the edit and does not store it. Every other tool runs in your browser.",
+  unchanged: "No AI patterns found. Text returned unchanged.",
 };

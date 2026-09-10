@@ -28,6 +28,10 @@ export const pages: PageCopy = {
         ]
       },
       {
+        heading: "De-slop 도구",
+        body: ["De-slop은 브라우저 내 처리 방식의 유일한 예외입니다. De-slop을 누르면 편집기의 텍스트가 한 번의 편집을 위해 OpenAI의 API로 전송되고, 결과가 브라우저로 반환됩니다. 입력값도 결과값도 저장하지 않습니다. OpenAI는 API 데이터 사용 약관에 따라 API 요청을 처리합니다. 다른 어떤 도구도 텍스트를 어디로도 전송하지 않습니다."],
+      },
+      {
         "heading": "공유 링크",
         "body": [
           "“결과 링크 복사”를 선택하면 링크를 열 수 있도록 입력 내용, 선택한 도구, 설정이 저장됩니다. 민감하거나 개인적인 정보는 공유하지 마세요. 공유된 결과는 기본적으로 180일 후에 만료됩니다."
@@ -92,7 +96,13 @@ export const workspace: WorkspaceMessages = {
   "keepCode": "코드 블록을 그대로 유지",
   "tidySpacing": "공백도 정리",
   "showChanges": "변경 내용 보기",
-  "stripMarkdown": "Markdown 기호도 함께 제거"
+  "stripMarkdown": "Markdown 기호도 함께 제거",
+  "deslop": "텍스트 De-slop 처리",
+  "deslopping": "De-slop 처리 중…",
+  "deslopFailed": "텍스트를 De-slop 처리하지 못했습니다. 잠시 후 다시 시도해 주세요.",
+  "deslopLimit": "한도에 도달했습니다. 이 도구는 실행마다 비용이 들기 때문에 시간당 실행 횟수를 제한합니다. 나중에 다시 시도해 주세요.",
+  "privateRemote": "이 도구는 편집을 위해 텍스트를 OpenAI로 전송하며 저장하지 않습니다. 다른 모든 도구는 브라우저 안에서 실행됩니다.",
+  "unchanged": "AI 패턴이 발견되지 않았습니다. 텍스트가 변경 없이 그대로 반환되었습니다.",
 };
 
 export const guideChrome: GuideChrome = {

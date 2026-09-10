@@ -95,6 +95,6 @@ One more limitation the providers state plainly: a detected mark means the text 
         "Providers say no, and there is no visible difference to find. The mark only biases choices among words that were already near-equally likely, so the text reads normally and contains only ordinary characters. It does not affect formatting, rendering, or anything a reader or word processor would notice.",
     },
   ],
-  relatedTools: ["remove-invisible-characters", "clean-ai-text"],
+  relatedTools: ["remove-invisible-characters", "clean-ai-text", "de-slop"],
   relatedGuides: ["signs-of-ai-written-text", "chatgpt-invisible-characters", "invisible-unicode-characters"],
 };

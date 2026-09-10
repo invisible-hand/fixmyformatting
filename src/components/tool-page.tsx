@@ -135,7 +135,9 @@ export function ToolPage({
             <p>{tool.intro}</p>
             <ol>
               <li>{localized?.stepCopy ?? "Copy the text or table you want to fix."}</li>
-              <li>{localized?.stepPaste ?? "Paste it into the input above. The result updates instantly."}</li>
+              <li>{tool.remote
+                ? (localized?.stepRun ?? "Paste it above and press De-slop. The edit takes a few seconds.")
+                : (localized?.stepPaste ?? "Paste it into the input above. The result updates instantly.")}</li>
               <li>{localized?.stepFinish ?? "Copy, download, share, or embed the finished result."}</li>
             </ol>
           </section>

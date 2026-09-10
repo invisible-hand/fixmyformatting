@@ -43,4 +43,7 @@ export const ui: UiMessages = {
   mobileAnswer: "نعم. يعمل المحرر في متصفحات الهاتف وسطح المكتب الحديثة.",
   introSuffix: "الصق محتواك أعلاه لترى النتيجة فورًا من دون رفع النص أو إنشاء حساب.",
   categories: { markdown: "Markdown والمستندات", cleanup: "تنظيف نصوص الذكاء الاصطناعي", data: "البيانات والأوامر" },
+  featureEyebrow: "جديد · مدعوم بالذكاء الاصطناعي",
+  featureCta: "← تنظيف النص بـ De-slop",
+  stepRun: "الصق النص أعلاه واضغط De-slop. يستغرق التحرير بضع ثوانٍ.",
 };

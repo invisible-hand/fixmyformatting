@@ -1,5 +1,5 @@
 import { isNumericCell } from "./numeric-cell";
-import { getProcessorSlug } from "./tools";
+import { getProcessorSlug } from "./tool-routing";
 import { diffWords } from "diff";
 
 export type ProcessedResult = {
@@ -217,7 +217,7 @@ function stripMarkdown(input: string, options: StripMarkdownOptions = {}) {
 }
 
 /** Word-level diff of a cleanup, so the reader can see that only symbols changed. */
-function changesHtml(before: string, after: string) {
+export function changesHtml(before: string, after: string) {
   const changes = diffWords(before, after);
   return `<div class="diff-output">${changes.map((change) => {
     const className = change.added ? "diff-added" : change.removed ? "diff-removed" : "diff-unchanged";

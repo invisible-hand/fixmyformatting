@@ -43,4 +43,7 @@ export const ui: UiMessages = {
   mobileAnswer: "हाँ। एडिटर आधुनिक मोबाइल और डेस्कटॉप ब्राउज़र में चलता है।",
   introSuffix: "ऊपर सामग्री पेस्ट करें और बिना अपलोड या अकाउंट के तुरंत नतीजा देखें।",
   categories: { markdown: "Markdown और दस्तावेज़", cleanup: "AI टेक्स्ट की सफ़ाई", data: "डेटा और प्रॉम्प्ट" },
+  featureEyebrow: "नया · AI-संचालित",
+  featureCta: "टेक्स्ट De-slop करें →",
+  stepRun: "ऊपर पेस्ट करें और De-slop दबाएं। एडिट में कुछ सेकंड लगते हैं।",
 };

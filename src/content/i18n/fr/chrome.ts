@@ -28,6 +28,10 @@ export const pages: PageCopy = {
         ]
       },
       {
+        heading: "L'outil De-slop",
+        body: ["De-slop est la seule exception au traitement 100 % navigateur : quand vous appuyez sur De-slop, le texte de l'éditeur est envoyé à l'API d'OpenAI pour une édition unique, et le résultat est renvoyé à votre navigateur. Nous ne conservons ni le texte d'entrée ni le résultat. OpenAI traite les requêtes API selon ses conditions d'utilisation des données de l'API. Aucun autre outil n'envoie de texte où que ce soit."],
+      },
+      {
         "heading": "Liens de partage",
         "body": [
           "Lorsque vous sélectionnez « Copier le lien du résultat », le texte saisi, l’outil choisi et les réglages sont stockés pour que le lien puisse être ouvert. Ne partagez pas d’informations sensibles ou personnelles. Les résultats partagés expirent après 180 jours par défaut."
@@ -92,7 +96,13 @@ export const workspace: WorkspaceMessages = {
   "keepCode": "Garder les blocs de code tels quels",
   "tidySpacing": "Aérer les espaces aussi",
   "showChanges": "Voir ce qui a changé",
-  "stripMarkdown": "Aussi retirer les symboles Markdown"
+  "stripMarkdown": "Aussi retirer les symboles Markdown",
+  "deslop": "De-slop ce texte",
+  "deslopping": "De-slop en cours…",
+  "deslopFailed": "Impossible de de-slop le texte. Réessayez dans un instant.",
+  "deslopLimit": "Limite atteinte. Cet outil coûte de l'argent à chaque passage, il autorise donc quelques passages par heure. Réessayez plus tard.",
+  "privateRemote": "Cet outil envoie votre texte à OpenAI pour l'édition et ne le conserve pas. Tous les autres outils fonctionnent dans votre navigateur.",
+  "unchanged": "Aucun tic d'IA détecté. Le texte est renvoyé inchangé.",
 };
 
 export const guideChrome: GuideChrome = {

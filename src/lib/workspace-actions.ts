@@ -75,3 +75,24 @@ export async function copyEmbedCode(tool: ToolDefinition, publicPath?: string) {
   await navigator.clipboard.writeText(code);
   track("tool_action", { tool: tool.slug, action: "embed" });
 }
+
+export type RemoteRun =
+  | { ok: true; output: string; stats: ProcessedResult["stats"]; html: string; unchanged: boolean }
+  | { ok: false; status: number; error?: string };
+
+/** One press of the De-slop button: the API call plus the diff for "Show what changed". */
+export async function runRemoteEdit(tool: ToolDefinition, input: string): Promise<RemoteRun> {
+  const response = await fetch("/api/de-slop", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ input }),
+  });
+  const data = (await response.json().catch(() => ({}))) as { output?: string; stats?: ProcessedResult["stats"]; unchanged?: boolean; error?: string };
+  if (!response.ok || typeof data.output !== "string") {
+    track("tool_action", { tool: tool.slug, action: "remote_error", status: response.status });
+    return { ok: false, status: response.status, error: data.error };
+  }
+  const { changesHtml } = await import("./processors");
+  track("tool_action", { tool: tool.slug, action: "remote_run" });
+  return { ok: true, output: data.output, stats: data.stats ?? [], html: changesHtml(input, data.output), unchanged: Boolean(data.unchanged) };
+}

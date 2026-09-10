@@ -28,6 +28,10 @@ export const pages: PageCopy = {
         ]
       },
       {
+        heading: "De-slopツールについて",
+        body: ["De-slopは、ブラウザ内処理だけで完結しない唯一の例外です。De-slopを押すと、エディタ内の文章がOpenAIのAPIに送信されて1回の編集が行われ、結果があなたのブラウザに返されます。入力も出力も、当サイトでは保存しません。OpenAIはこのAPIリクエストをAPIのデータ利用規約のもとで処理します。他のツールは、文章をどこにも送信しません。"],
+      },
+      {
         "heading": "共有リンク",
         "body": [
           "「結果へのリンクをコピー」を選択すると、リンクを開けるよう入力内容、選択したツール、設定が保存されます。機密情報や個人情報は共有しないでください。共有された結果はデフォルトで180日後に期限切れになります。"
@@ -92,7 +96,13 @@ export const workspace: WorkspaceMessages = {
   "keepCode": "コードブロックをそのまま残す",
   "tidySpacing": "空白も整える",
   "showChanges": "変更点を表示",
-  "stripMarkdown": "Markdown記号も削除する"
+  "stripMarkdown": "Markdown記号も削除する",
+  "deslop": "De-slopでクセを消す",
+  "deslopping": "De-slop処理中…",
+  "deslopFailed": "De-slop処理に失敗しました。しばらくしてからもう一度お試しください。",
+  "deslopLimit": "利用上限に達しました。このツールは実行ごとに費用がかかるため、1時間あたりの利用回数を制限しています。しばらくしてからまたお試しください。",
+  "privateRemote": "このツールは編集のために文章をOpenAIへ送信し、保存はしません。他のツールはすべてブラウザ内だけで処理されます。",
+  "unchanged": "AI特有の特徴は見つかりませんでした。文章はそのまま返されます。",
 };
 
 export const guideChrome: GuideChrome = {
