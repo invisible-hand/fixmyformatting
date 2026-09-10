@@ -1,0 +1,16 @@
+{
+  "baseUrl": "https://fixmyformatting.com",
+  "sample": 16,
+  "locales": ["es", "pt", "de", "fr", "it", "ja", "ko", "zh", "hi", "ar"],
+  "checks": [
+    { "path": "/de-slop", "status": 200, "contains": "De-slop", "note": "De-slop tool page" },
+    { "path": "/de-slop", "contains": "application/ld+json", "note": "De-slop JSON-LD" },
+    { "path": "/", "contains": "home-feature", "note": "Homepage De-slop feature card" },
+    { "path": "/api/de-slop", "status": 405, "note": "De-slop API rejects GET (POST-only route deployed)" },
+    { "path": "/llms.txt", "status": 200, "contains": "de-slop" },
+    { "path": "/privacy", "contains": "De-slop", "note": "Privacy page states the OpenAI exception" }
+  ],
+  "localeChecks": [
+    { "path": "/{locale}/de-slop", "status": 200, "contains": "De-slop" }
+  ]
+}
