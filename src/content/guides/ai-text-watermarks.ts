@@ -9,7 +9,7 @@ export const textWatermarks: GuideDefinition = {
   dek: "What the marks are, who ships them in 2026, and why the folklore about hidden characters gets it backwards.",
   cluster: "ai-tells",
   published: "2026-08-10",
-  updated: "2026-09-01",
+  updated: "2026-09-26",
   answer:
     "Some do, as of August 2026. Gemini embeds Google's SynthID watermark in generated text, and Claude models launched on or after August 2, 2026 carry an embedded text watermark under the EU AI Act's transparency code. ChatGPT does not yet watermark text, only images and voice. These marks live in the model's word choices, not in hidden characters — you cannot see them, and no cleanup tool can detect or remove them.",
   sections: [
@@ -23,6 +23,25 @@ A real text watermark is statistical. As the model writes, it faces many small c
 This is why the watermark cannot be seen, and also why it cannot be stripped the way formatting can. It is not *in between* the words. It **is** the words.
 
 Invisible Unicode characters are a real phenomenon — they routinely survive a copy-paste out of a chat window, and the [invisible characters guide](/guides/chatgpt-invisible-characters) covers where they come from. But they are a side effect of web rendering, not a deliberate mark. You can list and remove every one of them with the [Invisible Character Scanner](/remove-invisible-characters), and the statistical watermark, if one is present, will not have been touched.`,
+    },
+    {
+      id: "does-gemini-watermark-text",
+      heading: "Does Gemini watermark text?",
+      body: `**Yes.** Gemini watermarks the text it writes with SynthID, Google DeepMind's watermark for AI-generated content. SynthID Text is a statistical watermark applied *during generation* by adjusting how the model samples its next word. It is not an invisible character, not metadata, and nothing in the copied text looks any different.
+
+**How SynthID Text works.** A language model writes one token — a word or a piece of a word — at a time, and every candidate token has a probability score. In Google DeepMind's words, "SynthID adjusts these probability scores to generate a watermark." Technically it is a *logits processor*: a step in the sampling pipeline that nudges those scores with a pseudorandom function driven by secret keys. The words that come out carry a pattern that Google's detector can score and a reader cannot see. Because the mark is made while the words are chosen, there is nothing added to the text afterwards to find or delete.
+
+**Where Google applies it, by Google's own statements:**
+
+- **Gemini app and web — since May 2024.** Google DeepMind announced on May 14, 2024 that it was "expanding SynthID's capabilities to watermarking AI-generated text in the Gemini app and web experience". The team's Nature paper (October 23, 2024) says SynthID-Text "has been productionized in the user-facing Gemini and Gemini Advanced chatbots", after a live test on about 20 million Gemini responses found user ratings essentially unchanged: thumbs-up rates differed by 0.01 %.
+- **Gemini API, Google AI Studio and Antigravity — per a Google staff reply, August 2026.** Google's SynthID page names only the Gemini app and web experience. On Google's developer forum, a Google staff member first answered (August 5, 2026) that API text was *not* watermarked, then corrected himself on August 19, 2026: text generated via the Gemini API "IS actually SynthID-watermarked", and the same applies to Google AI Studio and Antigravity. That is Google's latest word, but it lives in a forum thread rather than product documentation.
+- **Open source — since October 23, 2024.** Google released SynthID Text through Hugging Face Transformers (v4.46.0) and its Responsible Generative AI Toolkit, so any developer can watermark their own model's output with their own keys.
+
+**Can you check whether a text is from Gemini?** Not yourself, as of September 2026. Gemini's built-in SynthID check verifies images, video and audio — Google's help page does not list text. The SynthID Detector portal, announced May 20, 2025, said text detection would roll out "in the coming weeks"; today Google DeepMind's SynthID page describes the portal as accepting "an image, video or audio file", with access limited to journalists and media professionals on an early-tester waitlist.
+
+**The limits Google itself states.** SynthID Text "works best when a language model generates longer responses". It is "less effective on responses to factual prompts", such as "What is the capital of France?", where there is little room to vary the wording. Its "confidence scores can be greatly reduced when an AI-generated text is thoroughly rewritten or translated to another language", and the Nature paper adds that generative watermarks are "weakened by edits to the text, such as through LLM paraphrasing". Google's developer documentation also says SynthID Text "is not designed to directly stop motivated adversaries from causing harm".
+
+**What this means for hidden characters.** SynthID Text contains no zero-width spaces or other invisible Unicode. If Gemini output you pasted contains hidden characters, they came from copying and web rendering, not from the watermark. The [Invisible Character Scanner](/remove-invisible-characters) and [AI Text Cleaner](/clean-ai-text) find and remove those characters. They do not remove SynthID, and cannot: the watermark is in which words were chosen, and those tools change characters, not words.`,
     },
     {
       id: "who-watermarks-in-2026",
