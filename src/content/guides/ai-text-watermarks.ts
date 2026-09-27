@@ -71,7 +71,7 @@ Alongside text watermarks, generated *files* — images, PDFs, SVGs — increasi
 
 **Short text: too little signal.** A sentence or two does not contain enough choices to measure. Watermark detection is a statistical claim and needs length to reach confidence.
 
-**Detection: gated by the provider.** Reading the mark requires the provider's detector. Google offers SynthID detection; Anthropic's is announced but not yet public. The commercial "AI detectors" schools and editors use do not read these watermarks at all — they guess from style, which is a far weaker signal with a well-documented false-positive problem, discussed in the [AI tells guide](/guides/signs-of-ai-written-text).
+**Detection: gated by the provider.** Reading the mark requires the provider's detector. Google's SynthID Detector is limited to waitlisted early testers; Anthropic's is announced but not yet public. The commercial "AI detectors" schools and editors use do not read these watermarks at all — they guess from style, which is a far weaker signal with a well-documented false-positive problem, discussed in the [AI tells guide](/guides/signs-of-ai-written-text).
 
 One more limitation the providers state plainly: a detected mark means the text *passed through* a model, not that the model authored the ideas. Ask Claude to proofread your own essay and the output can carry the mark. Provenance is not authorship, in either direction.`,
     },
@@ -80,7 +80,7 @@ One more limitation the providers state plainly: a detected mark means the text 
       heading: "What this means in practice",
       body: `**If you paste AI output into documents:** nothing about your workflow changes. The watermark does not affect how text renders, breaks no software, and adds no characters. The things that *do* break documents — smart quotes in code, stray em dashes, zero-width characters, Markdown symbols in Word — are ordinary formatting artefacts, and cleaning them up with the [AI Text Cleaner](/clean-ai-text) is unrelated to watermarking.
 
-**If you are wondering whether a text you received is marked:** you cannot currently check, unless it came from Gemini and you use Google's detector. There is no public tool that reads Claude's mark yet, and ChatGPT text has no mark to read. Anyone selling a universal "AI watermark detector" for text in 2026 is selling something else.
+**If you are wondering whether a text you received is marked:** you cannot currently check. Gemini's built-in SynthID check covers images, video and audio only, and Google's SynthID Detector portal is limited to waitlisted early testers. There is no public tool that reads Claude's mark yet, and ChatGPT text has no mark to read. Anyone selling a universal "AI watermark detector" for text in 2026 is selling something else.
 
 **If you are tempted by "watermark remover" tools:** be skeptical twice over. Against statistical watermarks, a character-level cleanup provably does nothing, and the vendors who claim otherwise cannot test their own claim — the detectors are not public. The only operation that reliably degrades the mark is a deep rewrite, which is just a paraphrasing model wearing a different label, with the quality loss that implies — and output rewritten by a marking model simply carries that model's mark instead. Our tools remove formatting artefacts and report what they find; they do not and cannot remove watermarks, and we would rather say that plainly than sell you a myth.
 
@@ -106,7 +106,7 @@ One more limitation the providers state plainly: a detected mark means the text 
     {
       question: "Can my teacher or editor detect these watermarks?",
       answer:
-        "Almost certainly not today. Reading a text watermark requires the provider's own detector: Google offers one for SynthID, Anthropic's is not yet public, and ChatGPT text has no mark. Commercial AI detectors guess from writing style instead, which is much less reliable and produces false positives on human writing.",
+        "Almost certainly not today. Reading a text watermark requires the provider's own detector: Google's SynthID Detector is limited to waitlisted early testers (Gemini's built-in check covers images, video and audio only), Anthropic's is not yet public, and ChatGPT text has no mark. Commercial AI detectors guess from writing style instead, which is much less reliable and produces false positives on human writing.",
     },
     {
       question: "Does the watermark change how the text reads?",
