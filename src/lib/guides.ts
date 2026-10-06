@@ -52,6 +52,8 @@ export type GuideDefinition = {
   updated: string;
   /** Direct answer, rendered before the body so it can win a featured snippet. */
   answer: string;
+  /** Optional one-click copy buttons rendered above the answer (character guides). */
+  copyChars?: { char: string; label: string; hint: string }[];
   sections: GuideSection[];
   faqs: { question: string; answer: string }[];
   /** Tool slugs this guide should funnel into. */

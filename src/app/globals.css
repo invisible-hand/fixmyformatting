@@ -217,6 +217,14 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, summary:focus-vis
 
 .guide-page .breadcrumbs, .guide-page .tool-title { max-width: 900px; margin-inline: auto; }
 .guide-answer { margin: 0 0 26px; padding: 20px 22px; border-inline-start: 3px solid var(--accent); border-start-end-radius: 10px; border-end-end-radius: 10px; background: var(--accent-soft); color: var(--text); font-size: 18px; line-height: 1.6; }
+.char-copy { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 18px; }
+.char-copy-button { display: flex; align-items: center; gap: 16px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--text); font: inherit; text-align: start; cursor: pointer; }
+.char-copy-button:hover, .char-copy-button:focus-visible { border-color: var(--accent); background: var(--accent-soft); }
+.char-copy-glyph { min-width: 1.4em; font-size: 44px; line-height: 1; text-align: center; }
+.char-copy-text { display: flex; flex-direction: column; gap: 2px; }
+.char-copy-text small { color: var(--muted); font-size: 13px; }
+.char-copy-status { grid-column: 1 / -1; min-height: 1.2em; margin: 0; color: var(--muted); font-size: 14px; }
+@media (max-width: 560px) { .char-copy { grid-template-columns: 1fr; } }
 .guide-toc { margin: 0 0 6px; padding: 18px 22px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
 .guide-toc h2 { margin: 0 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
 .guide-toc ol { margin: 0; padding-inline-start: 20px; }

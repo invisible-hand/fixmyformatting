@@ -2,20 +2,24 @@ import type { GuideDefinition } from "../../lib/guides";
 
 export const emDashCopyPaste: GuideDefinition = {
   slug: "em-dash-copy-paste",
-  title: "Em Dash (—): Copy, Paste and Type It Anywhere",
-  description: "Copy an em dash here, or type one: Option+Shift+Hyphen on a Mac, Alt+0151 on Windows. Plus shortcuts for Word, Google Docs, iOS, Android and Linux.",
-  h1: "Em dash (—): copy, paste, and type it on any keyboard",
-  dek: "The character, the keystroke for every platform, and what to do when there is no shortcut.",
+  title: "Em Dash Copy and Paste (—): Long Dash, Alt Code, Shortcut",
+  description: "Em dash copy and paste: one click copies — (the long dash) or – (en dash). Alt+0151 on Windows, Option+Shift+Hyphen on Mac, &mdash;, U+2014.",
+  h1: "Em dash copy and paste (—): long dash, alt code and shortcuts",
+  dek: "One click to copy the long dash, then the code and keystroke for every platform.",
   cluster: "reference",
   published: "2026-09-01",
-  updated: "2026-09-01",
+  updated: "2026-10-05",
+  copyChars: [
+    { char: "\u2014", label: "Copy em dash", hint: "— long dash · m dash · U+2014" },
+    { char: "\u2013", label: "Copy en dash", hint: "– short dash · n dash · U+2013" },
+  ],
   answer:
-    "The em dash is — (U+2014), the long dash used to set off a phrase inside a sentence. You can select and copy it straight from this page. To type it instead: on a Mac press Option + Shift + Hyphen; on Windows hold Alt and type 0151 on the numeric keypad with Num Lock on. In HTML it is &mdash; or &#8212;. It is longer than both the en dash (–) and the hyphen (-), which are different characters with different jobs.",
+    "To copy and paste an em dash, click the button above — it copies — (U+2014), the long dash, to your clipboard; the second button copies the shorter en dash (–). To type it instead: the em dash alt code on Windows is Alt + 0151 (numeric keypad, Num Lock on); on a Mac press Option + Shift + Hyphen; in HTML write &mdash; or &#8212;. \"Long dash\" and \"m dash\" are other names for the same character.",
   sections: [
     {
       id: "copy-the-character",
-      heading: "Copy an em dash",
-      body: `The em dash on its own, ready to select and copy:
+      heading: "Em dash copy and paste",
+      body: `Click **Copy em dash** at the top of the page, or select the character below and press <kbd>Ctrl</kbd> + <kbd>C</kbd> (<kbd>Cmd</kbd> + <kbd>C</kbd> on a Mac), then paste it wherever you need it:
 
 \`\`\`
 —
@@ -33,6 +37,44 @@ Copying works from any of those cells. If you want the spaced form used in a lot
 
 Copy and paste is fine for one dash. If you are going to type them regularly, learn the keystroke below: pasting from a web page can also carry along invisible characters that the page used for line-break control.`,
       figure: "dash-ruler",
+    },
+    {
+      id: "long-dash-copy-and-paste",
+      heading: "Long dash copy and paste",
+      body: `The "long dash" most people mean is the **em dash**, and "m dash" is the same character spelled the way it sounds. Copy it from the button at the top, or from here:
+
+\`\`\`
+—
+\`\`\`
+
+The other names you will see for the dashes, mapped to the actual characters:
+
+| What people call it | Character | Unicode name | Code point |
+| --- | --- | --- | --- |
+| Long dash, m dash, em dash | \`—\` | EM DASH | U+2014 |
+| Short dash, n dash, en dash | \`–\` | EN DASH | U+2013 |
+| Quotation dash, horizontal bar | \`―\` | HORIZONTAL BAR | U+2015 |
+| Hyphen, minus key | \`-\` | HYPHEN-MINUS | U+002D |
+
+The horizontal bar is the one trap: Unicode describes it as a "long dash introducing quoted text", and it looks almost identical to the em dash in many fonts, but it is a different character used mainly to open dialogue in some European typesetting. For an ordinary sentence break in English you want the em dash. If a document contains a mix and you are not sure which dash is which, paste it into [Remove Em Dashes](/remove-em-dashes), which reports how many em dashes it replaced.`,
+    },
+    {
+      id: "code-for-em-dash",
+      heading: "Code for em dash",
+      body: `Every code for the em dash in one place, with the en dash alongside because the two are so often mixed up:
+
+| Where | Em dash (—) | En dash (–) |
+| --- | --- | --- |
+| Windows alt code | <kbd>Alt</kbd> + \`0151\` | <kbd>Alt</kbd> + \`0150\` |
+| Mac keyboard shortcut | <kbd>Option</kbd> + <kbd>Shift</kbd> + <kbd>-</kbd> | <kbd>Option</kbd> + <kbd>-</kbd> |
+| Microsoft Word shortcut | <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + keypad <kbd>-</kbd> | <kbd>Ctrl</kbd> + keypad <kbd>-</kbd> |
+| Word Unicode (any keyboard) | \`2014\` then <kbd>Alt</kbd> + <kbd>X</kbd> | \`2013\` then <kbd>Alt</kbd> + <kbd>X</kbd> |
+| HTML named entity | \`&mdash;\` | \`&ndash;\` |
+| HTML numeric entity | \`&#8212;\` | \`&#8211;\` |
+| Unicode code point | U+2014 | U+2013 |
+| CSS / JavaScript escape | \`\\2014\` / \`\\u2014\` | \`\\2013\` / \`\\u2013\` |
+
+The **em dash alt code** works because Windows maps <kbd>Alt</kbd> plus a four-digit code with a leading zero to the Windows ANSI code page (Windows-1252 on English and Western European systems), where byte 151 (\`0x97\`) is the em dash and 150 (\`0x96\`) the en dash. Type the digits on the numeric keypad with Num Lock on; the number row along the top does not work. Without a keypad, use one of the alternatives in the next section.`,
     },
     {
       id: "how-to-type-an-em-dash",
@@ -197,6 +239,16 @@ When you need them gone, [Remove Em Dashes](/remove-em-dashes) replaces every em
     },
   ],
   faqs: [
+    {
+      question: "How do I copy and paste an em dash?",
+      answer:
+        "Click Copy em dash at the top of this page — the — character goes straight to your clipboard — then paste it with Ctrl + V on Windows or Cmd + V on a Mac. You can also select the character in any of the boxes on this page and copy it by hand.",
+    },
+    {
+      question: "What is a long dash or m dash?",
+      answer:
+        "Both are everyday names for the em dash, —, Unicode U+2014. It is the longest of the common dashes, roughly the width of a capital M, and is used to break off a phrase inside a sentence. The shorter en dash (–, U+2013) is sometimes called an n dash.",
+    },
     {
       question: "How do I type an em dash on a Mac?",
       answer:

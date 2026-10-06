@@ -11,6 +11,7 @@ import { breadcrumbSchema, faqSchema, organizationName, serializeSchema, siteUrl
 import { SiteHeader } from "./site-header";
 import { SiteFooter } from "./site-footer";
 import { GuideFigure } from "./guide-figures";
+import { CharCopy } from "./char-copy";
 
 export function GuidePage({ guide, locale = "en" }: { guide: GuideDefinition; locale?: SiteLocale }) {
   const chrome = locale === "en" ? englishGuideChrome : bundles[locale as LocaleCode].guideChrome;
@@ -60,6 +61,7 @@ export function GuidePage({ guide, locale = "en" }: { guide: GuideDefinition; lo
           <p>{guide.dek}</p>
         </header>
         <article className="tool-content guide-content">
+          {guide.copyChars && guide.copyChars.length > 0 && <CharCopy chars={guide.copyChars} />}
           <p className="guide-answer">{guide.answer}</p>
           <nav className="guide-toc" aria-label="On this page">
             <h2>{chrome.onThisPage}</h2>
