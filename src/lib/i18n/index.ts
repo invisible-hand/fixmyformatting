@@ -1,6 +1,6 @@
 export { localeCodes, siteLocales, isLocale, localeDir, localizedPath } from "./locales";
 export type { LocaleCode, SiteLocale } from "./locales";
-export type { Faq, LocaleBundle, ToolCopy, UiMessages } from "./types";
+export type { Faq, InvisibleType, LocaleBundle, ReferenceCopy, ReferenceSlug, ToolCopy, UiMessages } from "./types";
 export { interpolate } from "./format";
 export { bundles, messages } from "./bundles";
 export {

@@ -200,6 +200,53 @@ export type FigureText = {
 
 export type FigureCopy = Record<string, FigureText>;
 
+export type ReferenceSlug =
+  | "remove-invisible-characters"
+  | "show-invisible-characters"
+  | "remove-smart-quotes"
+  | "remove-em-dashes";
+
+export type InvisibleType =
+  | "softHyphen"
+  | "zeroWidth"
+  | "directionMark"
+  | "bidiEmbedding"
+  | "wordJoiner"
+  | "mathOperator"
+  | "isolate"
+  | "deprecated"
+  | "bom"
+  | "whitespace"
+  | "separator";
+
+/**
+ * Prose for the static reference tables printed on four tool pages. Unicode
+ * names, code points and marker labels are identifiers and stay in English;
+ * everything a reader has to understand is translated here. `answer` may use
+ * {count}.
+ */
+export type ReferenceCopy = {
+  /** Label before the link to the matching guide. */
+  guideLead: string;
+  pages: Record<ReferenceSlug, { heading: string; answer: string; note: string }>;
+  headers: {
+    character: string;
+    codePoint: string;
+    name: string;
+    type: string;
+    scanner: string;
+    viewer: string;
+    becomes: string;
+    output: string;
+  };
+  invisibleTypes: Record<InvisibleType, string>;
+  removed: string;
+  kept: string;
+  notLabelled: string;
+  unchanged: string;
+  defaultLabel: string;
+};
+
 export type LocaleBundle = {
   code: SiteLocale;
   ui: UiMessages;
@@ -212,6 +259,8 @@ export type LocaleBundle = {
   tools: Partial<Record<string, ToolCopy>>;
   /** Presence unlocks all 30 brand tools for this locale. */
   brand?: BrandCopy;
+  /** Static reference tables on four tool pages; required wherever those tools are served. */
+  reference?: ReferenceCopy;
   /** Coverage: only the guide slugs present are served in this locale. */
   guides?: Partial<Record<string, GuideTranslation>>;
 };

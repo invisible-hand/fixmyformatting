@@ -6,5 +6,6 @@ import { guideChrome, pages, workspace } from "./chrome";
 import { stats } from "./stats";
 import { figures } from "./figures";
 import { guides } from "./guides";
+import { reference } from "./reference";
 
-export const bundle: LocaleBundle = { code: "ja", ui, pages, workspace, guideChrome, stats, figures, tools, brand, guides };
+export const bundle: LocaleBundle = { code: "ja", ui, pages, workspace, guideChrome, stats, figures, tools, brand, guides, reference };

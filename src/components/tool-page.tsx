@@ -6,6 +6,7 @@ import type { ProcessSettings } from "@/lib/processors";
 import { guidePath, guidesForTool } from "@/lib/guides";
 import { SiteHeader } from "./site-header";
 import { SiteFooter } from "./site-footer";
+import { ToolReference, referenceAnswer } from "./tool-reference";
 import { ToolWorkspace } from "./tool-workspace";
 import { EmbedMode } from "./embed-mode";
 import { workspaceDefaults } from "@/lib/workspace-defaults";
@@ -72,6 +73,7 @@ export function ToolPage({
     statValues: bundles[locale as LocaleCode].stats.values,
     minutes: bundles[locale as LocaleCode].stats.minutes,
   } : { ...workspaceDefaults };
+  const answer = referenceAnswer(tool.slug, locale);
   const schemas = [
     {
       "@context": "https://schema.org",
@@ -125,11 +127,13 @@ export function ToolPage({
         <header className="tool-title">
           <h1>{tool.name}</h1>
           <p>{tool.description}</p>
+          {answer && <p className="tool-answer">{answer}</p>}
           <p className="tool-updated">{localized?.updated ?? "Updated"} <time dateTime={tool.updated}>{updatedLabel}</time></p>
         </header>
         <ToolWorkspace tool={tool} initialInput={initialInput} initialSettings={initialSettings} locale={locale} labels={workspaceLabels} publicPath={publicPath} />
         <a className="runtime-embed-backlink" href={pageUrl} target="_blank">Fix My Formatting: {tool.name} →</a>
         <article className="tool-content">
+          <ToolReference slug={tool.slug} locale={locale} />
           <section>
             <h2>{localized ? `${localized.howTo} ${tool.name}` : `How to use ${tool.name}`}</h2>
             <p>{tool.intro}</p>

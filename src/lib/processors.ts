@@ -294,7 +294,7 @@ const smallCapsMap: Record<string, string> = {
 
 const count = (input: string, expression: RegExp) => input.match(expression)?.length ?? 0;
 
-const invisibleExpression = /[\u00ad\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]/g;
+export const invisibleExpression = /[\u00ad\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufeff]/g;
 
 /**
  * Conventional abbreviations for the invisible and problematic characters the
@@ -302,7 +302,7 @@ const invisibleExpression = /[\u00ad\u200b-\u200f\u202a-\u202e\u2060-\u206f\ufef
  * surrogate range, so a plain character-class replace can never split an astral
  * pair or detach a combining mark.
  */
-const invisibleMarkers: Record<string, string> = {
+export const invisibleMarkers: Record<string, string> = {
   "\u0009": "TAB",
   "\u00a0": "NBSP",
   "\u00ad": "SHY",
