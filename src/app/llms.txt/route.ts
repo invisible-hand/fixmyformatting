@@ -8,8 +8,8 @@ import { siteUrl } from "@/lib/schema";
  *
  * Generated from the same data that drives the sitemap and the pages
  * themselves, rather than hand-written into public/, so it cannot drift out of
- * date when a tool or guide is added. Only the 31 core tools are listed: the 35
- * brand pages (chatgpt-to-word, claude-to-pdf, …) are templated variants of five
+ * date when a tool or guide is added. Only the core tools are listed: the brand
+ * pages (chatgpt-to-word, claude-to-pdf, …) are templated variants of five
  * core converters, and listing all of them would bury the substance in
  * near-duplicates — exactly the noise this file exists to spare a model.
  */
@@ -20,9 +20,9 @@ export function GET() {
     "# Fix My Formatting",
     "",
     "> Free browser-based tools that clean up and convert text from AI chat assistants.",
-    "> Paste output from ChatGPT, Claude, Gemini, Copilot, Perplexity, DeepSeek or Grok and",
-    "> convert it to Word, PDF, Google Docs, Excel or clean plain text, or edit the tells of",
-    "> AI writing out of it (De-slop). Every tool except De-slop runs entirely in the browser:",
+    "> Paste output from ChatGPT, Claude, Gemini, Copilot, Perplexity, DeepSeek, Grok, Mistral",
+    "> or NotebookLM and convert it to Word, PDF, Google Docs, Excel or clean plain text, or",
+    "> edit the tells of AI writing out of it (De-slop). Every tool except De-slop runs in the browser:",
     "> nothing is uploaded, there is no account, and there are no usage limits. De-slop sends",
     "> the text to OpenAI's API for one edit, stores nothing, and is rate-limited.",
     "",

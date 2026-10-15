@@ -344,10 +344,14 @@ export const brandNames: Record<(typeof brands)[number], string> = {
   perplexity: "Perplexity",
   deepseek: "DeepSeek",
   grok: "Grok",
+  mistral: "Mistral",
+  notebooklm: "NotebookLM",
 };
 
+type Brand = (typeof brands)[number];
+type BrandAction = (typeof brandActions)[number];
 
-const actionLabel: Record<(typeof brandActions)[number], string> = {
+const actionLabel: Record<BrandAction, string> = {
   "to-word": "to Word",
   "to-pdf": "to PDF",
   "to-google-docs": "to Google Docs",
@@ -355,7 +359,7 @@ const actionLabel: Record<(typeof brandActions)[number], string> = {
   "remove-formatting": "Remove Formatting",
 };
 
-const brandReasons: Record<(typeof brands)[number], string> = {
+const brandReasons: Record<Brand, string> = {
   chatgpt: "ChatGPT often returns useful structure as Markdown, which exposes asterisks, hashes, and pipe tables when pasted into office software.",
   claude: "Claude frequently writes long, carefully structured answers whose headings and tables need conversion before they behave like a normal document.",
   gemini: "Gemini tables can paste as visible pipes and separator dashes because chat output uses Markdown rather than spreadsheet cells.",
@@ -363,9 +367,91 @@ const brandReasons: Record<(typeof brands)[number], string> = {
   perplexity: "Perplexity answers often combine Markdown structure with citation links, making clean conversion important when reusing research.",
   deepseek: "DeepSeek commonly formats technical answers in Markdown, including fenced code and formulas that plain pasting leaves exposed.",
   grok: "Grok structures its answers as Markdown, so headings, bullet lists, and pipe tables paste into office software as raw symbols rather than formatting.",
+  mistral: "Mistral's Le Chat writes its answers in Markdown, so headings, bullet lists, pipe tables, fenced code and LaTeX equations arrive as raw symbols when the copied text lands in Word, Google Docs or an email.",
+  notebooklm: "NotebookLM answers are built from your own sources, but its Copy button hands over Markdown: bold phrases keep their asterisks, bullets keep their dashes and tables keep their pipes once pasted into a document, and the citation chips that point back into your sources are not part of the copied text.",
 };
 
-const brandActionCopy: Record<(typeof brandActions)[number], {
+/**
+ * What specifically breaks for this assistant in this target, placed between
+ * the brand reason and the shared core intro. Only brands whose output has a
+ * distinctive artifact get one; the others read well from the reason alone.
+ */
+const brandActionNotes: Partial<Record<Brand, Partial<Record<BrandAction, string>>>> = {
+  mistral: {
+    "to-word": "Fenced code and $$ equation blocks are common in Le Chat answers: the code becomes Courier New paragraphs in the .docx, while equations stay as LaTeX source that you can paste into Word's equation editor (Alt+=) after preparing them with the LaTeX to Word Equation tool.",
+    "to-pdf": "Headings, nested bullets and tables from Le Chat render in the preview exactly as they will print, and code blocks keep their line breaks instead of wrapping into one paragraph.",
+    "to-google-docs": "Google Docs pastes the Markdown that Le Chat's Copy button provides as literal text, so a long answer shows ## and ** everywhere; the rich-text result from here gives Docs real headings, lists and a table it can edit.",
+    "table-to-excel": "A comparison table from Le Chat is a pipe table: paste it here and every column becomes its own Excel column, with plain numeric values typed as numbers so they can be summed.",
+    "remove-formatting": "Use this when a Le Chat answer is going into an email, a form or a chat app: hashes, asterisks and pipes go, the words stay, and the diff view shows that nothing else changed.",
+  },
+  notebooklm: {
+    "to-word": "A NotebookLM study guide, briefing or summary pastes into Word with asterisks around every bold term and a dash in front of every bullet; this converter gives you real Word headings and list paragraphs instead, so the document is ready to share with a class or a team.",
+    "to-pdf": "The preview shows the NotebookLM summary with its headings and lists rendered, so what you save as PDF is a clean handout rather than a page of asterisks.",
+    "to-google-docs": "NotebookLM and Google Docs are both Google products, but a plain paste still shows ** and - as text; copy the rich-text result here and paste that into Docs to keep the structure.",
+    "table-to-excel": "When you ask NotebookLM for a comparison table across your sources, the copy is a Markdown pipe table; paste it here to get a real .xlsx or tab-separated cells for Google Sheets.",
+    "remove-formatting": "Strip the Markdown from a NotebookLM answer before pasting it into notes, an email or a learning platform that shows the asterisks literally; every word of the summary stays as written.",
+  },
+};
+
+/** Brand-specific questions, appended to the three shared ones on every page of that brand. */
+const brandFaqs: Partial<Record<Brand, { question: string; answer: string }[]>> = {
+  gemini: [
+    {
+      question: "Does it convert the LaTeX math in a Gemini answer?",
+      answer: "No. Gemini writes equations as LaTeX between $ or $$ delimiters, and they come through as that source text rather than as a formatted equation. Run them through the LaTeX to Word Equation tool and paste the result into Word's equation editor (Alt+=) to get a native equation.",
+    },
+    {
+      question: "Gemini already has Export to Docs. When is this tool better?",
+      answer: "Gemini's Share & export menu sends an answer to a new Google Doc. Use this tool when the answer belongs inside an existing document, when you need a .docx for Word or a PDF, or when you want to check and edit the formatted result before it goes anywhere.",
+    },
+  ],
+  deepseek: [
+    {
+      question: "What happens to DeepSeek's code blocks and formulas?",
+      answer: "Code inside ``` fences is kept as code: the converters set it in a monospace font, and the formatting remover keeps the code and drops the fences unless you tick Keep code blocks. Formulas DeepSeek writes as LaTeX between $$ delimiters are not converted; they stay as source text, and the LaTeX to Word Equation tool prepares them for Word's equation editor.",
+    },
+  ],
+  perplexity: [
+    {
+      question: "What happens to Perplexity's citations?",
+      answer: "Citation numbers such as [1] are ordinary text and pass through unchanged, and the list of source links that Perplexity appends stays at the end of the result. Keep it as a reference list or delete it before you share the document; nothing here rewrites it.",
+    },
+  ],
+  mistral: [
+    {
+      question: "Does it convert the LaTeX equations in a Mistral answer?",
+      answer: "No. Equations stay as their LaTeX source, for example $$\\frac{a}{b}$$, exactly as Le Chat wrote them. For a native Word equation, run them through the LaTeX to Word Equation tool and paste the result into Word's equation editor (Alt+=).",
+    },
+    {
+      question: "Is this for Le Chat or for the Mistral API?",
+      answer: "Both. The copied text is Markdown either way: the Copy button in Le Chat and a raw API response produce the same headings, lists, tables and code fences, and the converter handles them identically.",
+    },
+  ],
+  notebooklm: [
+    {
+      question: "Why does text copied from NotebookLM show asterisks and dashes?",
+      answer: "NotebookLM renders its answers from Markdown, and the Copy button copies that Markdown rather than the rendered view. Word, Google Docs and most note apps paste it as literal text, so bold keeps its asterisks and each bullet keeps its dash. Pasting here turns those symbols back into formatting.",
+    },
+    {
+      question: "What happens to NotebookLM's source citations?",
+      answer: "The numbered citation chips are links into your notebook and usually do not survive the copy. The converter never adds, removes or rewrites citations, so whatever text arrived here is what ends up in the document; add references by hand from the sources panel if the document needs them.",
+    },
+  ],
+};
+
+/**
+ * Date of the last change to a brand's own copy (reasons, notes, FAQs). A page
+ * publishes the later of this and its core tool's date.
+ */
+const brandUpdated: Partial<Record<Brand, string>> = {
+  gemini: "2026-10-14",
+  deepseek: "2026-10-14",
+  perplexity: "2026-10-14",
+  mistral: "2026-10-14",
+  notebooklm: "2026-10-14",
+};
+
+const brandActionCopy: Record<BrandAction, {
   description: (brand: string) => string;
   guidance: (brand: string) => string;
 }> = {
@@ -396,14 +482,17 @@ export const brandTools: ToolDefinition[] = brands.flatMap((brand) =>
     const source = coreTools.find((tool) => tool.slug === actionSource[action])!;
     const brandName = brandNames[brand];
     const name = `${brandName} ${actionLabel[action]}`;
+    const note = brandActionNotes[brand]?.[action];
+    const own = brandUpdated[brand];
     return {
       ...source,
       slug: `${brand}-${action}`,
       name,
       title: `${name} Converter — Free Online`,
       description: brandActionCopy[action].description(brandName),
-      intro: `${brandReasons[brand]} ${brandActionCopy[action].guidance(brandName)} ${source.intro}`,
+      intro: [brandReasons[brand], brandActionCopy[action].guidance(brandName), note, source.intro].filter(Boolean).join(" "),
       placeholder: source.placeholder.replace("your AI response", `your ${brandName} response`),
+      updated: own && own > source.updated ? own : source.updated,
       faqs: [
         {
           question: `How do I use ${name}?`,
@@ -417,6 +506,7 @@ export const brandTools: ToolDefinition[] = brands.flatMap((brand) =>
           question: `Can I edit the converted ${brandName} result?`,
           answer: "Yes. The result remains editable when copied or downloaded in an editable format.",
         },
+        ...(brandFaqs[brand] ?? []),
       ],
     };
   }),

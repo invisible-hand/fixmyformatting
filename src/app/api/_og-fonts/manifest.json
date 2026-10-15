@@ -1,51 +1,50 @@
 {
  "en": {
   "latin": "en-latin",
-  "chars": " #&'*,-.0123456789:?ABCDEFGHIJLMNOPQRSTUVWXabcdefghijklmnopqrstuvwxyz·–—…"
+  "chars": " #&'()*+,-.0123456789:=?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz·–—“”…"
  },
  "es": {
   "latin": "es-latin",
-  "chars": " ,-.0123456789;ABCDEFGHIJLMNOPRSTUVWXabcdefghijklmnopqrstuvwxyz{}·áéíóú–—…"
+  "chars": " #*+,-.0123456789:;=ABCDEFGHIJLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyz{}«·»Úáéíñóúɪʀʟᴀᴇᴛᴠ–—…𝗮𝗲𝗴𝗶𝗻𝗿𝘀𝘁𝘢𝘤𝘪𝘳𝘴𝘶𝘷"
  },
  "pt": {
   "latin": "pt-latin",
-  "chars": " ,-.0123456789;ACDEFGHIJLMNOPRSTUVWXabcdefghijklmnopqrstuvwxyz{}·áâãçéêíóõú–—…"
+  "chars": " #'*+,-.0123456789:;=ABCDEFGHIJLMNOPRSTUVWXYabcdefghijklmnopqrstuvwxyz{}·ÉÚàáâãçéêíóõú–—“”…𝗲𝗴𝗶𝗻𝗼𝗿𝘁"
  },
  "de": {
   "latin": "de-latin",
-  "chars": " &,-.0123456789:;ABCDEFGHIJKLMNOPRSTUVWXZabcdefghijklmnoprstuvwxyz{}·Üßäöü–—…"
+  "chars": " #&*+,-.0123456789:;=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnoprstuvwxyz{}·ÄÜßäöü–—“„…"
  },
  "fr": {
   "latin": "fr-latin",
-  "chars": " ',-.0123456789;ACDEFGHIJLMNOPRSTUVWXabcdefghijklmnopqrstuvwxyz{}·àèéêû–—’…"
+  "chars": " #'()*+,-.0123456789:;=ABCDEFGHIJLMNOPRSTUVWXYabcdefghijklmnopqrstuvwxyz{}«·»àçèéêôùû–—’…"
  },
  "it": {
   "latin": "it-latin",
-  "chars": " ,-.0123456789;ACDEFGHIJLMNOPRSTUVWXabcdefghijklmnopqrstuvwxyz{}·ù–—’…"
+  "chars": " #'*+,-.0123456789:;=ABCDEFGHIJLMNOPRSTUVWXYabcdefghijklmnopqrstuvwxyz{}·Èàèì–—’“”…"
  },
  "ja": {
   "latin": "ja-latin",
   "script": "ja-script",
-  "chars": " -.0123456789ACDEFGHIJLMNOPRSTUVWXacdefghiklmnoprstuvwxy{}·–—…、。いえかがきくぐけさしすずせそただちっつてでとどなにのはばへべまみもやよらりるれわをんァアィイウエオカキクケコザシスセゼソタダチッツテデトドナハパビピフブプペポムメャュラリルロン・ー一不並了互付会保信修全共内処出分切列制刷削割力加区単印取句可号向味回圧変大字安定小崩差幅式引強形御復性意成抽推換改数整文料方時曲書替有本検正残段比点無物理生用登的直確示移種章符答統絵線編縮置能般落行表要見視記証話認語読調貼較追送適部配録長間除隠集類高"
+  "chars": " #*+,-.0123456789=ABCDEFGHIJLMNOPRSTUVWXYabcdefghiklmnoprstuvwxy{}·–—…、。「」あいうえかがきくけこごさしすずせそただっつてでとどなにのはべまみめもやよらりるれわをんアィイウェエォオカキクグケコサザシジスセゼソタダチッツテデトドナニハパビピフブプベペポマミムメモャュユラリルレロン・ー一上下不中了事仕付件会似位体余使便保修値元入全共内再処出分切列利制刷削前割力加動化区単印去取句可号各合同向味問回坦埋場増変大太子字存安完定実対小崩差常幅平度式引強形後得御復心応意成戻所抜抽括挟揃換改数整文料新方明時曲更書替最有本析果検概構様欄正残段比水沿消点無物特現理生用異疑発登白的目直確示種積空章符筆答箇算索終結統絵線締編置肌能自色落行表装要見視角解言記設証話認語読調貼較込近追透途通部配録長開間限除集項題類飾（）"
  },
  "ko": {
   "latin": "ko-latin",
   "script": "ko-script",
-  "chars": " ,-.0123456789ACDEFGHIJLMNOPRSTUVWXacdefghiklmnoprstuvwxy{}·–—…가각간강개객거검게결계고곡공과교구그글기긴깁깔꾸꿈꿉끔나눕는능니다단답대더델도되된두드등디따라레렬로록료루류르를리링맞며면모목무문물미및바반방배백버변별보복본부분불뷰브비사삭산상생서선성세소쇄수숨쉬스습시식실아안않압어업에열예오온올옮옴와요용우운유으은을의이인일읽입있자장저적전정제조좋줄즉증지직집찾채처체추축출치코크큰태텍토통트파편포폭표프픈플피필하한할합해행향형호화확환"
+  "chars": " \"#()*+,-.0123456789:=ABCDEFGHIJLMNOPRSTUVWXYabcdefghiklmnoprstuvwxy{}·–—…가각간값강같개객갱거건검게결경계고곡골공과관교구굵그근글기긴깁까깔깨께꼴꾸꿈꿉꿔뀌끔끝나날남내너넣누뉴는능니닌다단담답대데델도돌동되된됩두둡뒤드든들듭디따때또뛰라레려력렬로록론롬료루류를리립링마만말맞맨머메며면몇모목몰못무문물므미민및바반받발방배백버번법베변별보복본볼봇부분불붙뷰브비빈사삭산살상색생서섞선성세셀소쇄수순숫쉼스습시식신실심쓰쓴쓸씨씩아안않알앱어억얼업없었에여연열예오온옴와요용우운웁워원웹위유으은을의이인일읽입있자작잘장저적전점정제져졌조종좋주준줄줍중즉증지직진짐집짜쭉채챗처첩첫체쳐초최추출춤치칸캡케코콜크큰키타태택탭터턴텍토트티틱팅파페편펼포폭표프픈플피필하한할함합항해행향형호화확환효"
  },
  "zh": {
   "latin": "zh-latin",
   "script": "zh-script",
-  "chars": " -.0123456789ACDEFGHIJLMNOPRSTUVWXacdefghiklmnoprstuvwxy{}·–—…、。一上下不与两个中为义于井享从代令件会传估余供便保修免入公具兼内册写净准出分列删到制割化单印即压取句可号同后向命和器回在地型增处复多大子字完定实容宽密富对将小工常干并序式引弯强情成或所打找折换据排接控提撇数整文新方无时星晰更替有本构查标校格档检模正段母比注测浏清点片版理生用界留的直看真码破确示私移空立竖符等答算粘线组结统编缩范落藏行表见规览计让记词话语误读调象贴费转软载辑输连都量链错长问阅除隐零需题首验，"
+  "chars": " #*+,-.0123456789=ABCDEFGHIJLMNOPRSTUVWXabcdefghiklmnoprstuvwxy{}·–—“”…、。一三上下不与且丢两个中串为义之也乱了事于井享人仅仍从代以件会传伪估似位体余作使便保信修值元免入全公其具内册再写净准凑出分切列删到制割加动化半单占印即历原去参及发取变句可号各合同后向含和器回因在型增处复多大天失头套子字存它安完定实客容宽密富对导将小少尾展嵌工带常干并库应度开弃式引弯强当录形得心快息情意成或户所手打扫把折择拼持按挤换据排接控描提搜撇改放数整文斜新方旁无时易星是显普晰更替最有未本机束构析果染查标校样格档检植模次正此段母每比水法注浏混添清渲源点然片版独理生用由电界留痕白的直看真知码破硬示私移程稿空竖站端笔符第等答签简算类粗粘系索纯线组结给统编缩缺网考而聊肤能脚自色花草落行表被见览角解言计让记论词话语误读调象贴费跳转轮软载辑输过近还这进连迹适选逐逗通速邮部都里重量链错键长问间阅限除随隔零需非页项预题饰首验齐，：？"
  },
  "hi": {
   "latin": "hi-latin",
   "script": "hi-script",
-  "chars": " ,-.0123456789;ACDEFGHIJLMNOPRSTUVWXacdefghiklmnoprstuvwxy{}·ँंअआइईउएऑऔकखगघचछजटठडढणतथदधनपफबमयरलवशषसह़ािीुूृेैॉो्।–—…"
+  "chars": " #*+,-.0123456789:;=ABCDEFGHIJLMNOPRSTUVWXYabcdefghijklmnoprstuvwxy{}·ँंअआइईउऊएऐऑऔकखगघचछजटठडढणतथदधनपफबभमयरलवशषसह़ािीुूृेैॉो्।–—“”…"
  },
  "ar": {
   "latin": "ar-latin",
-  "script": "ar-script",
-  "chars": " ()-.0123456789CDEFGHIJLMNOPRSTUVWXacdefghiklmnoprstuvwxy{}·ءأإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًُّ–—…"
+  "chars": " \"#()*+,-.0123456789:=ACDEFGHIJLMNOPRSTUVWXYabcdefghiklmnoprstuvwxy{}·،ءآأإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًَُِّ‎–—…"
  }
 }

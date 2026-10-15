@@ -37,6 +37,8 @@ export const brand: BrandCopy = {
     "perplexity": "Le risposte di Perplexity spesso combinano struttura Markdown e link di citazione, rendendo importante una conversione pulita quando si riutilizza la ricerca.",
     "deepseek": "DeepSeek formatta comunemente le risposte tecniche in Markdown, inclusi blocchi di codice e formule che un incolla semplice lascia esposti.",
     "grok": "Grok struttura le risposte in Markdown, quindi titoli, elenchi e tabelle a pipe si incollano nei programmi da ufficio come simboli grezzi anziché come formattazione.",
+    "mistral": "Le Chat di Mistral scrive le risposte in Markdown, quindi titoli, elenchi, tabelle a pipe, blocchi di codice e formule LaTeX si incollano in Word o Google Docs come simboli grezzi.",
+    "notebooklm": "NotebookLM risponde a partire dalle tue fonti, ma il pulsante Copia fornisce Markdown: una volta incollati, i termini in grassetto conservano gli asterischi, gli elenchi i trattini e le tabelle le barre verticali.",
   },
   faqs: [
     { question: "Come si usa {name}?", answer: "Copia il contenuto che ti interessa da {brand}, incollalo nell’editor qui sopra e usa subito il risultato live." },

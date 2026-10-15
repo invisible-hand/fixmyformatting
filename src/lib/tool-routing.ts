@@ -5,7 +5,7 @@
  * whole English copy corpus into the 200 KB tool-page bundle.
  */
 
-export const brands = ["chatgpt", "claude", "gemini", "copilot", "perplexity", "deepseek", "grok"] as const;
+export const brands = ["chatgpt", "claude", "gemini", "copilot", "perplexity", "deepseek", "grok", "mistral", "notebooklm"] as const;
 export const brandActions = ["to-word", "to-pdf", "to-google-docs", "table-to-excel", "remove-formatting"] as const;
 
 export const actionSource: Record<(typeof brandActions)[number], string> = {

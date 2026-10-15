@@ -81,7 +81,7 @@ export type ToolCopy = {
 };
 
 /**
- * Templates for the 30 generated brand tools (chatgpt-to-word, ...). Strings
+ * Templates for the generated brand tools (chatgpt-to-word, ...). Strings
  * use {brand} and {name}; word order therefore stays natural per language
  * rather than being concatenated English-style.
  */
@@ -257,7 +257,7 @@ export type LocaleBundle = {
   figures: FigureCopy;
   /** Coverage: only the slugs present are served in this locale. */
   tools: Partial<Record<string, ToolCopy>>;
-  /** Presence unlocks all 30 brand tools for this locale. */
+  /** Presence unlocks every generated brand tool for this locale. */
   brand?: BrandCopy;
   /** Static reference tables on four tool pages; required wherever those tools are served. */
   reference?: ReferenceCopy;

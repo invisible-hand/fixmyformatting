@@ -37,6 +37,8 @@ export const brand: BrandCopy = {
     "perplexity": "Antworten von Perplexity kombinieren oft Markdown-Struktur mit Quellenlinks – eine saubere Umwandlung ist wichtig, wenn du Rechercheergebnisse weiterverwendest.",
     "deepseek": "DeepSeek formatiert technische Antworten meist in Markdown, inklusive Codeblöcken und Formeln, die beim einfachen Einfügen sichtbar bleiben.",
     "grok": "Grok strukturiert seine Antworten als Markdown, sodass Überschriften, Listen und Pipe-Tabellen in Office-Programmen als rohe Symbole statt als Formatierung erscheinen.",
+    "mistral": "Le Chat von Mistral schreibt seine Antworten in Markdown – Überschriften, Listen, Pipe-Tabellen, Codeblöcke und LaTeX-Formeln landen in Word oder Google Docs daher als rohe Symbole.",
+    "notebooklm": "NotebookLM antwortet aus deinen eigenen Quellen, doch der Kopieren-Button liefert Markdown: Beim Einfügen behalten fette Begriffe ihre Sternchen, Aufzählungen ihre Bindestriche und Tabellen ihre Pipes.",
   },
   faqs: [
     { question: "Wie verwende ich {name}?", answer: "Kopiere den gewünschten Inhalt aus {brand}, füge ihn oben in den Editor ein und nutze das Live-Ergebnis sofort." },

@@ -37,6 +37,8 @@ export const brand: BrandCopy = {
     "perplexity": "Las respuestas de Perplexity suelen combinar estructura Markdown con enlaces de citas, por lo que una conversión limpia es importante al reutilizar investigaciones.",
     "deepseek": "DeepSeek suele formatear las respuestas técnicas en Markdown, incluidos bloques de código y fórmulas que un pegado simple deja al descubierto.",
     "grok": "Grok estructura sus respuestas como Markdown, por lo que títulos, listas y tablas de pipes se pegan en las suites de oficina como símbolos sin formato.",
+    "mistral": "Le Chat de Mistral escribe sus respuestas en Markdown, así que títulos, listas, tablas de pipes, bloques de código y fórmulas LaTeX se pegan en Word o Google Docs como símbolos sin formato.",
+    "notebooklm": "NotebookLM responde a partir de tus propias fuentes, pero su botón de copiar entrega Markdown: al pegar, las negritas conservan los asteriscos, las viñetas sus guiones y las tablas sus barras verticales.",
   },
   faqs: [
     { question: "¿Cómo uso {name}?", answer: "Copia el contenido relevante de {brand}, pégalo en el editor de arriba y usa el resultado en vivo de inmediato." },

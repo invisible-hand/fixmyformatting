@@ -37,6 +37,8 @@ export const brand: BrandCopy = {
     "perplexity": "Perplexity 답변은 Markdown 구조와 출처 링크가 함께 포함되는 경우가 많아, 조사 내용을 재활용할 때 깔끔한 변환이 중요합니다.",
     "deepseek": "DeepSeek는 기술적인 답변을 Markdown으로 형식화하는 경우가 많으며, 코드 블록과 수식이 일반 붙여넣기로는 그대로 노출됩니다.",
     "grok": "Grok은 답변을 Markdown으로 구성하므로 제목, 목록, 파이프 표를 오피스 프로그램에 붙여넣으면 서식이 아니라 원시 기호로 나타납니다.",
+    "mistral": "Mistral의 Le Chat은 답변을 Markdown으로 작성하므로 제목, 목록, 파이프 표, 코드 블록, LaTeX 수식이 Word나 Google Docs에 원시 기호 그대로 붙여넣어집니다.",
+    "notebooklm": "NotebookLM은 내 소스를 바탕으로 답하지만 복사 버튼이 넘겨주는 것은 Markdown입니다. 붙여넣으면 굵은 글씨의 별표, 글머리 기호의 하이픈, 표의 파이프가 그대로 남습니다.",
   },
   faqs: [
     { question: "{name}은 어떻게 사용하나요?", answer: "{brand}에서 필요한 내용을 복사해 위 편집기에 붙여넣으면 실시간 결과를 바로 사용할 수 있습니다." },

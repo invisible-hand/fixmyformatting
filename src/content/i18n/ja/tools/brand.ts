@@ -37,6 +37,8 @@ export const brand: BrandCopy = {
     "perplexity": "Perplexityの回答はMarkdown構造と引用リンクが組み合わさっていることが多く、調査結果を再利用する際にはきれいな変換が重要です。",
     "deepseek": "DeepSeekは技術的な回答をMarkdownで整形することが多く、コードフェンスや数式がそのまま貼り付けでは露出したままになります。",
     "grok": "GrokはMarkdownで回答を構成するため、見出しや箇条書き、パイプ表をオフィスソフトに貼り付けると、書式ではなく記号がそのまま表示されてしまいます。",
+    "mistral": "MistralのLe ChatはMarkdownで回答を書くため、見出し、箇条書き、パイプ表、コードブロック、LaTeX数式をWordやGoogleドキュメントに貼り付けると記号がそのまま表示されます。",
+    "notebooklm": "NotebookLMは自分のソースをもとに回答しますが、コピーボタンが渡すのはMarkdownです。貼り付けると太字のアスタリスク、箇条書きのハイフン、表のパイプがそのまま残ります。",
   },
   faqs: [
     { question: "{name}の使い方は？", answer: "{brand}から必要な内容をコピーし、上のエディターに貼り付けるだけで、結果をすぐに利用できます。" },
