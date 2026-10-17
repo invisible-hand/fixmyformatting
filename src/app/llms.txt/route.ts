@@ -1,7 +1,17 @@
-import { coreTools } from "@/lib/tools";
-import { allGuides, clusterLabels, clusterOrder, guidesInCluster } from "@/lib/guides";
+import { brandTools, coreTools } from "@/lib/tools";
+import { allGuides, clusterLabels, getGuide, clusterOrder, guidesInCluster } from "@/lib/guides";
 import { siteUrl } from "@/lib/schema";
-import { toolGuidePath, toolGuidesFor } from "@/lib/tool-guides";
+import { getToolGuide, toolGuidePath, toolGuidesFor } from "@/lib/tool-guides";
+import {
+  guideSlugsForLocale,
+  localeCodes,
+  localizeGuide,
+  localizedPath,
+  localizeTool,
+  localizeToolGuide,
+  toolGuideSlugsForLocale,
+  toolSlugsForLocale,
+} from "@/lib/i18n";
 
 /**
  * llms.txt — a plain-text index of the site for language models, per the
@@ -9,10 +19,12 @@ import { toolGuidePath, toolGuidesFor } from "@/lib/tool-guides";
  *
  * Generated from the same data that drives the sitemap and the pages
  * themselves, rather than hand-written into public/, so it cannot drift out of
- * date when a tool or guide is added. Only the core tools are listed: the brand
- * pages (chatgpt-to-word, claude-to-pdf, …) are templated variants of five
- * core converters, and listing all of them would bury the substance in
- * near-duplicates — exactly the noise this file exists to spare a model.
+ * date when a tool or guide is added. Core tools come first with their sub-guides;
+ * the brand pages (chatgpt-to-word, claude-to-pdf, …) follow in their own
+ * section, since they are templated variants of five core converters. The
+ * localized pages are listed per locale by title only: they translate the
+ * English originals, so repeating descriptions would only add bulk.
+ * llms-full.txt carries the full answer text of every guide and tool.
  */
 export const dynamic = "force-static";
 
@@ -54,6 +66,49 @@ export function GET() {
     }
     lines.push("");
   }
+
+  lines.push(
+    "## Tools — per-assistant variants",
+    "",
+    "Each is one of the core converters above with notes for a specific assistant's output.",
+    "",
+  );
+  for (const tool of brandTools) {
+    lines.push(`- [${tool.name}](${siteUrl}/${tool.slug}): ${tool.intro}`);
+  }
+  lines.push("", "## Translations", "");
+
+  for (const locale of localeCodes) {
+    const url = (path: string) => `${siteUrl}${localizedPath(locale, path)}`;
+    const entries: string[] = [];
+    for (const slug of toolSlugsForLocale(locale)) {
+      entries.push(`- [${localizeTool(slug, locale).name}](${url(slug)})`);
+    }
+    for (const slug of guideSlugsForLocale(locale)) {
+      const guide = getGuide(slug);
+      if (guide) entries.push(`- [${localizeGuide(guide, locale).h1}](${url(`guides/${slug}`)})`);
+    }
+    for (const path of toolGuideSlugsForLocale(locale)) {
+      const [tool, slug] = path.split("/");
+      const guide = getToolGuide(tool, slug);
+      if (guide) entries.push(`- [${localizeToolGuide(guide, locale).h1}](${url(path)})`);
+    }
+    if (!entries.length) continue;
+    lines.push(`### ${locale}`, "", `- [Home](${url("")})`, ...entries, "");
+  }
+
+  lines.push(
+    "## Notes",
+    "",
+    `- ${siteUrl}/api/share and ${siteUrl}/localized-content/ are excluded from crawling, and \`?embed=1\` views of any page are noindex; none of them are listed here.`,
+    "- Locale pages are translations of the English originals listed above; each is linked to its original through hreflang.",
+    "",
+    "## Discovery",
+    "",
+    `- [Sitemap](${siteUrl}/sitemap.xml): every URL, with hreflang alternates.`,
+    `- [llms-full.txt](${siteUrl}/llms-full.txt): the direct answer of every English guide and the introduction of every core tool, as plain text.`,
+    "",
+  );
 
   lines.push(
     "## Optional",

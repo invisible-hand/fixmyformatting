@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        // Cloudflare-style content signals: search, AI answers and training are all welcome.
+        source: "/:path*",
+        headers: [{ key: "x-content-signal", value: "search=yes, ai-input=yes, ai-train=yes" }],
+      },
+      {
         source: "/:path*",
         has: [{ type: "query", key: "embed", value: "1" }],
         headers: [{ key: "X-Robots-Tag", value: "noindex, follow" }],
