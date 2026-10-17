@@ -105,7 +105,7 @@ describe("tool sub-guide publishing", () => {
     const html = renderToStaticMarkup(<ToolPage tool={getTool("remove-line-breaks")!} />);
     expect(html).toContain("Questions about Fix Copy-Paste Line Breaks");
     expect(html).toContain('href="/remove-line-breaks/what-are-line-breaks"');
-    const other = renderToStaticMarkup(<ToolPage tool={getTool("word-counter")!} />);
+    const other = renderToStaticMarkup(<ToolPage tool={getTool("json-formatter")!} />);
     expect(other).not.toContain("Questions about");
   });
 

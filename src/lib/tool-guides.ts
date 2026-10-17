@@ -2,7 +2,25 @@ import type { GuideDefinition } from "./guides";
 import { allGuides } from "./guides";
 import { allTools, coreTools, getTool } from "./tools";
 import { whatAreLineBreaks } from "../content/tool-guides/remove-line-breaks/what-are-line-breaks";
+import { removeAsterisksFromChatgptText } from "../content/tool-guides/remove-markdown-formatting/remove-asterisks-from-chatgpt-text";
+import { markdownEquationsToWord } from "../content/tool-guides/markdown-to-word/markdown-equations-to-word";
+import { markdownTableToWordTable } from "../content/tool-guides/markdown-to-word/markdown-table-to-word-table";
+import { importMarkdownTableIntoExcel } from "../content/tool-guides/markdown-table-to-csv/import-markdown-table-into-excel";
+import { fixLineBreaksInWord } from "../content/tool-guides/remove-line-breaks/fix-line-breaks-in-word";
+import { pdfCopyPasteLineBreaks } from "../content/tool-guides/remove-line-breaks/pdf-copy-paste-line-breaks";
+import { markdownTableToGoogleSheets } from "../content/tool-guides/markdown-table-to-csv/markdown-table-to-google-sheets";
+import { pasteChatgptIntoEmailLinkedin } from "../content/tool-guides/remove-markdown-formatting/paste-chatgpt-into-email-linkedin";
+import { whatAreTokensInAi } from "../content/tool-guides/token-counter/what-are-tokens-in-ai";
 
+import { claudeProTokenLimit } from "../content/tool-guides/token-counter/claude-pro-token-limit";
+import { wordsPerPage } from "../content/tool-guides/word-counter/words-per-page";
+import { howMuchDoClaudeTokensCost } from "../content/tool-guides/token-counter/how-much-do-claude-tokens-cost";
+import { howLongIs1000Words } from "../content/tool-guides/word-counter/how-long-is-1000-words";
+import { howToHumanizeAiText } from "../content/tool-guides/humanize-ai-text/how-to-humanize-ai-text";
+import { deSlopVsHumanizer } from "../content/tool-guides/de-slop/de-slop-vs-humanizer";
+import { canAiTextBeMadeUndetectable } from "../content/tool-guides/humanize-ai-text/can-ai-text-be-made-undetectable";
+import { whatIsAiSlop } from "../content/tool-guides/de-slop/what-is-ai-slop";
+import { makeChatgptSoundLessLikeAi } from "../content/tool-guides/de-slop/make-chatgpt-sound-less-like-ai";
 /**
  * Tool sub-guides: question pages nested under a core tool, served at
  * /<parentTool>/<slug>. They reuse the GuideDefinition shape (and GuidePage)
@@ -18,7 +36,27 @@ export type ToolGuide = GuideDefinition & {
   slug: string;
 };
 
-export const TOOL_GUIDES: ToolGuide[] = [whatAreLineBreaks];
+export const TOOL_GUIDES: ToolGuide[] = [
+  whatAreLineBreaks,
+  removeAsterisksFromChatgptText,
+  markdownEquationsToWord,
+  markdownTableToWordTable,
+  fixLineBreaksInWord,
+  pdfCopyPasteLineBreaks,
+  markdownTableToGoogleSheets,
+  importMarkdownTableIntoExcel,
+  whatAreTokensInAi,
+  pasteChatgptIntoEmailLinkedin,
+  claudeProTokenLimit,
+  wordsPerPage,
+  howMuchDoClaudeTokensCost,
+  howLongIs1000Words,
+  howToHumanizeAiText,
+  deSlopVsHumanizer,
+  canAiTextBeMadeUndetectable,
+  whatIsAiSlop,
+  makeChatgptSoundLessLikeAi,
+];
 
 export function toolGuidesFor(tool: string): ToolGuide[] {
   return TOOL_GUIDES.filter((guide) => guide.parentTool === tool);
