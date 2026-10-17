@@ -103,4 +103,6 @@ export const guideChrome: GuideChrome = {
   toolsMentioned: "Tools mentioned in this guide",
   relatedGuides: "Related guides",
   home: "Home",
+  doItNow: "Do it now",
+  questionsAbout: "Questions about {tool}",
 };

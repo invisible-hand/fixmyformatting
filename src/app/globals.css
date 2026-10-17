@@ -406,3 +406,12 @@ html[dir="rtl"] .home-tool-grid > a { border-right: 0; border-left: 1px solid va
   .guide-page .tool-title, .tool-content.guide-content { display: block !important; }
   .guide-page .guide-toc { display: none !important; }
 }
+
+/* Tool sub-guides: "Do it now" card linking back to the parent tool. */
+.tool-guide-cta { display: flex; flex-direction: column; gap: 4px; margin: 0 0 26px; padding: 16px 20px; border: 1px solid var(--accent); border-radius: 10px; background: var(--surface); color: var(--text); }
+.tool-guide-cta:hover, .tool-guide-cta:focus-visible { background: var(--accent-soft); }
+.tool-guide-cta-label { color: var(--accent); font-size: 14px; font-weight: 700; }
+.tool-guide-cta strong { font-size: 17px; }
+.tool-guide-cta span:last-child { color: var(--muted); font-size: 14px; }
+.tool-questions { margin: 0; padding-inline-start: 20px; }
+.tool-questions li { margin: 6px 0; }

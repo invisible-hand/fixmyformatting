@@ -1,9 +1,10 @@
 import type { GuideDefinition } from "../guides";
+import type { ToolGuide } from "../tool-guides";
 import type { ToolDefinition } from "../tools";
 import { actionSource, brandNames, brands, getTool } from "../tools";
 import type { LocaleCode, SiteLocale } from "./locales";
 import { localizedPath } from "./locales";
-import type { Faq, UiMessages } from "./types";
+import type { Faq, GuideTranslation, UiMessages } from "./types";
 import { bundles } from "./bundles";
 import { guideSlugsForLocale } from "./coverage";
 import { interpolate } from "./format";
@@ -33,6 +34,17 @@ export function guidesNav(locale: SiteLocale): { href: string; label: string } |
 export function localizeGuide(guide: GuideDefinition, locale: LocaleCode): GuideDefinition {
   const copy = bundles[locale].guides?.[guide.slug];
   if (!copy) throw new Error(`Guide ${guide.slug} is not translated for ${locale}`);
+  return mergeGuideTranslation(guide, copy);
+}
+
+/** Same merge for tool sub-guides, whose translations are keyed "<parentTool>/<slug>". */
+export function localizeToolGuide(guide: ToolGuide, locale: LocaleCode): ToolGuide {
+  const copy = bundles[locale].toolGuides?.[`${guide.parentTool}/${guide.slug}`];
+  if (!copy) throw new Error(`Tool guide ${guide.parentTool}/${guide.slug} is not translated for ${locale}`);
+  return mergeGuideTranslation(guide, copy);
+}
+
+function mergeGuideTranslation<T extends GuideDefinition>(guide: T, copy: GuideTranslation): T {
   return {
     ...guide,
     title: copy.title,

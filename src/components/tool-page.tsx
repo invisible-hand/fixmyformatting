@@ -1,9 +1,11 @@
 import type { ToolDefinition } from "@/lib/tools";
 import { allTools, coreTools, getProcessorSlug } from "@/lib/tools";
-import { bundles, localizedPath, localizeTool, messages, toolSlugsForLocale } from "@/lib/i18n";
+import { bundles, interpolate, isToolGuideLocalized, localizedPath, localizeTool, localizeToolGuide, messages, toolSlugsForLocale } from "@/lib/i18n";
 import type { LocaleCode, SiteLocale } from "@/lib/i18n";
 import type { ProcessSettings } from "@/lib/processors";
 import { guidePath, guidesForTool } from "@/lib/guides";
+import { toolGuidePath, toolGuidesFor } from "@/lib/tool-guides";
+import { guideChrome as englishGuideChrome } from "@/content/i18n/en/chrome";
 import { SiteHeader } from "./site-header";
 import { SiteFooter } from "./site-footer";
 import { ToolReference, referenceAnswer } from "./tool-reference";
@@ -44,6 +46,18 @@ export function ToolPage({
     : localizedRelated.filter((candidate) => candidate.category === tool.category && candidate.slug !== tool.slug).slice(0, 6);
   // Brand variants (chatgpt-to-word) inherit the guides of their core processor.
   const toolGuides = locale === "en" ? guidesForTool(processorSlug) : [];
+  // Tool sub-guides (/<core tool>/<question>); brand variants list their core tool's.
+  // Localized pages list only translated ones, and only once the heading is translated.
+  const questionsHeading = locale === "en"
+    ? englishGuideChrome.questionsAbout
+    : bundles[locale as LocaleCode].guideChrome.questionsAbout;
+  const questions = !questionsHeading
+    ? []
+    : locale === "en"
+      ? toolGuidesFor(processorSlug)
+      : toolGuidesFor(processorSlug)
+        .filter((guide) => isToolGuideLocalized(guide.parentTool, guide.slug, locale as LocaleCode))
+        .map((guide) => localizeToolGuide(guide, locale as LocaleCode));
   const publicPath = localizedPath(locale, tool.slug);
   const pageUrl = `${siteUrl}${publicPath}`;
   // timeZone: UTC so a YYYY-MM-DD string renders as that calendar day everywhere.
@@ -167,6 +181,18 @@ export function ToolPage({
               ))}
             </div>
           </section>
+          {questions.length > 0 && questionsHeading && (
+            <section>
+              <h2>{interpolate(questionsHeading, { tool: tool.name })}</h2>
+              <ul className="tool-questions">
+                {questions.map((guide) => (
+                  <li key={guide.slug}>
+                    <a href={localizedPath(locale, toolGuidePath(guide).slice(1))}>{guide.h1}</a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
           {toolGuides.length > 0 && (
             <section>
               <h2>Guides</h2>

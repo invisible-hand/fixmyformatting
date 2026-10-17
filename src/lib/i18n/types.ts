@@ -150,6 +150,10 @@ export type GuideChrome = {
   toolsMentioned: string;
   relatedGuides: string;
   home: string;
+  /** Tool sub-guide CTA ("Do it now →"); optional until a locale ships tool guides. */
+  doItNow?: string;
+  /** Heading of the tool-page question list; {tool} is the tool name. */
+  questionsAbout?: string;
 };
 
 export type StaticPageCopy = {
@@ -263,4 +267,10 @@ export type LocaleBundle = {
   reference?: ReferenceCopy;
   /** Coverage: only the guide slugs present are served in this locale. */
   guides?: Partial<Record<string, GuideTranslation>>;
+  /**
+   * Coverage for tool sub-guides, keyed "<parentTool>/<slug>". A key only
+   * renders when the English guide exists and the parent tool is served in
+   * this locale (see isToolGuideLocalized).
+   */
+  toolGuides?: Partial<Record<string, GuideTranslation>>;
 };

@@ -7,12 +7,14 @@ export {
   guideSlugsForLocale,
   isGuideLocalized,
   isLocalizedToolSlug,
+  isToolGuideLocalized,
   isToolLocalized,
   languageAlternates,
   localesForPath,
   siteUrl,
   staticPaths,
+  toolGuideSlugsForLocale,
   toolSlugsForLocale,
 } from "./coverage";
-export { categoryLabel, guidesNav, localizeGuide, localizeTool, uiFor } from "./resolve";
+export { categoryLabel, guidesNav, localizeGuide, localizeTool, localizeToolGuide, uiFor } from "./resolve";
 export type { GuideTranslation } from "./types";

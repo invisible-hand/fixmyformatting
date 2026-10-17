@@ -1,12 +1,15 @@
 import { ImageResponse } from "next/og";
 import { fontsForLocale } from "@/lib/og-fonts";
 import { getGuide } from "@/lib/guides";
+import { getToolGuide } from "@/lib/tool-guides";
 
 export const runtime = "nodejs";
 
-export function GET(_request: Request, { params }: { params: Promise<{ slug: string }> }) {
+export function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   return params.then(({ slug }) => {
-    const guide = getGuide(slug);
+    // Tool sub-guides pass their parent tool: /api/guide-og/<slug>?tool=<parentTool>.
+    const tool = new URL(request.url).searchParams.get("tool");
+    const guide = tool ? getToolGuide(tool, slug) : getGuide(slug);
     if (!guide) return new Response("Not found", { status: 404 });
     return new ImageResponse(
       <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, background: "#f6f7f5", color: "#17201a", fontFamily: "Site" }}>

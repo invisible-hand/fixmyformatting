@@ -9,7 +9,7 @@ import { describe, expect, it } from "vitest";
  * fail the build in a way that is tedious to trace back. Fail here instead.
  */
 
-const forbidden = [/@\/lib\/i18n/, /@\/lib\/guides/, /@\/content\//, /\bfrom "marked"/];
+const forbidden = [/@\/lib\/i18n/, /@\/lib\/guides/, /@\/lib\/tool-guides/, /@\/content\//, /\bfrom "marked"/];
 
 function sourceFiles(dir: string, found: string[] = []) {
   for (const entry of readdirSync(dir)) {

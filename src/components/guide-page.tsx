@@ -1,4 +1,5 @@
 import type { GuideDefinition } from "@/lib/guides";
+import type { ToolGuide } from "@/lib/tool-guides";
 import { relatedGuidesFor } from "@/lib/guides";
 import { renderGuideMarkdown } from "@/lib/guide-markdown";
 import type { ToolDefinition } from "@/lib/tools";
@@ -13,12 +14,45 @@ import { SiteFooter } from "./site-footer";
 import { GuideFigure } from "./guide-figures";
 import { CharCopy } from "./char-copy";
 
-export function GuidePage({ guide, locale = "en" }: { guide: GuideDefinition; locale?: SiteLocale }) {
+/**
+ * Renders both /guides/<slug> and tool sub-guides at /<parentTool>/<slug>. A
+ * tool guide swaps the breadcrumb to Home › Tool › Question and adds a "Do it
+ * now" card to the parent tool after the answer and after the FAQs.
+ */
+export function GuidePage({ guide, locale = "en" }: { guide: GuideDefinition | ToolGuide; locale?: SiteLocale }) {
   const chrome = locale === "en" ? englishGuideChrome : bundles[locale as LocaleCode].guideChrome;
   const figureCopy = locale === "en" ? englishFigures : bundles[locale as LocaleCode].figures;
   const path = (slug?: string) => localizedPath(locale, slug ? `guides/${slug}` : "guides");
-  const pageUrl = `${siteUrl}${path(guide.slug)}`;
+  const parentSlug = "parentTool" in guide ? guide.parentTool : undefined;
+  const parentTool = parentSlug
+    ? (locale === "en" ? getTool(parentSlug) : localizeTool(parentSlug, locale as LocaleCode))
+    : undefined;
+  const parentPath = parentSlug ? localizedPath(locale, parentSlug) : "";
+  const pagePath = parentSlug ? localizedPath(locale, `${parentSlug}/${guide.slug}`) : path(guide.slug);
+  const pageUrl = `${siteUrl}${pagePath}`;
+  const image = parentSlug
+    ? `${siteUrl}/api/guide-og/${guide.slug}?tool=${parentSlug}`
+    : `${siteUrl}/api/guide-og/${guide.slug}`;
+  const trail = parentTool
+    ? [
+        { name: chrome.home, path: localizedPath(locale) },
+        { name: parentTool.name, path: parentPath },
+        { name: guide.h1, path: pagePath },
+      ]
+    : [
+        { name: chrome.home, path: localizedPath(locale) },
+        { name: chrome.navLabel, path: path() },
+        { name: guide.h1, path: pagePath },
+      ];
+  const cta = parentTool ? (
+    <a className="tool-guide-cta" href={parentPath}>
+      <span className="tool-guide-cta-label">{chrome.doItNow ?? englishGuideChrome.doItNow} →</span>
+      <strong>{parentTool.name}</strong>
+      <span>{parentTool.description}</span>
+    </a>
+  ) : null;
   const tools = guide.relatedTools
+    .filter((slug) => slug !== parentSlug)
     .filter((slug) => locale === "en" || isToolLocalized(slug, locale as LocaleCode))
     .map((slug) => (locale === "en" ? getTool(slug) : localizeTool(slug, locale as LocaleCode)))
     .filter((tool): tool is ToolDefinition => Boolean(tool));
@@ -38,15 +72,11 @@ export function GuidePage({ guide, locale = "en" }: { guide: GuideDefinition; lo
       author: publisher,
       publisher,
       mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
-      image: `${siteUrl}/api/guide-og/${guide.slug}`,
+      image,
       inLanguage: locale,
     },
     faqSchema(guide.faqs),
-    breadcrumbSchema([
-      { name: chrome.home, path: localizedPath(locale) },
-      { name: chrome.navLabel, path: path() },
-      { name: guide.h1, path: path(guide.slug) },
-    ]),
+    breadcrumbSchema(trail),
   ];
 
   return (
@@ -54,7 +84,7 @@ export function GuidePage({ guide, locale = "en" }: { guide: GuideDefinition; lo
       <SiteHeader locale={locale} />
       <main className="tool-page guide-page">
         <nav className="breadcrumbs" aria-label="Breadcrumb">
-          <a href={localizedPath(locale)}>{chrome.home}</a><span>/</span><a href={path()}>{chrome.navLabel}</a><span>/</span><span>{guide.h1}</span>
+          <a href={trail[0].path}>{trail[0].name}</a><span>/</span><a href={trail[1].path}>{trail[1].name}</a><span>/</span><span>{guide.h1}</span>
         </nav>
         <header className="tool-title">
           <h1>{guide.h1}</h1>
@@ -63,6 +93,7 @@ export function GuidePage({ guide, locale = "en" }: { guide: GuideDefinition; lo
         <article className="tool-content guide-content">
           {guide.copyChars && guide.copyChars.length > 0 && <CharCopy chars={guide.copyChars} />}
           <p className="guide-answer">{guide.answer}</p>
+          {cta}
           <nav className="guide-toc" aria-label="On this page">
             <h2>{chrome.onThisPage}</h2>
             <ol>
@@ -89,6 +120,7 @@ export function GuidePage({ guide, locale = "en" }: { guide: GuideDefinition; lo
               ))}
             </div>
           </section>
+          {cta}
           {tools.length > 0 && (
             <section>
               <h2>{chrome.toolsMentioned}</h2>

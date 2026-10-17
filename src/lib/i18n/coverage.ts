@@ -2,6 +2,7 @@ import { localeCodes, localizedPath } from "./locales";
 import type { LocaleCode, SiteLocale } from "./locales";
 import { bundles } from "./bundles";
 import { brandTools, getProcessorSlug } from "../tools";
+import { getToolGuide } from "../tool-guides";
 
 export const siteUrl = "https://fixmyformatting.com";
 
@@ -39,6 +40,24 @@ export function isGuideLocalized(slug: string, locale: LocaleCode) {
   return Boolean(bundles[locale].guides?.[slug]);
 }
 
+/**
+ * Tool sub-guide paths ("<parentTool>/<slug>") this locale serves. Empty until
+ * a translation lands in the bundle's toolGuides, so nothing renders, enters
+ * the sitemap or appears in hreflang before then.
+ */
+export function toolGuideSlugsForLocale(locale: LocaleCode): string[] {
+  return Object.keys(bundles[locale].toolGuides ?? {}).filter((key) => {
+    const [tool, slug, ...rest] = key.split("/");
+    return rest.length === 0 && Boolean(slug) && isToolGuideLocalized(tool, slug, locale);
+  });
+}
+
+export function isToolGuideLocalized(tool: string, slug: string, locale: LocaleCode) {
+  return Boolean(bundles[locale].toolGuides?.[`${tool}/${slug}`])
+    && Boolean(getToolGuide(tool, slug))
+    && isToolLocalized(tool, locale);
+}
+
 /** Locales that serve a given public path ("" is the home page). */
 export function localesForPath(path = ""): LocaleCode[] {
   const slug = path.replace(/^\/+/, "");
@@ -48,6 +67,11 @@ export function localesForPath(path = ""): LocaleCode[] {
   if (slug.startsWith("guides/")) {
     const guide = slug.slice("guides/".length);
     return localeCodes.filter((locale) => isGuideLocalized(guide, locale));
+  }
+  if (slug.includes("/")) {
+    const [tool, question, ...rest] = slug.split("/");
+    if (rest.length || !question) return [];
+    return localeCodes.filter((locale) => isToolGuideLocalized(tool, question, locale));
   }
   return localeCodes.filter((locale) => isToolLocalized(slug, locale));
 }

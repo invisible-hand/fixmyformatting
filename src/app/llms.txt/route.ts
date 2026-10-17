@@ -1,6 +1,7 @@
 import { coreTools } from "@/lib/tools";
 import { allGuides, clusterLabels, clusterOrder, guidesInCluster } from "@/lib/guides";
 import { siteUrl } from "@/lib/schema";
+import { toolGuidePath, toolGuidesFor } from "@/lib/tool-guides";
 
 /**
  * llms.txt — a plain-text index of the site for language models, per the
@@ -46,6 +47,10 @@ export function GET() {
     lines.push(`## Tools — ${category}`, "");
     for (const tool of coreTools.filter((tool) => tool.category === category)) {
       lines.push(`- [${tool.name}](${siteUrl}/${tool.slug}): ${tool.description}`);
+      // Tool sub-guides nest under their parent tool.
+      for (const guide of toolGuidesFor(tool.slug)) {
+        lines.push(`  - [${guide.h1}](${siteUrl}${toolGuidePath(guide)}): ${guide.description}`);
+      }
     }
     lines.push("");
   }

@@ -10,16 +10,20 @@ import {
   isLocale,
   guideSlugsForLocale,
   isGuideLocalized,
+  isToolGuideLocalized,
   isToolLocalized,
   localizeGuide,
+  localizeToolGuide,
   languageAlternates,
   localizedPath,
   localizeTool,
+  toolGuideSlugsForLocale,
   toolSlugsForLocale,
   uiFor,
 } from "@/lib/i18n";
 import type { LocaleCode } from "@/lib/i18n";
 import { getGuide } from "@/lib/guides";
+import { getToolGuide } from "@/lib/tool-guides";
 import { siteUrl } from "@/lib/schema";
 
 export const dynamicParams = false;
@@ -41,6 +45,8 @@ export function generateStaticParams({ params }: { params: { locale: string } })
     ...STATIC_PAGES.map((page) => ({ slug: [page] })),
     ...(guides.length ? [{ slug: ["guides"] }] : []),
     ...guides.map((slug) => ({ slug: ["guides", slug] })),
+    // Empty until a bundle ships toolGuides, so no tool sub-guide renders untranslated.
+    ...toolGuideSlugsForLocale(params.locale).map((path) => ({ slug: path.split("/") })),
   ];
 }
 
@@ -57,6 +63,9 @@ function route(locale: LocaleCode, segments: string[]) {
   }
   if (segments.length === 2 && segments[0] === "guides" && isGuideLocalized(segments[1], locale)) {
     return { kind: "guide" as const, slug: segments[1] };
+  }
+  if (segments.length === 2 && segments[0] !== "guides" && isToolGuideLocalized(segments[0], segments[1], locale)) {
+    return { kind: "toolGuide" as const, tool: segments[0], slug: segments[1] };
   }
   return null;
 }
@@ -107,6 +116,27 @@ export async function generateMetadata({
       robots: { index: true, follow: true },
       openGraph: { title, description: copy.description, url: canonical, type: isIndex ? "website" : "article", images: [{ url: image, width: 1200, height: 630 }] },
       twitter: { card: "summary_large_image", title, description: copy.description, images: [image] },
+    };
+  }
+
+  if (target.kind === "toolGuide") {
+    const guide = localizeToolGuide(getToolGuide(target.tool, target.slug)!, locale);
+    const image = `${siteUrl}/api/guide-og/${target.slug}?tool=${target.tool}&locale=${locale}`;
+    return {
+      title: { absolute: guide.title },
+      description: guide.description,
+      alternates,
+      robots: { index: true, follow: true },
+      openGraph: {
+        title: guide.title,
+        description: guide.description,
+        url: canonical,
+        type: "article",
+        publishedTime: guide.published,
+        modifiedTime: guide.updated,
+        images: [{ url: image, width: 1200, height: 630 }],
+      },
+      twitter: { card: "summary_large_image", title: guide.title, description: guide.description, images: [image] },
     };
   }
 
@@ -164,6 +194,9 @@ export default async function LocalizedPage({
   if (target.kind === "home") return <LocalizedHome locale={locale} />;
   if (target.kind === "guides") return <GuidesIndex locale={locale} />;
   if (target.kind === "guide") return <GuidePage guide={localizeGuide(getGuide(target.slug)!, locale)} locale={locale} />;
+  if (target.kind === "toolGuide") {
+    return <GuidePage guide={localizeToolGuide(getToolGuide(target.tool, target.slug)!, locale)} locale={locale} />;
+  }
   if (target.kind === "static") {
     return <StaticPage copy={bundles[locale].pages[target.page]} path={target.page} locale={locale} />;
   }
