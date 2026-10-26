@@ -52,6 +52,9 @@ function mergeGuideTranslation<T extends GuideDefinition>(guide: T, copy: GuideT
     h1: copy.h1,
     dek: copy.dek,
     answer: copy.answer,
+    published: copy.published ?? guide.published,
+    updated: copy.updated ?? guide.updated,
+    copyChars: copy.copyChars ?? guide.copyChars,
     sections: guide.sections.map((section) => {
       const translated = copy.sections[section.id];
       return translated ? { ...section, heading: translated.heading, body: translated.body } : section;

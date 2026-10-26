@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { allTools } from "@/lib/tools";
 import { allGuides } from "@/lib/guides";
 import { TOOL_GUIDES, toolGuidePath } from "@/lib/tool-guides";
-import { isLocalizedToolSlug, languageAlternates, localeCodes, localizedPath, guideSlugsForLocale, staticPaths, toolGuideSlugsForLocale, toolSlugsForLocale } from "@/lib/i18n";
+import { bundles, isLocalizedToolSlug, languageAlternates, localeCodes, localizedPath, guideSlugsForLocale, staticPaths, toolGuideSlugsForLocale, toolSlugsForLocale } from "@/lib/i18n";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://fixmyformatting.com";
@@ -41,12 +41,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
             alternates: { languages: languageAlternates("guides") },
           }]
         : []),
-      ...guideSlugsForLocale(locale).map((slug) => ({
-        url: `${base}${localizedPath(locale, `guides/${slug}`)}`,
-        changeFrequency: "monthly" as const,
-        priority: 0.55,
-        alternates: { languages: languageAlternates(`guides/${slug}`) },
-      })),
+      ...guideSlugsForLocale(locale).map((slug) => {
+        // Only translations that carry their own date get one; the English
+        // date would misstate when an older translation last changed.
+        const updated = bundles[locale].guides?.[slug]?.updated;
+        return {
+          url: `${base}${localizedPath(locale, `guides/${slug}`)}`,
+          changeFrequency: "monthly" as const,
+          priority: 0.55,
+          ...(updated ? { lastModified: updated } : {}),
+          alternates: { languages: languageAlternates(`guides/${slug}`) },
+        };
+      }),
       ...toolGuideSlugsForLocale(locale).map((path) => ({
         url: `${base}${localizedPath(locale, path)}`,
         changeFrequency: "monthly" as const,

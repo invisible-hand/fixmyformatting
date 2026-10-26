@@ -154,6 +154,10 @@ export type GuideChrome = {
   doItNow?: string;
   /** Heading of the tool-page question list; {tool} is the tool name. */
   questionsAbout?: string;
+  /** Character copy buttons: group label, button text after a copy, and the status line ({char}). */
+  copyGroup?: string;
+  copied?: string;
+  copiedStatus?: string;
 };
 
 export type StaticPageCopy = {
@@ -186,6 +190,17 @@ export type GuideTranslation = {
   answer: string;
   sections: Record<string, { heading: string; body: string }>;
   faqs: Faq[];
+  /**
+   * Dates of this translation, for Article structured data and the sitemap.
+   * Omitted, the English guide's dates apply (the older translations).
+   */
+  published?: string;
+  updated?: string;
+  /**
+   * Copy buttons for this locale. Replaces the English list when present, so a
+   * locale can offer its own characters (Chinese adds the doubled dash ——).
+   */
+  copyChars?: { char: string; label: string; hint: string }[];
 };
 
 /**

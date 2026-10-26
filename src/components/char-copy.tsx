@@ -4,6 +4,15 @@ import { useState } from "react";
 
 export type CopyChar = { char: string; label: string; hint: string };
 
+/** Plain strings passed in by the server component, so no translation module enters the client bundle. */
+export type CopyMessages = { group: string; copied: string; status: string };
+
+const englishMessages: CopyMessages = {
+  group: "Copy a character",
+  copied: "Copied!",
+  status: "{char} copied to the clipboard — paste it with Ctrl+V or Cmd+V.",
+};
+
 async function copyText(text: string) {
   try {
     await navigator.clipboard.writeText(text);
@@ -24,10 +33,10 @@ async function copyText(text: string) {
 }
 
 /** One-click copy buttons for single characters (e.g. the em dash), shown above a guide's answer. */
-export function CharCopy({ chars }: { chars: CopyChar[] }) {
+export function CharCopy({ chars, messages = englishMessages }: { chars: CopyChar[]; messages?: CopyMessages }) {
   const [copied, setCopied] = useState<string | null>(null);
   return (
-    <div className="char-copy" role="group" aria-label="Copy a character">
+    <div className="char-copy" role="group" aria-label={messages.group}>
       {chars.map((c) => (
         <button
           key={c.char}
@@ -42,12 +51,12 @@ export function CharCopy({ chars }: { chars: CopyChar[] }) {
         >
           <span className="char-copy-glyph" aria-hidden="true">{c.char}</span>
           <span className="char-copy-text">
-            <strong>{copied === c.char ? "Copied!" : c.label}</strong>
+            <strong>{copied === c.char ? messages.copied : c.label}</strong>
             <small>{c.hint}</small>
           </span>
         </button>
       ))}
-      <p className="char-copy-status" aria-live="polite">{copied ? `${copied} copied to the clipboard — paste it with Ctrl+V or Cmd+V.` : ""}</p>
+      <p className="char-copy-status" aria-live="polite">{copied ? messages.status.replace("{char}", copied) : ""}</p>
     </div>
   );
 }

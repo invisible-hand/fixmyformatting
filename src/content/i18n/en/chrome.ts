@@ -105,4 +105,7 @@ export const guideChrome: GuideChrome = {
   home: "Home",
   doItNow: "Do it now",
   questionsAbout: "Questions about {tool}",
+  copyGroup: "Copy a character",
+  copied: "Copied!",
+  copiedStatus: "{char} copied to the clipboard — paste it with Ctrl+V or Cmd+V.",
 };

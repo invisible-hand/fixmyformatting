@@ -111,5 +111,8 @@ export const guideChrome: GuideChrome = {
   "onThisPage": "本页内容",
   "toolsMentioned": "本指南提到的工具",
   "relatedGuides": "相关指南",
-  "home": "首页"
+  "home": "首页",
+  "copyGroup": "复制字符",
+  "copied": "已复制！",
+  "copiedStatus": "已复制 {char}，按 Ctrl+V（Mac 上按 Cmd+V）粘贴即可。"
 };

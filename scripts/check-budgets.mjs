@@ -39,8 +39,9 @@ function checkHtml(path) {
     return total + (existsSync(chunkPath) ? gzipSync(readFileSync(chunkPath)).byteLength : 0);
   }, 0);
   if (initialJsBytes > largestInitialJs.bytes) largestInitialJs = { bytes: initialJsBytes, file };
-  const title = source.match(/<title>([^<]*)<\/title>/)?.[1] ?? "";
-  const description = source.match(/<meta name="description" content="([^"]*)"/)?.[1] ?? "";
+  // Measured as text, not markup: React escapes ' as &#x27;, which is one character to a search engine.
+  const title = decodeEntities(source.match(/<title>([^<]*)<\/title>/)?.[1] ?? "");
+  const description = decodeEntities(source.match(/<meta name="description" content="([^"]*)"/)?.[1] ?? "");
   const canonical = source.match(/<link rel="canonical" href="([^"]*)"/)?.[1] ?? "";
   const h1Count = source.match(/<h1(?:\s|>)/g)?.length ?? 0;
   if (!title) failures.push(`${file}: missing title`);
@@ -57,8 +58,28 @@ function checkHtml(path) {
   if (htmlLang?.[1] !== locale) failures.push(`${file}: html lang is ${htmlLang?.[1] ?? "missing"}, expected ${locale}`);
   if (locale === "ar" && htmlLang?.[2] !== "rtl") failures.push(`${file}: Arabic page is not RTL`);
   if (canonical.includes("/localized-content/")) failures.push(`${file}: canonical exposes internal rewrite path`);
-  const hreflangs = source.match(/<link rel="alternate" hrefLang="[^"]+"/g)?.length ?? 0;
-  if (hreflangs !== 12) failures.push(`${file}: expected 12 hreflang links, found ${hreflangs}`);
+  const hreflangs = [...source.matchAll(/<link rel="alternate" hrefLang="([^"]+)"/g)].map((match) => match[1]);
+  // Guides roll out per locale, so a translated guide can have fewer alternates
+  // than a tool page; it must still reference English, x-default and itself.
+  // Every other localized page is served in all 11 locales plus x-default.
+  const partial = /\/localized-content\/[^/]+\/(?:guides\/|[^/]+\/[^/]+\.html$)/.test(`/${file}`);
+  if (partial) {
+    for (const required of ["en", "x-default", locale]) {
+      if (!hreflangs.includes(required)) failures.push(`${file}: hreflang set is missing ${required}`);
+    }
+  } else if (hreflangs.length !== 12) {
+    failures.push(`${file}: expected 12 hreflang links, found ${hreflangs.length}`);
+  }
+}
+
+function decodeEntities(text) {
+  return text
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(Number(dec)))
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
 }
 
 function checkClientManifest(path) {

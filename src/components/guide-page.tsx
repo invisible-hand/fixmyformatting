@@ -91,7 +91,16 @@ export function GuidePage({ guide, locale = "en" }: { guide: GuideDefinition | T
           <p>{guide.dek}</p>
         </header>
         <article className="tool-content guide-content">
-          {guide.copyChars && guide.copyChars.length > 0 && <CharCopy chars={guide.copyChars} />}
+          {guide.copyChars && guide.copyChars.length > 0 && (
+            <CharCopy
+              chars={guide.copyChars}
+              messages={{
+                group: chrome.copyGroup ?? englishGuideChrome.copyGroup!,
+                copied: chrome.copied ?? englishGuideChrome.copied!,
+                status: chrome.copiedStatus ?? englishGuideChrome.copiedStatus!,
+              }}
+            />
+          )}
           <p className="guide-answer">{guide.answer}</p>
           {cta}
           <nav className="guide-toc" aria-label="On this page">
