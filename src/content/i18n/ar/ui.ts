@@ -46,4 +46,9 @@ export const ui: UiMessages = {
   featureEyebrow: "جديد · مدعوم بالذكاء الاصطناعي",
   featureCta: "← تنظيف النص بـ De-slop",
   stepRun: "الصق النص أعلاه واضغط De-slop. يستغرق التحرير بضع ثوانٍ.",
+  beforeAfter: "قبل وبعد",
+  beforeLabel: "ما تلصقه",
+  afterLabel: "ما تحصل عليه",
+  exampleDocx: "تنزيل المثال بصيغة .docx",
+  exampleDocxBusy: "جارٍ تجهيز ملف .docx…",
 };

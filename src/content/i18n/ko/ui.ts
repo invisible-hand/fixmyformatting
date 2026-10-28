@@ -46,4 +46,9 @@ export const ui: UiMessages = {
   featureEyebrow: "신규 · AI 기반",
   featureCta: "텍스트 De-slop 처리 →",
   stepRun: "위에 텍스트를 붙여넣고 De-slop을 누르세요. 편집에는 몇 초 정도 걸립니다.",
+  beforeAfter: "변환 전과 후",
+  beforeLabel: "붙여넣는 내용",
+  afterLabel: "얻는 결과",
+  exampleDocx: "예시를 .docx로 다운로드",
+  exampleDocxBusy: ".docx 준비 중…",
 };

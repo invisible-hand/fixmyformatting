@@ -46,4 +46,9 @@ export const ui: UiMessages = {
   featureEyebrow: "Nouveau · propulsé par l'IA",
   featureCta: "De-slop le texte →",
   stepRun: "Collez-le ci-dessus et appuyez sur De-slop. L'édition prend quelques secondes.",
+  beforeAfter: "Avant et après",
+  beforeLabel: "Ce que vous collez",
+  afterLabel: "Ce que vous obtenez",
+  exampleDocx: "Télécharger l’exemple en .docx",
+  exampleDocxBusy: "Préparation du .docx…",
 };

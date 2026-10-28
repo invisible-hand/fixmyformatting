@@ -46,4 +46,9 @@ export const ui: UiMessages = {
   featureEyebrow: "New・AI搭載",
   featureCta: "文章をDe-slopする →",
   stepRun: "上に貼り付けてDe-slopを押してください。編集は数秒で完了します。",
+  beforeAfter: "変換前と変換後",
+  beforeLabel: "貼り付ける内容",
+  afterLabel: "得られる結果",
+  exampleDocx: "サンプルを .docx でダウンロード",
+  exampleDocxBusy: ".docx を作成中…",
 };

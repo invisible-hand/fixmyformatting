@@ -46,4 +46,9 @@ export const ui: UiMessages = {
   featureEyebrow: "Neu · KI-gestützt",
   featureCta: "Text de-sloppen →",
   stepRun: "Text oben einfügen und auf De-slop klicken. Die Bearbeitung dauert wenige Sekunden.",
+  beforeAfter: "Vorher und nachher",
+  beforeLabel: "Was du einfügst",
+  afterLabel: "Was du bekommst",
+  exampleDocx: "Beispiel als .docx herunterladen",
+  exampleDocxBusy: ".docx wird erstellt …",
 };

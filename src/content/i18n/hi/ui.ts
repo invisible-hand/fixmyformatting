@@ -46,4 +46,9 @@ export const ui: UiMessages = {
   featureEyebrow: "नया · AI-संचालित",
   featureCta: "टेक्स्ट De-slop करें →",
   stepRun: "ऊपर पेस्ट करें और De-slop दबाएं। एडिट में कुछ सेकंड लगते हैं।",
+  beforeAfter: "पहले और बाद में",
+  beforeLabel: "आप जो पेस्ट करते हैं",
+  afterLabel: "आपको जो मिलता है",
+  exampleDocx: "उदाहरण .docx में डाउनलोड करें",
+  exampleDocxBusy: ".docx तैयार हो रही है…",
 };

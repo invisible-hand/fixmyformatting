@@ -10,6 +10,7 @@ import { SiteHeader } from "./site-header";
 import { SiteFooter } from "./site-footer";
 import { ToolReference, referenceAnswer } from "./tool-reference";
 import { ToolWorkspace } from "./tool-workspace";
+import { BeforeAfter } from "./before-after";
 import { EmbedMode } from "./embed-mode";
 import { workspaceDefaults } from "@/lib/workspace-defaults";
 
@@ -159,6 +160,17 @@ export function ToolPage({
               <li>{localized?.stepFinish ?? "Copy, download, share, or embed the finished result."}</li>
             </ol>
           </section>
+          <BeforeAfter
+            tool={tool}
+            locale={locale}
+            labels={{
+              heading: localized?.beforeAfter ?? "Before and after",
+              before: localized?.beforeLabel ?? "What you paste",
+              after: localized?.afterLabel ?? "What you get",
+              docx: localized?.exampleDocx ?? "Download this example as .docx",
+              docxBusy: localized?.exampleDocxBusy ?? "Preparing .docx…",
+            }}
+          />
           <section>
             <h2>{localized?.faqTitle ?? "Frequently asked questions"}</h2>
             <div className="faq-list">

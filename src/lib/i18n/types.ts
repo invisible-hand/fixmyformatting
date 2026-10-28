@@ -60,6 +60,12 @@ export type UiMessages = {
   featureCta?: string;
   /** Replaces stepPaste on tools that run on a button press instead of live. */
   stepRun?: string;
+  /** Before-and-after section on tool pages (2026-10-28); English fallbacks in tool-page.tsx. */
+  beforeAfter?: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+  exampleDocx?: string;
+  exampleDocxBusy?: string;
 };
 
 /**

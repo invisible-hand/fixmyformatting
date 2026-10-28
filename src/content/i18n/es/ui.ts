@@ -46,4 +46,9 @@ export const ui: UiMessages = {
   featureEyebrow: "Nueva · con IA",
   featureCta: "Aplicar De-slop →",
   stepRun: "Pégalo arriba y pulsa De-slop. La edición tarda unos segundos.",
+  beforeAfter: "Antes y después",
+  beforeLabel: "Lo que pegas",
+  afterLabel: "Lo que obtienes",
+  exampleDocx: "Descargar el ejemplo como .docx",
+  exampleDocxBusy: "Preparando el .docx…",
 };

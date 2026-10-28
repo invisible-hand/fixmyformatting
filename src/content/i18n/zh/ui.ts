@@ -46,4 +46,9 @@ export const ui: UiMessages = {
   featureEyebrow: "新功能 · AI 驱动",
   featureCta: "去除AI痕迹 →",
   stepRun: "把文本粘贴到上方，点击“De-slop”，几秒钟即可完成编辑。",
+  beforeAfter: "转换前后对比",
+  beforeLabel: "你粘贴的内容",
+  afterLabel: "你得到的结果",
+  exampleDocx: "下载示例 .docx",
+  exampleDocxBusy: "正在生成 .docx…",
 };
