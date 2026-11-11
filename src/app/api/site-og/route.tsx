@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { fontsForLocale, ogLocale } from "@/lib/og-fonts";
 import { coreTools } from "@/lib/tools";
-import { interpolate, isLocale, messages } from "@/lib/i18n";
+import { interpolate, isLocale, messages, toolSlugsForLocale } from "@/lib/i18n";
 
 export const runtime = "nodejs";
 
@@ -9,6 +9,10 @@ export function GET(request: Request) {
   const localeParam = new URL(request.url).searchParams.get("locale");
   const locale = ogLocale(localeParam && isLocale(localeParam) ? localeParam : null);
   const title = locale ? messages[locale].homeTitle : "Fix text copied from AI.";
+  // The number on a locale's card is the number of core tools that locale serves, as on its home page.
+  const toolCount = locale
+    ? toolSlugsForLocale(locale).filter((slug) => coreTools.some((tool) => tool.slug === slug)).length
+    : coreTools.length;
   const description = locale
     ? messages[locale].homeDescription
     : "Free, fast, private tools for Markdown, AI text cleanup, tables, JSON, prompts, and documents.";
@@ -19,7 +23,7 @@ export function GET(request: Request) {
         Fix My Formatting
       </div>
       <div style={{ display: "flex", flexDirection: "column", maxWidth: 1040 }}>
-        <div style={{ color: "#176b45", fontSize: 24, fontWeight: 700 }}>{locale ? interpolate(messages[locale].homeEyebrow, { count: String(coreTools.length) }) : `${coreTools.length} FREE BROWSER TOOLS`}</div>
+        <div style={{ color: "#176b45", fontSize: 24, fontWeight: 700 }}>{locale ? interpolate(messages[locale].homeEyebrow, { count: String(toolCount) }) : `${toolCount} FREE BROWSER TOOLS`}</div>
         <div style={{ marginTop: 15, fontSize: 72, lineHeight: 1.02, fontWeight: 700, letterSpacing: -4 }}>{title}</div>
         <div style={{ marginTop: 24, color: "#637067", fontSize: 27 }}>{description}</div>
       </div>

@@ -27,6 +27,17 @@ export type ToolDefinition = {
    * re-run it. Only de-slop so far.
    */
   remote?: boolean;
+  /**
+   * "styles" swaps the input/output editor for a list of text styles with a
+   * copy button on each row. Only fonts-copy-and-paste so far.
+   */
+  workspace?: "styles";
+  /** Plain sentences shown under the description that answer the page's main question. English pages only. */
+  answer?: string;
+  /** Replaces the three generic how-to steps. English pages only. */
+  steps?: string[];
+  /** Tool slugs listed first under Related tools, ahead of the category siblings. English pages only. */
+  related?: string[];
 };
 
 /**
@@ -321,7 +332,7 @@ export const coreTools: ToolDefinition[] = [
   define("show-invisible-characters", "Invisible Character Viewer", "Show Invisible Characters in Text", "Reveal hidden Unicode by marking each zero-width space, soft hyphen, BOM, and direction mark in place. Nothing is deleted.", "AI cleanup", "This viewer diagnoses rather than treats. Every invisible character is replaced by a readable marker such as [ZWSP] or [NBSP] at the exact position it occupies, so you can see how many there are and where they sit before deciding what to do. The surrounding text is untouched. When you want them gone instead of shown, use the Invisible Character Scanner, which strips them.", { report: true, outputLabel: "Marked text", download: "txt", placeholder: "Paste text to see what is hiding inside it.\n\nThere is a zero-width space between Ada\u200bx, and a non-breaking\u00a0space in this sentence." }),
   define("remove-smart-quotes", "Smart Quotes to Straight Quotes", "Replace Smart Quotes Online", "Replace curly quotes and apostrophes with straight ASCII ones so text is safe for code, CSV, databases, and plain-text email. It counts what changed.", "AI cleanup", "Normalize typographic quotation marks for code, CSV, databases, plain-text email, and systems that expect ASCII punctuation.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste “curly quotes” and ‘apostrophes’ here." }),
   define("remove-emojis", "Remove Emojis", "Remove Emojis from Text Online", "Remove emoji and their skin-tone and variation modifiers from text while leaving words and punctuation intact. The result updates as you type.", "AI cleanup", "Strip emoji pictographs and their modifiers while leaving ordinary text and punctuation intact. The result updates while you type.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste text with emoji 👋🏽✨ to remove them." }),
-  define("remove-fancy-text", "Fancy Text to Plain Text", "Convert Fancy Text to Plain Text Online", "Convert bold, italic, script, small caps, and fullwidth Unicode pseudo-fonts back to ordinary letters, so search, spell check, and parsers read it.", "AI cleanup", "Pseudo-font characters from social posts and AI output look styled, but they are special Unicode symbols that break search, spell check, screen readers, and résumé parsers. This converter maps them back to ordinary letters and removes decorative strikethrough and underline marks.", { report: true, outputLabel: "Plain text", download: "txt", placeholder: "Paste 𝗳𝗮𝗻𝗰𝘆 𝓉𝑒𝓍𝓉 like ᴛʜɪs or ｆｕｌｌｗｉｄｔｈ to convert it back to plain letters." }),
+  define("remove-fancy-text", "Fancy Text to Plain Text", "Convert Fancy Text to Plain Text Online", "Convert bold, italic, script, small caps, and fullwidth Unicode pseudo-fonts back to ordinary letters, so search, spell check, and parsers read it.", "AI cleanup", "Pseudo-font characters from social posts and AI output look styled, but they are special Unicode symbols that break search, spell check, screen readers, and résumé parsers. This converter maps them back to ordinary letters and removes decorative strikethrough and underline marks.", { report: true, outputLabel: "Plain text", download: "txt", related: ["fonts-copy-and-paste"], placeholder: "Paste 𝗳𝗮𝗻𝗰𝘆 𝓉𝑒𝓍𝓉 like ᴛʜɪs or ｆｕｌｌｗｉｄｔｈ to convert it back to plain letters." }),
   define("remove-line-breaks", "Fix Copy-Paste Line Breaks", "Remove Line Breaks from Text", "Repair hard-wrapped text copied from PDFs, emails, and AI chats: single line breaks become spaces, while blank lines stay as paragraph breaks.", "AI cleanup", "Repair hard wraps copied from PDFs, emails, and AI chats. Single line breaks become spaces while paragraph breaks remain readable.", { report: true, outputLabel: "Clean text", download: "txt", placeholder: "Paste text with\nunwanted hard line\nbreaks.\n\nParagraphs stay separate." }),
   define("chatgpt-conversation-to-document", "ChatGPT Conversation to Document", "Export ChatGPT Conversation to Document", "Paste a copied ChatGPT transcript and get a clean document with each turn under its own You or Assistant heading, ready to share, print, or archive.", "AI cleanup", "Turn copied ChatGPT transcripts into readable documents with clear user and assistant sections, ready to share or archive.", { download: "txt", placeholder: "You:\nSummarize this topic.\n\nChatGPT:\nHere is a concise summary…" }),
   define("token-counter", "Token Counter", "Token Counter — GPT & Claude Estimate", "Estimate how many tokens a prompt or reply uses, alongside word, character, and cost figures. A browser-side approximation, not the model tokenizer.", "Data & prompts", "Estimate prompt size before sending it to a model. Counts are fast browser-side approximations; exact billing may vary by model tokenizer.", { report: true, placeholder: "Paste a prompt or model response to estimate its token count." }),
@@ -333,6 +344,60 @@ export const coreTools: ToolDefinition[] = [
   define("extract-table-from-text", "Extract Tables from Text", "Extract Table from Text Online", "Pull pipe-delimited or tab-delimited rows out of surrounding prose and download them as CSV. Markdown alignment rows are skipped, not read as data.", "Data & prompts", "Extract pipe-delimited or tab-delimited tables from surrounding prose. The result is ready for a spreadsheet.", { report: true, outputLabel: "Extracted table", download: "csv", placeholder: "Results:\nName | Score\nAda | 98\nLin | 95\n\nEnd of report." }),
   define("word-counter", "Word & Character Counter", "Word Counter & Character Counter", "Count words, characters, sentences, and reading time as you type. Nothing is uploaded, so it is safe for drafts, essays, client work, and prompts.", "Data & prompts", "Get instant writing statistics without uploading your document. The report is useful for essays, posts, descriptions, and prompts.", { report: true, placeholder: "Paste or type text to count words, characters, and sentences." }),
   define("case-converter", "Case Converter", "Case Converter Online", "Convert text to title case, sentence case, UPPERCASE, or lowercase, switching mode above the editor. Fixes inconsistent capitalization in one paste.", "Data & prompts", "Normalize inconsistent capitalization instantly. The default output is title case; additional case options are available above the editor.", { outputLabel: "Converted text", download: "txt", placeholder: "paste text with inconsistent CAPITALIZATION" }),
+  define("fonts-copy-and-paste", "Fonts Copy and Paste", "Fonts Copy and Paste: Bold, Script, Upside Down Text", "Fonts copy and paste: type text once and copy it in bold, italic, script, small caps, superscript or upside down. Unicode characters, not fonts.", "Data & prompts", "Type or paste text once and it appears in 24 styles, each with its own Copy button: bold, italic, bold italic, script, bold script, fraktur, bold fraktur, double-struck, monospace, four sans-serif styles, small caps, superscript, subscript, circled, black circled, squared, fullwidth, strikethrough, underline, upside down and backwards. None of these is a font. A font changes how a character is drawn; these styles replace each letter with a different Unicode character, most of them from the Mathematical Alphanumeric Symbols block that Unicode encoded for mathematics. That is why the look survives a paste into a bio, a post or a chat message, and also why it has limits. Unicode has no italic or script digits, no small capital X and no widely supported superscript q, so those stay as typed, as do punctuation, accented letters and non-Latin scripts. Screen readers may read styled words letter by letter or skip them, and search in some apps does not match them, so keep them out of names in documents, alt text and anything that must be found again. The conversion runs in your browser and nothing you type is uploaded.", {
+    workspace: "styles",
+    updated: "2026-11-10",
+    placeholder: "Type or paste your text here",
+    answer: "Fonts you can copy and paste are Unicode characters that look like styled letters, not font files. Type your text in the box, press Copy next to the style you want, and paste it into a bio, a post or a chat. The style survives the paste because every letter has been swapped for a different character, which is also why screen readers and search can stumble over it.",
+    steps: [
+      "Type or paste your text into the box. Every style updates as you type.",
+      "Press Copy on the row you want: bold, script, small caps, superscript, upside down or any other.",
+      "Paste it where you need it with Ctrl+V, or Cmd+V on a Mac, and check how it looks there before you post.",
+    ],
+    related: ["remove-fancy-text", "case-converter", "word-counter", "show-invisible-characters", "remove-invisible-characters", "remove-emojis"],
+    faqs: [
+      {
+        question: "Are copy and paste fonts real fonts?",
+        answer:
+          "No. A font is a file that tells a device how to draw characters, and it cannot travel inside copied text. What you copy here are different Unicode characters that look like bold, script or gothic letters. Most come from the Mathematical Alphanumeric Symbols block, which Unicode's own chart says is for mathematical variables, with standard letters and markup recommended for general text.",
+      },
+      {
+        question: "Where do these fonts work, and where should I avoid them?",
+        answer:
+          "They display in most places that accept plain text: social media bios, posts, comments and chat messages. Avoid them wherever text has to be read by software or found again: a name on a résumé or in a document, image alt text, headings, file names and anything people will search for. Screen readers may read a styled word letter by letter or skip it, and search in some apps and search engines does not match styled characters to ordinary letters.",
+      },
+      {
+        question: "Why do some letters or numbers stay plain?",
+        answer:
+          "Because Unicode has no character for them in that style. There are no italic, script or fraktur digits, no small capital X, no widely supported superscript q and only some subscript letters. Accented letters, most punctuation and non-Latin scripts have no styled forms either. The tool leaves all of these as typed instead of substituting a look-alike from another alphabet.",
+      },
+      {
+        question: "Why do I see empty boxes or question marks?",
+        answer:
+          "The device showing the text has no font that contains that character. Coverage differs from device to device and from app to app, and the less common styles are the first to go missing. Send the text to yourself and look at it on another device before you put it in a profile.",
+      },
+      {
+        question: "Can I use these fonts on Discord?",
+        answer:
+          "Yes, Discord shows them like any other characters. For bold, italic, underline and strikethrough you do not need them: Discord's own Markdown, **bold**, *italics*, __underline__ and ~~strikethrough~~, formats ordinary letters, which stay readable and searchable. Use the Unicode styles for looks Markdown does not have, such as script or small caps.",
+      },
+      {
+        question: "Is there a Minecraft font to copy and paste?",
+        answer:
+          "Not as text. The blocky Minecraft lettering is the game's own font: it changes how ordinary characters are drawn inside the game, so it cannot be carried in a copy and paste. If you paste the Unicode styles from this page into Minecraft, characters the pixel font does not contain are drawn with a fallback font and look different from the rest.",
+      },
+      {
+        question: "How do I turn styled text back into normal letters?",
+        answer:
+          "Paste it into Fancy Text to Plain Text on this site. It maps the bold, italic, script, fraktur, double-struck, sans-serif, monospace, small caps, circled, squared, fullwidth, superscript and subscript characters back to ordinary letters and removes strikethrough and underline marks. Black circled letters and upside-down text are not converted back.",
+      },
+      {
+        question: "Is it free, and is my text uploaded?",
+        answer:
+          "It is free, with no account and no usage limit. The conversion runs in your browser, and nothing you type is sent to a server.",
+      },
+    ],
+  }),
   define("latex-to-word", "LaTeX to Word Equation", "LaTeX to Word Equation Converter", "Strip display delimiters from LaTeX copied out of an AI answer so it pastes into Word's equation editor with Alt+= instead of landing as literal text.", "Data & prompts", "Prepare LaTeX copied from an AI response for Word's equation editor by removing display delimiters and normalizing common commands. In Word, press Alt+= to open an equation box, choose LaTeX input if needed, and paste the result there; pasting into a normal paragraph will not create a native equation.", { report: true, outputLabel: "Word equation input", download: "txt", placeholder: "\\[ E = mc^2 \\]\n\n$$\\frac{a}{b}$$" }),
 ];
 

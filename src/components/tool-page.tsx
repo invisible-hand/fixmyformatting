@@ -1,5 +1,5 @@
 import type { ToolDefinition } from "@/lib/tools";
-import { allTools, coreTools, getProcessorSlug } from "@/lib/tools";
+import { allTools, coreTools, getProcessorSlug, getTool } from "@/lib/tools";
 import { bundles, interpolate, isToolGuideLocalized, localizedPath, localizeTool, localizeToolGuide, messages, toolSlugsForLocale } from "@/lib/i18n";
 import type { LocaleCode, SiteLocale } from "@/lib/i18n";
 import type { ProcessSettings } from "@/lib/processors";
@@ -10,6 +10,8 @@ import { SiteHeader } from "./site-header";
 import { SiteFooter } from "./site-footer";
 import { ToolReference, referenceAnswer } from "./tool-reference";
 import { ToolWorkspace } from "./tool-workspace";
+import { FontWorkspaceLoader } from "./font-workspace-loader";
+import { FontGuide } from "./font-guide";
 import { BeforeAfter } from "./before-after";
 import { EmbedMode } from "./embed-mode";
 import { workspaceDefaults } from "@/lib/workspace-defaults";
@@ -42,8 +44,10 @@ export function ToolPage({
   const categorySiblings = coreTools.filter((candidate) =>
     candidate.category === tool.category && candidate.slug !== tool.slug,
   );
+  // A tool can pin the tools that belong next to it; the rest fill up from its processor and category.
+  const pinned = (tool.related ?? []).map((slug) => getTool(slug)).filter((candidate): candidate is ToolDefinition => Boolean(candidate));
   const related = locale === "en"
-    ? [...processorSiblings, ...categorySiblings.filter((candidate) => !processorSiblings.some((sibling) => sibling.slug === candidate.slug))].slice(0, 6)
+    ? [...pinned, ...processorSiblings, ...categorySiblings].filter((candidate, index, list) => list.findIndex((other) => other.slug === candidate.slug) === index).slice(0, 6)
     : localizedRelated.filter((candidate) => candidate.category === tool.category && candidate.slug !== tool.slug).slice(0, 6);
   // Brand variants (chatgpt-to-word) inherit the guides of their core processor.
   const toolGuides = locale === "en" ? guidesForTool(processorSlug) : [];
@@ -88,7 +92,29 @@ export function ToolPage({
     statValues: bundles[locale as LocaleCode].stats.values,
     minutes: bundles[locale as LocaleCode].stats.minutes,
   } : { ...workspaceDefaults };
-  const answer = referenceAnswer(tool.slug, locale);
+  const answer = referenceAnswer(tool.slug, locale) ?? (locale === "en" ? tool.answer : undefined);
+  const steps = locale === "en" && tool.steps?.length ? tool.steps : null;
+  // The styles workspace lists every text style with its own copy button instead of one output panel.
+  const workspace = tool.workspace === "styles" ? (
+    <FontWorkspaceLoader
+      slug={tool.slug}
+      name={tool.name}
+      placeholder={tool.placeholder}
+      initialInput={initialInput}
+      locale={locale}
+      labels={{
+        input: workspaceLabels.input,
+        characters: workspaceLabels.characters,
+        copy: workspaceLabels.copy,
+        copied: workspaceLabels.copied,
+        free: workspaceLabels.free,
+        noSignup: workspaceLabels.noSignup,
+        private: workspaceLabels.private,
+      }}
+    />
+  ) : (
+    <ToolWorkspace tool={tool} initialInput={initialInput} initialSettings={initialSettings} locale={locale} labels={workspaceLabels} publicPath={publicPath} />
+  );
   const schemas = [
     {
       "@context": "https://schema.org",
@@ -126,7 +152,7 @@ export function ToolPage({
     return (
       <main className="embed-page">
         <SiteHeader compact locale={locale} />
-        <ToolWorkspace tool={tool} initialInput={initialInput} initialSettings={initialSettings} locale={locale} labels={workspaceLabels} publicPath={publicPath} />
+        {workspace}
         <a className="embed-backlink" href={pageUrl} target="_blank">Fix My Formatting: {tool.name} →</a>
       </main>
     );
@@ -145,21 +171,28 @@ export function ToolPage({
           {answer && <p className="tool-answer">{answer}</p>}
           <p className="tool-updated">{localized?.updated ?? "Updated"} <time dateTime={tool.updated}>{updatedLabel}</time></p>
         </header>
-        <ToolWorkspace tool={tool} initialInput={initialInput} initialSettings={initialSettings} locale={locale} labels={workspaceLabels} publicPath={publicPath} />
+        {workspace}
         <a className="runtime-embed-backlink" href={pageUrl} target="_blank">Fix My Formatting: {tool.name} →</a>
         <article className="tool-content">
           <ToolReference slug={tool.slug} locale={locale} />
           <section>
             <h2>{localized ? `${localized.howTo} ${tool.name}` : `How to use ${tool.name}`}</h2>
             <p>{tool.intro}</p>
-            <ol>
-              <li>{localized?.stepCopy ?? "Copy the text or table you want to fix."}</li>
-              <li>{tool.remote
-                ? (localized?.stepRun ?? "Paste it above and press De-slop. The edit takes a few seconds.")
-                : (localized?.stepPaste ?? "Paste it into the input above. The result updates instantly.")}</li>
-              <li>{localized?.stepFinish ?? "Copy, download, share, or embed the finished result."}</li>
-            </ol>
+            {steps ? (
+              <ol>
+                {steps.map((step) => <li key={step}>{step}</li>)}
+              </ol>
+            ) : (
+              <ol>
+                <li>{localized?.stepCopy ?? "Copy the text or table you want to fix."}</li>
+                <li>{tool.remote
+                  ? (localized?.stepRun ?? "Paste it above and press De-slop. The edit takes a few seconds.")
+                  : (localized?.stepPaste ?? "Paste it into the input above. The result updates instantly.")}</li>
+                <li>{localized?.stepFinish ?? "Copy, download, share, or embed the finished result."}</li>
+              </ol>
+            )}
           </section>
+          {tool.workspace === "styles" && locale === "en" && <FontGuide />}
           <BeforeAfter
             tool={tool}
             locale={locale}

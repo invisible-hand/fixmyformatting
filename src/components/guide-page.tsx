@@ -13,6 +13,7 @@ import { SiteHeader } from "./site-header";
 import { SiteFooter } from "./site-footer";
 import { GuideFigure } from "./guide-figures";
 import { CharCopy } from "./char-copy";
+import { QuickCopy } from "./quick-copy";
 
 /**
  * Renders both /guides/<slug> and tool sub-guides at /<parentTool>/<slug>. A
@@ -91,7 +92,16 @@ export function GuidePage({ guide, locale = "en" }: { guide: GuideDefinition | T
           <p>{guide.dek}</p>
         </header>
         <article className="tool-content guide-content">
-          {guide.copyChars && guide.copyChars.length > 0 && (
+          {guide.quickCopy ? (
+            <QuickCopy
+              block={guide.quickCopy}
+              noteHtml={renderGuideMarkdown(guide.quickCopy.note, locale)}
+              messages={{
+                copied: chrome.copied ?? englishGuideChrome.copied!,
+                status: chrome.copiedStatus ?? englishGuideChrome.copiedStatus!,
+              }}
+            />
+          ) : guide.copyChars && guide.copyChars.length > 0 ? (
             <CharCopy
               chars={guide.copyChars}
               messages={{
@@ -100,7 +110,7 @@ export function GuidePage({ guide, locale = "en" }: { guide: GuideDefinition | T
                 status: chrome.copiedStatus ?? englishGuideChrome.copiedStatus!,
               }}
             />
-          )}
+          ) : null}
           <p className="guide-answer">{guide.answer}</p>
           {cta}
           <nav className="guide-toc" aria-label="On this page">

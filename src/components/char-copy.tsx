@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { copyText } from "@/lib/clipboard";
 
 export type CopyChar = { char: string; label: string; hint: string };
 
@@ -12,25 +13,6 @@ const englishMessages: CopyMessages = {
   copied: "Copied!",
   status: "{char} copied to the clipboard — paste it with Ctrl+V or Cmd+V.",
 };
-
-async function copyText(text: string) {
-  try {
-    await navigator.clipboard.writeText(text);
-    return true;
-  } catch {
-    // Fallback for browsers/contexts without the async clipboard API.
-    const area = document.createElement("textarea");
-    area.value = text;
-    area.setAttribute("readonly", "");
-    area.style.position = "fixed";
-    area.style.opacity = "0";
-    document.body.appendChild(area);
-    area.select();
-    const ok = document.execCommand("copy");
-    document.body.removeChild(area);
-    return ok;
-  }
-}
 
 /** One-click copy buttons for single characters (e.g. the em dash), shown above a guide's answer. */
 export function CharCopy({ chars, messages = englishMessages }: { chars: CopyChar[]; messages?: CopyMessages }) {

@@ -435,3 +435,51 @@ html[dir="rtl"] .home-tool-grid > a { border-right: 0; border-left: 1px solid va
 .before-after .ba-docx { padding: 10px 16px; border: 1px solid var(--accent); border-radius: 9px; background: var(--accent); color: #fff; font-weight: 700; cursor: pointer; }
 .before-after .ba-docx:disabled { opacity: 0.6; cursor: default; }
 @media (max-width: 720px) { .before-after .ba-grid { grid-template-columns: 1fr; } }
+
+/* Fonts copy and paste: one text box, then every Unicode style as a row with its own copy button. */
+.font-input { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); }
+.font-input textarea { display: block; width: 100%; min-height: 104px; padding: 16px 18px; border: 0; resize: vertical; background: var(--surface); color: var(--text); font-size: 18px; line-height: 1.5; outline-offset: -3px; }
+.font-input textarea::placeholder { color: color-mix(in srgb, var(--muted) 65%, transparent); }
+.font-list { margin: 14px 0 0; padding: 0; list-style: none; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); }
+.font-row { display: grid; grid-template-columns: 190px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 10px 14px; scroll-margin-top: 16px; }
+.font-row + .font-row { border-top: 1px solid var(--line); }
+.font-name { color: var(--muted); font-size: 13px; font-weight: 700; }
+.font-output { font-size: 19px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+.font-copy { min-width: 86px; min-height: 38px; padding: 0 14px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--text); font-weight: 650; cursor: pointer; }
+.font-copy:hover { border-color: var(--accent); }
+.font-copy.copied { border-color: var(--accent); background: var(--accent); color: white; }
+.font-status { min-height: 1.4em; margin: 8px 2px; color: var(--accent); font-size: 13px; font-weight: 700; text-align: end; }
+.font-table th[scope="row"] { background: none; color: var(--text); text-align: start; }
+.font-table .font-table-sample { color: var(--text); font-size: 16px; white-space: nowrap; }
+@media (max-width: 640px) {
+  .font-row { grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; }
+  .font-name { grid-column: 1 / -1; }
+}
+
+/* Quick-copy block on character guides: the character in large type, then the ones it is confused with. */
+.quick-copy { margin: 0 0 22px; padding: 22px; border: 1px solid var(--accent); border-radius: 14px; background: var(--surface); }
+.guide-content .quick-copy-answer { margin: 0 0 18px; color: var(--text); font-size: 18px; line-height: 1.55; }
+.quick-copy-lead { display: flex; align-items: center; gap: 22px; margin: 0 0 18px; }
+.quick-copy-glyph { min-width: 132px; padding: 4px 18px 14px; border-radius: 12px; background: var(--accent-soft); color: var(--text); font-size: 96px; line-height: 1; text-align: center; }
+.guide-content .quick-copy-lead-text p { margin: 0 0 6px; line-height: 1.5; }
+.quick-copy-name { font-size: 18px; }
+.quick-copy-button { min-height: 46px; margin-top: 8px; padding: 0 22px; border: 1px solid var(--accent); border-radius: 10px; font-size: 16px; font-weight: 750; cursor: pointer; }
+.guide-content .quick-copy-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0 0 16px; padding: 0; list-style: none; }
+.guide-content .quick-copy-row li { margin: 0; }
+.quick-copy-item { width: 100%; height: 100%; display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--text); font: inherit; text-align: start; cursor: pointer; }
+.quick-copy-item:hover, .quick-copy-item:focus-visible { border-color: var(--accent); background: var(--accent-soft); }
+.quick-copy-char { min-width: 1.2em; font-size: 30px; line-height: 1.1; text-align: center; }
+.quick-copy-text { flex: 1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; line-height: 1.4; }
+.quick-copy-text small { flex-basis: 100%; color: var(--muted); font-size: 13px; }
+.quick-copy-action { margin-inline-start: auto; color: var(--accent); font-size: 13px; font-weight: 700; white-space: nowrap; }
+.guide-content .quick-copy-note p { margin: 0; font-size: 15px; line-height: 1.75; }
+.guide-content .quick-copy-status { min-height: 1.2em; margin: 8px 0 0; font-size: 14px; }
+@media (max-width: 640px) {
+  .quick-copy { padding: 16px; }
+  .quick-copy-lead { gap: 14px; }
+  .quick-copy-glyph { min-width: 96px; font-size: 72px; }
+  .guide-content .quick-copy-row { grid-template-columns: 1fr; }
+}
+@media (prefers-color-scheme: dark) {
+  .font-copy.copied { color: #09170f; }
+}

@@ -8,7 +8,20 @@ export const emDashCopyPaste: GuideDefinition = {
   dek: "One click to copy the long dash, then the code and keystroke for every platform.",
   cluster: "reference",
   published: "2026-09-01",
-  updated: "2026-10-05",
+  updated: "2026-11-10",
+  quickCopy: {
+    label: "Em dash copy paste",
+    answer: "the em dash is — (U+2014). Press Copy em dash to put it on your clipboard, then paste it with Ctrl+V on Windows or Cmd+V on a Mac.",
+    lead: { char: "\u2014", name: "Em dash", use: "Marks a break in a sentence: It worked — eventually.", button: "Copy em dash" },
+    others: [
+      { char: "\u2013", name: "En dash", use: "Ranges of numbers and dates: 2020–2024" },
+      { char: "\u002d", name: "Hyphen-minus", use: "The key on the keyboard. Joins words: well-known" },
+      { char: "\u2212", name: "Minus sign", use: "Subtraction and negative numbers: 5 − 3" },
+    ],
+    copy: "Copy",
+    note: "To type an em dash instead: on a Mac press <kbd>Option</kbd> + <kbd>Shift</kbd> + <kbd>-</kbd>; on Windows hold <kbd>Alt</kbd> and type `0151` on the numeric keypad, or press <kbd>Win</kbd> + <kbd>.</kbd> and pick it under Symbols; in Word press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>-</kbd> on the numeric keypad.",
+  },
+  // Still the buttons a translation shows until it has a quick-copy block of its own.
   copyChars: [
     { char: "\u2014", label: "Copy em dash", hint: "— long dash · m dash · U+2014" },
     { char: "\u2013", label: "Copy en dash", hint: "– short dash · n dash · U+2013" },

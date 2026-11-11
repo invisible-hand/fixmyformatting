@@ -37,6 +37,22 @@ export type GuideSection = {
   figure?: GuideFigureKey;
 };
 
+/**
+ * Quick-copy block for a character guide. `label` is the question in the
+ * reader's plain words and `answer` the sentence that follows it; `lead` is
+ * shown in large type with the main copy button, `others` as a compact
+ * copyable row whose buttons are captioned `copy`, and `note` (Markdown, one
+ * sentence) under the row.
+ */
+export type GuideQuickCopy = {
+  label: string;
+  answer: string;
+  lead: { char: string; name: string; use: string; button: string };
+  others: { char: string; name: string; use: string }[];
+  copy: string;
+  note: string;
+};
+
 export type GuideDefinition = {
   slug: string;
   /** <title>, kept to 60 characters by tests/seo-i18n.test.ts. */
@@ -54,6 +70,8 @@ export type GuideDefinition = {
   answer: string;
   /** Optional one-click copy buttons rendered above the answer (character guides). */
   copyChars?: { char: string; label: string; hint: string }[];
+  /** Rendered directly under the headline, in place of the copyChars buttons. */
+  quickCopy?: GuideQuickCopy;
   sections: GuideSection[];
   faqs: { question: string; answer: string }[];
   /** Tool slugs this guide should funnel into. */

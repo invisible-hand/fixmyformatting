@@ -287,9 +287,10 @@ function htmlToMarkdown(html: string) {
 }
 
 const fancyOverlays = /[\u0332-\u0338]/g;
+// q appears twice: U+A7AF is the real small capital Q, U+01EB a look-alike that text generators use.
 const smallCapsMap: Record<string, string> = {
   "ᴀ": "a", "ʙ": "b", "ᴄ": "c", "ᴅ": "d", "ᴇ": "e", "ꜰ": "f", "ɢ": "g", "ʜ": "h", "ɪ": "i", "ᴊ": "j", "ᴋ": "k", "ʟ": "l",
-  "ᴍ": "m", "ɴ": "n", "ᴏ": "o", "ᴘ": "p", "ǫ": "q", "ʀ": "r", "ꜱ": "s", "ᴛ": "t", "ᴜ": "u", "ᴠ": "v", "ᴡ": "w", "ʏ": "y", "ᴢ": "z",
+  "ᴍ": "m", "ɴ": "n", "ᴏ": "o", "ᴘ": "p", "ǫ": "q", "ꞯ": "q", "ʀ": "r", "ꜱ": "s", "ᴛ": "t", "ᴜ": "u", "ᴠ": "v", "ᴡ": "w", "ʏ": "y", "ᴢ": "z",
 };
 
 const count = (input: string, expression: RegExp) => input.match(expression)?.length ?? 0;

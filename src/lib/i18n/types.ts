@@ -1,5 +1,6 @@
 import type { SiteLocale } from "./locales";
 import type { StatTranslations } from "../stat-labels";
+import type { GuideQuickCopy } from "../guides";
 
 /**
  * Every value here is plain data — no functions, no template literals with
@@ -207,6 +208,11 @@ export type GuideTranslation = {
    * locale can offer its own characters (Chinese adds the doubled dash ——).
    */
   copyChars?: { char: string; label: string; hint: string }[];
+  /**
+   * This locale's quick-copy block. The English block is never inherited,
+   * because its sentences are English; without one the copy buttons render.
+   */
+  quickCopy?: GuideQuickCopy;
 };
 
 /**
@@ -270,6 +276,18 @@ export type ReferenceCopy = {
   notLabelled: string;
   unchanged: string;
   defaultLabel: string;
+};
+
+/**
+ * Prose for the static sections of the fonts-copy-and-paste page. Style names
+ * and Unicode block names come from src/lib/unicode-fonts.ts; section bodies
+ * are Markdown, rendered at build time like guide sections.
+ */
+export type FontGuideCopy = {
+  tableHeading: string;
+  tableNote: string;
+  headers: { style: string; sample: string; source: string; covers: string };
+  sections: { id: string; heading: string; body: string }[];
 };
 
 export type LocaleBundle = {
