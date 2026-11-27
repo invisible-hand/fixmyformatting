@@ -25,6 +25,7 @@ import type { LocaleCode } from "@/lib/i18n";
 import { getGuide } from "@/lib/guides";
 import { getToolGuide } from "@/lib/tool-guides";
 import { siteUrl } from "@/lib/schema";
+import { toolRobots } from "@/lib/tool-routing";
 
 export const dynamicParams = false;
 
@@ -163,7 +164,7 @@ export async function generateMetadata({
     title: { absolute: tool.title },
     description: tool.description,
     alternates,
-    robots: { index: true, follow: true },
+    robots: toolRobots(target.slug, locale),
     openGraph: {
       title: tool.title,
       description: tool.description,

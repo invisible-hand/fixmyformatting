@@ -22,3 +22,22 @@ export function getProcessorSlug(slug: string) {
   const action = slug.slice(brandMatch.length + 1) as (typeof brandActions)[number];
   return actionSource[action] ?? slug;
 }
+
+/**
+ * Brand variants of one action share most of their text. Only the English
+ * ChatGPT variants are offered to Google's index; every other brand variant
+ * (and every translated one) carries a googlebot-only noindex. Other search
+ * engines and AI crawlers still see and may index all of them.
+ */
+export function hiddenFromGoogle(slug: string, locale = "en") {
+  const brand = brands.find((b) => slug.startsWith(`${b}-`) && (brandActions as readonly string[]).includes(slug.slice(b.length + 1)));
+  if (!brand) return false;
+  return !(brand === "chatgpt" && locale === "en");
+}
+
+/** Robots metadata for a tool page: open to all, with the Google-only exception above. */
+export function toolRobots(slug: string, locale = "en") {
+  return hiddenFromGoogle(slug, locale)
+    ? { index: true, follow: true, googleBot: { index: false, follow: true } }
+    : { index: true, follow: true };
+}

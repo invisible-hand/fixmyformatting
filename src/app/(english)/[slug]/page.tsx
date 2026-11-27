@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ToolPage } from "@/components/tool-page";
 import { allTools, getTool } from "@/lib/tools";
 import { isLocalizedToolSlug, languageAlternates } from "@/lib/i18n";
+import { toolRobots } from "@/lib/tool-routing";
 
 const siteUrl = "https://fixmyformatting.com";
 
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         ? languageAlternates(slug)
         : { en: canonical, "x-default": canonical },
     },
-    robots: { index: true, follow: true },
+    robots: toolRobots(slug),
     openGraph: {
       title: tool.title,
       description: tool.description,
